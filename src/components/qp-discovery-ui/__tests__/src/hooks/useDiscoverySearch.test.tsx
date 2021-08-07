@@ -9,7 +9,7 @@ import { QueryResponse, ClientContextProvider, createAPIClient } from '../../../
 const renderCustomHook = (
     mockResponse: QueryResponse,
     searchTerm: string = 'breaking ',
-): RenderHookResult<any, any> => {
+): RenderHookResult<any, DiscoverySearchHookResponse> => {
     const fetchFunction: () => Promise<QueryResponse> = async () => mockResponse;
 
     const Client = createAPIClient({
@@ -21,12 +21,12 @@ const renderCustomHook = (
         <ClientContextProvider client={Client}>{children}</ClientContextProvider>
     );
 
-    return renderHook<string, DiscoverySearchHookResponse>(() => useDiscoverySearch(searchTerm, 300, 10), {
+    return renderHook<string, DiscoverySearchHookResponse>(() => useDiscoverySearch(searchTerm, '', '', '', 300, 10), {
         wrapper: wrapper,
     });
 };
 
-describe('useFetchContainerQuery', () => {
+describe('useDiscoverySearch', () => {
     it('fetches resource and returns proper data on success', async () => {
         jest.useFakeTimers();
 
@@ -46,7 +46,6 @@ describe('useFetchContainerQuery', () => {
         expect(result.current.loading).toEqual(false);
         expect(result.current.error).toEqual(false);
         expect(result.current.resources.length).toEqual(1);
-        expect(result.current.resources[0].type).toEqual('movie');
     });
 
     it('fetches resource and returns proper error when request fails', async () => {

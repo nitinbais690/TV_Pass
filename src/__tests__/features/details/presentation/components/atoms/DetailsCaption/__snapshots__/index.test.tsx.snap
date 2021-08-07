@@ -1,0 +1,99 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`detailsCaption render with custom style 1`] = `
+<View
+  collapsable={true}
+  pointerEvents="box-none"
+  style={
+    Object {
+      "flex": 1,
+    }
+  }
+>
+  <Text
+    style={
+      Array [
+        Object {
+          "fontFamily": "ProximaNova-Regular",
+          "fontSize": 14,
+          "fontWeight": "600",
+        },
+        Object {
+          "color": "#FFFFFF",
+          "fontFamily": "ProximaNova-Semibold",
+          "opacity": 0.3,
+        },
+        Object {
+          "textTransform": "uppercase",
+        },
+      ]
+    }
+  >
+    Inception
+  </Text>
+</View>
+`;
+
+exports[`detailsCaption render with default style 1`] = `
+<View
+  collapsable={true}
+  pointerEvents="box-none"
+  style={
+    Object {
+      "flex": 1,
+    }
+  }
+>
+  <Text
+    style={
+      Array [
+        Object {
+          "fontFamily": "ProximaNova-Regular",
+          "fontSize": 14,
+          "fontWeight": "600",
+        },
+        Object {
+          "color": "#FFFFFF",
+          "fontFamily": "ProximaNova-Semibold",
+          "opacity": 0.3,
+        },
+        undefined,
+      ]
+    }
+  >
+    Inception
+  </Text>
+</View>
+`;
+
+exports[`detailsCaption render with empty text 1`] = `
+<View
+  collapsable={true}
+  pointerEvents="box-none"
+  style={
+    Object {
+      "flex": 1,
+    }
+  }
+>
+  <Text
+    style={
+      Array [
+        Object {
+          "fontFamily": "ProximaNova-Regular",
+          "fontSize": 14,
+          "fontWeight": "600",
+        },
+        Object {
+          "color": "#FFFFFF",
+          "fontFamily": "ProximaNova-Semibold",
+          "opacity": 0.3,
+        },
+        undefined,
+      ]
+    }
+  >
+    A
+  </Text>
+</View>
+`;

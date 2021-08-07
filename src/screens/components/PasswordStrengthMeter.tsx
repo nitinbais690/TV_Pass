@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useAppPreferencesState } from 'utils/AppPreferencesContext';
-import { Platform, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 import { defaultPasswordStrengthMetertyle } from 'styles/PasswordStrengthMeter.style';
 import zxcvbn from 'zxcvbn';
 import { useLocalization } from 'contexts/LocalizationContext';
@@ -8,11 +8,8 @@ import { useLocalization } from 'contexts/LocalizationContext';
 const hasNumber = (value: string) => {
     return new RegExp(/[0-9]/).test(value);
 };
-const hasLower = (value: string) => {
-    return new RegExp(/[a-z]/).test(value);
-};
-const hasUpper = (value: string) => {
-    return new RegExp(/[A-Z]/).test(value);
+const hasMixed = (value: string) => {
+    return new RegExp(/[a-z]/).test(value) && new RegExp(/[A-Z]/).test(value);
 };
 const hasSpecial = (value: string) => {
     return new RegExp(/[!#@$%^&*?)(+=._-]/).test(value);
@@ -30,14 +27,9 @@ const strengthIndicator = (value: string) => {
             strengths++;
         }
 
-        if (hasUpper(value)) {
+        if (hasMixed(value)) {
             strengths++;
         }
-
-        if (hasLower(value)) {
-            strengths++;
-        }
-
         if (zxcvbn(value).score >= 4) {
             strengths++;
         }
@@ -62,10 +54,8 @@ const passwordError = (value: string): string => {
         errorMsg = 'number_error';
     } else if (!hasSpecial(value)) {
         errorMsg = 'special_char_error';
-    } else if (!hasLower(value)) {
-        errorMsg = 'lower_char_error';
-    } else if (!hasUpper(value)) {
-        errorMsg = 'upper_char_error';
+    } else if (!hasMixed(value)) {
+        errorMsg = 'mixed_char_error';
     }
 
     return errorMsg;
@@ -126,8 +116,8 @@ const PasswordStrengthMeter = ({ password = '' }: { password: string }): JSX.Ele
                 <View style={[styles.bar, securePass !== '' && styles['bar' + securePass]]} />
             </View>
             <View style={styles.barTextContainer}>
-                <Text style={Platform.isTV ? styles.barTextTV : styles.barText}>{strings['password.weak']}</Text>
-                <Text style={Platform.isTV ? styles.barTextTV : styles.barText}>{strings['password.secure']}</Text>
+                <Text style={styles.barText}>{strings['password.weak']}</Text>
+                <Text style={styles.barText}>{strings['password.secure']}</Text>
             </View>
         </>
     );

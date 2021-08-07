@@ -4,10 +4,9 @@ import ResourceInfoView from '../../../src/views/ResourceInfoView';
 import { ResourceVm } from '../../../index';
 import { ClientContextProvider, createAPIClient } from '../../../index';
 import { render, getAllByTestId, waitForElement, getByTestId, fireEvent } from '@testing-library/react-native';
-// import * as useCustomHook from '../../../src/hooks/useFetchResourceQuery';
+import * as useCustomHook from '../../../src/hooks/useFetchResourceQuery';
 
-// TODO: Check react-native-localization jest implementation to avoid errors. Commented out hook mocks.
-// jest.mock('../../../src/hooks/useFetchResourceQuery');
+jest.mock('../../../src/hooks/useFetchResourceQuery');
 const createMockResourceVm = (): ResourceVm => {
     const vm: ResourceVm = {
         id: '1234',
@@ -25,12 +24,12 @@ const createMockResourceVm = (): ResourceVm => {
 
 describe('ResourceInfoView', () => {
     it('renders correctly with default styles', async () => {
-        // const vm = createMockResourceVm();
-        // mockHook({
-        //     loading: false,
-        //     error: false,
-        //     mainResource: vm,
-        // });
+        const vm = createMockResourceVm();
+        mockHook({
+            loading: false,
+            error: false,
+            mainResource: vm,
+        });
         const playPressHandler = jest.fn();
         const downloadPressHandler = jest.fn();
         const { container, rerender } = render(jsx(playPressHandler, downloadPressHandler));
@@ -67,9 +66,9 @@ describe('ResourceInfoView', () => {
     };
 });
 
-// const mockHook = (mockResponse: useCustomHook.ResourceHookResponse): void => {
-//     const mockedCounterHook = useCustomHook as jest.Mocked<typeof useCustomHook>;
-//     mockedCounterHook.useFetchResourceQuery.mockImplementation(() => {
-//         return mockResponse;
-//     });
-// };
+const mockHook = (mockResponse: useCustomHook.ResourceHookResponse): void => {
+    const mockedCounterHook = useCustomHook as jest.Mocked<typeof useCustomHook>;
+    mockedCounterHook.useFetchResourceQuery.mockImplementation(() => {
+        return mockResponse;
+    });
+};

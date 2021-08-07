@@ -1,5 +1,6 @@
-import { Dimensions, StyleSheet, PixelRatio } from 'react-native';
-import { selectDeviceType, percentage, scale, createStyles, AspectRatio } from 'qp-common-ui';
+import { Dimensions, Platform, StyleSheet } from 'react-native';
+import DeviceInfo from 'react-native-device-info';
+import { selectDeviceType, percentage, scale, createStyles, AspectRatio, padding } from 'qp-common-ui';
 import { AppPreferencesContextProps } from './src/utils/AppPreferencesContext';
 
 export function AppTheme(appPreferences: Partial<AppPreferencesContextProps>) {
@@ -10,6 +11,8 @@ export function AppTheme(appPreferences: Partial<AppPreferencesContextProps>) {
         appColors: appColors(appPreferences.useDefaultStyle!),
         appBaseStyles: appBaseStyles(appPreferences),
         playerViewStyle: playerViewStyle(appPreferences),
+        dropDownMenuStyle: dropDownMenuStyle(appPreferences),
+        epgGuideViewStyle: epgGuideViewStyle(appPreferences),
     };
 }
 
@@ -29,16 +32,13 @@ export const appDimensions = {
 };
 
 const lightThemeColors = {
-    brandTint: '#558FCC',
-    brandTintLight: '#76a5d6',
-    brandTintDark: '#3979bd',
-    brandTintDarked: '#686EFF',
-    brandTintTranslucent: '#558FCC4D',
-    overlayText: '#ddd',
-    primary: '#ffffff',
-    primaryLight: 'rgba(255, 255, 255, 0.5)',
-    primaryMoreLight: 'rgba(255, 255, 255, 0.3)',
-    secondary: '#111',
+    brandTint: '#E66625',
+    brandTintLight: '#FF803F',
+    brandTintDark: '#CD4D0C',
+    brandTintTranslucent: '#E666254D',
+    overlayText: '#fff',
+    primary: '#E5E5E5',
+    secondary: '#2D2D2D',
     tertiary: '#333333',
     caption: '#666',
     captionLight: '#999',
@@ -47,48 +47,53 @@ const lightThemeColors = {
     primaryVariant2: '#BDBDBD',
     primaryVariant3: '#333333',
     primaryVariant4: '#666871',
+    primaryVariant5: '#2D2D2D',
+    primaryVariant6: '#101211',
+    primaryVariant7: '#1A1D1E',
     border: '#434343',
     error: '#CA0519',
     success: '#2ea44f',
     warning: '#E6CF63',
-    iconBackgroundTv: '#9BADBE80',
-    blueLight: 'rgba(155, 173, 190, 0.5)',
-    blueMid: 'rgba(46, 66, 89, 0.5)',
+    backgroundInactive: '#272727',
+    backgroundInactiveSelected: '#0A0A0A',
+    backgroundActive: '#414141',
+    shadow: '#40000000',
 };
 
 const darkThemeColors = {
-    brandTint: '#686EFF',
-    brandTintLight: '#76a5d6',
-    brandTintDark: '#3979bd',
-    brandTintDarked: '#686EFF',
-    brandTintTranslucent: '#558FCC4D',
+    brandTint: '#FF6D2E',
+    brandTintLight: '#FF6D2E',
+    brandTintDark: '#B61A09',
+    brandTintTranslucent: '#572C1C',
     overlayText: '#ddd',
-    background: '#000',
-    primary: '#0C1021',
-    primaryEnd: '#27384E',
-    headerGradientStart: '#0D1122',
-    headerGradientEnd: '#10162780',
-    bottomNavGradientStart: '#25344A80',
-    bottomNavGradientEnd: '#27384E',
-    secondary: '#FFFFFF',
-    primaryLight: 'rgba(255, 255, 255, 0.5)',
-    primaryMoreLight: 'rgba(255, 255, 255, 0.3)',
-    tertiary: '#9BADBE',
-    caption: '#9BADBE80',
+    background: '#0000',
+    primary: '#202325',
+    primaryEnd: '#7F7E86',
+    secondary: '#FF6D2E',
+    primaryTextColor: '#FFFFFF',
+    secondaryTextColor: '#FFFFFF',
+    tertiary: '#A8A8A8',
+    caption: '#FFFFFF66',
     captionLight: '#FFFFFF4D',
-    primaryVariant1: '#2E4259',
-    primaryVariant2: '#2E425980',
-    primaryVariant3: '#434343',
-    primaryVariant4: '#0C102180',
-    primaryVariant5: '#43617C80',
-    primaryVariant6: '#27384E80',
-    border: '#2E4259',
-    error: '#ba2d2d',
+    primaryVariant1: '#3B4046',
+    primaryVariant2: '#2D3037',
+    primaryVariant3: '#2f2f33',
+    primaryVariant4: '#666871',
+    primaryVariant5: '#2D2D2D',
+    primaryVariant6: '#101211',
+    primaryVariant7: '#1A1D1E',
+    border: '#393E46',
+    error: '#CA0519',
     success: '#2ea44f',
     warning: '#E6CF63',
-    iconBackgroundTv: '#9BADBE80',
-    blueLight: 'rgba(155, 173, 190, 0.5)',
-    blueMid: 'rgba(46, 66, 89, 0.5)',
+    headerGradientStart: '#222124',
+    headerGradientEnd: Platform.OS === 'android' ? '#1F1E20F2' : '#1F1E2080',
+    bottomNavGradientStart: Platform.OS === 'android' ? '#0E0E0EF2' : '#0E0E0E80',
+    bottomNavGradientEnd: '#0C0C0C',
+    backgroundInactive: '#272727',
+    backgroundInactiveSelected: '#0A0A0A',
+    backgroundActive: '#414141',
+    shadow: '#40000000',
 };
 
 export const appColors = (useDefaultStyle: boolean) => {
@@ -108,36 +113,21 @@ export const appPadding: { [key: string]: PaddingMetric } = {
     xxxl: absoluteValue => percentage(16, absoluteValue),
 };
 
-export const tvPixelSizeForLayout = (pixelSize: number) => {
-    return Math.round((pixelSize * ((appDimensions.fullHeight * PixelRatio.get()) / 1080)) / PixelRatio.get());
-};
-
 export const appFonts = {
-    xxxs: selectDeviceType({ Handset: scale(8, 0) }, scale(10, 0)),
-    xxs: selectDeviceType({ Handset: scale(11, 0) }, scale(13, 0)),
+    xxs: selectDeviceType({ Handset: scale(12, 0) }, scale(14, 0)),
     xs: selectDeviceType({ Handset: scale(14, 0) }, scale(18, 0)),
     sm: selectDeviceType({ Handset: scale(16, 0) }, scale(20, 0)),
     md: selectDeviceType({ Handset: scale(18, 0) }, scale(22, 0)),
-    lg: selectDeviceType({ Handset: scale(20, 0) }, scale(24, 0)),
-    xlg: selectDeviceType({ Handset: scale(22, 0) }, scale(26, 0)),
-    xxlg: selectDeviceType({ Handset: scale(26, 0) }, scale(36, 0)),
-    xxxlg: scale(34, 0),
-    xxxxlg: scale(40, 0),
+    lg: selectDeviceType({ Handset: scale(24, 0) }, scale(28, 0)),
+    xlg: selectDeviceType({ Handset: scale(36, 0) }, scale(40, 0)),
+    xxlg: selectDeviceType({ Handset: scale(40, 0) }, scale(44, 0)),
+    xxxlg: scale(46, 0),
     headline: scale(70, 0),
-    primary: 'Inter-Medium',
-    light: 'Inter-Medium',
-    medium: 'Inter-Medium',
-    bold: 'Inter-SemiBold',
-    semibold: 'Inter-SemiBold',
-    boldtv: 'Inter-Bold',
-    regular_tv: 'SF-Pro-Display-Regular',
-    light_tv: 'SF-Pro-Display-Light',
-    medium_tv: 'SF-Pro-Display-Medium',
-    bold_tv: 'SF-Pro-Display-Bold',
-    semibold_tv: 'SF-Pro-Display-Semibold',
-    heavy_tv: 'SF-Pro-Display-Heavy',
-    black_tv: 'SF-Pro-Display-Black',
-    pro_text_tv: 'SF-Pro-Text-Regular',
+    primary: 'ProximaNova-Regular',
+    light: 'ProximaNova-Light',
+    medium: 'ProximaNova-Regular',
+    semibold: 'ProximaNova-Semibold',
+    bold: 'ProximaNova-Black',
 };
 
 export const appBaseStyles = (appPreferences: Partial<AppPreferencesContextProps>) => {
@@ -195,6 +185,219 @@ const playerViewStyle = (appPreferences: Partial<AppPreferencesContextProps>) =>
             alignItems: 'center',
             //justifyContent: 'center',
             backgroundColor: appColors(appPreferences.useDefaultStyle!).primary,
+        },
+    });
+};
+
+const dropDownMenuStyle = (appPreferences: Partial<AppPreferencesContextProps>) => {
+    return StyleSheet.create({
+        modalInsideView: {
+            backgroundColor: appColors(appPreferences.useDefaultStyle!).primaryVariant1,
+            height: '50%',
+            width: selectDeviceType({ Handset: '80%' }, '40%'),
+            borderRadius: 10,
+        },
+        modelContainer: {
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+        },
+        rootContainerStyle: {
+            flexDirection: 'row',
+            //   width: selectDeviceType({ Handset: 120 }, 160),
+            backgroundColor: 'transparent',
+            borderBottomWidth: 1,
+            borderBottomColor: appColors(appPreferences.useDefaultStyle!).backgroundInactive,
+        },
+        dropDownOverlayStyle: {
+            zIndex: 10,
+            position: 'absolute',
+            width: '100%',
+            height: '100%',
+            justifyContent: 'center',
+            alignItems: 'center',
+            backgroundColor: 'rgba(0, 0, 0, .6)',
+        },
+        touchableContainerStyle: {
+            flex: 1,
+            height: undefined,
+            alignItems: 'center',
+            justifyContent: 'center',
+            paddingLeft: appPadding.sm(true),
+            paddingVertical: 10,
+            marginVertical: 0,
+        },
+        dropDownMenuButtonStyle: {
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+            alignContent: 'center',
+        },
+        titleTextStyle: {
+            color: appColors(appPreferences.useDefaultStyle!).secondary,
+            fontSize: appFonts.sm,
+            fontWeight: '500',
+        },
+        itemStyle: {
+            flex: 1,
+            height: undefined,
+            width: appDimensions.fullWidth,
+            justifyContent: 'center',
+            backgroundColor: appColors(appPreferences.useDefaultStyle!).backgroundInactive,
+        },
+        itemSeparatorStyle: {
+            flex: 1,
+            backgroundColor: appColors(appPreferences.useDefaultStyle!).captionLight,
+            marginLeft: 0,
+            position: 'absolute',
+            bottom: 0,
+            left: 0,
+            width: '100%',
+            height: 0,
+        },
+        itemRowStyle: {
+            flex: 1,
+            flexDirection: 'row',
+            paddingHorizontal: 40,
+            alignItems: 'center',
+            justifyContent: 'flex-start',
+        },
+        dropDownArrowStyle: {
+            width: 10,
+            height: 5,
+            marginLeft: percentage(2, true),
+        },
+        itemTextStyle: {
+            fontFamily: appFonts.primary,
+            fontSize: appFonts.md,
+            color: appColors(appPreferences.useDefaultStyle!).secondary,
+            paddingVertical: selectDeviceType({ Handset: 10 }, 0),
+        },
+        closeButton: {
+            marginHorizontal: selectDeviceType({ Handset: padding.sm(true) }, padding.xs(true)),
+            paddingTop: selectDeviceType({ Handset: padding.sm(true) }, padding.xs(true)),
+            justifyContent: 'flex-end',
+            alignItems: 'flex-end',
+            alignContent: 'flex-end',
+        },
+    });
+};
+
+const largeScreen = DeviceInfo.getDeviceType() !== 'Handset';
+const scheduleHeight = largeScreen ? percentage(12, true) : percentage(22, true);
+const epgBorderSize = StyleSheet.hairlineWidth;
+
+const epgGuideViewStyle = (appPreferences: Partial<AppPreferencesContextProps>) => {
+    const borderColor = appColors(appPreferences.useDefaultStyle!).primaryVariant3;
+
+    return StyleSheet.create({
+        rootContainerStyle: {
+            // flex: 1,
+            flexDirection: 'row',
+            backgroundColor: 'transparent', //appColors(appPreferences.useDefaultStyle!).primary,
+        },
+        timeBarContainerStyle: {
+            // flex: 1,
+            flexDirection: 'row',
+            height: 40,
+            alignItems: 'flex-end',
+            paddingBottom: 5,
+            backgroundColor: appColors(appPreferences.useDefaultStyle!).primaryVariant5,
+            zIndex: 10,
+            borderColor: appColors(appPreferences.useDefaultStyle!).primaryEnd,
+            borderBottomWidth: epgBorderSize,
+        },
+        channelViewStyle: {
+            // flexShrink: 1,
+            alignItems: 'center',
+            justifyContent: 'center',
+            height: scheduleHeight,
+            borderColor: appColors(appPreferences.useDefaultStyle!).primaryEnd,
+            marginTop: 0,
+            borderRightWidth: 1,
+            borderTopWidth: 0,
+            borderLeftWidth: 0,
+            borderBottomWidth: 1,
+        },
+        scheduleConatainerStyle: {
+            // flex: 1,
+        },
+        scheduleViewStyle: {
+            // flex: 4,
+            flexDirection: 'column',
+        },
+        scheduleStyle: {
+            backgroundColor: 'transparent',
+        },
+        scheduleItemStyle: {
+            backgroundColor: 'transparent',
+            alignContent: 'flex-start',
+            alignItems: 'flex-start',
+            height: scheduleHeight,
+            // padding: percentage(2, true),
+            marginTop: 0,
+            marginRight: 0,
+            marginLeft: 0,
+            marginBottom: 0,
+            borderColor: borderColor,
+            borderRightWidth: epgBorderSize,
+            borderTopWidth: 0,
+            borderLeftWidth: 0,
+            borderBottomWidth: epgBorderSize,
+        },
+        scheduleActiveItemStyle: {
+            backgroundColor: 'transparent',
+            alignContent: 'flex-start',
+            alignItems: 'flex-start',
+            height: scheduleHeight,
+            // padding: percentage(2, true),
+            marginTop: 0,
+            marginRight: 0,
+            marginLeft: 0,
+            marginBottom: 0,
+            borderColor: borderColor,
+            borderRightWidth: epgBorderSize,
+            borderTopWidth: 0,
+            borderLeftWidth: 0,
+            borderBottomWidth: epgBorderSize,
+        },
+        scheduleItemTextStyle: {
+            color: appColors(appPreferences.useDefaultStyle!).tertiary,
+            fontSize: appFonts.xs,
+            fontFamily: appFonts.primary,
+            fontWeight: '500',
+            alignContent: 'center',
+            alignItems: 'center',
+            textTransform: 'capitalize',
+        },
+        scheduleItemSubtitleTextStyle: {
+            color: appColors(appPreferences.useDefaultStyle!).captionLight,
+            alignContent: 'center',
+            alignItems: 'center',
+            fontSize: appFonts.xxs,
+            fontFamily: appFonts.light,
+            marginTop: appPadding.xs(true),
+        },
+        channelItemStyle: {
+            backgroundColor: 'transparent',
+            height: scheduleHeight,
+        },
+        channelImageStyle: {},
+        timeBarItemStyle: {
+            width: 100,
+            fontSize: appFonts.xs,
+            color: appColors(appPreferences.useDefaultStyle!).tertiary,
+        },
+        progressStyle: {},
+        nowTimelineIndicator: {
+            left: -1,
+            zIndex: 10,
+            width: 1,
+            height: 37,
+            backgroundColor: appColors(appPreferences.useDefaultStyle!).brandTint,
+            position: 'absolute',
+            top: 0,
+            bottom: 0,
         },
     });
 };

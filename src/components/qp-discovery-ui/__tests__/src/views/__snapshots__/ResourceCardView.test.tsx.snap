@@ -16,10 +16,6 @@ exports[`ResourceCardView avoid re-renders correctly 1`] = `
     focusable={true}
     hasTVPreferredFocus={false}
     isTVSelectable={true}
-    nextFocusDown={null}
-    nextFocusLeft={null}
-    nextFocusRight={null}
-    nextFocusUp={null}
     style={
       Array [
         Object {
@@ -29,8 +25,6 @@ exports[`ResourceCardView avoid re-renders correctly 1`] = `
         },
         undefined,
         undefined,
-        Object {},
-        Object {},
       ]
     }
     testID="cardView"
@@ -41,16 +35,7 @@ exports[`ResourceCardView avoid re-renders correctly 1`] = `
           Array [
             Object {
               "aspectRatio": 1.7777777777777777,
-              "backgroundColor": "#ffffff",
-              "borderRadius": 15,
-              "elevation": 2,
-              "shadowColor": "#333333",
-              "shadowOffset": Object {
-                "height": 1,
-                "width": 0,
-              },
-              "shadowOpacity": 1,
-              "shadowRadius": 2,
+              "borderRadius": 0,
               "width": 375,
             },
             undefined,
@@ -79,8 +64,7 @@ exports[`ResourceCardView avoid re-renders correctly 1`] = `
             source={
               Object {
                 "cache": "web",
-                "priority": "high",
-                "uri": undefined,
+                "uri": "undefined&width=750&height=750&scalingMode=aspectFit",
               }
             }
             style={
@@ -94,48 +78,48 @@ exports[`ResourceCardView avoid re-renders correctly 1`] = `
             }
           />
         </View>
-        <BVLinearGradient
-          colors={
-            Array [
-              0,
-              1712328720,
-              3423604752,
-            ]
-          }
-          endPoint={
-            Object {
-              "x": 0,
-              "y": 1,
-            }
-          }
-          locations={
-            Array [
-              0,
-              0.5,
-              1,
-            ]
-          }
-          startPoint={
-            Object {
-              "x": 0,
-              "y": 0.5,
-            }
-          }
-          style={
-            Array [
-              Object {
-                "backgroundColor": "transparent",
-                "bottom": 0,
-                "left": 0,
-                "position": "absolute",
-                "right": 0,
-                "top": 0,
-              },
-              undefined,
-            ]
-          }
-        />
       </View>
+      <BVLinearGradient
+        colors={
+          Array [
+            0,
+            1712328720,
+            3423604752,
+          ]
+        }
+        endPoint={
+          Object {
+            "x": 0,
+            "y": 1,
+          }
+        }
+        locations={
+          Array [
+            0,
+            0.5,
+            1,
+          ]
+        }
+        startPoint={
+          Object {
+            "x": 0,
+            "y": 0.5,
+          }
+        }
+        style={
+          Array [
+            Object {
+              "backgroundColor": "transparent",
+              "bottom": 0,
+              "left": 0,
+              "position": "absolute",
+              "right": 0,
+              "top": 0,
+            },
+            undefined,
+          ]
+        }
+      />
     </View>
   </View>
 </View>
@@ -157,10 +141,6 @@ exports[`ResourceCardView avoid re-renders correctly 2`] = `
     focusable={true}
     hasTVPreferredFocus={false}
     isTVSelectable={true}
-    nextFocusDown={null}
-    nextFocusLeft={null}
-    nextFocusRight={null}
-    nextFocusUp={null}
     style={
       Array [
         Object {
@@ -170,8 +150,6 @@ exports[`ResourceCardView avoid re-renders correctly 2`] = `
         },
         undefined,
         undefined,
-        Object {},
-        Object {},
       ]
     }
     testID="cardView"
@@ -182,16 +160,7 @@ exports[`ResourceCardView avoid re-renders correctly 2`] = `
           Array [
             Object {
               "aspectRatio": 1.7777777777777777,
-              "backgroundColor": "#ffffff",
-              "borderRadius": 15,
-              "elevation": 2,
-              "shadowColor": "#333333",
-              "shadowOffset": Object {
-                "height": 1,
-                "width": 0,
-              },
-              "shadowOpacity": 1,
-              "shadowRadius": 2,
+              "borderRadius": 0,
               "width": 375,
             },
             undefined,
@@ -220,8 +189,7 @@ exports[`ResourceCardView avoid re-renders correctly 2`] = `
             source={
               Object {
                 "cache": "web",
-                "priority": "high",
-                "uri": undefined,
+                "uri": "undefined&width=750&height=750&scalingMode=aspectFit",
               }
             }
             style={
@@ -235,48 +203,48 @@ exports[`ResourceCardView avoid re-renders correctly 2`] = `
             }
           />
         </View>
-        <BVLinearGradient
-          colors={
-            Array [
-              0,
-              1712328720,
-              3423604752,
-            ]
-          }
-          endPoint={
-            Object {
-              "x": 0,
-              "y": 1,
-            }
-          }
-          locations={
-            Array [
-              0,
-              0.5,
-              1,
-            ]
-          }
-          startPoint={
-            Object {
-              "x": 0,
-              "y": 0.5,
-            }
-          }
-          style={
-            Array [
-              Object {
-                "backgroundColor": "transparent",
-                "bottom": 0,
-                "left": 0,
-                "position": "absolute",
-                "right": 0,
-                "top": 0,
-              },
-              undefined,
-            ]
-          }
-        />
       </View>
+      <BVLinearGradient
+        colors={
+          Array [
+            0,
+            1712328720,
+            3423604752,
+          ]
+        }
+        endPoint={
+          Object {
+            "x": 0,
+            "y": 1,
+          }
+        }
+        locations={
+          Array [
+            0,
+            0.5,
+            1,
+          ]
+        }
+        startPoint={
+          Object {
+            "x": 0,
+            "y": 0.5,
+          }
+        }
+        style={
+          Array [
+            Object {
+              "backgroundColor": "transparent",
+              "bottom": 0,
+              "left": 0,
+              "position": "absolute",
+              "right": 0,
+              "top": 0,
+            },
+            undefined,
+          ]
+        }
+      />
     </View>
   </View>
 </View>
@@ -298,10 +266,6 @@ exports[`ResourceCardView renders correctly when custom wrapper style doesn't de
     focusable={true}
     hasTVPreferredFocus={false}
     isTVSelectable={true}
-    nextFocusDown={null}
-    nextFocusLeft={null}
-    nextFocusRight={null}
-    nextFocusUp={null}
     style={
       Array [
         Object {
@@ -311,8 +275,6 @@ exports[`ResourceCardView renders correctly when custom wrapper style doesn't de
         },
         undefined,
         undefined,
-        Object {},
-        Object {},
       ]
     }
     testID="cardView"
@@ -323,16 +285,7 @@ exports[`ResourceCardView renders correctly when custom wrapper style doesn't de
           Array [
             Object {
               "aspectRatio": 1.7777777777777777,
-              "backgroundColor": "#ffffff",
-              "borderRadius": 15,
-              "elevation": 2,
-              "shadowColor": "#333333",
-              "shadowOffset": Object {
-                "height": 1,
-                "width": 0,
-              },
-              "shadowOpacity": 1,
-              "shadowRadius": 2,
+              "borderRadius": 0,
               "width": 375,
             },
             Object {
@@ -365,8 +318,7 @@ exports[`ResourceCardView renders correctly when custom wrapper style doesn't de
             source={
               Object {
                 "cache": "web",
-                "priority": "high",
-                "uri": undefined,
+                "uri": "undefined&width=200&height=200&scalingMode=aspectFit",
               }
             }
             style={
@@ -380,48 +332,48 @@ exports[`ResourceCardView renders correctly when custom wrapper style doesn't de
             }
           />
         </View>
-        <BVLinearGradient
-          colors={
-            Array [
-              0,
-              1712328720,
-              3423604752,
-            ]
-          }
-          endPoint={
-            Object {
-              "x": 0,
-              "y": 1,
-            }
-          }
-          locations={
-            Array [
-              0,
-              0.5,
-              1,
-            ]
-          }
-          startPoint={
-            Object {
-              "x": 0,
-              "y": 0.5,
-            }
-          }
-          style={
-            Array [
-              Object {
-                "backgroundColor": "transparent",
-                "bottom": 0,
-                "left": 0,
-                "position": "absolute",
-                "right": 0,
-                "top": 0,
-              },
-              undefined,
-            ]
-          }
-        />
       </View>
+      <BVLinearGradient
+        colors={
+          Array [
+            0,
+            1712328720,
+            3423604752,
+          ]
+        }
+        endPoint={
+          Object {
+            "x": 0,
+            "y": 1,
+          }
+        }
+        locations={
+          Array [
+            0,
+            0.5,
+            1,
+          ]
+        }
+        startPoint={
+          Object {
+            "x": 0,
+            "y": 0.5,
+          }
+        }
+        style={
+          Array [
+            Object {
+              "backgroundColor": "transparent",
+              "bottom": 0,
+              "left": 0,
+              "position": "absolute",
+              "right": 0,
+              "top": 0,
+            },
+            undefined,
+          ]
+        }
+      />
     </View>
   </View>
 </View>
@@ -443,10 +395,6 @@ exports[`ResourceCardView renders correctly with default styles 1`] = `
     focusable={true}
     hasTVPreferredFocus={false}
     isTVSelectable={true}
-    nextFocusDown={null}
-    nextFocusLeft={null}
-    nextFocusRight={null}
-    nextFocusUp={null}
     style={
       Array [
         Object {
@@ -456,8 +404,6 @@ exports[`ResourceCardView renders correctly with default styles 1`] = `
         },
         undefined,
         undefined,
-        Object {},
-        Object {},
       ]
     }
     testID="cardView"
@@ -468,16 +414,7 @@ exports[`ResourceCardView renders correctly with default styles 1`] = `
           Array [
             Object {
               "aspectRatio": 1.7777777777777777,
-              "backgroundColor": "#ffffff",
-              "borderRadius": 15,
-              "elevation": 2,
-              "shadowColor": "#333333",
-              "shadowOffset": Object {
-                "height": 1,
-                "width": 0,
-              },
-              "shadowOpacity": 1,
-              "shadowRadius": 2,
+              "borderRadius": 0,
               "width": 375,
             },
             undefined,
@@ -506,8 +443,7 @@ exports[`ResourceCardView renders correctly with default styles 1`] = `
             source={
               Object {
                 "cache": "web",
-                "priority": "high",
-                "uri": undefined,
+                "uri": "undefined&width=750&height=750&scalingMode=aspectFit",
               }
             }
             style={
@@ -521,48 +457,48 @@ exports[`ResourceCardView renders correctly with default styles 1`] = `
             }
           />
         </View>
-        <BVLinearGradient
-          colors={
-            Array [
-              0,
-              1712328720,
-              3423604752,
-            ]
-          }
-          endPoint={
-            Object {
-              "x": 0,
-              "y": 1,
-            }
-          }
-          locations={
-            Array [
-              0,
-              0.5,
-              1,
-            ]
-          }
-          startPoint={
-            Object {
-              "x": 0,
-              "y": 0.5,
-            }
-          }
-          style={
-            Array [
-              Object {
-                "backgroundColor": "transparent",
-                "bottom": 0,
-                "left": 0,
-                "position": "absolute",
-                "right": 0,
-                "top": 0,
-              },
-              undefined,
-            ]
-          }
-        />
       </View>
+      <BVLinearGradient
+        colors={
+          Array [
+            0,
+            1712328720,
+            3423604752,
+          ]
+        }
+        endPoint={
+          Object {
+            "x": 0,
+            "y": 1,
+          }
+        }
+        locations={
+          Array [
+            0,
+            0.5,
+            1,
+          ]
+        }
+        startPoint={
+          Object {
+            "x": 0,
+            "y": 0.5,
+          }
+        }
+        style={
+          Array [
+            Object {
+              "backgroundColor": "transparent",
+              "bottom": 0,
+              "left": 0,
+              "position": "absolute",
+              "right": 0,
+              "top": 0,
+            },
+            undefined,
+          ]
+        }
+      />
     </View>
   </View>
 </View>
@@ -584,10 +520,6 @@ exports[`ResourceCardView renders with the correct aspect ratio image renders co
     focusable={true}
     hasTVPreferredFocus={false}
     isTVSelectable={true}
-    nextFocusDown={null}
-    nextFocusLeft={null}
-    nextFocusRight={null}
-    nextFocusUp={null}
     style={
       Array [
         Object {
@@ -597,8 +529,6 @@ exports[`ResourceCardView renders with the correct aspect ratio image renders co
         },
         undefined,
         undefined,
-        Object {},
-        Object {},
       ]
     }
     testID="cardView"
@@ -609,16 +539,7 @@ exports[`ResourceCardView renders with the correct aspect ratio image renders co
           Array [
             Object {
               "aspectRatio": 1.7777777777777777,
-              "backgroundColor": "#ffffff",
-              "borderRadius": 15,
-              "elevation": 2,
-              "shadowColor": "#333333",
-              "shadowOffset": Object {
-                "height": 1,
-                "width": 0,
-              },
-              "shadowOpacity": 1,
-              "shadowRadius": 2,
+              "borderRadius": 0,
               "width": 375,
             },
             undefined,
@@ -647,8 +568,7 @@ exports[`ResourceCardView renders with the correct aspect ratio image renders co
             source={
               Object {
                 "cache": "web",
-                "priority": "high",
-                "uri": undefined,
+                "uri": "undefined&width=750&height=750&scalingMode=aspectFit",
               }
             }
             style={
@@ -662,48 +582,48 @@ exports[`ResourceCardView renders with the correct aspect ratio image renders co
             }
           />
         </View>
-        <BVLinearGradient
-          colors={
-            Array [
-              0,
-              1712328720,
-              3423604752,
-            ]
-          }
-          endPoint={
-            Object {
-              "x": 0,
-              "y": 1,
-            }
-          }
-          locations={
-            Array [
-              0,
-              0.5,
-              1,
-            ]
-          }
-          startPoint={
-            Object {
-              "x": 0,
-              "y": 0.5,
-            }
-          }
-          style={
-            Array [
-              Object {
-                "backgroundColor": "transparent",
-                "bottom": 0,
-                "left": 0,
-                "position": "absolute",
-                "right": 0,
-                "top": 0,
-              },
-              undefined,
-            ]
-          }
-        />
       </View>
+      <BVLinearGradient
+        colors={
+          Array [
+            0,
+            1712328720,
+            3423604752,
+          ]
+        }
+        endPoint={
+          Object {
+            "x": 0,
+            "y": 1,
+          }
+        }
+        locations={
+          Array [
+            0,
+            0.5,
+            1,
+          ]
+        }
+        startPoint={
+          Object {
+            "x": 0,
+            "y": 0.5,
+          }
+        }
+        style={
+          Array [
+            Object {
+              "backgroundColor": "transparent",
+              "bottom": 0,
+              "left": 0,
+              "position": "absolute",
+              "right": 0,
+              "top": 0,
+            },
+            undefined,
+          ]
+        }
+      />
     </View>
   </View>
 </View>
@@ -725,10 +645,6 @@ exports[`ResourceCardView renders with the correct aspect ratio image renders co
     focusable={true}
     hasTVPreferredFocus={false}
     isTVSelectable={true}
-    nextFocusDown={null}
-    nextFocusLeft={null}
-    nextFocusRight={null}
-    nextFocusUp={null}
     style={
       Array [
         Object {
@@ -738,8 +654,6 @@ exports[`ResourceCardView renders with the correct aspect ratio image renders co
         },
         undefined,
         undefined,
-        Object {},
-        Object {},
       ]
     }
     testID="cardView"
@@ -750,16 +664,7 @@ exports[`ResourceCardView renders with the correct aspect ratio image renders co
           Array [
             Object {
               "aspectRatio": 1.7777777777777777,
-              "backgroundColor": "#ffffff",
-              "borderRadius": 15,
-              "elevation": 2,
-              "shadowColor": "#333333",
-              "shadowOffset": Object {
-                "height": 1,
-                "width": 0,
-              },
-              "shadowOpacity": 1,
-              "shadowRadius": 2,
+              "borderRadius": 0,
               "width": 375,
             },
             undefined,
@@ -788,8 +693,7 @@ exports[`ResourceCardView renders with the correct aspect ratio image renders co
             source={
               Object {
                 "cache": "web",
-                "priority": "high",
-                "uri": undefined,
+                "uri": "undefined&width=750&height=750&scalingMode=aspectFit",
               }
             }
             style={
@@ -803,48 +707,48 @@ exports[`ResourceCardView renders with the correct aspect ratio image renders co
             }
           />
         </View>
-        <BVLinearGradient
-          colors={
-            Array [
-              0,
-              1712328720,
-              3423604752,
-            ]
-          }
-          endPoint={
-            Object {
-              "x": 0,
-              "y": 1,
-            }
-          }
-          locations={
-            Array [
-              0,
-              0.5,
-              1,
-            ]
-          }
-          startPoint={
-            Object {
-              "x": 0,
-              "y": 0.5,
-            }
-          }
-          style={
-            Array [
-              Object {
-                "backgroundColor": "transparent",
-                "bottom": 0,
-                "left": 0,
-                "position": "absolute",
-                "right": 0,
-                "top": 0,
-              },
-              undefined,
-            ]
-          }
-        />
       </View>
+      <BVLinearGradient
+        colors={
+          Array [
+            0,
+            1712328720,
+            3423604752,
+          ]
+        }
+        endPoint={
+          Object {
+            "x": 0,
+            "y": 1,
+          }
+        }
+        locations={
+          Array [
+            0,
+            0.5,
+            1,
+          ]
+        }
+        startPoint={
+          Object {
+            "x": 0,
+            "y": 0.5,
+          }
+        }
+        style={
+          Array [
+            Object {
+              "backgroundColor": "transparent",
+              "bottom": 0,
+              "left": 0,
+              "position": "absolute",
+              "right": 0,
+              "top": 0,
+            },
+            undefined,
+          ]
+        }
+      />
     </View>
   </View>
 </View>
@@ -866,10 +770,6 @@ exports[`ResourceCardView renders with the correct aspect ratio image renders co
     focusable={true}
     hasTVPreferredFocus={false}
     isTVSelectable={true}
-    nextFocusDown={null}
-    nextFocusLeft={null}
-    nextFocusRight={null}
-    nextFocusUp={null}
     style={
       Array [
         Object {
@@ -879,8 +779,6 @@ exports[`ResourceCardView renders with the correct aspect ratio image renders co
         },
         undefined,
         undefined,
-        Object {},
-        Object {},
       ]
     }
     testID="cardView"
@@ -891,16 +789,7 @@ exports[`ResourceCardView renders with the correct aspect ratio image renders co
           Array [
             Object {
               "aspectRatio": 1.7777777777777777,
-              "backgroundColor": "#ffffff",
-              "borderRadius": 15,
-              "elevation": 2,
-              "shadowColor": "#333333",
-              "shadowOffset": Object {
-                "height": 1,
-                "width": 0,
-              },
-              "shadowOpacity": 1,
-              "shadowRadius": 2,
+              "borderRadius": 0,
               "width": 375,
             },
             undefined,
@@ -929,8 +818,7 @@ exports[`ResourceCardView renders with the correct aspect ratio image renders co
             source={
               Object {
                 "cache": "web",
-                "priority": "high",
-                "uri": undefined,
+                "uri": "undefined&width=750&height=750&scalingMode=aspectFit",
               }
             }
             style={
@@ -944,48 +832,48 @@ exports[`ResourceCardView renders with the correct aspect ratio image renders co
             }
           />
         </View>
-        <BVLinearGradient
-          colors={
-            Array [
-              0,
-              1712328720,
-              3423604752,
-            ]
-          }
-          endPoint={
-            Object {
-              "x": 0,
-              "y": 1,
-            }
-          }
-          locations={
-            Array [
-              0,
-              0.5,
-              1,
-            ]
-          }
-          startPoint={
-            Object {
-              "x": 0,
-              "y": 0.5,
-            }
-          }
-          style={
-            Array [
-              Object {
-                "backgroundColor": "transparent",
-                "bottom": 0,
-                "left": 0,
-                "position": "absolute",
-                "right": 0,
-                "top": 0,
-              },
-              undefined,
-            ]
-          }
-        />
       </View>
+      <BVLinearGradient
+        colors={
+          Array [
+            0,
+            1712328720,
+            3423604752,
+          ]
+        }
+        endPoint={
+          Object {
+            "x": 0,
+            "y": 1,
+          }
+        }
+        locations={
+          Array [
+            0,
+            0.5,
+            1,
+          ]
+        }
+        startPoint={
+          Object {
+            "x": 0,
+            "y": 0.5,
+          }
+        }
+        style={
+          Array [
+            Object {
+              "backgroundColor": "transparent",
+              "bottom": 0,
+              "left": 0,
+              "position": "absolute",
+              "right": 0,
+              "top": 0,
+            },
+            undefined,
+          ]
+        }
+      />
     </View>
   </View>
 </View>
@@ -1007,10 +895,6 @@ exports[`ResourceCardView renders with the correct aspect ratio image renders em
     focusable={true}
     hasTVPreferredFocus={false}
     isTVSelectable={true}
-    nextFocusDown={null}
-    nextFocusLeft={null}
-    nextFocusRight={null}
-    nextFocusUp={null}
     style={
       Array [
         Object {
@@ -1020,8 +904,6 @@ exports[`ResourceCardView renders with the correct aspect ratio image renders em
         },
         undefined,
         undefined,
-        Object {},
-        Object {},
       ]
     }
     testID="cardView"
@@ -1032,64 +914,54 @@ exports[`ResourceCardView renders with the correct aspect ratio image renders em
           Array [
             Object {
               "aspectRatio": 1.7777777777777777,
-              "backgroundColor": "#ffffff",
-              "borderRadius": 15,
-              "elevation": 2,
-              "shadowColor": "#333333",
-              "shadowOffset": Object {
-                "height": 1,
-                "width": 0,
-              },
-              "shadowOpacity": 1,
-              "shadowRadius": 2,
+              "borderRadius": 0,
               "width": 375,
             },
             undefined,
           ]
         }
-      >
-        <BVLinearGradient
-          colors={
-            Array [
-              0,
-              1712328720,
-              3423604752,
-            ]
+      />
+      <BVLinearGradient
+        colors={
+          Array [
+            0,
+            1712328720,
+            3423604752,
+          ]
+        }
+        endPoint={
+          Object {
+            "x": 0,
+            "y": 1,
           }
-          endPoint={
+        }
+        locations={
+          Array [
+            0,
+            0.5,
+            1,
+          ]
+        }
+        startPoint={
+          Object {
+            "x": 0,
+            "y": 0.5,
+          }
+        }
+        style={
+          Array [
             Object {
-              "x": 0,
-              "y": 1,
-            }
-          }
-          locations={
-            Array [
-              0,
-              0.5,
-              1,
-            ]
-          }
-          startPoint={
-            Object {
-              "x": 0,
-              "y": 0.5,
-            }
-          }
-          style={
-            Array [
-              Object {
-                "backgroundColor": "transparent",
-                "bottom": 0,
-                "left": 0,
-                "position": "absolute",
-                "right": 0,
-                "top": 0,
-              },
-              undefined,
-            ]
-          }
-        />
-      </View>
+              "backgroundColor": "transparent",
+              "bottom": 0,
+              "left": 0,
+              "position": "absolute",
+              "right": 0,
+              "top": 0,
+            },
+            undefined,
+          ]
+        }
+      />
     </View>
   </View>
 </View>
@@ -1111,10 +983,6 @@ exports[`ResourceCardView renders with the correct aspect ratio image renders fa
     focusable={true}
     hasTVPreferredFocus={false}
     isTVSelectable={true}
-    nextFocusDown={null}
-    nextFocusLeft={null}
-    nextFocusRight={null}
-    nextFocusUp={null}
     style={
       Array [
         Object {
@@ -1124,8 +992,6 @@ exports[`ResourceCardView renders with the correct aspect ratio image renders fa
         },
         undefined,
         undefined,
-        Object {},
-        Object {},
       ]
     }
     testID="cardView"
@@ -1136,16 +1002,7 @@ exports[`ResourceCardView renders with the correct aspect ratio image renders fa
           Array [
             Object {
               "aspectRatio": 1.7777777777777777,
-              "backgroundColor": "#ffffff",
-              "borderRadius": 15,
-              "elevation": 2,
-              "shadowColor": "#333333",
-              "shadowOffset": Object {
-                "height": 1,
-                "width": 0,
-              },
-              "shadowOpacity": 1,
-              "shadowRadius": 2,
+              "borderRadius": 0,
               "width": 375,
             },
             undefined,
@@ -1174,8 +1031,7 @@ exports[`ResourceCardView renders with the correct aspect ratio image renders fa
             source={
               Object {
                 "cache": "web",
-                "priority": "high",
-                "uri": undefined,
+                "uri": "undefined&width=750&height=750&scalingMode=aspectFit",
               }
             }
             style={
@@ -1189,48 +1045,48 @@ exports[`ResourceCardView renders with the correct aspect ratio image renders fa
             }
           />
         </View>
-        <BVLinearGradient
-          colors={
-            Array [
-              0,
-              1712328720,
-              3423604752,
-            ]
-          }
-          endPoint={
-            Object {
-              "x": 0,
-              "y": 1,
-            }
-          }
-          locations={
-            Array [
-              0,
-              0.5,
-              1,
-            ]
-          }
-          startPoint={
-            Object {
-              "x": 0,
-              "y": 0.5,
-            }
-          }
-          style={
-            Array [
-              Object {
-                "backgroundColor": "transparent",
-                "bottom": 0,
-                "left": 0,
-                "position": "absolute",
-                "right": 0,
-                "top": 0,
-              },
-              undefined,
-            ]
-          }
-        />
       </View>
+      <BVLinearGradient
+        colors={
+          Array [
+            0,
+            1712328720,
+            3423604752,
+          ]
+        }
+        endPoint={
+          Object {
+            "x": 0,
+            "y": 1,
+          }
+        }
+        locations={
+          Array [
+            0,
+            0.5,
+            1,
+          ]
+        }
+        startPoint={
+          Object {
+            "x": 0,
+            "y": 0.5,
+          }
+        }
+        style={
+          Array [
+            Object {
+              "backgroundColor": "transparent",
+              "bottom": 0,
+              "left": 0,
+              "position": "absolute",
+              "right": 0,
+              "top": 0,
+            },
+            undefined,
+          ]
+        }
+      />
     </View>
   </View>
 </View>

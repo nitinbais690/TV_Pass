@@ -1,4 +1,5 @@
 import { default as newRelic } from 'rn-qp-nxg-newrelic';
+import CleverTap from 'clevertap-react-native';
 import React, { useContext, useEffect, useReducer, useRef, useState } from 'react';
 import { useAuth } from 'contexts/AuthContextProvider';
 import { ResourceVm } from 'qp-discovery-ui';
@@ -7,7 +8,6 @@ import { AppEvents, Attributes, removeUndefined, RN_INTERACTION, TABLE } from '.
 import { AppState } from 'react-native';
 import { getStreamQuality } from './UserPreferenceUtils';
 import DeviceInfo from 'react-native-device-info';
-import { useSwrve } from 'contexts/SwrveContextProvider';
 
 interface State {
     connectionBandwidthSpeed?: number;
@@ -32,7 +32,7 @@ const AnalyticsReducer = (state: State, action: Action): any => {
 
 const AnalyticsContext = React.createContext({
     ...initialState,
-    recordEvent: async (_: AppEvents | RN_INTERACTION, _attributes?: any, _isSwrveEvent?: boolean) => {},
+    recordEvent: async (_: AppEvents | RN_INTERACTION, _attributes?: any) => {},
     condensePlayerData: async (_playerConfig?: PlayerConfig, _resource?: ResourceVm, _attributes?: any) => {},
     recordErrorEvent: async (_: string, _attributes?: any) => {},
 });
@@ -46,7 +46,6 @@ const AnalyticsContextProvider = ({ children }: AnalyticsContextProviderChildren
     const appState = useRef(AppState.currentState);
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [appStateVisible, setAppStateVisible] = useState(appState.current);
-    const { swrveEvent } = useSwrve();
 
     useEffect(() => {
         AppState.addEventListener('change', _handleAppStateChange);
@@ -54,32 +53,34 @@ const AnalyticsContextProvider = ({ children }: AnalyticsContextProviderChildren
             AppState.removeEventListener('change', _handleAppStateChange);
         };
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [accountProfile !== undefined]);
+    }, []);
 
     const _handleAppStateChange = (nextAppState: any) => {
         if (appState.current.match(/inactive|background/) && nextAppState === 'active') {
             recordEvent(AppEvents.APP_FOREGROUND);
-        } else if (nextAppState === 'inactive' || nextAppState === 'background') {
+        } else if (nextAppState === 'background') {
             recordEvent(AppEvents.APP_BACKGROUND);
         }
         appState.current = nextAppState;
         setAppStateVisible(appState.current);
     };
 
-    const recordEvent = async (event: AppEvents | RN_INTERACTION, attributes?: any, isSwrveEvent?: boolean) => {
+    const recordEvent = async (event: AppEvents | RN_INTERACTION, attributes?: any) => {
         const condenseData = event === AppEvents.SIGN_UP ? {} : removeUndefined(await condenseUserData());
         let attribute = attributes ? removeUndefined(attributes) : {};
         const table = event === RN_INTERACTION.RECORD_INTERACTION ? TABLE.INTERACTION : TABLE.TVPASS;
         //table = Screen_Tracking / TvPass
+        console.log(`CleverTap.recordEvent  : ${event} ${attributes}`);
+
         newRelic.report(table, {
             name: event,
             ...condenseData,
             ...attribute,
         });
-
-        if (isSwrveEvent !== undefined && isSwrveEvent === true) {
-            swrveEvent(event, attributes);
-        }
+        CleverTap.setDebugLevel(3);
+        CleverTap.profileGetCleverTapID((err, res) => {
+            console.log('CleverTapID', res, err);
+        });
     };
 
     const recordErrorEvent = async (event: string, attributes?: any) => {

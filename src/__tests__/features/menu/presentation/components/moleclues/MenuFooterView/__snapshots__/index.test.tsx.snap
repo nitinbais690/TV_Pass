@@ -1,0 +1,114 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Menu Footer view test Menu Footer view render correctly 1`] = `
+<View
+  collapsable={true}
+  pointerEvents="box-none"
+  style={
+    Object {
+      "flex": 1,
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "left": 0,
+        "right": 0,
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "borderRadius": 3,
+          "paddingHorizontal": 28,
+          "width": "100%",
+        }
+      }
+    >
+      <View
+        accessibilityLabel="SUBSCRIBE_NOW_BUTTON"
+        accessible={true}
+        focusable={true}
+        hasTVPreferredFocus={true}
+        isTVSelectable={true}
+        style={
+          Object {
+            "opacity": 1,
+          }
+        }
+        testID="SUBSCRIBE_NOW_BUTTON"
+      >
+        <BVLinearGradient
+          colors={
+            Array [
+              4294929710,
+              4290124297,
+            ]
+          }
+          endPoint={
+            Object {
+              "x": 0.5,
+              "y": 1,
+            }
+          }
+          locations={null}
+          startPoint={
+            Object {
+              "x": 0.5,
+              "y": 0,
+            }
+          }
+          style={
+            Object {
+              "alignItems": "center",
+              "backgroundColor": "#3B4046",
+              "borderColor": "#2089dc",
+              "borderRadius": 35,
+              "borderWidth": 0,
+              "elevation": 0,
+              "flexDirection": "row",
+              "justifyContent": "center",
+              "padding": 8,
+              "paddingHorizontal": 8,
+            }
+          }
+        >
+          <Text
+            style={
+              Object {
+                "color": "#FFFFFF",
+                "fontFamily": "ProximaNova-Regular",
+                "fontSize": 18,
+                "fontWeight": "600",
+                "paddingBottom": 1,
+                "paddingTop": 2,
+                "textAlign": "center",
+              }
+            }
+          >
+            Subscribe now
+          </Text>
+        </BVLinearGradient>
+      </View>
+    </View>
+    <Text
+      style={
+        Object {
+          "color": "#FFFFFF",
+          "fontFamily": "ProximaNova-Regular",
+          "fontSize": 14,
+          "fontWeight": "600",
+          "marginVertical": 20,
+          "opacity": 0.3,
+        }
+      }
+    >
+      Version
+       
+    </Text>
+  </View>
+</View>
+`;

@@ -1,10 +1,8 @@
 import React, { Context, useEffect, useContext, useState } from 'react';
-import { ClientContext } from 'react-fetching-library';
 import { useAppPreferencesState, AppConfig } from './AppPreferencesContext';
 import { useAuth } from '../contexts/AuthContextProvider';
 import { useNetworkStatus } from '../contexts/NetworkContextProvider';
-import { isRegionRestricted } from './GeoChecker';
-import { Platform } from 'react-native';
+import { useGeoData } from 'contexts/GeoDataProviderContext';
 
 export type AppNavigationState =
     | 'INIT'
@@ -78,13 +76,12 @@ const AppContext: Context<AppState & AppActions> = React.createContext({
 const AppContextProvider = ({ children }: { children: React.ReactNode }) => {
     const [splashLoaded, setSplashLoaded] = useState<boolean>(false);
     const { appConfig } = useAppPreferencesState();
-    const { type, isInternetReachable } = useNetworkStatus();
-    const { query } = useContext(ClientContext);
+    const { isInternetReachable } = useNetworkStatus();
     const userState = useAuth();
     const { userType, accessToken } = userState;
+    const { isRestricted } = useGeoData();
 
     const [state, dispatch] = React.useReducer((prevState, action) => {
-        console.log('ACTION TYPE', action.type);
         switch (action.type) {
             case 'INIT':
                 return {
@@ -94,7 +91,7 @@ const AppContextProvider = ({ children }: { children: React.ReactNode }) => {
             case 'NOT_LOGGED_IN':
                 return {
                     ...prevState,
-                    appNavigationState: 'AUTH',
+                    appNavigationState: 'BROWSE_APP',
                 };
             case 'LOGGED_IN':
                 return {
@@ -158,23 +155,12 @@ const AppContextProvider = ({ children }: { children: React.ReactNode }) => {
         if (!appConfig) {
             return;
         }
-        const hasDownloads = async () => {
-            if (!Platform.isTV) {
-                try {
-                    const downloadManager = require('rn-qp-nxg-player');
-                    const downloads = await downloadManager.getAllDownloads();
-                    return downloads.length > 0;
-                } catch (e) {
-                    return false;
-                }
-            }
-        };
 
         const manageAppContext = async () => {
             // Still determining internet connectivity
             // or
             // Struum logo still loading
-            if (type === 'unknown' || !splashLoaded) {
+            if (isInternetReachable === null || !splashLoaded) {
                 return;
             }
 
@@ -185,27 +171,14 @@ const AppContextProvider = ({ children }: { children: React.ReactNode }) => {
             ) {
                 return;
             }
-            if (!Platform.isTV) {
-                const hasOfflineDownloads = await hasDownloads();
-                const routeToOffline = isInternetReachable === false && !hasOfflineDownloads;
-                const routeToDownloads = isInternetReachable === false && hasOfflineDownloads;
 
-                // user is offline and does not have any offline downloads,
-                // route user to offline screen
-                if (routeToOffline) {
-                    dispatch({ type: 'OFFLINE' });
-                    return;
-                }
+            const routeToOffline = isInternetReachable === false;
 
-                // user is offline with local downloads
-                // route user to browse experience
-                if (routeToDownloads) {
-                    dispatch({
-                        type: 'SUBSCRIBED',
-                        payload: { accessToken: accessToken, routeToDownloads: true },
-                    });
-                    return;
-                }
+            // user is offline and does not have any offline downloads,
+            // route user to offline screen
+            if (routeToOffline) {
+                dispatch({ type: 'OFFLINE' });
+                return;
             }
 
             // user is online, route based on user state
@@ -232,7 +205,7 @@ const AppContextProvider = ({ children }: { children: React.ReactNode }) => {
                 return;
             }
 
-            const isRestricted = await isRegionRestricted(config, query);
+            // const isRestricted = await isRegionRestricted(config, query);
             if (isRestricted) {
                 dispatch({ type: 'REGION_LOCK' });
             }

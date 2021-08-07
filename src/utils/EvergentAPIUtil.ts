@@ -1,5 +1,5 @@
 import { AppConfig } from 'utils/AppPreferencesContext';
-import decrypt from 'utils/SecurityUtil';
+import decrypt from './SecurityUtil';
 
 export enum EvergentEndpoints {
     CreateUser = 'createUser',

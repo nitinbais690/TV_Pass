@@ -1,21 +1,25 @@
 import React from 'react';
-import { View, Text, StyleSheet, Platform } from 'react-native';
+import { View, Text, StyleSheet, TouchableHighlight } from 'react-native';
+import { Icon } from 'react-native-elements';
 import { useAppPreferencesState } from 'utils/AppPreferencesContext';
 import { useNetworkStatus } from 'contexts/NetworkContextProvider';
 import { useLocalization } from 'contexts/LocalizationContext';
 import { appFonts } from '../../AppStyles';
-import Button from 'screens/components/Button';
-import { selectDeviceType } from 'qp-common-ui';
-import { useDimensions } from '@react-native-community/hooks';
-import BorderButton from 'screens/components/BorderButton';
+import NoNetworkSvg from '../../assets/images/no_network.svg';
 
-const AppErrorComponent = ({ errorMessage, reload }: { errorMessage?: string; reload?: () => void }): JSX.Element => {
-    const { width, height } = useDimensions().window;
+const AppErrorComponent = ({
+    errorMessage,
+    errorIcon = 'warning-outline',
+    reload,
+}: {
+    errorMessage?: string;
+    errorIcon?: string;
+    reload?: () => void;
+}): JSX.Element => {
     const { strings } = useLocalization();
     const { isInternetReachable, retry } = useNetworkStatus();
     const prefs = useAppPreferencesState();
     let { appColors, appPadding } = prefs.appTheme!(prefs);
-    const isPortrait = height > width;
     let errorString;
 
     const defaultErrorComponentStyle = React.useMemo(
@@ -25,31 +29,18 @@ const AppErrorComponent = ({ errorMessage, reload }: { errorMessage?: string; re
                     position: 'absolute',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    width: !Platform.isTV ? '100%' : '40%',
-                    alignSelf: 'center',
+                    width: '100%',
                     height: '100%',
                     flexDirection: 'column',
-                    paddingHorizontal: selectDeviceType({ Tablet: isPortrait ? '25%' : '32%' }, appPadding.sm()),
-                },
-                errorContainerTv: {
-                    flex: 1,
-                    justifyContent: 'center',
-                    alignItems: 'flex-start',
-                    marginHorizontal: Platform.isTV
-                        ? 0
-                        : selectDeviceType({ Tablet: isPortrait ? '20%' : '30%' }, isPortrait ? '0%' : '25%'),
-                    padding: selectDeviceType({ Tv: appPadding.md(true) }, 40),
+                    // backgroundColor: appColors.primary,
                 },
                 icon: {
                     marginBottom: 20,
                 },
                 title: {
-                    fontSize: Platform.isTV ? appFonts.xxlg : appFonts.md,
+                    fontSize: appFonts.md,
                     fontFamily: appFonts.semibold,
                     color: appColors.secondary,
-                    marginVertical: 25,
-                },
-                titleAlign: {
                     justifyContent: 'center',
                     alignSelf: 'center',
                 },
@@ -80,35 +71,44 @@ const AppErrorComponent = ({ errorMessage, reload }: { errorMessage?: string; re
                     alignSelf: 'center',
                     textTransform: 'uppercase',
                 },
-                textContainer: {
-                    width: '40%',
-                },
             }),
-        [appColors.brandTint, appColors.secondary, appColors.tertiary, appPadding, isPortrait],
+        [appColors.brandTint, appColors.secondary, appColors.tertiary, appPadding],
     );
 
     if (isInternetReachable === false) {
+        errorIcon = 'md-cloud-offline-outline';
         errorString = strings['global.no_network_error_msg'];
         reload = retry;
     } else {
         errorString = errorMessage ? errorMessage : strings['global.general_error_msg'];
     }
 
-    return Platform.isTV ? (
-        <View style={defaultErrorComponentStyle.errorContainerTv}>
-            <View style={defaultErrorComponentStyle.textContainer}>
-                {errorString && <Text style={defaultErrorComponentStyle.title}>{errorString}</Text>}
-                {reload && <BorderButton title={strings['global.error.tab_retry_btn']} onPress={reload} />}
-            </View>
-        </View>
-    ) : (
+    return (
         <View style={defaultErrorComponentStyle.erroContainer}>
-            {errorString && (
-                <Text style={[defaultErrorComponentStyle.title, defaultErrorComponentStyle.titleAlign]}>
-                    {errorString}
-                </Text>
+            {isInternetReachable === false ? (
+                <NoNetworkSvg width="80" height="120" />
+            ) : (
+                <Icon
+                    type="ionicon"
+                    style={defaultErrorComponentStyle.icon}
+                    color={appColors.brandTintTranslucent}
+                    name={errorIcon}
+                    size={100}
+                />
             )}
-            {reload && <Button title={strings['global.error.tab_retry_btn']} onPress={reload} />}
+            <Text style={defaultErrorComponentStyle.title}>{strings['global.general_error_title']}</Text>
+            {errorString && <Text style={defaultErrorComponentStyle.text}>{errorString}</Text>}
+            {reload && (
+                <TouchableHighlight
+                    activeOpacity={0.5}
+                    underlayColor={appColors.primaryVariant4}
+                    style={defaultErrorComponentStyle.retryButton}
+                    onPress={reload}>
+                    <Text style={defaultErrorComponentStyle.retryButtonText}>
+                        {strings['global.error.tab_retry_btn']}
+                    </Text>
+                </TouchableHighlight>
+            )}
         </View>
     );
 };

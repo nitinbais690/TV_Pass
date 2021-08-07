@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
 import DownloadList from './DownloadList';
-import BackgroundGradient from 'screens/components/BackgroundGradient';
+import BackgroundGradient from 'core/presentation/components/atoms/BackgroundGradient';
 
 const SeriesDownloadScreen = ({ route }: any): JSX.Element => {
     const styles = StyleSheet.create({

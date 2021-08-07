@@ -14,7 +14,7 @@ const useForm = (initialValues: setSTateType = {}, callback: Function, validate:
             callback();
         }
         // eslint-disable-next-line
-  }, [errors]);
+    }, [errors]);
 
     const handleSubmit = useCallback(() => {
         setErrors(false);
@@ -29,7 +29,7 @@ const useForm = (initialValues: setSTateType = {}, callback: Function, validate:
             setErrors(validate(values));
         }
         // eslint-disable-next-line
-  }, [values]);
+    }, [values]);
 
     const handleCurrentVal = (obj: any) => {
         setValues(obj);
@@ -40,7 +40,7 @@ const useForm = (initialValues: setSTateType = {}, callback: Function, validate:
         setErrors({});
         setValues(initialValues);
         // eslint-disable-next-line
-  }, []);
+    }, []);
 
     const setUpdateValue = useCallback((field, value) => {
         setValues(updateValues => ({
@@ -64,7 +64,7 @@ const useForm = (initialValues: setSTateType = {}, callback: Function, validate:
             [name]: value,
         }));
         // eslint-disable-next-line
-  }, []);
+    }, []);
 
     const handleSelectChange = useCallback((e, name = 'select') => {
         let value = e ? e.value : null;
@@ -73,7 +73,7 @@ const useForm = (initialValues: setSTateType = {}, callback: Function, validate:
             [name]: value,
         }));
         // eslint-disable-next-line
-  }, []);
+    }, []);
 
     const handleRadioChange = useCallback(e => {
         let value = e.target.value;
@@ -83,7 +83,7 @@ const useForm = (initialValues: setSTateType = {}, callback: Function, validate:
             [name]: value,
         }));
         // eslint-disable-next-line
-  }, []);
+    }, []);
 
     const handleCheckboxChange = useCallback((value, name = 'checkbox') => {
         setValues(thisValues => ({
@@ -91,7 +91,7 @@ const useForm = (initialValues: setSTateType = {}, callback: Function, validate:
             [name]: value,
         }));
         // eslint-disable-next-line
-  }, []);
+    }, []);
 
     return {
         handleChange,

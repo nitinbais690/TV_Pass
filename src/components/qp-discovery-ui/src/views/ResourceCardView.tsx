@@ -1,4 +1,4 @@
-import React, { useRef, useCallback, useState } from 'react';
+import React, { useState } from 'react';
 
 import {
     View,
@@ -10,24 +10,12 @@ import {
     StyleSheet,
     Platform,
     TextStyle,
-    findNodeHandle,
-    Text,
 } from 'react-native';
 import LinearGradient, { LinearGradientProps } from 'react-native-linear-gradient';
 import ResizableImage from './ResizableImage';
 import { ResourceVm } from '../models/ViewModels';
-import {
-    dimensions,
-    constants,
-    padding,
-    colors,
-    USE_ABSOLUTE_VALUE,
-    AspectRatio,
-    ImageType,
-    fonts,
-} from 'qp-common-ui';
+import { dimensions, constants, padding, colors, USE_ABSOLUTE_VALUE, AspectRatio, ImageType } from 'qp-common-ui';
 import FastImage from 'react-native-fast-image';
-import { useLocalization } from 'contexts/LocalizationContext';
 
 const cardPadding = padding.xs(USE_ABSOLUTE_VALUE);
 const defaultImageAspectRatio = '0-16x9';
@@ -40,13 +28,7 @@ export const cardStyles = StyleSheet.create({
     wrapperStyle: {
         width: dimensions.fullWidth / constants.catalogCardsPreview,
         aspectRatio: dimensions.cardAspectRatio,
-        borderRadius: 15,
-        shadowOffset: { width: 0, height: 1 },
-        shadowColor: colors.tertiary,
-        shadowOpacity: 1.0,
-        shadowRadius: 2,
-        backgroundColor: colors.primary,
-        elevation: 2,
+        borderRadius: dimensions.cardRadius,
     },
     cardWrapperStyle: {
         flex: 1,
@@ -57,8 +39,11 @@ export const cardStyles = StyleSheet.create({
         alignSelf: 'stretch',
     },
     overviewWrapperStyle: {
-        ...StyleSheet.absoluteFillObject,
-        top: undefined,
+        height: '100%',
+        width: '100%',
+        position: 'absolute',
+        top: 0,
+        left: 0,
     },
     onFocusCardStyle: {
         borderStyle: 'solid',
@@ -74,38 +59,6 @@ export const cardStyles = StyleSheet.create({
         bottom: 0,
         left: 0,
         right: 0,
-    },
-    cardContainerShadow: {
-        borderColor: colors.primary,
-        borderWidth: 3,
-        zIndex: 100,
-        shadowColor: colors.brandTint,
-        shadowOpacity: 1,
-        shadowOffset: {
-            width: 0,
-            height: 0,
-        },
-        shadowRadius: 14,
-        elevation: 10,
-    },
-    viewAllContainer: {
-        backgroundColor: colors.backgroundVariant1,
-        flex: 1,
-    },
-    viewAllWrapper: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderRadius: 15,
-        shadowOpacity: 1.0,
-        shadowRadius: 2,
-        backgroundColor: colors.backgroundVariant1,
-        flex: 1,
-    },
-    viewAllText: {
-        fontSize: fonts.md,
-        fontFamily: fonts.primary,
-        color: colors.primary,
-        fontWeight: '600',
     },
 });
 
@@ -128,7 +81,6 @@ export interface ResourceCardStyle {
     /**
      * The style of the card container(View).
      */
-    viewAllWrapper?: StyleProp<ViewStyle>;
     cardWrapperStyle?: StyleProp<ViewStyle>;
     /**
      * The style of the card container(Image).
@@ -158,8 +110,6 @@ export interface ResourceCardStyle {
      * The style of the card footer subtitle
      */
     footerSubtitle?: StyleProp<TextStyle>;
-
-    viewAllText?: StyleProp<TextStyle>;
 }
 
 export interface ResourceCardViewBaseProps<T> {
@@ -168,6 +118,18 @@ export interface ResourceCardViewBaseProps<T> {
      * but not if cancelled (e.g. by a scroll that steals the responder lock).
      */
     onResourcePress?: (resource: T) => void;
+    /**
+     * Called when the resource card focused or blurred,
+     */
+    onFocusChange?: (resource: T, hasFocus: boolean, index?: number) => void;
+    /**
+     * Based on the this TV focus border will be shown in card
+     */
+    isShowTVFocus?: boolean;
+    /**
+     * Index of specific resource card,
+     */
+    resourceIndex?: number;
     /**
      * *(Apple TV only)* Object with properties to control Apple TV parallax effects.
      *
@@ -233,6 +195,10 @@ export interface ResourceCardViewBaseProps<T> {
      * Indicates the orientation of the card
      */
     isPortrait?: boolean;
+    /**
+     * Width of a Card
+     */
+    cardWidth?: number;
 }
 
 export interface ResourceCardViewProps<T> extends ResourceCardViewBaseProps<T> {
@@ -240,34 +206,10 @@ export interface ResourceCardViewProps<T> extends ResourceCardViewBaseProps<T> {
      * Must be either `ResourceVm` or one of its extensions
      */
     resource: T;
-    /**
-     * down focus block on tv
-     */
-    hasTVPreferredFocus?: boolean;
-    /**
-     * down focus block on tv
-     */
-    blockFocusDown?: boolean;
-    /**
-     * up focus block on tv
-     */
-    blockFocusUp?: boolean;
-    /**
-     * right focus block on tv
-     */
-    blockFocusRight?: boolean;
-    /**
-     * left focus block on tv
-     */
-    blockFocusLeft?: boolean;
-    /**
-     * sift scroll to index how is focused
-     */
-    shiftScrollToFocusIndex: () => void;
 }
 
 export const cardViewDimensions = (cardStyle: ResourceCardStyle = {}): [number, number] => {
-    const wrapperStyle = (cardStyle.container || cardStyles.container) as ViewStyle;
+    const wrapperStyle = (cardStyle.wrapperStyle || cardStyles.wrapperStyle) as ViewStyle;
     const cardWidth = wrapperStyle.width as number;
     const cardHeight = wrapperStyle.aspectRatio
         ? cardWidth * wrapperStyle.aspectRatio
@@ -280,6 +222,8 @@ const ResourceCardView = <T extends ResourceVm>(props: ResourceCardViewProps<T>)
         resource,
         cardStyle: style = {},
         onResourcePress,
+        onFocusChange,
+        resourceIndex,
         cardAspectRatio = dimensions.cardAspectRatio,
         cardImageType = dimensions.cardImageType,
         hideGradient,
@@ -287,12 +231,7 @@ const ResourceCardView = <T extends ResourceVm>(props: ResourceCardViewProps<T>)
         skipResize,
         overlayView,
         footerView,
-        blockFocusRight,
-        blockFocusLeft,
-        blockFocusDown,
-        blockFocusUp,
-        hasTVPreferredFocus,
-        shiftScrollToFocusIndex,
+        isShowTVFocus = true,
     } = props;
     const wrapperStyle = (style.wrapperStyle || cardStyles.wrapperStyle) as ViewStyle;
     const [cardWidth] = cardViewDimensions(style);
@@ -304,88 +243,68 @@ const ResourceCardView = <T extends ResourceVm>(props: ResourceCardViewProps<T>)
     const imageType = cardImageType;
     const key = resource.imageAspectRatio ? resource.imageAspectRatio : defaultImageAspectRatio;
     const imageUrl = resource.syndicationImages && resource.syndicationImages[key];
-    const touchableHighlightRef = useRef(null);
-    const { strings } = useLocalization();
-
+    const shouldApplyFocusStyle = Platform.OS === 'android' && Platform.isTV;
     const onCardPress = (): void => onResourcePress && onResourcePress(resource);
     const onCardFocus = (): void => {
         setIsFocussed(true);
-        shiftScrollToFocusIndex && shiftScrollToFocusIndex();
+        onFocusChange && onFocusChange(resource, true, resourceIndex);
     };
     const onCardBlur = (): void => {
         setIsFocussed(false);
+        onFocusChange && onFocusChange(resource, false, resourceIndex);
     };
-    const onRef = useCallback(ref => {
-        if (ref) {
-            touchableHighlightRef.current = ref;
-        }
-    }, []);
-
     return (
         <TouchableHighlight
             style={[
                 cardStyles.container,
                 style.container,
-                isFocussed ? cardStyles.cardContainerShadow : undefined,
-                resource.type && resource.type === 'viewall' ? cardStyles.viewAllContainer : {},
-                resource.type && resource.type === 'viewall' && resource.aspectRatio === 1 ? { width: 175 } : {},
+                isFocussed && isShowTVFocus ? style.onFocusCardStyle || cardStyles.onFocusCardStyle : undefined,
             ]}
             underlayColor={underlayColor}
             activeOpacity={activeOpacity}
             onPress={onCardPress}
             tvParallaxProperties={props.tvParallaxProperties}
-            ref={onRef}
-            hasTVPreferredFocus={hasTVPreferredFocus ? true : false}
-            nextFocusUp={blockFocusUp ? findNodeHandle(touchableHighlightRef.current) : null}
-            nextFocusDown={blockFocusDown ? findNodeHandle(touchableHighlightRef.current) : null}
-            nextFocusLeft={blockFocusLeft ? findNodeHandle(touchableHighlightRef.current) : null}
-            nextFocusRight={blockFocusRight ? findNodeHandle(touchableHighlightRef.current) : null}
-            onFocus={Platform.isTV ? onCardFocus : undefined}
-            onBlur={Platform.isTV ? onCardBlur : undefined}
+            onFocus={shouldApplyFocusStyle ? onCardFocus : undefined}
+            onBlur={shouldApplyFocusStyle ? onCardBlur : undefined}
             testID={testID}
             accessibilityLabel={'Card View'}>
-            {resource.type && resource.type === 'viewall' ? (
-                <View style={[cardStyles.viewAllWrapper]}>
-                    <Text style={[cardStyles.viewAllText, style.viewAllText]}>{strings['my_content.view_all']}</Text>
+            <View>
+                <View style={[cardStyles.wrapperStyle, style.wrapperStyle]}>
+                    {resource.image ? (
+                        <FastImage
+                            key={resource.id || ''}
+                            style={[cardStyles.imageStyle, style.imageStyle]}
+                            resizeMode={FastImage.resizeMode.contain}
+                            source={{ uri: resource.image }}
+                        />
+                    ) : (
+                        <ResizableImage
+                            keyId={resource.type === 'channel' ? resource.ex_id || '' : resource.id || ''}
+                            width={cardWidth}
+                            height={cardHeight}
+                            skipResize={skipResize}
+                            style={[cardStyles.imageStyle, style.imageStyle]}
+                            imageType={imageType}
+                            aspectRatioKey={aspectRatioKey}
+                            source={{ uri: imageUrl }}
+                        />
+                    )}
+
+                    {overlayView && (
+                        <View style={[cardStyles.overviewWrapperStyle, style.overviewWrapperStyle]}>{overlayView}</View>
+                    )}
                 </View>
-            ) : (
-                <View>
-                    <View style={[cardStyles.wrapperStyle, style.wrapperStyle]}>
-                        {resource.image ? (
-                            <FastImage
-                                key={resource.id || ''}
-                                style={[cardStyles.imageStyle, style.imageStyle]}
-                                resizeMode={FastImage.resizeMode.contain}
-                                source={{ uri: resource.image }}
-                            />
-                        ) : (
-                            <ResizableImage
-                                keyId={resource.type === 'channel' ? resource.ex_id || '' : resource.id || ''}
-                                width={cardWidth}
-                                height={cardHeight}
-                                skipResize={skipResize}
-                                style={[cardStyles.imageStyle, style.imageStyle]}
-                                imageType={imageType}
-                                aspectRatioKey={aspectRatioKey}
-                                source={{ uri: imageUrl }}
-                            />
-                        )}
-                        {!hideGradient && (
-                            <LinearGradient
-                                {...defaultImageGradientProps}
-                                {...props.linearGradientProps}
-                                style={[cardStyles.gradientOverlayStyle, style.gradientOverlayStyle]}
-                            />
-                        )}
-                        {overlayView && (
-                            <View style={[cardStyles.overviewWrapperStyle, style.overviewWrapperStyle]}>
-                                {overlayView}
-                            </View>
-                        )}
-                    </View>
-                    {footerView && <View style={style.footer}>{footerView}</View>}
-                </View>
-            )}
+
+                {!hideGradient && (
+                    <LinearGradient
+                        {...defaultImageGradientProps}
+                        {...props.linearGradientProps}
+                        style={[cardStyles.gradientOverlayStyle, style.gradientOverlayStyle]}
+                    />
+                )}
+
+                {footerView && <View style={[style.footer]}>{footerView}</View>}
+            </View>
         </TouchableHighlight>
     );
 };

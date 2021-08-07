@@ -1,10 +1,10 @@
-jest.useFakeTimers();
 import React from 'react';
 import { ClientContextProvider, createAPIClient } from '../../../index';
 import FavoriteView from '../../../src/views/FavoriteView';
 import { render, fireEvent } from '@testing-library/react-native';
 import * as useFavoritesHook from '../../../src/hooks/useFavorites';
 
+jest.useFakeTimers();
 jest.mock('../../../src/hooks/useFavorites');
 
 describe('FavoriteView', () => {
@@ -14,6 +14,7 @@ describe('FavoriteView', () => {
             liked: true,
             like: jest.fn(),
             unlike: jest.fn(),
+            fetchAll: jest.fn(),
         });
 
         const { getByTestId } = render(jsx());
@@ -26,6 +27,7 @@ describe('FavoriteView', () => {
             liked: false,
             like: jest.fn(),
             unlike: jest.fn(),
+            fetchAll: jest.fn(),
         });
 
         const { getByTestId } = render(jsx());
@@ -35,11 +37,13 @@ describe('FavoriteView', () => {
     it('should trigger like when currently unliked', async () => {
         const like = jest.fn();
         const unlike = jest.fn();
+        const fetchAll = jest.fn();
         mockHook({
             loading: false,
             liked: false,
             like: like,
             unlike: unlike,
+            fetchAll: fetchAll,
         });
 
         const { getByTestId } = render(jsx());
@@ -50,11 +54,13 @@ describe('FavoriteView', () => {
     it('should trigger unlike when currently liked', async () => {
         const like = jest.fn();
         const unlike = jest.fn();
+        const fetchAll = jest.fn();
         mockHook({
             loading: false,
             liked: true,
             like: like,
             unlike: unlike,
+            fetchAll: fetchAll,
         });
 
         const { getByTestId } = render(jsx());
@@ -73,7 +79,7 @@ const jsx = () => {
     });
     return (
         <ClientContextProvider client={Client}>
-            <FavoriteView resourceId={''} ovatToken={''} />
+            <FavoriteView resourceId={''} ovatToken={''} flAuthToken={''} />
         </ClientContextProvider>
     );
 };

@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Dimensions, Platform } from 'react-native';
+import { StyleSheet, Dimensions, Platform, View } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
 import {
     ResourceVm,
@@ -8,14 +8,20 @@ import {
     CardSize,
     CardStyle,
     CardLayout,
-    EmptyResourceCardView,
+    getDiffDays,
+    isFutureDate,
 } from 'qp-discovery-ui';
-import { selectDeviceType, AspectRatio, AspectRatioUtil, ImageType } from 'qp-common-ui';
+import { selectDeviceType, AspectRatio, AspectRatioUtil, scale } from 'qp-common-ui';
 import { AppConfig, useAppPreferencesState } from 'utils/AppPreferencesContext';
-import { appFonts, appPadding, tvPixelSizeForLayout } from '../../../AppStyles';
-import CardOverlay from './CardOverlay';
-import CardFooter from './CardFooter';
 import RoundedCardOverlay from './RoundedCardOverlay';
+import { appDimensionValues, appPaddingValues, appFonts } from 'core/styles/AppStyles';
+import CardOverlay from './CardOverlay';
+import ContentCardFooter from 'features/details/presentation/components/organisms/ContentCardFooter';
+import CardPlayOverlay from 'features/discovery/presentation/components/molecules/CardPlayOverlay';
+import CardTagsOverlay from 'features/discovery/presentation/components/molecules/CardTagsOverlay';
+import BlackBgWithBorder from 'core/presentation/components/atoms/BlackBgWithBorder';
+import { useLocalization } from 'contexts/LocalizationContext';
+import { appFlexStyles } from 'core/styles/FlexStyles';
 
 export const sizeFactor = (size?: CardSize): number => {
     switch (size) {
@@ -59,7 +65,6 @@ export const cardWidth = (
     layout?: CardLayout,
     size?: CardSize,
     containerSize?: { width: number; height: number },
-    containerName?: string,
 ) => {
     const { width, height } = containerSize ? containerSize : Dimensions.get('window');
     // Note: Indicates the aspect ratio is extra wide (e.g. 3x1)
@@ -67,15 +72,16 @@ export const cardWidth = (
     // this is especially true for iPad landscape
     const isWideAspect = ar > 2;
     if (layout === 'banner') {
-        const w = width - 2 * appPadding.sm(true);
-        return isPortait || isWideAspect ? w : Math.floor((height / 1.5) * ar - padding);
-    }
+        let w = width;
+        if (size === 'large') {
+            let SLIDER_WIDTH = Dimensions.get('window').width;
+            let ITEM_WIDTH = Math.round(SLIDER_WIDTH * 0.75);
+            let ITEM_HORIZONTAL_MARGIN = Math.round(SLIDER_WIDTH * 0.02);
+            let ITEM_WIDTH_FIX = ITEM_WIDTH + ITEM_HORIZONTAL_MARGIN * 2;
+            w = ITEM_WIDTH_FIX;
+        }
 
-    if (Platform.isTV && layout === 'carousel' && containerName === 'Channels') {
-        // console.log('CONTAINER SIZE: ', width);
-        const w = width - 2 * appPadding.sm(true);
-        // console.log('CONTAINER W : ', w);
-        return isPortait || isWideAspect ? w : 175;
+        return isPortait || isWideAspect ? w : Math.floor((height / 1.5) * ar - padding);
     }
 
     const standardWidth = (width - (catalogCardsPreview + 1) * padding) / catalogCardsPreview;
@@ -84,7 +90,11 @@ export const cardWidth = (
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const cardPadding = (isPortait: boolean, layout?: CardLayout) => {
-    return 20;
+    if (!Platform.isTV) {
+        return layout === 'banner' ? 0 : 20;
+    } else {
+        return layout === 'banner' ? 0 : 4;
+    }
 };
 
 export const cardAspectRatio = (
@@ -111,46 +121,37 @@ const StorefrontCardView = ({
     resource,
     isPortrait,
     onResourcePress,
+    cardProps = {},
     fallbackAspectRatio,
     containerSize,
     cardsPreview,
     gridMode,
-    blockFocusDown,
-    blockFocusLeft,
-    blockFocusRight,
-    isDetailsTvLayout,
-    isCardCustomSpacing,
-    hasTVPreferredFocus,
-    blockFocusUp,
-    shiftScrollToFocusIndex,
-    cardType = '',
-    route,
 }: {
     resource: ResourceVm;
     isPortrait: boolean;
     onResourcePress?: (resource: ResourceVm) => void;
+    cardProps?: ResourceCardViewBaseProps<ResourceVm>;
     fallbackAspectRatio?: AspectRatio;
     containerSize?: { width: number; height: number };
     cardsPreview?: number;
     gridMode?: boolean;
-    blockFocusDown?: boolean;
-    blockFocusUp?: boolean;
-    blockFocusLeft?: boolean;
-    blockFocusRight?: boolean;
-    hasTVPreferredFocus?: boolean;
-    isCardCustomSpacing?: boolean | undefined;
-    isDetailsTvLayout?: boolean;
-    shiftScrollToFocusIndex?: () => void;
-    cardType?: string;
-    route?: string;
 }): JSX.Element => {
     const prefs = useAppPreferencesState();
     const { appTheme, catalogCardsPreview, appConfig } = prefs;
     let { appColors, appDimensions } = appTheme(prefs);
+    const { strings } = useLocalization();
 
-    const cardBorderRadius = (layout?: CardLayout, style?: CardStyle) => {
+    const cardBorderRadius = (layout?: CardLayout, style?: CardStyle, size?: CardSize) => {
+        if (size === 'large' && !Platform.isTV) {
+            return 8;
+        }
+
         if (layout === 'banner') {
-            return appDimensions.cardRadius;
+            return 0;
+        }
+
+        if (Platform.isTV && style !== 'rounded') {
+            return 0;
         }
 
         return style === 'rounded' ? resourceCardWidth / 2 : appDimensions.cardRadius;
@@ -172,74 +173,38 @@ const StorefrontCardView = ({
         resource.layout,
         resource.size,
         containerSize,
-        resource.containerName,
     );
-    const borderRadius = cardBorderRadius(resource.layout, resource.style);
+    const borderRadius = cardBorderRadius(resource.layout, resource.style, resource.size);
 
     const styles = React.useMemo(
         () =>
             StyleSheet.create({
                 container: {
                     width: resourceCardWidth,
-                    marginRight: isCardCustomSpacing
-                        ? tvPixelSizeForLayout(10)
-                        : isDetailsTvLayout
-                        ? padding / 2
-                        : resource.layout === 'banner'
-                        ? Platform.isTV
-                            ? 30
-                            : padding / 4
-                        : Platform.isTV
-                        ? resource.layout === 'carousel' && resource.containerName === 'Channels'
-                            ? 10
-                            : 30
-                        : padding / 2,
-                    marginLeft: isCardCustomSpacing ? 0 : resource.layout === 'banner' ? padding / 4 : 0,
-                    marginTop: isCardCustomSpacing
-                        ? 0
-                        : isDetailsTvLayout
-                        ? 0
-                        : resource.layout === 'banner'
-                        ? selectDeviceType({ Tv: 25 }, 20)
-                        : gridMode
-                        ? selectDeviceType({ Tv: 15 }, 10)
-                        : selectDeviceType({ Tv: 25 }, 0),
-                    marginBottom: isCardCustomSpacing ? 0 : isDetailsTvLayout ? 0 : Platform.isTV ? padding : 0,
+                    marginRight: resource.layout === 'banner' ? padding / 4 : padding / 2,
+                    marginLeft: resource.layout === 'banner' ? padding / 4 : 0,
+                    marginTop: resource.layout === 'banner' ? 0 : gridMode ? 10 : 0,
+                    marginBottom: 0,
                     borderRadius: borderRadius,
-                    backgroundColor: 'transparent',
+                    // backgroundColor: appColors.primaryVariant3,
                     borderWidth: Platform.isTV ? 2 : 0,
                     borderColor: 'transparent',
-                    overflow: resource.layout === 'banner' || resource.style === 'rounded' ? 'hidden' : undefined,
-                    shadowOffset: { width: 0, height: 2 },
-                    shadowColor: '#000',
-                    shadowOpacity: 0.15,
-                    shadowRadius: 2,
-                    elevation: 2,
+                    overflow: 'hidden',
                 },
                 wrapperStyle: {
-                    width: '100%',
-                    height:
-                        Platform.isTV && resource.layout === 'carousel' && resource.containerName === 'Channels'
-                            ? 95
-                            : undefined,
-                    aspectRatio: selectDeviceType(
-                        {
-                            Tv: resource.containerName === 'Channels' ? AspectRatio._16by9 : aspectRatio,
-                            Handset: aspectRatio,
-                            Tablet: aspectRatio,
-                        },
-                        aspectRatio,
-                    ),
+                    width: resourceCardWidth,
+                    aspectRatio: aspectRatio,
                     borderTopLeftRadius: borderRadius,
                     borderTopRightRadius: borderRadius,
                     borderRadius: !resource.showFooter ? borderRadius : undefined,
-                    backgroundColor: appColors.primary,
+                    // backgroundColor: appColors.primaryVariant3,
                 },
                 imageStyle: {
                     borderTopLeftRadius: borderRadius,
                     borderTopRightRadius: borderRadius,
-                    borderBottomRightRadius: resource.containerName !== 'Channels' ? 0 : borderRadius,
-                    borderBottomLeftRadius: resource.containerName !== 'Channels' ? 0 : borderRadius,
+                    borderBottomLeftRadius: borderRadius,
+                    borderBottomRightRadius: borderRadius,
+                    borderRadius: undefined,
                     flex: 1,
                 },
                 titleStyle: {
@@ -250,9 +215,6 @@ const StorefrontCardView = ({
                 },
                 footer: {
                     justifyContent: 'space-between',
-                    backgroundColor: appColors.primaryVariant1,
-                    borderBottomLeftRadius: borderRadius,
-                    borderBottomRightRadius: borderRadius,
                 },
                 footerTitle: {
                     fontSize: appFonts.xs,
@@ -268,7 +230,7 @@ const StorefrontCardView = ({
                     paddingTop: 5,
                 },
                 onFocusCardStyle: {
-                    borderColor: appColors.brandTint,
+                    borderColor: 'white',
                     borderRadius: borderRadius,
                     borderWidth: 2,
                     elevation: 20,
@@ -277,13 +239,39 @@ const StorefrontCardView = ({
                     shadowOpacity: 0.5,
                     shadowRadius: 20,
                 },
+                overviewWrapperStyle: {
+                    flexDirection: 'row',
+                    position: 'absolute',
+                    right: 0,
+                },
+
+                footerViewStyle: {
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    paddingTop: appPaddingValues.xxxxs,
+                    backgroundColor: 'transparent',
+                },
+                footerTextStyle: {
+                    color: appColors.secondary,
+                    maxWidth: '60%',
+                    fontFamily: appFonts.semibold,
+                    fontSize: selectDeviceType({ Handset: scale(12, 0) }, scale(16, 0)),
+                    paddingRight: appPaddingValues.xxxs,
+                    lineHeight: appDimensionValues.xs,
+                },
+                comingSoonDateIndicator: {
+                    marginHorizontal: appDimensionValues.xxxlg,
+                    marginTop: scale(-12),
+                    ...appFlexStyles.flexColumnFill,
+                },
             }),
         // eslint-disable-next-line react-hooks/exhaustive-deps
         [resourceCardWidth, aspectRatio, borderRadius, padding, resource.showFooter, resource.layout],
     );
 
-    const cardProps: ResourceCardViewBaseProps<ResourceVm> = React.useMemo(
+    const storeFrontCardProps: ResourceCardViewBaseProps<ResourceVm> = React.useMemo(
         () => ({
+            ...cardProps,
             onResourcePress: onResourcePress,
             tvParallaxProperties: {
                 magnification: 1.0,
@@ -295,61 +283,70 @@ const StorefrontCardView = ({
         [],
     );
 
-    const overlayView = React.useMemo(() => <CardOverlay resource={resource} />, [resource]);
-    const rounderOverlayView = React.useMemo(() => <RoundedCardOverlay resource={resource} />, [resource]);
+    const overlayView = React.useMemo(() => {
+        //console.log("resource.containerName",resource.containerName)
+        if (resource.containerType === 'Collection') {
+            return undefined;
+        } else if (
+            resource.containerName &&
+            (resource.containerName.toLowerCase() === 'trailers' || resource.completedPercent !== undefined)
+        ) {
+            return <CardPlayOverlay isOriginals={resource.isOriginals} isPremium={!resource.isFreeContent} />;
+        } else if (resource.layout === 'banner' || resource.size === 'large') {
+            return <CardOverlay resource={resource} />;
+        } else if (resource.style === 'rounded') {
+            return <RoundedCardOverlay resource={resource} />;
+        } else {
+            return <CardTagsOverlay isOriginals={resource.isOriginals} isPremium={!resource.isFreeContent} />;
+        }
+    }, [resource]);
+
+    const rating = resource.allRatings && Object.values(resource.allRatings);
+
+    const footerViewContinueWatching = <ContentCardFooter resource={resource} rating={rating} />;
+
     const footerView =
-        resource.layout === 'banner' || resource.containerType === 'Collection' ? (
+        resource.completedPercent !== undefined ? (
+            footerViewContinueWatching
+        ) : resource.enableUpcomingTag ||
+          resource.layout === 'banner' ||
+          resource.containerType === 'Collection' ||
+          resource.size === 'large' ? (
             undefined
         ) : (
-            <CardFooter resource={resource} />
+            <ContentCardFooter resource={resource} rating={rating} />
         );
-    let hideGradient: boolean = true;
-    if (route === 'My Content' && Platform.isTV) {
-        hideGradient = false;
-    }
-    return (
-        <>
-            {cardType === 'EmptyCard' ? (
-                <EmptyResourceCardView
-                    resource={resource}
-                    isPortrait={isPortrait}
-                    hideGradient={true}
-                    {...cardProps}
-                    cardStyle={styles}
-                    cardAspectRatio={aspectRatio}
-                    cardImageType={resource.imageType}
-                    overlayView={resource.style === 'rounded' ? rounderOverlayView : overlayView}
-                    footerView={footerView}
-                />
-            ) : (
-                <ResourceCardView
-                    resource={resource}
-                    isPortrait={isPortrait}
-                    hideGradient={hideGradient}
-                    {...cardProps}
-                    cardStyle={styles}
-                    cardAspectRatio={selectDeviceType(
-                        {
-                            Tv: resource.containerName === 'Channels' ? AspectRatio._16by9 : aspectRatio,
-                            Handset: aspectRatio,
-                            Tablet: aspectRatio,
-                        },
-                        aspectRatio,
-                    )}
-                    cardImageType={
-                        Platform.isTV && resource.containerName === 'Channels' ? ImageType.Cover : resource.imageType
-                    }
-                    shiftScrollToFocusIndex={shiftScrollToFocusIndex}
-                    hasTVPreferredFocus={hasTVPreferredFocus}
-                    blockFocusUp={blockFocusUp}
-                    blockFocusDown={blockFocusDown}
-                    blockFocusLeft={blockFocusLeft}
-                    blockFocusRight={blockFocusRight}
-                    overlayView={resource.style === 'rounded' ? rounderOverlayView : overlayView}
-                    footerView={footerView}
-                />
+
+    const comingSoonView = (
+        <View style={{ width: resourceCardWidth }}>
+            {resource.licenseWindowStarTime && isFutureDate(resource.licenseWindowStarTime) && (
+                <View style={[styles.comingSoonDateIndicator]}>
+                    <BlackBgWithBorder
+                        text={getDiffDays(resource.licenseWindowStarTime) + ' ' + strings.coming_soon_subTitle}
+                    />
+                </View>
             )}
-        </>
+
+            <ContentCardFooter resource={resource} rating={rating} />
+        </View>
+    );
+
+    return (
+        <View>
+            <ResourceCardView
+                resource={resource}
+                isPortrait={isPortrait}
+                hideGradient={true}
+                {...storeFrontCardProps}
+                cardWidth={resourceCardWidth}
+                cardStyle={styles}
+                cardAspectRatio={aspectRatio}
+                cardImageType={resource.imageType}
+                overlayView={overlayView}
+                footerView={footerView}
+            />
+            {resource.enableUpcomingTag && comingSoonView}
+        </View>
     );
 };
 

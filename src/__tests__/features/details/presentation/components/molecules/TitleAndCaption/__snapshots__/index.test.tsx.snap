@@ -1,0 +1,241 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`detailsTitleAndCaption render with custom style  1`] = `
+<View
+  collapsable={true}
+  pointerEvents="box-none"
+  style={
+    Object {
+      "flex": 1,
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "padding": 16,
+      }
+    }
+  >
+    <Text
+      ellipsizeMode="tail"
+      numberOfLines={2}
+      style={
+        Array [
+          Object {
+            "fontFamily": "ProximaNova-Black",
+            "fontSize": 40,
+            "fontWeight": "900",
+          },
+          Object {
+            "color": "#ECECEC",
+            "fontFamily": "ProximaNova-Black",
+            "fontSize": 28,
+            "fontWeight": "900",
+            "textTransform": "uppercase",
+          },
+          undefined,
+        ]
+      }
+    >
+      Game of Thrones
+    </Text>
+    <Text
+      style={
+        Array [
+          Object {
+            "fontFamily": "ProximaNova-Regular",
+            "fontSize": 14,
+            "fontWeight": "600",
+          },
+          Object {
+            "color": "#FFFFFF",
+            "fontFamily": "ProximaNova-Semibold",
+            "opacity": 0.3,
+          },
+          Object {
+            "marginTop": 23.314285714285713,
+          },
+        ]
+      }
+    >
+      2011 . 50 Minutes . Drama
+    </Text>
+    <Text
+      style={
+        Array [
+          Object {
+            "fontFamily": "ProximaNova-Regular",
+            "fontSize": 14,
+            "fontWeight": "600",
+          },
+          Object {
+            "color": "#FFFFFF",
+            "fontFamily": "ProximaNova-Semibold",
+            "opacity": 0.3,
+          },
+          undefined,
+        ]
+      }
+    >
+      violence
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`detailsTitleAndCaption render with default style 1`] = `
+<View
+  collapsable={true}
+  pointerEvents="box-none"
+  style={
+    Object {
+      "flex": 1,
+    }
+  }
+>
+  <View>
+    <Text
+      ellipsizeMode="tail"
+      numberOfLines={2}
+      style={
+        Array [
+          Object {
+            "fontFamily": "ProximaNova-Black",
+            "fontSize": 40,
+            "fontWeight": "900",
+          },
+          Object {
+            "color": "#ECECEC",
+            "fontFamily": "ProximaNova-Black",
+            "fontSize": 28,
+            "fontWeight": "900",
+            "textTransform": "uppercase",
+          },
+          undefined,
+        ]
+      }
+    >
+      Game of Thrones
+    </Text>
+    <Text
+      style={
+        Array [
+          Object {
+            "fontFamily": "ProximaNova-Regular",
+            "fontSize": 14,
+            "fontWeight": "600",
+          },
+          Object {
+            "color": "#FFFFFF",
+            "fontFamily": "ProximaNova-Semibold",
+            "opacity": 0.3,
+          },
+          Object {
+            "marginTop": 23.314285714285713,
+          },
+        ]
+      }
+    >
+      2011 . 50 Minutes . Drama
+    </Text>
+    <Text
+      style={
+        Array [
+          Object {
+            "fontFamily": "ProximaNova-Regular",
+            "fontSize": 14,
+            "fontWeight": "600",
+          },
+          Object {
+            "color": "#FFFFFF",
+            "fontFamily": "ProximaNova-Semibold",
+            "opacity": 0.3,
+          },
+          undefined,
+        ]
+      }
+    >
+      violence
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`detailsTitleAndCaption render without series title 1`] = `
+<View
+  collapsable={true}
+  pointerEvents="box-none"
+  style={
+    Object {
+      "flex": 1,
+    }
+  }
+>
+  <View>
+    <Text
+      ellipsizeMode="tail"
+      numberOfLines={2}
+      style={
+        Array [
+          Object {
+            "fontFamily": "ProximaNova-Black",
+            "fontSize": 40,
+            "fontWeight": "900",
+          },
+          Object {
+            "color": "#ECECEC",
+            "fontFamily": "ProximaNova-Black",
+            "fontSize": 28,
+            "fontWeight": "900",
+            "textTransform": "uppercase",
+          },
+          undefined,
+        ]
+      }
+    >
+      Season 1: Winter Is Coming
+    </Text>
+    <Text
+      style={
+        Array [
+          Object {
+            "fontFamily": "ProximaNova-Regular",
+            "fontSize": 14,
+            "fontWeight": "600",
+          },
+          Object {
+            "color": "#FFFFFF",
+            "fontFamily": "ProximaNova-Semibold",
+            "opacity": 0.3,
+          },
+          Object {
+            "marginTop": 23.314285714285713,
+          },
+        ]
+      }
+    >
+      2011 . 50 Minutes . Drama
+    </Text>
+    <Text
+      style={
+        Array [
+          Object {
+            "fontFamily": "ProximaNova-Regular",
+            "fontSize": 14,
+            "fontWeight": "600",
+          },
+          Object {
+            "color": "#FFFFFF",
+            "fontFamily": "ProximaNova-Semibold",
+            "opacity": 0.3,
+          },
+          undefined,
+        ]
+      }
+    >
+      violence
+    </Text>
+  </View>
+</View>
+`;

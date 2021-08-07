@@ -1,0 +1,57 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Page Title.test Page title rendered correctly with style 1`] = `
+<View
+  collapsable={true}
+  pointerEvents="box-none"
+  style={
+    Object {
+      "flex": 1,
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "flex": 1,
+        "marginEnd": 28,
+        "marginStart": 28,
+        "marginTop": 68.48571428571428,
+      }
+    }
+  >
+    <Text
+      style={
+        Array [
+          Object {
+            "fontFamily": "ProximaNova-Black",
+            "fontSize": 44,
+            "fontWeight": "900",
+          },
+          Object {
+            "color": "#ECECEC",
+          },
+        ]
+      }
+    >
+      Menu
+      <Text
+        style={
+          Array [
+            Object {
+              "fontFamily": "ProximaNova-Black",
+              "fontSize": 44,
+              "fontWeight": "900",
+            },
+            Object {
+              "color": "#FF6D2E",
+            },
+          ]
+        }
+      >
+        .
+      </Text>
+    </Text>
+  </View>
+</View>
+`;

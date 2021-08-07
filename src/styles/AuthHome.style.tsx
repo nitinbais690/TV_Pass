@@ -1,8 +1,8 @@
 import React from 'react';
-import { Platform, StyleSheet } from 'react-native';
-import { scale, selectDeviceType } from 'qp-common-ui';
-import { appDimensions, appFonts, appPadding, tvPixelSizeForLayout } from '../../AppStyles';
-import { BrandLogo } from '../screens/components/BrandLogo';
+import { StyleSheet } from 'react-native';
+import { selectDeviceType } from 'qp-common-ui';
+import { appDimensions, appFonts, appPadding } from '../../AppStyles';
+import BrandLogo from 'core/presentation/components/atoms/BrandLogo';
 
 export const carouselSlidePadding = 0;
 
@@ -30,10 +30,11 @@ export const authHomeStyle = ({ appColors, isPortrait }: { appColors: any; isPor
             justifyContent: 'center',
             alignItems: 'center',
         },
-        mainTextContainer: { paddingVertical: 15, width: '100%' },
-        mainTextContainerTV: {
-            width: tvPixelSizeForLayout(1200),
-            flexDirection: 'row',
+        mainTextContainer: {
+            marginBottom: 30,
+            alignItems: 'flex-start',
+            marginHorizontal: 50,
+            width: selectDeviceType({ Tablet: isPortrait ? '80%' : '100%' }, '100%'),
         },
         titleText: {
             color: appColors.brandTint,
@@ -51,21 +52,7 @@ export const authHomeStyle = ({ appColors, isPortrait }: { appColors: any; isPor
         },
         largeText: {
             color: appColors.secondary,
-            ...Platform.select({
-                ios: {
-                    fontSize: selectDeviceType(
-                        { Handset: scale(27, 0), Tablet: scale(40, 0) },
-                        tvPixelSizeForLayout(75),
-                    ),
-                },
-                android: {
-                    fontSize: selectDeviceType(
-                        { Handset: scale(30, 0), Tablet: scale(53, 0) },
-                        tvPixelSizeForLayout(75),
-                    ),
-                },
-            }),
-            fontWeight: '600',
+            fontSize: appFonts.xxlg,
             fontFamily: appFonts.light,
             textAlign: 'left',
         },
@@ -88,13 +75,10 @@ export const authHomeStyle = ({ appColors, isPortrait }: { appColors: any; isPor
             marginTop: 40,
         },
         previewButton: {
-            marginTop: 10,
+            marginTop: 20,
         },
         buttonWrapper: {
-            alignSelf: selectDeviceType({ Tablet: 'center' }, 'stretch'),
-            width: selectDeviceType({ Tablet: 300 }, undefined),
-            marginBottom: Platform.isTV ? tvPixelSizeForLayout(74) : 25,
-            paddingTop: Platform.isTV ? tvPixelSizeForLayout(74) : 50,
+            alignSelf: selectDeviceType({ Tablet: 'auto' }, 'stretch'),
         },
         help: {
             marginHorizontal: appPadding.sm(true),

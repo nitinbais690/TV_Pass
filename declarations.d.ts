@@ -4,3 +4,5 @@ declare module '*.svg' {
     export default content;
 }
 declare module 'rn-qp-nxg-newrelic';
+
+declare module 'country-flags-svg';

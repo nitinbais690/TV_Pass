@@ -1,0 +1,53 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`secondaryButton renders correctly 1`] = `
+<View
+  collapsable={true}
+  pointerEvents="box-none"
+  style={
+    Object {
+      "flex": 1,
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "borderRadius": 3,
+        "flex": 1,
+        "height": 70,
+      }
+    }
+  >
+    <View
+      accessible={true}
+      focusable={true}
+      hasTVPreferredFocus={true}
+      isTVSelectable={true}
+      style={
+        Object {
+          "opacity": 1,
+        }
+      }
+    >
+      <View
+        style={
+          Object {
+            "alignItems": "center",
+            "backgroundColor": "#1A1D1E",
+            "borderColor": "#35393F",
+            "borderRadius": 35,
+            "borderStyle": "solid",
+            "borderWidth": 1.457142857142857,
+            "elevation": 6,
+            "flexDirection": "row",
+            "height": 70,
+            "justifyContent": "center",
+            "padding": 8,
+          }
+        }
+      />
+    </View>
+  </View>
+</View>
+`;

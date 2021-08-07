@@ -62,3 +62,30 @@ export const prettyTime = (time: string): string => {
     let minutesStr = minutes < 10 ? '0' + minutes : minutes;
     return `${hours}:${minutesStr}`;
 };
+
+/*
+ *   To check the given timestamp is future date
+ */
+export function isFutureDate(timeStamp: string) {
+    const currentDate = new Date().getTime();
+    const inputdate = new Date(timeStamp);
+    return currentDate <= inputdate.getTime();
+}
+
+/*
+ *   To get diff days for the given timestamp
+ */
+export function getDiffDays(timeStamp?: string) {
+    if (timeStamp) {
+        const currentDate = new Date().getTime();
+        const inputdate = new Date(timeStamp);
+
+        // To calculate the time difference of two dates
+        var diffInTime = inputdate.getTime() - currentDate;
+
+        // To calculate the no. of days between two dates
+        return Math.round(diffInTime / (1000 * 3600 * 24));
+    } else {
+        return 0;
+    }
+}

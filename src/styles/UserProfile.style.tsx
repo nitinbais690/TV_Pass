@@ -1,5 +1,5 @@
-import { StyleSheet, Platform } from 'react-native';
-import { appFonts, appPadding, tvPixelSizeForLayout } from '../../AppStyles';
+import { StyleSheet } from 'react-native';
+import { appFonts, appPadding } from '../../AppStyles';
 
 export const userProfileStyle = ({ appColors }: any) => {
     return StyleSheet.create({
@@ -19,8 +19,8 @@ export const userProfileStyle = ({ appColors }: any) => {
             color: appColors.caption,
             fontFamily: appFonts.primary,
             fontSize: appFonts.xxs,
-            marginVertical: 10,
-            marginLeft: 20,
+            marginVertical: appPadding.xs(true),
+            marginLeft: appPadding.sm(true),
         },
         text_md: {
             color: appColors.secondary,
@@ -31,8 +31,7 @@ export const userProfileStyle = ({ appColors }: any) => {
         text_xxlg: {
             color: appColors.secondary,
             fontFamily: appFonts.primary,
-            fontSize: Platform.isTV ? tvPixelSizeForLayout(75) : appFonts.xxlg,
-            fontWeight: Platform.isTV ? '600' : undefined,
+            fontSize: appFonts.xxlg,
         },
         text_xlg_header: {
             color: appColors.brandTint,

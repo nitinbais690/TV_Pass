@@ -152,15 +152,10 @@ export const useTVODEntitlement = (contentId?: string): EntitlementResponse => {
     const { fetchCredits } = useCredits();
     const { appConfig } = useAppPreferencesState();
     const { accessToken } = useAuth();
-    const accessTokenRef = useRef(accessToken);
     let { xAuthToken } = useEntitlements();
     const { state: platformState } = useFLPlatform();
     const { platformAuthorizer } = platformState;
     const { query } = useContext(ClientContext);
-
-    useEffect(() => {
-        accessTokenRef.current = accessToken;
-    }, [accessToken]);
 
     const [state, dispatch] = useReducer((prevState, action) => {
         switch (action.type) {
@@ -251,7 +246,7 @@ export const useTVODEntitlement = (contentId?: string): EntitlementResponse => {
             productID: 'TVPASSNRHD',
         });
         const headers = {
-            Authorization: `Bearer ${accessTokenRef.current}`,
+            Authorization: `Bearer ${accessToken}`,
         };
         const action: DiscoveryActionExt = {
             method: 'POST',
@@ -271,7 +266,7 @@ export const useTVODEntitlement = (contentId?: string): EntitlementResponse => {
     };
 
     const redeem = async (resource: ResourceVm): Promise<void> => {
-        if (!appConfig || !accessTokenRef.current || !isMounted.current) {
+        if (!appConfig || !accessToken || !isMounted.current) {
             return;
         }
 
@@ -308,39 +303,48 @@ export const useTVODEntitlement = (contentId?: string): EntitlementResponse => {
             /**
              * Fetch all entitlements for the user
              */
-            const fetchEntitlements = async (assetId: string): Promise<[Entitlement, string]> => {
+            const fetchEntitlements = async (assetId: string): Promise<string> => {
                 const entitlementEndpoint = EvergentEndpoints.GetEntitlements;
-                const body = requestBody(entitlementEndpoint, appConfig, { returnTVOD: 'T', assetID: assetId });
+                // const body = requestBody(entitlementEndpoint, appConfig, { returnTVOD: 'T', assetID: assetId });
                 const headers = {
-                    Authorization: `Bearer ${accessTokenRef.current}`,
+                    'X-Oauth2': `${accessToken}`,
                 };
                 const entitlementsAction: DiscoveryActionExt = {
                     method: 'POST',
-                    endpoint: entitlementEndpoint,
-                    body: body,
+                    endpoint: 'entitledContent/token',
+                    body: {
+                        deviceId: DeviceInfo.getUniqueId(),
+                        contentId: assetId,
+                    },
                     headers: headers,
-                    clientIdentifier: 'ums',
+                    clientIdentifier: 'profile',
                 };
 
                 const { payload } = await query(entitlementsAction);
-                if (isSuccess(entitlementEndpoint, payload)) {
-                    const { AccountServiceMessage, tvodToken } = responsePayload(entitlementEndpoint, payload);
-                    const entitlements = AccountServiceMessage as Entitlement[];
-                    if (entitlements && entitlements.length > 0) {
-                        return [entitlements[0], tvodToken];
-                    }
+
+                if (payload && payload.data) {
+                    const tvodToken = payload.data.token;
+                    return tvodToken;
                 }
+
+                // if (isSuccess(entitlementEndpoint, payload)) {
+                //     const { AccountServiceMessage, tvodToken } = responsePayload(entitlementEndpoint, payload);
+                //     const entitlements = AccountServiceMessage as Entitlement[];
+                //     if (entitlements && entitlements.length > 0) {
+                //         return [entitlements[0], tvodToken];
+                //     }
+                // }
                 console.log(`[useTVODEntitlement] ${assetId} is not entitled`);
                 throw createError(errorCode(entitlementEndpoint, payload));
             };
 
             const handleTVODCheck = async (assetId: string) => {
                 try {
-                    const [entitlement, tvodToken] = await fetchEntitlements(assetId);
+                    const tvodToken = await fetchEntitlements(assetId);
                     if (isMounted.current) {
                         dispatch({
                             type: 'SET_ENTITLEMENT',
-                            value: { entitlement: entitlement, tvodToken: tvodToken },
+                            value: { tvodToken: tvodToken },
                         });
                     }
                 } catch (e) {
@@ -351,7 +355,7 @@ export const useTVODEntitlement = (contentId?: string): EntitlementResponse => {
                 }
             };
 
-            if (!contentId || !appConfig || !accessTokenRef.current) {
+            if (!contentId || !appConfig || !accessToken) {
                 return;
             }
 

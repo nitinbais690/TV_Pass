@@ -59,12 +59,10 @@ export const useFetchContainerQuery = (
         const containers =
             (payload &&
                 payload.data &&
-                payload.data
-                    .map(container => {
-                        return containerAdapter(container, storefrontId, tabId, tabName, ScreenOrigin.BROWSE);
-                    })
-                    // Note: Removing Personalized containers for now
-                    .filter(c => c.resources && c.resources.length > 0)) ||
+                payload.data.map(container => {
+                    return containerAdapter(container, storefrontId, tabId, tabName, ScreenOrigin.BROWSE);
+                })) ||
+            // Note: Removing Personalized containers for now
             [];
 
         const totalContainers = (payload && payload.header && payload.header.count) || 0;

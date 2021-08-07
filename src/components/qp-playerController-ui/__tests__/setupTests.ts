@@ -12,9 +12,3 @@ jest.mock('rn-qp-nxg-player', () => {
         platformErrorFrom: jest.fn(),
     };
 });
-
-jest.mock('react-native-google-cast', () => {
-    return {
-        CastButton: View,
-    };
-});

@@ -1,29 +1,23 @@
 import React, { useEffect, useState, useRef, useImperativeHandle } from 'react';
 import { View, StyleSheet, Text, Animated, Easing } from 'react-native';
 import { useSafeArea } from 'react-native-safe-area-context';
-import { useNavigation } from '@react-navigation/native';
 import { useDimensions } from '@react-native-community/hooks';
 import { BorderlessButton } from 'react-native-gesture-handler';
-import { selectDeviceType } from 'qp-common-ui';
 import { useAppPreferencesState } from 'utils/AppPreferencesContext';
 import { useLocalization } from 'contexts/LocalizationContext';
 import { useAlert } from 'contexts/AlertContext';
 import StorefrontCardView from './StorefrontCardView';
 import CloseIcon from '../../../assets/images/close.svg';
 import { appFonts } from '../../../AppStyles';
-import { CreditsButton } from './CreditsButton';
-import { NAVIGATION_TYPE } from '../Navigation/NavigationConstants';
 import { useTVODEntitlement } from 'screens/hooks/useTVODEntitlement';
 import { PlayerProps } from 'screens/hooks/usePlayerConfig';
 import { useUpNextRecommendations } from 'screens/hooks/useUpNextRecommendations';
 import { ResourceVm } from 'qp-discovery-ui';
 import AppLoadingIndicator from './AppLoadingIndicator';
-import { useCredits } from 'utils/CreditsContextProvider';
 
 export interface UpNextOverlayProps {
     resource: ResourceVm;
     onUpNextSelected: (props: PlayerProps) => void;
-    onOverlayClose: () => void;
 }
 
 export type UpNextOverlayActions = {
@@ -32,9 +26,7 @@ export type UpNextOverlayActions = {
 };
 
 const UpNextOverlay = React.forwardRef<UpNextOverlayActions, UpNextOverlayProps>(
-    ({ resource, onUpNextSelected, onOverlayClose }, ref) => {
-        const navigation = useNavigation();
-        const { credits } = useCredits();
+    ({ resource, onUpNextSelected }, ref) => {
         const prefs = useAppPreferencesState();
         const insets = useSafeArea();
         const { Alert } = useAlert();
@@ -42,7 +34,7 @@ const UpNextOverlay = React.forwardRef<UpNextOverlayActions, UpNextOverlayProps>
         const [shown, setShown] = useState<boolean>(false);
         const selectedItem = useRef<ResourceVm | undefined>(undefined);
         const { width, height } = useDimensions().window;
-        const { upNext, somethingNew } = useUpNextRecommendations(resource);
+        const { upNext } = useUpNextRecommendations(resource);
         const top = useRef(new Animated.Value(shown ? 0 : height)).current;
         const opacity = useRef(new Animated.Value(shown ? 1 : 0)).current;
         let { appColors } = prefs.appTheme!(prefs);
@@ -159,12 +151,6 @@ const UpNextOverlay = React.forwardRef<UpNextOverlayActions, UpNextOverlayProps>
         }, [tvodToken, redeemError]);
 
         const onResourcePress = (res: ResourceVm) => {
-            // if user has no remaining credits or not enough credits, open credits screen
-            if (res.credits && credits && res.credits > credits && res.expiresIn === undefined) {
-                navigation.navigate(NAVIGATION_TYPE.CREDITS);
-                return;
-            }
-
             if (res.expiresIn === undefined) {
                 selectedItem.current = res;
                 redeem(res);
@@ -178,17 +164,11 @@ const UpNextOverlay = React.forwardRef<UpNextOverlayActions, UpNextOverlayProps>
 
         const onClose = () => {
             hideOverlay();
-            onOverlayClose();
         };
-
-        const cardsPreview = selectDeviceType({ Tablet: isPortrait ? 4.2 : 4 }, 3.2);
 
         return (
             <Animated.View style={[StyleSheet.absoluteFillObject, styles.content, { top }]} ref={viewRef}>
                 <BorderlessButton style={StyleSheet.absoluteFillObject} onPress={onClose} />
-                <View style={styles.creditsButton}>
-                    <CreditsButton onPress={() => navigation.navigate(NAVIGATION_TYPE.CREDITS)} />
-                </View>
                 {upNext && (
                     <View style={styles.cardWrapper}>
                         <Text style={styles.title}>{strings['recommendations.up_next']}</Text>
@@ -196,21 +176,21 @@ const UpNextOverlay = React.forwardRef<UpNextOverlayActions, UpNextOverlayProps>
                             resource={upNext}
                             onResourcePress={onResourcePress}
                             isPortrait={isPortrait}
-                            cardsPreview={cardsPreview}
+                            cardsPreview={5}
                         />
                     </View>
                 )}
-                {somethingNew && (
+                {/* {somethingNew && (
                     <View style={styles.cardWrapper}>
                         <Text style={styles.title}>{strings['recommendations.something_new']}</Text>
                         <StorefrontCardView
                             resource={somethingNew}
                             onResourcePress={onResourcePress}
                             isPortrait={isPortrait}
-                            cardsPreview={cardsPreview}
+                            cardsPreview={5}
                         />
                     </View>
-                )}
+                )} */}
                 {isRedeeming && (
                     <View style={styles.loader}>
                         <AppLoadingIndicator />

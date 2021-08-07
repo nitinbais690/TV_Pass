@@ -1,5 +1,5 @@
 module.exports = {
-    preset: 'react-native',
+    preset: '@testing-library/react-native',
     clearMocks: true,
     moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
     transformIgnorePatterns: [
@@ -17,7 +17,6 @@ module.exports = {
         '^src/(.*)$': '<rootDir>/src/$1',
         '\\.svg': '<rootDir>/src/__mocks__/svgMock.js',
     },
-    setupFiles: ['./node_modules/react-native-gesture-handler/jestSetup.js'],
     setupFilesAfterEnv: [
         './src/components/qp-discovery-ui/__tests__/setupTests.ts',
         './setupJest.ts',

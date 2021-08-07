@@ -10,3 +10,5 @@ const PLAYER_STATES = {
     REWIND: 8,
 };
 export default PLAYER_STATES;
+
+export const FORWORD_BACKWORD_TIME = 10000;

@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
-import { View, StyleSheet, Animated, LayoutAnimation, Platform } from 'react-native';
+import { View, StyleSheet, Platform, Animated, Easing, UIManager } from 'react-native';
+import RNSplashScreen from 'react-native-splash-screen';
 import { useLocalization } from 'contexts/LocalizationContext';
 import { useAlert } from 'contexts/AlertContext';
 import { useAppPreferencesState } from 'utils/AppPreferencesContext';
@@ -7,9 +8,13 @@ import { useAnalytics } from 'utils/AnalyticsReporterContext';
 import { condenseErrorObject, ErrorEvents } from 'utils/ReportingUtils';
 import { TimerType, useTimer } from 'utils/TimerContext';
 import { useAppState } from 'utils/AppContextProvider';
-import BackgroundGradient from 'screens/components/BackgroundGradient';
-import SplashScreenm from 'react-native-splash-screen';
-import Video from 'react-native-video';
+import BackgroundGradient from 'core/presentation/components/atoms/BackgroundGradient';
+
+if (Platform.OS === 'android') {
+    if (UIManager.setLayoutAnimationEnabledExperimental) {
+        UIManager.setLayoutAnimationEnabledExperimental(true);
+    }
+}
 
 const SplashScreen = (): JSX.Element => {
     const { splashLoaded } = useAppState();
@@ -19,25 +24,47 @@ const SplashScreen = (): JSX.Element => {
     const { error, retry, appConfig } = prefs;
     const { recordErrorEvent } = useAnalytics();
     const { stopTimer } = useTimer();
-    const opacity = useRef(new Animated.Value(0)).current;
-    const backgroundOpacity = opacity.interpolate({
+
+    const animatedValue = useRef(new Animated.Value(0)).current;
+    const backgroundOpacity = animatedValue.interpolate({
         inputRange: [0, 1],
         outputRange: [0, 1],
     });
 
-    useEffect(() => {
-        // const RNSplashScreen = require('react-native-splash-screen');
-        SplashScreenm.hide();
-        //if (Platform.OS === 'ios' && Platform.isTVOS) {
-        // splashLoaded();
-        //}
+    const animatedLogoStyle = {
+        opacity: animatedValue.interpolate({
+            inputRange: [0, 1],
+            outputRange: [0, 1],
+        }),
+        transform: [
+            {
+                scaleX: animatedValue.interpolate({
+                    inputRange: [0, 1],
+                    outputRange: [1, 3],
+                }),
+            },
+            {
+                scaleY: animatedValue.interpolate({
+                    inputRange: [0, 1],
+                    outputRange: [1, 3],
+                }),
+            },
+        ],
+    };
 
-        Animated.timing(opacity, {
-            delay: 2000,
+    useEffect(() => {
+        if (!(Platform.OS === 'ios' && Platform.isTVOS)) {
+            RNSplashScreen.hide();
+        }
+
+        Animated.timing(animatedValue, {
+            delay: 300,
             toValue: 1,
-            duration: 3000,
+            duration: 1500,
             useNativeDriver: true,
-        }).start();
+            easing: Easing.elastic(1),
+        }).start(() => splashLoaded());
+
         return () => {
             stopTimer(TimerType.Splash);
         };
@@ -60,12 +87,9 @@ const SplashScreen = (): JSX.Element => {
             width: '100%',
             aspectRatio: 1.488,
         },
-        videoStyle: {
-            height: 1,
-            width: 1,
-        },
         loading: { justifyContent: 'center', position: 'absolute', top: '8%' },
     });
+
     useEffect(() => {
         if (error) {
             recordErrorEvent(ErrorEvents.SPLASH_ERROR, condenseErrorObject(error));
@@ -81,44 +105,21 @@ const SplashScreen = (): JSX.Element => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [error, retry, strings]);
 
-    const renderSplash = () => {
-        const LottieView = require('lottie-react-native');
-        return (
-            <LottieView
-                source={require('../../assets/animations/Struum_LogoBuild.json')}
-                autoPlay
-                loop={false}
-                onAnimationFinish={() => {
-                    LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
-                    splashLoaded();
-                }}
-            />
-        );
-    };
-
-    const renderAudio = () => {
-        return (
-            <Video
-                source={require('../../assets/audio/struum_intro_tv.mp3')} // Can be a URL or a local file.
-                audioOnly={true}
-                repeat={false}
-                shouldPlay={true}
-                onError={e => {
-                    console.log('splash intro sound error ' + e);
-                }} // Callback when video cannot be loaded
-                style={style.videoStyle}
-            />
-        );
-    };
+    const logoSource = require('../../assets/images/aha_logo.png');
 
     return (
         <View style={style.logoContainer}>
             <Animated.View style={[StyleSheet.absoluteFillObject, { opacity: backgroundOpacity }]}>
                 <BackgroundGradient style={[style.container]} insetHeader={false} />
             </Animated.View>
-            {appConfig && renderSplash()}
-            {appConfig && Platform.isTV && renderAudio()}
+            {appConfig && (
+                <Animated.Image
+                    source={logoSource}
+                    style={[{ width: 70, height: 32, resizeMode: 'contain' }, animatedLogoStyle]}
+                />
+            )}
         </View>
     );
 };
+
 export default React.memo(SplashScreen, () => true);

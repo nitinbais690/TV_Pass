@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useDimensions } from '@react-native-community/hooks';
 import { useAppPreferencesState } from 'utils/AppPreferencesContext';
-import { Text, View } from 'react-native';
+import { Text, View, KeyboardAvoidingView, Platform } from 'react-native';
 import { fpResetValidate } from 'helper/validateRules';
 import useForm from 'helper/useForm';
 import { formStyle } from 'styles/Common.style';
@@ -11,7 +11,7 @@ import Button from 'screens/components/Button';
 import { NAVIGATION_TYPE } from 'screens/Navigation/NavigationConstants';
 import PasswordStrengthMeter, { getPasswordScore } from 'screens/components/PasswordStrengthMeter';
 import useFP from 'utils/useFP';
-import BackgroundGradient from 'screens/components/BackgroundGradient';
+import BackgroundGradient from 'core/presentation/components/atoms/BackgroundGradient';
 import FloatingLabelInput, { InputType } from '../../components/FloatingLabelInput';
 
 const initialValues = {
@@ -115,45 +115,49 @@ const ForgotPasswordResetScreen = ({ route, navigation }: { route: any; navigati
     }
     const passwordScore = getPasswordScore(values.newPassword);
     return (
-        <BackgroundGradient>
-            <View style={formStyles.container}>
-                <View style={formStyles.formContainer}>
-                    <View style={formStyles.formGroup}>
-                        <View style={formStyles.inputLabel}>
-                            <Text style={formStyles.inputLabelText}>{strings['auth.new_password_label']}</Text>
+        <KeyboardAvoidingView
+            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+            style={formStyles.keyboardAvoidView}>
+            <BackgroundGradient>
+                <View style={formStyles.container}>
+                    <View style={formStyles.formContainer}>
+                        <View style={formStyles.formGroup}>
+                            <View style={formStyles.inputLabel}>
+                                <Text style={formStyles.inputLabelText}>{strings['auth.new_password_label']}</Text>
+                            </View>
+                            <FloatingLabelInput
+                                inputType={InputType.password}
+                                label={strings['auth.password_label']}
+                                value={values.newPassword}
+                                onChangeText={value => handleChange({ name: 'newPassword', value })}
+                            />
                         </View>
-                        <FloatingLabelInput
-                            inputType={InputType.password}
-                            label={strings['auth.password_label']}
-                            value={values.newPassword}
-                            onChangeText={value => handleChange({ name: 'newPassword', value })}
-                        />
-                    </View>
-                    <PasswordStrengthMeter password={values.newPassword} />
-                    <View style={formStyles.formGroup}>
-                        <View style={formStyles.inputLabel}>
-                            <Text style={formStyles.inputLabelText}>{strings['auth.confirm_password_label']}</Text>
+                        <PasswordStrengthMeter password={values.newPassword} />
+                        <View style={formStyles.formGroup}>
+                            <View style={formStyles.inputLabel}>
+                                <Text style={formStyles.inputLabelText}>{strings['auth.confirm_password_label']}</Text>
+                            </View>
+                            <FloatingLabelInput
+                                inputType={InputType.password}
+                                label={strings['auth.confirm_password_label']}
+                                value={values.confirmPassword}
+                                onChangeText={value => handleChange({ name: 'confirmPassword', value })}
+                            />
                         </View>
-                        <FloatingLabelInput
-                            inputType={InputType.password}
-                            label={strings['auth.confirm_password_label']}
-                            value={values.confirmPassword}
-                            onChangeText={value => handleChange({ name: 'confirmPassword', value })}
-                        />
-                    </View>
-                    <View style={formStyles.buttonContainer}>
-                        <Button
-                            disabled={
-                                !values.email || !values.newPassword || !values.confirmPassword || passwordScore < 3
-                            }
-                            title={strings['fp.btn_label']}
-                            onPress={() => handleFormSubmit()}
-                            loading={isSubmitLoading}
-                        />
+                        <View style={formStyles.buttonContainer}>
+                            <Button
+                                disabled={
+                                    !values.email || !values.newPassword || !values.confirmPassword || passwordScore < 3
+                                }
+                                title={strings['fp.btn_label']}
+                                onPress={() => handleFormSubmit()}
+                                loading={isSubmitLoading}
+                            />
+                        </View>
                     </View>
                 </View>
-            </View>
-        </BackgroundGradient>
+            </BackgroundGradient>
+        </KeyboardAvoidingView>
     );
 };
 export default ForgotPasswordResetScreen;

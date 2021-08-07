@@ -1,50 +1,44 @@
-import React from 'react';
-import {
-    RefreshControl,
-    ActivityIndicator,
-    StyleSheet,
-    Animated,
-    NativeScrollEvent,
-    NativeSyntheticEvent,
-    Platform,
-    StyleProp,
-    ViewStyle,
-} from 'react-native';
-import { useNavigation, useRoute } from '@react-navigation/native';
+import React, { useState, useEffect } from 'react';
+import { RefreshControl, ActivityIndicator, StyleSheet, Animated, View, Platform } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import { BottomTabBarHeightContext } from '@react-navigation/bottom-tabs';
 import { useDimensions } from '@react-native-community/hooks';
-import { ResourceVm, DiscoveryCatalog, ContainerHookResponse, ContainerVm } from 'qp-discovery-ui';
+import {
+    ResourceVm,
+    DiscoveryCatalog,
+    ContainerHookResponse,
+    ContainerVm,
+    ResourceCardViewBaseProps,
+} from 'qp-discovery-ui';
 import { selectDeviceType } from 'qp-common-ui';
 import { useAppPreferencesState } from 'utils/AppPreferencesContext';
-import { appDimensions, appPadding, appFonts } from '../../../AppStyles';
 import { NAVIGATION_TYPE } from '../Navigation/NavigationConstants';
 import StorefrontCardView, { carouselCardWidth } from './StorefrontCardView';
 import AppErrorComponent from 'utils/AppErrorComponent';
-import SkeletonCatalog, { SkeletonCatalogType } from './loading/SkeletonCatalog';
-// import BackgroundGradient from './BackgroundGradient';
-import { useHeaderTabBarHeight } from 'screens/components/HeaderTabBar';
-import { usePageLoadAnimation } from 'screens/hooks/usePageLoadAnimation';
 import { useHeader } from 'contexts/HeaderContextProvider';
-import AppLoadingIndicator from './AppLoadingIndicator';
-import { useAnalytics } from 'utils/AnalyticsReporterContext';
-import { AppEvents, condenseViewAllData } from 'utils/ReportingUtils';
+import SkeletonCatalog, { SkeletonCatalogType } from './loading/SkeletonCatalog';
+import { usePageLoadAnimation } from 'screens/hooks/usePageLoadAnimation';
+import {
+    appDimensions,
+    appDimensionValues,
+    appPadding,
+    appFontStyle,
+    appPaddingValues,
+    appFonts,
+} from 'core/styles/AppStyles';
+import DetailPopup from 'features/details/presentation/components/template/DetailPopupScreen';
+import { useFetchContinueWatching } from 'screens/hooks/useFetchContinueWatching';
+import { cardAspectRatio, cardWidth } from 'core/utils/CardSize';
 
 interface StorefrontCatalogProps extends ContainerHookResponse {
     loadingType?: SkeletonCatalogType;
     showPageAnimation?: boolean;
-    contentTabName?: string;
-    scrollY?: Animated.AnimatedValue;
-    onTvScroll?: (event: NativeSyntheticEvent<NativeScrollEvent>) => void;
-    containerStyle?: StyleProp<ViewStyle>;
-    isCardCustomSpacing?: boolean | undefined;
-    blockFocusUpListReachedEnd?: boolean | undefined;
-    blockFocusDownListReachedEnd?: boolean | undefined;
-    blockFocusLeftListReachedEnd?: boolean | undefined;
-    blockFocusRightListReachedEnd?: boolean | undefined;
-    hasTVPreferredFocus?: boolean | undefined;
-    initialHasTVPreferredFocusOnCarousel?: boolean;
-    onSetInitialFocus?: any;
-    cardType?: string;
+}
+
+interface FocusedResource {
+    resource: ResourceVm;
+    hasFocus: boolean;
+    index?: number;
 }
 
 const StorefrontCatalog = ({
@@ -58,44 +52,49 @@ const StorefrontCatalog = ({
     loadMore,
     loadMoreResources,
     loadingType,
-    contentTabName,
     showPageAnimation = false,
-    // scrollY,
-    onTvScroll,
-    containerStyle,
-    isCardCustomSpacing,
-    blockFocusUpListReachedEnd,
-    blockFocusDownListReachedEnd,
-    blockFocusLeftListReachedEnd,
-    blockFocusRightListReachedEnd,
-    hasTVPreferredFocus,
-    initialHasTVPreferredFocusOnCarousel,
-    onSetInitialFocus,
-    cardType = '',
 }: StorefrontCatalogProps) => {
     const { width, height } = useDimensions().window;
     const navigation = useNavigation();
-    const route = useRoute();
     const prefs = useAppPreferencesState();
-    const headerHeight = useHeaderTabBarHeight();
     const { onScroll } = useHeader();
     const { appTheme, catalogCardsPreview, appConfig } = prefs;
     let { appColors } = appTheme!(prefs);
-    // const onScrollAnimatedHeader = Animated.event(
-    //     [
-    //         {
-    //             nativeEvent: {
-    //                 contentOffset: {
-    //                     y: scrollY,
-    //                 },
-    //             },
-    //         },
-    //     ],
-    //     { useNativeDriver: true },
-    // );
+    const listPaddingLeft = appPaddingValues.sm;
+    const [detailModelResource, setDetailModelResource] = useState({});
 
-    // const onScrollHeader = scrollY ? onScrollAnimatedHeader : onScroll;
-    const { recordEvent } = useAnalytics();
+    const { continueWatchingContainer } = useFetchContinueWatching();
+    const [updatedContainers, setUpdatedContainers] = useState<ContainerVm[]>([]);
+    const [focusedContainer, setFocusedContainer] = useState<ContainerVm>();
+    const [focusedResource, setFocusedResource] = useState<FocusedResource>();
+
+    useEffect(() => {
+        let updatedContainer = [];
+        containers.forEach(container => {
+            if (container.soureType === 'continue_watching') {
+                if (continueWatchingContainer) {
+                    updatedContainer.push(continueWatchingContainer);
+                }
+            } else {
+                updatedContainer.push(container);
+            }
+
+            if (appConfig && container && container.resources && container.resources.length > 0) {
+                const firstResource = container.resources[0];
+                container.cardWidth = cardWidth(isPortrait, catalogCardsPreview, appConfig, firstResource);
+                container.cardAspectRatio = cardAspectRatio(
+                    isPortrait,
+                    appConfig,
+                    firstResource.layout,
+                    firstResource.aspectRatio,
+                );
+            }
+        });
+
+        setUpdatedContainers(updatedContainer);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [containers, continueWatchingContainer]);
+
     const isPortrait = height > width;
     const [bannerCarouselWidth, bannerCarouselAspectRatio] = carouselCardWidth(
         isPortrait,
@@ -106,50 +105,36 @@ const StorefrontCatalog = ({
 
     const animatedStyle = usePageLoadAnimation(true, true);
 
-    const wrapperContainerStyle = React.useMemo(
-        () =>
-            StyleSheet.create({
-                container: {
-                    paddingTop: Platform.isTV ? 0 : headerHeight,
-                    paddingBottom: tabBarHeight + 15,
-                    marginLeft: 0,
-                },
-            }),
-        [headerHeight, tabBarHeight],
-    );
+    const wrapperContainerStyle = StyleSheet.create({
+        container: {
+            paddingBottom: tabBarHeight + 15,
+            marginLeft: 0,
+        },
+    });
 
-    const listContainerStyle = React.useMemo(
-        () =>
-            StyleSheet.create({
-                container: {
-                    marginTop: 0,
-                    marginBottom: 5,
-                    marginRight: appPadding.xxs(true),
-                    paddingLeft: Platform.isTV ? appPadding.lg(true) : appPadding.sm(true),
-                    paddingRight: appPadding.xs(true),
-                    zIndex: 5,
-                },
-            }),
-        [],
-    );
+    const listContainerStyle = StyleSheet.create({
+        container: {
+            marginTop: 0,
+            marginBottom: 5,
+            marginRight: appPaddingValues.xxs,
+            paddingLeft: Platform.isTV ? listPaddingLeft : appPaddingValues.sm,
+            paddingRight: appPaddingValues.xs,
+        },
+    });
 
     const sectionHeaderStyle = React.useMemo(
         () =>
             StyleSheet.create({
                 sectionHeader: {
-                    fontSize: Platform.isTV ? appFonts.xlg : appFonts.xs,
-                    fontFamily: appFonts.medium,
-                    fontWeight: undefined,
-                    marginTop: selectDeviceType({ Handset: appPadding.md(), Tv: appPadding.xxs() }, appPadding.xs()),
-                    marginLeft: 0,
-                    paddingBottom: selectDeviceType({ Handset: 10, Tv: 0 }, 15),
-                    paddingLeft: Platform.isTV ? appPadding.lg(true) : appPadding.sm(true),
-                    color: appColors.tertiary,
-                    textAlign: 'left',
-                    textTransform: 'none',
+                    ...appFontStyle.body3,
+                    fontFamily: appFonts.semibold,
+                    lineHeight: appDimensionValues.xs,
+                    color: appColors.secondary,
+                    paddingLeft: appPadding.xs(true),
+                    paddingBottom: appPaddingValues.xxs,
                 },
             }),
-        [appColors.tertiary],
+        [appColors.secondary],
     );
 
     const carouselAspectRatio = bannerCarouselAspectRatio || appDimensions.carouselAspectRatio;
@@ -159,7 +144,7 @@ const StorefrontCatalog = ({
             cardAspectRatio: carouselAspectRatio,
             autoplay: true,
             loop: true,
-            showCarousalIndicator: false,
+            showCarousalIndicator: true,
             isPortrait: isPortrait,
             carouselCardWidth: bannerCarouselWidth,
             viewScrollOffset: appPadding.sm(true),
@@ -175,60 +160,92 @@ const StorefrontCatalog = ({
                     position: 'absolute',
                 },
                 pageStyle: {
-                    width: 6,
-                    height: 6,
-                    borderRadius: 6,
-                    backgroundColor: '#FFFFFF4A',
-                    marginHorizontal: 6,
+                    width: appDimensionValues.xxxs,
+                    height: appDimensionValues.xxxs,
+                    borderRadius: appDimensionValues.xxxs,
+                    backgroundColor: '#FFFFFF3A',
+                    marginHorizontal: appDimensionValues.xxxxs,
                 },
                 activePageStyle: {
-                    width: 10,
-                    height: 10,
-                    borderRadius: 10,
-                    backgroundColor: '#FFFFFF',
-                    marginHorizontal: 5,
+                    width: appDimensionValues.xxxs,
+                    height: appDimensionValues.xxxs,
+                    borderRadius: appDimensionValues.xxxs,
+                    backgroundColor: '#FFFFFF6A',
+                    marginHorizontal: appDimensionValues.xxxxs,
                 },
             },
         }),
         [bannerCarouselWidth, carouselAspectRatio, isPortrait],
     );
+
+    const onFocusChange = (resource: ResourceVm, hasFocus: boolean, index?: number) => {
+        let currentFocusResource: FocusedResource = {
+            resource: resource,
+            hasFocus: hasFocus,
+            index: index,
+        };
+
+        setFocusedResource(currentFocusResource);
+    };
+
+    useEffect(() => {
+        if (focusedResource && Platform.isTV) {
+            const resource = focusedResource.resource;
+            if (resource.layout === 'banner') {
+                setFocusedContainer(undefined);
+                return;
+            }
+            if (focusedResource.hasFocus) {
+                if (focusedContainer && resource.containerId === focusedContainer.id) {
+                    scrollToFocusItem();
+                } else {
+                    updatedContainers.forEach(container => {
+                        if (container && container.id === resource.containerId) {
+                            setFocusedContainer(container);
+                            scrollToFocusItem();
+                        }
+                    });
+                }
+            }
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [focusedResource]);
+
+    const storeFrontCardProps: ResourceCardViewBaseProps<ResourceVm> = React.useMemo(
+        () => ({
+            onFocusChange: onFocusChange,
+        }),
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        [],
+    );
+
     const customRenderResource = React.useCallback(
-        ({
-            item,
-            index,
-            containerIndex,
-            shiftScrollToFocusIndex,
-        }: {
-            item: ResourceVm;
-            index: number;
-            containerIndex?: number;
-            shiftScrollToFocusIndex?: (index: number) => void;
-        }): JSX.Element => {
+        ({ item, index }: { item: ResourceVm; index: number }): JSX.Element => {
             const onResourcePress = (resource: ResourceVm) => {
-                if (item.type && item.type === 'viewall') {
-                    navigation.navigate(NAVIGATION_TYPE.STOREFRONT_VIEWALL_TV, {
-                        contentUrl: item.contentUrl,
-                        title: item.title,
+                let screenName = NAVIGATION_TYPE.CONTENT_DETAILS;
+                if (resource.containerType === 'Collection') {
+                    screenName =
+                        resource.collectionLayout === 'grid'
+                            ? NAVIGATION_TYPE.COLLECTIONS_GRID
+                            : NAVIGATION_TYPE.COLLECTIONS;
+                } else if (resource.watchedOffset !== undefined) {
+                    // continue watching
+                    screenName = NAVIGATION_TYPE.PLAYER;
+                }
+
+                if (screenName === NAVIGATION_TYPE.CONTENT_DETAILS) {
+                    setDetailModelResource({
+                        resource: resource,
+                        title: resource.name,
+                        resourceId: resource.id,
+                        resourceType: resource.type,
                     });
                 } else {
-                    let screenName = NAVIGATION_TYPE.CONTENT_DETAILS;
-
-                    if (resource.containerType === 'Collection') {
-                        screenName =
-                            resource.collectionLayout === 'grid'
-                                ? NAVIGATION_TYPE.COLLECTIONS_GRID
-                                : NAVIGATION_TYPE.COLLECTIONS;
-                    } else if (resource.watchedOffset !== undefined) {
-                        // continue watching
-                        screenName = NAVIGATION_TYPE.PLAYER;
-                    }
                     navigation.navigate(screenName, {
                         resource: resource,
                         title: resource.name,
                         resourceId: resource.id,
                         resourceType: resource.type,
-                        contentTabName: contentTabName ? contentTabName : undefined,
-                        isCardCustomSpacing: Platform.isTV,
                     });
                 }
             };
@@ -236,64 +253,43 @@ const StorefrontCatalog = ({
             return (
                 <StorefrontCardView
                     resource={item}
-                    route={route.name}
-                    blockFocusLeft={blockFocusLeftListReachedEnd && index === 0}
-                    hasTVPreferredFocus={isCardCustomSpacing && index === 0 && containerIndex === 0}
-                    blockFocusRight={
-                        blockFocusRightListReachedEnd &&
-                        containers &&
-                        containers[containerIndex].resources &&
-                        index === containers[containerIndex].resources.length - 1
-                    }
-                    blockFocusDown={
-                        blockFocusDownListReachedEnd && containers && containers.length - 1 === containerIndex
-                    }
-                    blockFocusUp={blockFocusUpListReachedEnd && containers && containerIndex === 0}
                     isPortrait={isPortrait}
                     onResourcePress={onResourcePress}
-                    shiftScrollToFocusIndex={() => shiftScrollToFocusIndex && shiftScrollToFocusIndex(index)}
-                    isCardCustomSpacing={isCardCustomSpacing}
-                    cardType={cardType}
+                    cardProps={{
+                        ...storeFrontCardProps,
+                        resourceIndex: index,
+                        isShowTVFocus: Platform.isTV && item.layout === 'banner',
+                    }}
                 />
             );
         },
         // eslint-disable-next-line react-hooks/exhaustive-deps
-        [
-            route.name,
-            blockFocusLeftListReachedEnd,
-            isCardCustomSpacing,
-            blockFocusRightListReachedEnd,
-            containers,
-            blockFocusDownListReachedEnd,
-            blockFocusUpListReachedEnd,
-            isPortrait,
-            cardType,
-            navigation,
-            contentTabName,
-        ],
+        [isPortrait, navigation, storeFrontCardProps],
     );
+
+    const onModelClosed = () => {
+        setDetailModelResource({});
+    };
+
+    const scrollToFocusItem = () => {
+        if (
+            focusedContainer &&
+            focusedResource &&
+            focusedResource.index !== undefined &&
+            focusedResource.index !== null
+        ) {
+            focusedContainer.containerListRef &&
+                focusedContainer.containerListRef.scrollToIndex({
+                    animated: true,
+                    index: focusedResource.index,
+                    viewOffset: listPaddingLeft,
+                });
+        }
+    };
 
     const LoadingComponent = React.useMemo(() => <ActivityIndicator color={appColors.brandTint} size="small" />, [
         appColors.brandTint,
     ]);
-
-    const ViewAllComponent = (containerItem: ContainerVm) => {
-        const onResourcePress = () => {
-            recordEvent(AppEvents.VIEW_ALL, condenseViewAllData(containerItem));
-            navigation.navigate(NAVIGATION_TYPE.STOREFRONT_VIEWALL_TV, {
-                contentUrl: containerItem.contentUrl,
-                title: containerItem.name,
-            });
-        };
-
-        return (
-            <StorefrontCardView
-                resource={{ type: 'viewall', aspectRatio: containerItem.aspectRatio }}
-                isPortrait={isPortrait}
-                onResourcePress={onResourcePress}
-            />
-        );
-    };
 
     const refreshControl = React.useMemo(
         () => (
@@ -329,42 +325,37 @@ const StorefrontCatalog = ({
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [hasMore, pageOffset]);
+
     return (
-        <>
+        <View>
             {/* Loading State */}
-            {loading && !Platform.isTV ? (
+            {loading && (
                 <Animated.View style={showPageAnimation ? animatedStyle : {}}>
                     <SkeletonCatalog type={loadingType} />
                 </Animated.View>
-            ) : loading ? (
-                <AppLoadingIndicator />
-            ) : null}
+            )}
 
             {/* Content Render State */}
-            {containers.length > 0 && (
+            {updatedContainers.length > 0 && (
                 <DiscoveryCatalog
-                    route={route.name}
-                    containers={containers}
+                    containers={updatedContainers}
                     isPortrait={isPortrait}
                     carouselCardWidth={bannerCarouselWidth}
                     numColumns={1}
                     bannerProps={bannerProps}
                     renderResource={customRenderResource}
-                    hasTVPreferredFocus={hasTVPreferredFocus}
                     sectionHeaderStyle={sectionHeaderStyle.sectionHeader}
-                    initialHasTVPreferredFocusOnCarousel={initialHasTVPreferredFocusOnCarousel}
                     initialNumOfContainersToRender={5}
-                    contentContainerStyle={containerStyle ? containerStyle : wrapperContainerStyle.container}
+                    contentContainerStyle={wrapperContainerStyle.container}
                     containerContentContainerStyle={listContainerStyle.container}
-                    onScroll={onTvScroll && Platform.isTV ? onTvScroll : onScroll}
+                    onScroll={onScroll}
                     onEndReached={onEndReached}
                     onEndReachedWithinContainer={onEndReachedWithinContainer}
                     onEndReachedThreshold={0.8}
-                    ViewAllComponent={ViewAllComponent}
                     HorizontalListFooterComponent={LoadingComponent}
                     ListFooterComponent={hasMore ? LoadingComponent : undefined}
                     refreshControl={refreshControl}
-                    onSetInitialFocus={onSetInitialFocus}
+                    focusedContainer={focusedContainer}
                 />
             )}
 
@@ -377,7 +368,8 @@ const StorefrontCatalog = ({
                     }}
                 />
             )}
-        </>
+            <DetailPopup onModelClosed={onModelClosed} data={detailModelResource} />
+        </View>
     );
 };
 

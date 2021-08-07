@@ -45,7 +45,7 @@ export const usePageLoadAnimation = (
         } else {
             runAnimations();
         }
-    }, [onFinished, runAfterInteractions, startAnimation]);
+    });
 
     return animatedStyle;
 };

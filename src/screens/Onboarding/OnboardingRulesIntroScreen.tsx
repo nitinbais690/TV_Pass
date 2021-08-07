@@ -1,95 +1,36 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useAppPreferencesState } from 'utils/AppPreferencesContext';
-import { Text, View, ScrollView } from 'react-native';
+import { Text, View, ScrollView, TouchableHighlight } from 'react-native';
 import { onboardingStyle, onboardingStep5Style } from 'styles/Onboarding.style';
 import Button from 'screens/components/Button';
+import { Button as EButton } from 'react-native-elements';
 import { useLocalization } from 'contexts/LocalizationContext';
 import { useOnboarding } from 'contexts/OnboardingContext';
+import PlayIcon from '../../../assets/images/play_cta.svg';
+import CreditsSmallIcon from '../../../assets/images/credits_small.svg';
 import { CreditsUIButton } from 'screens/components/CreditsButton';
 import { useSafeArea } from 'react-native-safe-area-context';
 import { useDimensions } from '@react-native-community/hooks';
-import { DetailScreenUI } from '../DetailsScreen';
-import { RedeemButton } from '../components/RedeemButton';
-import DeviceInfo from 'react-native-device-info';
-import Orientation from 'react-native-orientation-locker';
 
 const OnboardingRulesIntroScreen = (): JSX.Element => {
     const { strings }: any = useLocalization();
     const prefs = useAppPreferencesState();
     const { appColors, appPadding } = prefs.appTheme!(prefs);
     const insets = useSafeArea();
-    const { onboardingResource, onboardNavigation } = useOnboarding();
+    const { onboardNavigation, onboardSkip } = useOnboarding();
     const { width, height } = useDimensions().window;
     const isPortrait = height > width;
 
-    const styles = onboardingStep5Style({ appColors, appPadding, insets, isPortrait, width });
-    const cStyles = onboardingStyle({ appColors, appPadding, insets, isPortrait, width });
-
-    const [isLoading, setIsLoading] = useState(true);
-
-    const MockParams = {
-        params: {
-            resource: onboardingResource,
-            resourceType: onboardingResource!.type,
-            resourceId: onboardingResource!.type,
-            searchPosition: undefined,
-            recommendedSearchWord: undefined,
-            contentTabName: undefined,
-        },
-    };
-
-    var validityEndDate = new Date(); // Now
-    validityEndDate.setDate(validityEndDate.getDate() + 30);
-
-    const mockEntitlement = {
-        contentId: onboardingResource!.id,
-        validityTill: validityEndDate.getTime(),
-    };
-
-    useEffect(() => {
-        Orientation.lockToPortrait();
-        setIsLoading(false);
-    }, []);
-
-    useEffect(() => {
-        return () => {
-            if (DeviceInfo.getDeviceType() === 'Tablet') {
-                Orientation.unlockAllOrientations();
-            }
-        };
-    });
+    const styles = onboardingStep5Style({ appColors, appPadding, insets, isPortrait });
+    const cStyles = onboardingStyle({ appColors, appPadding, insets, isPortrait });
 
     return (
         <ScrollView contentContainerStyle={cStyles.container} scrollEnabled={false}>
-            <View style={[styles.step5Wrapper]}>
-                <View style={cStyles.darkOverlay} />
-                <View style={styles.creditsButtonContainer}>
-                    <CreditsUIButton credits={0} loading={false} />
-                </View>
-                <View style={styles.redeemButtonContainer}>
-                    <RedeemButton
-                        asset={onboardingResource!}
-                        entitlement={isLoading ? undefined : mockEntitlement}
-                        loading={isLoading}
-                        onPress={() => {}}
-                    />
-                </View>
-                <DetailScreenUI
-                    route={MockParams}
-                    isOnboarding={true}
-                    dataResponse={{ loading: false, error: false, mainResource: onboardingResource! }}
-                    entitlementResponse={{
-                        loading: false,
-                        entitled: false,
-                        redeemError: false,
-                        redeem: async () => {},
-                    }}
-                />
-                {/*<View style={[cStyles.headerCreditBtnCont, cStyles.headerCreditBtnCont1]}>
+            <View style={[cStyles.wrapper, styles.step5Wrapper]}>
+                <View style={[cStyles.headerCreditBtnCont, cStyles.headerCreditBtnCont1]}>
                     <CreditsUIButton credits={20} loading={false} />
-                </View>*/}
-
-                {/*<View style={cStyles.middleCont}>
+                </View>
+                <View style={cStyles.middleCont}>
                     <View style={styles.playCreditBtnCont}>
                         <TouchableHighlight style={styles.playCreditBtnHigh}>
                             <View style={styles.playCreditBtnWrapper}>
@@ -105,25 +46,27 @@ const OnboardingRulesIntroScreen = (): JSX.Element => {
                             </View>
                         </TouchableHighlight>
                     </View>
-                </View>*/}
+                </View>
                 <View style={cStyles.bottomContainer}>
                     <View style={cStyles.bottomWrapper}>
                         <View style={cStyles.bottomContentInfo}>
-                            <Text style={[cStyles.bottomContentInfoText]}>
-                                {strings['onboard.step5_content_info_1']}
-                            </Text>
-                            <Text style={[cStyles.bottomContentInfoText, cStyles.bottomContentInfoWCText]}>
-                                {strings['onboard.step5_content_info_2']}
-                            </Text>
-                            <Text style={[cStyles.bottomContentInfoText]}>
-                                {strings['onboard.step5_content_info_3']}
-                            </Text>
+                            <Text style={cStyles.bottomContentInfoText}>{strings['onboard.step5_content_info']}</Text>
                         </View>
                         <View style={cStyles.bottomBtnSmt}>
                             <Button
                                 title={strings['global.btn_continue']}
                                 onPress={() => {
-                                    onboardNavigation('onboardingHelpScreen');
+                                    onboardNavigation('onboardingReceiveCredit');
+                                }}
+                            />
+                        </View>
+                        <View style={cStyles.bottomBtnSkip}>
+                            <EButton
+                                title={strings['onboard.skip_tutorial']}
+                                titleStyle={cStyles.bottomBtnSkipText}
+                                type="clear"
+                                onPress={() => {
+                                    onboardSkip();
                                 }}
                             />
                         </View>

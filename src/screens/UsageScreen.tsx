@@ -1,15 +1,15 @@
 import React from 'react';
 import DeviceInfo from 'react-native-device-info';
-import HeaderTabBar from './components/HeaderTabBar';
 import ContentUsageScreen from './Usage/ContentUsageScreen';
 import ServicesUsageScreen from './Usage/ServicesUsageScreen';
+import HeaderTabBar from 'core/presentation/components/molecules/HeaderTabBar';
 
 const UsageScreen = (): JSX.Element => {
     const CONTENT_KEY = 'Content';
     const SERVICES_KEY = 'Services';
 
     const routes = [
-        // { key: CONTENT_KEY, title: CONTENT_KEY },
+        { key: CONTENT_KEY, title: CONTENT_KEY },
         { key: SERVICES_KEY, title: SERVICES_KEY },
     ];
     const renderScene = ({ route }: { route: any }) => {

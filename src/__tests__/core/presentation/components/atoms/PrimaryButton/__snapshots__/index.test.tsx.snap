@@ -1,0 +1,149 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`primaryButton render with icon 1`] = `
+<View
+  collapsable={true}
+  pointerEvents="box-none"
+  style={
+    Object {
+      "flex": 1,
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "borderRadius": 3,
+        "flex": 1,
+        "height": 70,
+      }
+    }
+  >
+    <View
+      accessible={true}
+      focusable={true}
+      hasTVPreferredFocus={true}
+      isTVSelectable={true}
+      style={
+        Object {
+          "opacity": 1,
+        }
+      }
+    >
+      <BVLinearGradient
+        colors={
+          Array [
+            4294929710,
+            4290124297,
+          ]
+        }
+        endPoint={
+          Object {
+            "x": 0.5,
+            "y": 1,
+          }
+        }
+        locations={null}
+        startPoint={
+          Object {
+            "x": 0.5,
+            "y": 0,
+          }
+        }
+        style={
+          Object {
+            "alignItems": "center",
+            "backgroundColor": "#3B4046",
+            "borderColor": "#2089dc",
+            "borderRadius": 35,
+            "borderWidth": 0,
+            "elevation": 0,
+            "flexDirection": "row",
+            "justifyContent": "center",
+            "padding": 8,
+            "paddingHorizontal": 8,
+          }
+        }
+      >
+        <Icon
+          style={
+            Object {
+              "marginEnd": 14.571428571428571,
+            }
+          }
+        />
+      </BVLinearGradient>
+    </View>
+  </View>
+</View>
+`;
+
+exports[`primaryButton renders correctly 1`] = `
+<View
+  collapsable={true}
+  pointerEvents="box-none"
+  style={
+    Object {
+      "flex": 1,
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "borderRadius": 3,
+        "flex": 1,
+        "height": 70,
+      }
+    }
+  >
+    <View
+      accessible={true}
+      focusable={true}
+      hasTVPreferredFocus={true}
+      isTVSelectable={true}
+      style={
+        Object {
+          "opacity": 1,
+        }
+      }
+    >
+      <BVLinearGradient
+        colors={
+          Array [
+            4294929710,
+            4290124297,
+          ]
+        }
+        endPoint={
+          Object {
+            "x": 0.5,
+            "y": 1,
+          }
+        }
+        locations={null}
+        startPoint={
+          Object {
+            "x": 0.5,
+            "y": 0,
+          }
+        }
+        style={
+          Object {
+            "alignItems": "center",
+            "backgroundColor": "#3B4046",
+            "borderColor": "#2089dc",
+            "borderRadius": 35,
+            "borderWidth": 0,
+            "elevation": 0,
+            "flexDirection": "row",
+            "justifyContent": "center",
+            "padding": 8,
+            "paddingHorizontal": 8,
+          }
+        }
+      />
+    </View>
+  </View>
+</View>
+`;

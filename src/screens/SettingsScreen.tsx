@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, Platform, Text, ScrollView } from 'react-native';
 import { ListItem } from 'react-native-elements';
 import Config from 'react-native-config';
@@ -8,22 +8,18 @@ import { useAuth } from 'contexts/AuthContextProvider';
 import { useAppPreferencesState } from 'utils/AppPreferencesContext';
 import { appPadding, appFonts } from '../../AppStyles';
 import RightArrow from '../../assets/images/RightArrow.svg';
+import SVGIcons from './Settingsicons';
 import DeviceInfo from 'react-native-device-info';
 import { useLocalization } from '../contexts/LocalizationContext';
-import { useOnboarding } from 'contexts/OnboardingContext';
+import { useProfiles } from '../contexts/ProfilesContextProvider';
 import { settingStyle } from '../styles/Settings.Style';
 import { useAnalytics } from 'utils/AnalyticsReporterContext';
 import { AppEvents, ErrorEvents } from 'utils/ReportingUtils';
 import { NAVIGATION_TYPE } from 'screens/Navigation/NavigationConstants';
-import BackgroundGradient from 'screens/components/BackgroundGradient';
-import Preference from '../../assets/images/Preferences.svg';
-import BillingPayments from '../../assets/images/Billing_Payments.svg';
-import Profile from '../../assets/images/Profile.svg';
-import Help from '../../assets/images/Help.svg';
-import PrivacyPolicy from '../../assets/images/Privacy.svg';
-import TermsConditions from '../../assets/images/Terms_Conditions.svg';
-import CreditWalkthrough from '../../assets/images/Credit_walkthrough.svg';
-import Signout from '../../assets/images/Sign-out.svg';
+import BackgroundGradient from 'core/presentation/components/atoms/BackgroundGradient';
+import { openLink } from 'utils/InAppBrowserUtils';
+import { UserProfileView } from './settings/UserProfileView';
+import { useNavigation } from '@react-navigation/native';
 
 interface SettingsItemProps {
     type: any;
@@ -36,18 +32,17 @@ interface SettingsItemProps {
  * @param props The app preference props
  */
 var isTVdevice = Platform.isTV;
-const SettingsScreen = ({ navigation }: { navigation: any }): JSX.Element => {
+const SettingsScreen = (): JSX.Element => {
     const { width, height } = useDimensions().window;
     const prefs = useAppPreferencesState();
-    const { appTheme } = prefs;
+    const { appTheme, appConfig } = prefs;
     const { strings } = useLocalization();
-    const { onboardNavigation } = useOnboarding();
+    const navigation = useNavigation();
     let { appColors } = appTheme && appTheme(prefs);
     const isPortrait = height > width;
     const settStyle = settingStyle({ appColors, isPortrait });
     const { recordEvent, recordErrorEvent } = useAnalytics();
-    type BROWSE_TYPE = 'faq' | 'privacyPolicy' | 'termsCondition' | 'contentAvailability' | 'contact';
-
+    const { logout, userType, accessToken } = useAuth();
     const defaultStyles = StyleSheet.create({
         container: {
             flex: 1,
@@ -55,7 +50,7 @@ const SettingsScreen = ({ navigation }: { navigation: any }): JSX.Element => {
         },
         rowWrapperStyle: {
             height: selectDeviceType({ Handset: 70 }, 100),
-            backgroundColor: appColors.backgroundInactive,
+            backgroundColor: 'transparent',
             borderColor: appColors.border,
             paddingHorizontal: appPadding.sm(true),
         },
@@ -67,6 +62,13 @@ const SettingsScreen = ({ navigation }: { navigation: any }): JSX.Element => {
         adaptiveWrapper: {
             flexDirection: !isTVdevice ? 'column' : 'row',
             justifyContent: !isTVdevice ? 'center' : 'space-between',
+        },
+        memberHeading: {
+            color: appColors.secondary,
+            fontSize: appFonts.md,
+            marginBottom: appPadding.sm(),
+            marginTop: appPadding.xs(),
+            marginLeft: appPadding.sm(),
         },
         loginButtonStyle: {
             width: 200,
@@ -108,10 +110,10 @@ const SettingsScreen = ({ navigation }: { navigation: any }): JSX.Element => {
         },
         switch: { marginRight: appPadding.xs() },
         listBottomPadding: {
-            width: Platform.isTV ? '40%' : '100%',
-            alignSelf: 'center',
+            margin: Platform.isTV ? appPadding.sm(true) : 0,
         },
     });
+    const isLoggedIn = userType === 'LOGGED_IN' || userType === 'SUBSCRIBED';
 
     const subscription: Array<SettingsItemProps> = [
         // {  type: 'ACTION_BUTTON', key: 'Preferences', screen: 'EnvScreen' },
@@ -119,64 +121,62 @@ const SettingsScreen = ({ navigation }: { navigation: any }): JSX.Element => {
             type: 'ACTION_BUTTON',
             key: `${strings['settingsScreenKey.Preferences']}`,
             screen: NAVIGATION_TYPE.PREFERENCES,
-            icon: <Preference />,
         },
+        // {
+        //     type: 'ACTION_BUTTON',
+        //     key: `${strings['settingsScreenKey.LanguagePreferences']}`,
+        //     screen: NAVIGATION_TYPE.LANGUAGE_PREFERENCES,
+        // },
+        {
+            type: 'ACTION_BUTTON',
+            key: `${strings['settingsScreenKey.LanguagePreferences']}`,
+            screen: NAVIGATION_TYPE.LANGUAGE_PREFERENCES,
+        },
+        // {
+        //     type: 'ACTION_BUTTON',
+        //     key: `${strings['settingsScreenKey.SelectUser']}`,
+        //     screen: NAVIGATION_TYPE.PROFILE_SELECTION,
+        // },
         {
             type: 'ACTION_BUTTON',
             key: `${strings['settingsScreenKey.BillingPayments']}`,
             screen: NAVIGATION_TYPE.BILLING_PAYMENTS,
-            icon: <BillingPayments />,
         },
-        {
-            type: 'ACTION_BUTTON',
-            key: `${strings['settingsScreenKey.Profile']}`,
-            screen: NAVIGATION_TYPE.PROFILE,
-            icon: <Profile />,
-        },
+        // {
+        //     type: 'ACTION_BUTTON',
+        //     key: `${strings['settingsScreenKey.Profile']}`,
+        //     screen: NAVIGATION_TYPE.PROFILE,
+        // },
         {
             type: 'ACTION_BUTTON',
             key: `${strings['settingsScreenKey.Help']}`,
             screen: NAVIGATION_TYPE.HELP,
-            icon: <Help />,
         },
         {
             type: 'ACTION_BUTTON',
-            key: `${strings['title.privacyPolicy']}`,
+            key: `${strings['settingsScreenKey.PrivacyPolicy']}`,
             screen: NAVIGATION_TYPE.PRIVACY_POLICY,
-            icon: <PrivacyPolicy />,
         },
         {
             type: 'ACTION_BUTTON',
-            key: `${strings['title.termsCondition']}`,
+            key: `${strings['settingsScreenKey.TermsCondition']}`,
             screen: NAVIGATION_TYPE.TERMS_CONDITIONS,
-            icon: <TermsConditions />,
         },
         {
             type: 'ACTION_BUTTON',
-            key: `${strings['settingsScreenKey.CreditsWalkthrough']}`,
-            screen: NAVIGATION_TYPE.CREDITS_WALKTHROUGH,
-            icon: <CreditWalkthrough />,
-        },
-        {
-            type: 'ACTION_BUTTON',
-            key: `${strings['settingsScreenKey.Logout']}`,
-            screen: NAVIGATION_TYPE.LOGOUT,
-            icon: <Signout />,
+            key: isLoggedIn ? `${strings['settingsScreenKey.Logout']}` : `${strings['settingsScreenKey.Login']}`,
+            screen: isLoggedIn ? NAVIGATION_TYPE.LOGOUT : NAVIGATION_TYPE.AUTH_SIGN_IN,
         },
     ];
 
-    const { logout } = useAuth();
+    const { loading, profiles } = useProfiles();
 
-    const openBrowser = async (type: BROWSE_TYPE) => {
-        if (!Platform.isTV) {
-            try {
-                navigation.push(NAVIGATION_TYPE.BROWSE_WEBVIEW, {
-                    type: type,
-                });
-            } catch (error) {
-                recordErrorEvent(ErrorEvents.BROWSE_ERROR, { error: error });
-                console.log(`[InAppBrowser] Error loading type: ${type}`, error);
-            }
+    const openBrowser = async (url: string) => {
+        try {
+            await openLink(url, appColors);
+        } catch (error) {
+            recordErrorEvent(ErrorEvents.BROWSE_ERROR, { error: error, url: url });
+            console.log(`[InAppBrowser] Error loading url: ${url}`, error);
         }
     };
 
@@ -185,14 +185,18 @@ const SettingsScreen = ({ navigation }: { navigation: any }): JSX.Element => {
             logout().then(() => {
                 recordEvent(AppEvents.LOGOUT);
             });
-        } else if (screen === NAVIGATION_TYPE.CREDITS_WALKTHROUGH) {
-            onboardNavigation(NAVIGATION_TYPE.SETTINGS);
         } else if (screen === NAVIGATION_TYPE.PRIVACY_POLICY) {
-            openBrowser('privacyPolicy');
+            openBrowser(appConfig && appConfig.privacyPolicyURL);
         } else if (screen === NAVIGATION_TYPE.TERMS_CONDITIONS) {
-            openBrowser('termsCondition');
+            openBrowser(appConfig && appConfig.termsAndConditionsURL);
+        } else if (screen === NAVIGATION_TYPE.HELP) {
+            openBrowser(appConfig && appConfig.helpCenterURL);
         } else {
-            navigation.push(screen);
+            if (screen === NAVIGATION_TYPE.AUTH_SIGN_IN) {
+                navigation.navigate(screen);
+            } else {
+                navigation.navigate(NAVIGATION_TYPE.SETTINGS, { screen: screen });
+            }
         }
     };
 
@@ -202,15 +206,24 @@ const SettingsScreen = ({ navigation }: { navigation: any }): JSX.Element => {
                 {settings.map((item, i) =>
                     !item.hide ? (
                         <ListItem
+                            //ViewComponent={TouchableOpacity}
                             topDivider={i !== 0}
                             key={i}
                             underlayColor={appColors.primaryVariant1}
                             containerStyle={defaultStyles.rowWrapperStyle}
                             title={item.key}
+                            disabled={item.disabled}
+                            disabledStyle={{ opacity: 0.3 }}
                             titleStyle={defaultStyles.mainText}
-                            leftIcon={item.icon}
-                            rightIcon={item.key !== strings['settingsScreenKey.Logout'] ? <RightArrow /> : undefined}
-                            onPress={() => handlePress(item.screen)}
+                            leftIcon={<SVGIcons name={item.key} height="40" width="40" />}
+                            rightIcon={item.key !== 'Sign out' ? <RightArrow /> : undefined}
+                            onPress={({ eventKeyAction }) => {
+                                if (!Platform.isTV) {
+                                    handlePress(item.screen);
+                                } else if (eventKeyAction === 1) {
+                                    handlePress(item.screen);
+                                }
+                            }}
                             switch={
                                 item.type === 'SWITCH'
                                     ? {
@@ -229,19 +242,44 @@ const SettingsScreen = ({ navigation }: { navigation: any }): JSX.Element => {
     };
     const readableVersion = DeviceInfo.getReadableVersion();
     const environment = Config.ENVIRONMENT === 'staging' ? `(${Config.ENVIRONMENT})` : '';
-
-    return (
-        <BackgroundGradient insetTabBar={true}>
-            <View style={[defaultStyles.container, settStyle.mainContainer_mh, settStyle.mainContainer_mv]}>
-                <ScrollView style={defaultStyles.listBottomPadding}>
-                    <ListSection sectionTitle={'Subscription'} settings={subscription} />
-                    <Text style={{ padding: appPadding.sm(true), color: appColors.tertiary }}>
-                        {strings['settings.version']} {readableVersion} {environment}
-                    </Text>
-                </ScrollView>
-            </View>
-        </BackgroundGradient>
+    const [isFocused, setIsFocused] = useState(false);
+    useEffect(
+        () =>
+            navigation.addListener('focus', () => {
+                setIsFocused(true);
+            }),
+        [navigation],
     );
+    useEffect(
+        () =>
+            navigation.addListener('blur', () => {
+                setIsFocused(false);
+            }),
+        [navigation],
+    );
+
+    const renderScreen = () => {
+        return (
+            <BackgroundGradient insetTabBar={true}>
+                <View style={[defaultStyles.container, settStyle.mainContainer_mh, settStyle.mainContainer_mv]}>
+                    <ScrollView style={defaultStyles.listBottomPadding}>
+                        {!loading && profiles.length > 0 && (
+                            <Text style={defaultStyles.memberHeading}>Select Member</Text>
+                        )}
+                        {!loading && accessToken && profiles.length > 0 && (
+                            <UserProfileView navigation={navigation} horizontal={true} />
+                        )}
+                        <ListSection sectionTitle={'Subscription'} settings={subscription} />
+                        <Text style={{ padding: appPadding.sm(true), color: appColors.tertiary }}>
+                            {strings['settings.version']} {readableVersion} {environment}
+                        </Text>
+                    </ScrollView>
+                </View>
+            </BackgroundGradient>
+        );
+    };
+    //Workaround to fix https://github.com/react-native-tvos/react-native-tvos/issues/114
+    return isTVdevice ? isFocused ? renderScreen() : <View /> : renderScreen();
 };
 
 export default SettingsScreen;

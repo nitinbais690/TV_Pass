@@ -7,12 +7,17 @@ import { useDownloads } from 'platform/hooks/useDownloads';
 import { AssetMetadata } from 'utils/AssetConversionUtils';
 import EmptyStateView from './EmptyStateView';
 import DownloadList from './DownloadList';
-import BackgroundGradient from 'screens/components/BackgroundGradient';
+import BackgroundGradient from 'core/presentation/components/atoms/BackgroundGradient';
+import { useAuth } from 'contexts/AuthContextProvider';
+import { useNetworkStatus } from 'contexts/NetworkContextProvider';
 
 type DownloadWithMetadata = ResourceVm & Download;
 
 const DownloadsScreen = (): JSX.Element => {
     const { strings } = useLocalization();
+    const userState = useAuth();
+    const { userType } = userState;
+    const { isInternetReachable } = useNetworkStatus();
 
     const createSeriesMetadata = (episode: DownloadWithMetadata): DownloadWithMetadata => {
         const subtitleForResource = (item: DownloadWithMetadata): string | undefined => {
@@ -83,15 +88,29 @@ const DownloadsScreen = (): JSX.Element => {
         setListData(mainList);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [downloads.length]);
+
     return (
         <BackgroundGradient insetHeader={true} headerType={'HeaderTab'} insetTabBar={true}>
-            {!loading && listData.length === 0 && <EmptyStateView message={strings['my_content.downloads.empty']} />}
-            {!loading && listData.length > 0 && (
-                <>
-                    <DiskStorage />
-                    <DownloadList downloads={listData} />
-                </>
+            {!loading && listData.length === 0 && (
+                <EmptyStateView
+                    message={strings['my_content.downloads.empty']}
+                    secondaryMessage={strings['my_content.browse_empty_download']}
+                />
             )}
+            {!loading && listData.length > 0 && userType === 'NOT_LOGGED_IN' && (
+                <EmptyStateView
+                    message={strings['my_content.downloads.empty']}
+                    secondaryMessage={strings['my_content.browse_cta']}
+                />
+            )}
+            {!loading &&
+                listData.length > 0 &&
+                (userType === 'LOGGED_IN' || userType === 'SUBSCRIBED' || !isInternetReachable) && (
+                    <>
+                        <DiskStorage />
+                        <DownloadList downloads={listData} />
+                    </>
+                )}
         </BackgroundGradient>
     );
 };

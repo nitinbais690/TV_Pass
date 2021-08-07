@@ -1,0 +1,57 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`viewDetailsButton renders correctly 1`] = `
+<View
+  collapsable={true}
+  pointerEvents="box-none"
+  style={
+    Object {
+      "flex": 1,
+    }
+  }
+>
+  <View
+    accessible={true}
+    focusable={true}
+    hasTVPreferredFocus={false}
+    isTVSelectable={true}
+    style={
+      Object {
+        "backgroundColor": "rgba(255, 255, 255, 0.07)",
+        "marginTop": 23.314285714285713,
+        "opacity": 1,
+        "width": "100%",
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "height": 58.285714285714285,
+          "justifyContent": "space-between",
+          "paddingHorizontal": 23.314285714285713,
+          "width": "100%",
+        }
+      }
+    >
+      <Text
+        style={
+          Object {
+            "color": "#FFFFFF",
+            "fontSize": 14,
+            "fontWeight": "600",
+          }
+        }
+      >
+        View more Details
+      </Text>
+      <SvgMock
+        height={24}
+        width={24}
+      />
+    </View>
+  </View>
+</View>
+`;

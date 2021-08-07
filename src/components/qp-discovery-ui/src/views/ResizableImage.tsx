@@ -35,7 +35,7 @@ const ResizableImage = (props: ResizableImageProps): JSX.Element | null => {
     const resizerPath = /*(config && config.imageResizerPath)*/ 'image' || undefined;
     let [uri, setUri] = useState(props.source ? (props.source as ImageURISource).uri : '');
     let onLayout = (_: LayoutChangeEvent): void => {};
-    let { onLoad, onLoadEnd } = props;
+
     if (props.keyId.length < 1 && props.aspectRatioKey) {
         return null;
     }
@@ -66,35 +66,32 @@ const ResizableImage = (props: ResizableImageProps): JSX.Element | null => {
             };
         }
     } else {
-        if (props.width && props.height && !props.skipResize) {
-            uri = imageResizer(uri, props.width);
+        if (props.width && props.height) {
+            uri = imageResizer(uri, props.width, props.height);
         } else {
             onLayout = (e: LayoutChangeEvent): void => {
                 const l = e.nativeEvent.layout;
-                setUri(imageResizer(uri, l.width));
+                setUri(
+                    imageResizerUri(
+                        resizerEndpoint,
+                        resizerPath,
+                        props.keyId,
+                        props.aspectRatioKey,
+                        props.imageType,
+                        l.width,
+                    ),
+                );
             };
         }
     }
+
     return (
         <FastImage
             testID={props.testID}
             style={props.style}
-            onLoad={onLoad ? onLoad : undefined}
-            onLoadEnd={onLoadEnd ? onLoadEnd : undefined}
-            source={{
-                uri: uri,
-                cache: FastImage && FastImage.cacheControl ? FastImage.cacheControl.web : undefined,
-                priority: FastImage && FastImage.priority ? FastImage.priority.high : undefined,
-            }}
+            source={{ uri: uri, cache: FastImage && FastImage.cacheControl ? FastImage.cacheControl.web : undefined }}
             onLayout={onLayout}
-            // resizeMode={FastImage && FastImage.resizeMode ? FastImage.resizeMode.contain : undefined}
-            resizeMode={
-                props.resizeMode
-                    ? props.resizeMode
-                    : FastImage && FastImage.resizeMode
-                    ? FastImage.resizeMode.contain
-                    : undefined
-            }
+            resizeMode={FastImage && FastImage.resizeMode ? FastImage.resizeMode.contain : undefined}
         />
     );
 };

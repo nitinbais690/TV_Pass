@@ -1,6 +1,5 @@
 import React, { useEffect, Context, useContext } from 'react';
 import { Platform } from 'react-native';
-import DeviceInfo from 'react-native-device-info';
 import {
     platformAuthorizer,
     contentAuthorizer,
@@ -10,14 +9,14 @@ import {
     PlatformError,
     PlatformAuthConfig,
     ContentAuthConfig,
-    bookmarkService,
     BookmarkService,
+    bookmarkService,
 } from 'rn-qp-nxg-player';
 import { useAppPreferencesState } from 'utils/AppPreferencesContext';
 import { useEntitlements } from 'contexts/EntitlementsContextProvider';
-import decrypt from 'utils/SecurityUtil';
 import { useAnalytics } from 'utils/AnalyticsReporterContext';
 import { AppEvents, condenseErrorObject } from 'utils/ReportingUtils';
+import { getUniqueId } from 'react-native-device-info';
 
 const MAX_PLATFORM_SETUP_RETRY_ATTEMPTS = 3;
 
@@ -72,6 +71,11 @@ const pltfmReducer = (state: any, action: any): any => {
                 retryAttempts: state.retryAttempts + 1,
             };
         }
+        case 'RESET': {
+            return {
+                ...initialState,
+            };
+        }
     }
 };
 
@@ -89,18 +93,18 @@ const PlatformContextProvider = ({ children }: PlatformProviderChildren) => {
 
     const platformAuthConfig: PlatformAuthConfig = {
         clientID: appConfig && appConfig.clientID,
-        clientSecret: (appConfig && decrypt(appConfig.clientSecret)) || '',
+        clientSecret: (appConfig && appConfig.clientSecret) || '',
         xClientID: appConfig && appConfig.xClientId,
         endpointURL: appConfig && appConfig.oAuthURL,
     };
-
     const configureTv = appConfig && appConfig.configureTvClient;
 
+    // const platformAuthConfig = ()
     const contentAuthConfig: ContentAuthConfig = {
         clientRegistrationEndpointURL: appConfig && appConfig.clientRegURL,
         contentAuthEndpointURL: appConfig && appConfig.contentAuthURL,
         platformClient: {
-            id: DeviceInfo.getUniqueId(),
+            id: getUniqueId(), //'153811a6-c87e-4db6-b9a8-2cdb4a6f8cbe'
             type:
                 Platform.OS === 'ios'
                     ? 'iosmobile'
@@ -121,8 +125,19 @@ const PlatformContextProvider = ({ children }: PlatformProviderChildren) => {
     }, []);
 
     useEffect((): any => {
+        return async () => {
+            if (xAuthToken) {
+                await platformAuthorizer.dispose();
+                await contentAuthorizer.invalidateClientToken();
+                await contentAuthorizer.dispose();
+                dispatch({ type: 'RESET' });
+            }
+        };
+    }, [xAuthToken]);
+
+    useEffect((): any => {
         async function configureQpNxgLib() {
-            console.log('>>>>>>>>> configureQpNxgLib <<<<<<<<<<<');
+            console.log('>>>>>>>>> configureQpNxgLib <<<<<<<<<<<', platformAuthConfig);
             try {
                 if (!platformAuthorizer || !contentAuthorizer) {
                     console.log(
@@ -143,9 +158,7 @@ const PlatformContextProvider = ({ children }: PlatformProviderChildren) => {
                 if (!(await contentAuthorizer.isConfigured())) {
                     await contentAuthorizer.initWithConfig(contentAuthConfig);
                 }
-                if (!Platform.isTV) {
-                    await contentAuthorizer.ensureClientRegistration();
-                }
+                await contentAuthorizer.ensureClientRegistration();
 
                 await bookmarkService.initializeBookmarkService({
                     bookmarkServiceEndpoint: appConfig && appConfig.bookmarkURL,
@@ -169,7 +182,9 @@ const PlatformContextProvider = ({ children }: PlatformProviderChildren) => {
                 });
             }
         }
-
+        if (!appConfig) {
+            return;
+        }
         if (
             xAuthToken &&
             !state.isConfiguring &&
@@ -186,7 +201,7 @@ const PlatformContextProvider = ({ children }: PlatformProviderChildren) => {
         }
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [xAuthToken, state.error, state.retryAttempts]);
+    }, [appConfig && appConfig.clientID, xAuthToken, state.error, state.retryAttempts, state.isConfigured]);
 
     return (
         <>

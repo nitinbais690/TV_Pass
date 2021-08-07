@@ -6,9 +6,12 @@
         "isolatedModules": true,
         "jsx": "react",
         "lib": ["es2016", "dom"],
-        "types": ["react", "jest"],
+        "types": ["react", "jest", "reflect-metadata"],
         "moduleResolution": "node",
         "resolveJsonModule": true,
+        "module": "commonjs",
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
         "noEmit": true,
         "strict": true,
         "target": "es2015",
@@ -19,7 +22,9 @@
             "platform": ["./platform"],
             "ums": ["./ums"],
             "utils": ["./utils"],
+            "features": ["./features"],
             "screens": ["./screens"],
+            "core": ["./core"]
         }
     },
     "exclude": ["node_modules", "babel.config.js", "metro.config.js", "jest.config.js"]

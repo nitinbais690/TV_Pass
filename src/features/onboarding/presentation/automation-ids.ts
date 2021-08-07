@@ -1,0 +1,5 @@
+export const AUTOMATION_TEST_ID = {
+    SKIP: 'SKIP',
+    BACK: 'BACK',
+    RIGHT_ARROW_BUTTON: 'RIGHT_ARROW_BUTTON'
+}

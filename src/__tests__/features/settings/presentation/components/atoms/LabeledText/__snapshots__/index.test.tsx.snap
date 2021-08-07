@@ -1,0 +1,89 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`labeledText render with style 1`] = `
+<View
+  collapsable={true}
+  pointerEvents="box-none"
+  style={
+    Object {
+      "flex": 1,
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "paddingTop": 15,
+      }
+    }
+  >
+    <Text
+      style={
+        Object {
+          "color": "#FFFFFF",
+          "fontFamily": "ProximaNova-Semibold",
+          "fontSize": 18,
+          "fontWeight": "600",
+          "opacity": 0.3,
+        }
+      }
+    >
+      Email
+    </Text>
+    <Text
+      style={
+        Object {
+          "color": "#FFFFFF",
+          "fontFamily": "ProximaNova-Semibold",
+          "fontSize": 18,
+          "fontWeight": "600",
+          "paddingTop": 4,
+        }
+      }
+    >
+      kunal@mailinator.com
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`labeledText renders correctly 1`] = `
+<View
+  collapsable={true}
+  pointerEvents="box-none"
+  style={
+    Object {
+      "flex": 1,
+    }
+  }
+>
+  <View>
+    <Text
+      style={
+        Object {
+          "color": "#FFFFFF",
+          "fontFamily": "ProximaNova-Semibold",
+          "fontSize": 18,
+          "fontWeight": "600",
+          "opacity": 0.3,
+        }
+      }
+    >
+      Email
+    </Text>
+    <Text
+      style={
+        Object {
+          "color": "#FFFFFF",
+          "fontFamily": "ProximaNova-Semibold",
+          "fontSize": 18,
+          "fontWeight": "600",
+          "paddingTop": 4,
+        }
+      }
+    >
+      kunal@mailinator.com
+    </Text>
+  </View>
+</View>
+`;

@@ -4,7 +4,6 @@ export enum TimerType {
     Storefront = 'timeToStoreFront',
     AppConfig = 'timeToAppConfig',
     Splash = 'timeToSplash',
-    PlayerLoad = 'playerLoadTime',
 }
 
 enum TimerEvents {

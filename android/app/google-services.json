@@ -1,0 +1,62 @@
+{
+  "project_info": {
+    "project_number": "347719164292",
+    "project_id": "ahaflix-5b74e",
+    "storage_bucket": "ahaflix-5b74e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:347719164292:android:232d93cda1265a3879bdd1",
+        "android_client_info": {
+          "package_name": "ahaflix.tv"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "347719164292-182jnlqdvvpbidroov0eo5s8rujjh1uu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ahaflix.tv",
+            "certificate_hash": "b0dc595515b5e125560e5f4099d387e7bf88544f"
+          }
+        },
+        {
+          "client_id": "347719164292-cks8fpaq067rf1kv7bnn74331os6tvk7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ahaflix.tv",
+            "certificate_hash": "835cf3cb8102b0eb90eb6dd656a4c24e63e113ff"
+          }
+        },
+        {
+          "client_id": "347719164292-1nedhkt35286tfu9m7o6ug8c3rl267b1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBVzbuFkB6TkyALb9_5JCdb-VpNFa4_5sY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "347719164292-1nedhkt35286tfu9m7o6ug8c3rl267b1.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "347719164292-egn0hhf4v78kn3m48li0m3phesv0l8rp.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.aha.ahaflix"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     View,
     Text,
@@ -13,14 +13,10 @@ import {
     BackHandler,
     Modal,
     FlatList,
-    ScrollView,
-    TouchableOpacity,
 } from 'react-native';
 import { colors, fonts, padding, percentage, selectDeviceType } from 'qp-common-ui';
-// import { BorderlessButton } from 'react-native-gesture-handler';
-// import CloseIcon from '../../assets/images/close.svg';
+import CloseIcon from '../../assets/images/close.svg';
 import CheckImg from '../../assets/images/checkImg.svg';
-import BlurComponent from 'screens/components/BlurComponent';
 
 const ITEM_HEIGHT = 64;
 const selectorHeight = Platform.isTV ? percentage(8, true) : percentage(14, true);
@@ -84,17 +80,16 @@ const defaultDropDownMenuStyle = StyleSheet.create({
         marginLeft: percentage(6, true),
     },
     modalInsideView: {
-        backgroundColor: colors.primaryVariant1,
-        height: 100,
-        width: selectDeviceType({ Handset: '90%' }, '40%'),
-        borderRadius: 22,
-        paddingVertical: padding.sm(true),
+        backgroundColor: colors.tertiary,
+        height: 300,
+        width: selectDeviceType({ Handset: '80%' }, '40%'),
+        borderRadius: 10,
     },
     modalContainer: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'rgba(0, 0, 0, 0.7)',
+        backgroundColor: 'rgba(0, 0, 0, .6)',
     },
     closeButton: {
         marginHorizontal: padding.sm(true),
@@ -213,9 +208,9 @@ export const DropDownMenuView = (props: DropDownMenuViewProps): JSX.Element => {
         itemRowStyle,
         itemTextStyle,
         itemStyle,
-        // modalInsideView,
+        modalInsideView,
         modalContainer,
-        // closeButton,
+        closeButton,
     } = dropDownMenuStyle;
 
     const defaultConfig = {
@@ -233,9 +228,6 @@ export const DropDownMenuView = (props: DropDownMenuViewProps): JSX.Element => {
 
     const [state, setState] = useState(initialState);
     const [modalVisible, setModalVisible] = useState(false);
-
-    const springAnim = useRef(new Animated.Value(0)).current;
-    let ySpringAnim = useRef<Animated.Value>(new Animated.Value(0)).current;
 
     useEffect(() => {
         const handleBackButtonPressAndroid = () => {
@@ -344,47 +336,25 @@ export const DropDownMenuView = (props: DropDownMenuViewProps): JSX.Element => {
         var currentTitles = data![state.activityIndex];
 
         return (
-            <Modal hardwareAccelerated transparent={true} visible={modalVisible}>
-                <BlurComponent
-                    opacity={0.5}
-                    style={StyleSheet.absoluteFillObject}
-                    blurType="light"
-                    blurAmount={3}
-                    reducedTransparencyFallbackColor="transparent"
-                />
-                <TouchableOpacity
-                    style={[defaultDropDownMenuStyle.modalContainer, modalContainer]}
-                    activeOpacity={1}
-                    onPressOut={() => closePanel(state.activityIndex)}>
-                    <Animated.View
-                        style={{
-                            ...defaultDropDownMenuStyle.modalInsideView,
-                            height: 'auto',
-                            maxHeight: springAnim,
-                            transform: [
-                                {
-                                    translateY: ySpringAnim.interpolate({
-                                        inputRange: [0, 1],
-                                        outputRange: [0, 200],
-                                    }),
-                                },
-                            ],
-                        }}>
-                        {/* <BorderlessButton
+            <Modal animationType="fade" transparent={true} visible={modalVisible}>
+                <View style={[defaultDropDownMenuStyle.modalContainer, modalContainer]}>
+                    <View style={[defaultDropDownMenuStyle.modalInsideView, modalInsideView]}>
+                        <TouchableHighlight
                             onPress={() => closePanel(state.activityIndex)}
+                            underlayColor={colors.primaryVariant1}
+                            activeOpacity={0.5}
+                            hasTVPreferredFocus={true}
                             style={[defaultDropDownMenuStyle.closeButton, closeButton]}>
                             <CloseIcon />
-                        </BorderlessButton> */}
-                        <ScrollView keyboardShouldPersistTaps={'always'}>
-                            <FlatList
-                                data={currentTitles}
-                                renderItem={({ item, index }) => renderItem(item, index)}
-                                keyExtractor={keyExtractor}
-                                showsVerticalScrollIndicator={false}
-                            />
-                        </ScrollView>
-                    </Animated.View>
-                </TouchableOpacity>
+                        </TouchableHighlight>
+                        <FlatList
+                            data={currentTitles}
+                            renderItem={({ item, index }) => renderItem(item, index)}
+                            keyExtractor={keyExtractor}
+                            showsVerticalScrollIndicator={false}
+                        />
+                    </View>
+                </View>
             </Modal>
         );
     };
@@ -428,17 +398,6 @@ export const DropDownMenuView = (props: DropDownMenuViewProps): JSX.Element => {
             ...state,
             activityIndex: index,
         });
-
-        Animated.parallel([
-            Animated.spring(springAnim, {
-                toValue: 300,
-                useNativeDriver: false,
-            }),
-            Animated.spring(ySpringAnim, {
-                toValue: 1,
-                useNativeDriver: false,
-            }),
-        ]).start();
     };
 
     const closePanel = (index: number) => {
@@ -455,9 +414,6 @@ export const DropDownMenuView = (props: DropDownMenuViewProps): JSX.Element => {
                 activityIndex: -1,
             });
         }
-
-        springAnim.setValue(0);
-        ySpringAnim.setValue(0);
     };
 
     return (
@@ -466,7 +422,7 @@ export const DropDownMenuView = (props: DropDownMenuViewProps): JSX.Element => {
                 {data!.map((rows, index) => (
                     <TouchableHighlight
                         activeOpacity={1}
-                        underlayColor={colors.caption}
+                        underlayColor={colors.primaryVariant1}
                         onPress={() => openPanel(index)}
                         key={index}
                         style={[defaultDropDownMenuStyle.touchableContainerStyle, touchableContainerStyle]}>

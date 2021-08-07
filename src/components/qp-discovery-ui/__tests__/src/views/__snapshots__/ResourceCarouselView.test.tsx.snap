@@ -11,7 +11,6 @@ exports[`ResourceCarouselView avoid re-renders correctly 1`] = `
   }
 >
   <RCTScrollView
-    bounces={false}
     data={
       Array [
         Object {
@@ -95,10 +94,6 @@ exports[`ResourceCarouselView avoid re-renders correctly 1`] = `
           focusable={true}
           hasTVPreferredFocus={false}
           isTVSelectable={true}
-          nextFocusDown={null}
-          nextFocusLeft={null}
-          nextFocusRight={null}
-          nextFocusUp={null}
           style={
             Array [
               Object {
@@ -112,8 +107,6 @@ exports[`ResourceCarouselView avoid re-renders correctly 1`] = `
                 "marginTop": 15,
               },
               undefined,
-              Object {},
-              Object {},
             ]
           }
           testID="carouselCardView"
@@ -124,16 +117,7 @@ exports[`ResourceCarouselView avoid re-renders correctly 1`] = `
                 Array [
                   Object {
                     "aspectRatio": 1.7777777777777777,
-                    "backgroundColor": "#ffffff",
-                    "borderRadius": 15,
-                    "elevation": 2,
-                    "shadowColor": "#333333",
-                    "shadowOffset": Object {
-                      "height": 1,
-                      "width": 0,
-                    },
-                    "shadowOpacity": 1,
-                    "shadowRadius": 2,
+                    "borderRadius": 0,
                     "width": 375,
                   },
                   Object {
@@ -183,8 +167,7 @@ exports[`ResourceCarouselView avoid re-renders correctly 1`] = `
                   source={
                     Object {
                       "cache": "web",
-                      "priority": "high",
-                      "uri": undefined,
+                      "uri": "undefined&width=784&height=784&scalingMode=aspectFit",
                     }
                   }
                   style={
@@ -198,55 +181,55 @@ exports[`ResourceCarouselView avoid re-renders correctly 1`] = `
                   }
                 />
               </View>
-              <BVLinearGradient
-                colors={
-                  Array [
-                    0,
-                    1712328720,
-                    3423604752,
-                  ]
-                }
-                endPoint={
-                  Object {
-                    "x": 0,
-                    "y": 1,
-                  }
-                }
-                locations={
-                  Array [
-                    0,
-                    0.5,
-                    1,
-                  ]
-                }
-                startPoint={
-                  Object {
-                    "x": 0,
-                    "y": 0.5,
-                  }
-                }
-                style={
-                  Array [
-                    Object {
-                      "backgroundColor": "transparent",
-                      "bottom": 0,
-                      "left": 0,
-                      "position": "absolute",
-                      "right": 0,
-                      "top": 0,
-                    },
-                    Object {
-                      "backgroundColor": "transparent",
-                      "bottom": 0,
-                      "left": 0,
-                      "position": "absolute",
-                      "right": 0,
-                      "top": 0,
-                    },
-                  ]
-                }
-              />
             </View>
+            <BVLinearGradient
+              colors={
+                Array [
+                  0,
+                  1712328720,
+                  3423604752,
+                ]
+              }
+              endPoint={
+                Object {
+                  "x": 0,
+                  "y": 1,
+                }
+              }
+              locations={
+                Array [
+                  0,
+                  0.5,
+                  1,
+                ]
+              }
+              startPoint={
+                Object {
+                  "x": 0,
+                  "y": 0.5,
+                }
+              }
+              style={
+                Array [
+                  Object {
+                    "backgroundColor": "transparent",
+                    "bottom": 0,
+                    "left": 0,
+                    "position": "absolute",
+                    "right": 0,
+                    "top": 0,
+                  },
+                  Object {
+                    "backgroundColor": "transparent",
+                    "bottom": 0,
+                    "left": 0,
+                    "position": "absolute",
+                    "right": 0,
+                    "top": 0,
+                  },
+                ]
+              }
+            />
           </View>
         </View>
       </View>
@@ -266,10 +249,6 @@ exports[`ResourceCarouselView avoid re-renders correctly 1`] = `
           focusable={true}
           hasTVPreferredFocus={false}
           isTVSelectable={true}
-          nextFocusDown={null}
-          nextFocusLeft={null}
-          nextFocusRight={null}
-          nextFocusUp={null}
           style={
             Array [
               Object {
@@ -283,8 +262,6 @@ exports[`ResourceCarouselView avoid re-renders correctly 1`] = `
                 "marginTop": 15,
               },
               undefined,
-              Object {},
-              Object {},
             ]
           }
           testID="carouselCardView"
@@ -295,16 +272,7 @@ exports[`ResourceCarouselView avoid re-renders correctly 1`] = `
                 Array [
                   Object {
                     "aspectRatio": 1.7777777777777777,
-                    "backgroundColor": "#ffffff",
-                    "borderRadius": 15,
-                    "elevation": 2,
-                    "shadowColor": "#333333",
-                    "shadowOffset": Object {
-                      "height": 1,
-                      "width": 0,
-                    },
-                    "shadowOpacity": 1,
-                    "shadowRadius": 2,
+                    "borderRadius": 0,
                     "width": 375,
                   },
                   Object {
@@ -354,8 +322,7 @@ exports[`ResourceCarouselView avoid re-renders correctly 1`] = `
                   source={
                     Object {
                       "cache": "web",
-                      "priority": "high",
-                      "uri": undefined,
+                      "uri": "undefined&width=784&height=784&scalingMode=aspectFit",
                     }
                   }
                   style={
@@ -369,55 +336,55 @@ exports[`ResourceCarouselView avoid re-renders correctly 1`] = `
                   }
                 />
               </View>
-              <BVLinearGradient
-                colors={
-                  Array [
-                    0,
-                    1712328720,
-                    3423604752,
-                  ]
-                }
-                endPoint={
-                  Object {
-                    "x": 0,
-                    "y": 1,
-                  }
-                }
-                locations={
-                  Array [
-                    0,
-                    0.5,
-                    1,
-                  ]
-                }
-                startPoint={
-                  Object {
-                    "x": 0,
-                    "y": 0.5,
-                  }
-                }
-                style={
-                  Array [
-                    Object {
-                      "backgroundColor": "transparent",
-                      "bottom": 0,
-                      "left": 0,
-                      "position": "absolute",
-                      "right": 0,
-                      "top": 0,
-                    },
-                    Object {
-                      "backgroundColor": "transparent",
-                      "bottom": 0,
-                      "left": 0,
-                      "position": "absolute",
-                      "right": 0,
-                      "top": 0,
-                    },
-                  ]
-                }
-              />
             </View>
+            <BVLinearGradient
+              colors={
+                Array [
+                  0,
+                  1712328720,
+                  3423604752,
+                ]
+              }
+              endPoint={
+                Object {
+                  "x": 0,
+                  "y": 1,
+                }
+              }
+              locations={
+                Array [
+                  0,
+                  0.5,
+                  1,
+                ]
+              }
+              startPoint={
+                Object {
+                  "x": 0,
+                  "y": 0.5,
+                }
+              }
+              style={
+                Array [
+                  Object {
+                    "backgroundColor": "transparent",
+                    "bottom": 0,
+                    "left": 0,
+                    "position": "absolute",
+                    "right": 0,
+                    "top": 0,
+                  },
+                  Object {
+                    "backgroundColor": "transparent",
+                    "bottom": 0,
+                    "left": 0,
+                    "position": "absolute",
+                    "right": 0,
+                    "top": 0,
+                  },
+                ]
+              }
+            />
           </View>
         </View>
       </View>
@@ -437,10 +404,6 @@ exports[`ResourceCarouselView avoid re-renders correctly 1`] = `
           focusable={true}
           hasTVPreferredFocus={false}
           isTVSelectable={true}
-          nextFocusDown={null}
-          nextFocusLeft={null}
-          nextFocusRight={null}
-          nextFocusUp={null}
           style={
             Array [
               Object {
@@ -454,8 +417,6 @@ exports[`ResourceCarouselView avoid re-renders correctly 1`] = `
                 "marginTop": 15,
               },
               undefined,
-              Object {},
-              Object {},
             ]
           }
           testID="carouselCardView"
@@ -466,16 +427,7 @@ exports[`ResourceCarouselView avoid re-renders correctly 1`] = `
                 Array [
                   Object {
                     "aspectRatio": 1.7777777777777777,
-                    "backgroundColor": "#ffffff",
-                    "borderRadius": 15,
-                    "elevation": 2,
-                    "shadowColor": "#333333",
-                    "shadowOffset": Object {
-                      "height": 1,
-                      "width": 0,
-                    },
-                    "shadowOpacity": 1,
-                    "shadowRadius": 2,
+                    "borderRadius": 0,
                     "width": 375,
                   },
                   Object {
@@ -525,8 +477,7 @@ exports[`ResourceCarouselView avoid re-renders correctly 1`] = `
                   source={
                     Object {
                       "cache": "web",
-                      "priority": "high",
-                      "uri": undefined,
+                      "uri": "undefined&width=784&height=784&scalingMode=aspectFit",
                     }
                   }
                   style={
@@ -540,55 +491,55 @@ exports[`ResourceCarouselView avoid re-renders correctly 1`] = `
                   }
                 />
               </View>
-              <BVLinearGradient
-                colors={
-                  Array [
-                    0,
-                    1712328720,
-                    3423604752,
-                  ]
-                }
-                endPoint={
-                  Object {
-                    "x": 0,
-                    "y": 1,
-                  }
-                }
-                locations={
-                  Array [
-                    0,
-                    0.5,
-                    1,
-                  ]
-                }
-                startPoint={
-                  Object {
-                    "x": 0,
-                    "y": 0.5,
-                  }
-                }
-                style={
-                  Array [
-                    Object {
-                      "backgroundColor": "transparent",
-                      "bottom": 0,
-                      "left": 0,
-                      "position": "absolute",
-                      "right": 0,
-                      "top": 0,
-                    },
-                    Object {
-                      "backgroundColor": "transparent",
-                      "bottom": 0,
-                      "left": 0,
-                      "position": "absolute",
-                      "right": 0,
-                      "top": 0,
-                    },
-                  ]
-                }
-              />
             </View>
+            <BVLinearGradient
+              colors={
+                Array [
+                  0,
+                  1712328720,
+                  3423604752,
+                ]
+              }
+              endPoint={
+                Object {
+                  "x": 0,
+                  "y": 1,
+                }
+              }
+              locations={
+                Array [
+                  0,
+                  0.5,
+                  1,
+                ]
+              }
+              startPoint={
+                Object {
+                  "x": 0,
+                  "y": 0.5,
+                }
+              }
+              style={
+                Array [
+                  Object {
+                    "backgroundColor": "transparent",
+                    "bottom": 0,
+                    "left": 0,
+                    "position": "absolute",
+                    "right": 0,
+                    "top": 0,
+                  },
+                  Object {
+                    "backgroundColor": "transparent",
+                    "bottom": 0,
+                    "left": 0,
+                    "position": "absolute",
+                    "right": 0,
+                    "top": 0,
+                  },
+                ]
+              }
+            />
           </View>
         </View>
       </View>
@@ -602,6 +553,7 @@ exports[`ResourceCarouselView avoid re-renders correctly 1`] = `
           "flex": 1,
           "flexDirection": "row",
           "justifyContent": "center",
+          "paddingTop": 20,
         },
       ]
     }
@@ -655,7 +607,6 @@ exports[`ResourceCarouselView avoid re-renders correctly 2`] = `
   }
 >
   <RCTScrollView
-    bounces={false}
     data={
       Array [
         Object {
@@ -739,10 +690,6 @@ exports[`ResourceCarouselView avoid re-renders correctly 2`] = `
           focusable={true}
           hasTVPreferredFocus={false}
           isTVSelectable={true}
-          nextFocusDown={null}
-          nextFocusLeft={null}
-          nextFocusRight={null}
-          nextFocusUp={null}
           style={
             Array [
               Object {
@@ -756,8 +703,6 @@ exports[`ResourceCarouselView avoid re-renders correctly 2`] = `
                 "marginTop": 15,
               },
               undefined,
-              Object {},
-              Object {},
             ]
           }
           testID="carouselCardView"
@@ -768,16 +713,7 @@ exports[`ResourceCarouselView avoid re-renders correctly 2`] = `
                 Array [
                   Object {
                     "aspectRatio": 1.7777777777777777,
-                    "backgroundColor": "#ffffff",
-                    "borderRadius": 15,
-                    "elevation": 2,
-                    "shadowColor": "#333333",
-                    "shadowOffset": Object {
-                      "height": 1,
-                      "width": 0,
-                    },
-                    "shadowOpacity": 1,
-                    "shadowRadius": 2,
+                    "borderRadius": 0,
                     "width": 375,
                   },
                   Object {
@@ -827,8 +763,7 @@ exports[`ResourceCarouselView avoid re-renders correctly 2`] = `
                   source={
                     Object {
                       "cache": "web",
-                      "priority": "high",
-                      "uri": undefined,
+                      "uri": "undefined&width=784&height=784&scalingMode=aspectFit",
                     }
                   }
                   style={
@@ -842,55 +777,55 @@ exports[`ResourceCarouselView avoid re-renders correctly 2`] = `
                   }
                 />
               </View>
-              <BVLinearGradient
-                colors={
-                  Array [
-                    0,
-                    1712328720,
-                    3423604752,
-                  ]
-                }
-                endPoint={
-                  Object {
-                    "x": 0,
-                    "y": 1,
-                  }
-                }
-                locations={
-                  Array [
-                    0,
-                    0.5,
-                    1,
-                  ]
-                }
-                startPoint={
-                  Object {
-                    "x": 0,
-                    "y": 0.5,
-                  }
-                }
-                style={
-                  Array [
-                    Object {
-                      "backgroundColor": "transparent",
-                      "bottom": 0,
-                      "left": 0,
-                      "position": "absolute",
-                      "right": 0,
-                      "top": 0,
-                    },
-                    Object {
-                      "backgroundColor": "transparent",
-                      "bottom": 0,
-                      "left": 0,
-                      "position": "absolute",
-                      "right": 0,
-                      "top": 0,
-                    },
-                  ]
-                }
-              />
             </View>
+            <BVLinearGradient
+              colors={
+                Array [
+                  0,
+                  1712328720,
+                  3423604752,
+                ]
+              }
+              endPoint={
+                Object {
+                  "x": 0,
+                  "y": 1,
+                }
+              }
+              locations={
+                Array [
+                  0,
+                  0.5,
+                  1,
+                ]
+              }
+              startPoint={
+                Object {
+                  "x": 0,
+                  "y": 0.5,
+                }
+              }
+              style={
+                Array [
+                  Object {
+                    "backgroundColor": "transparent",
+                    "bottom": 0,
+                    "left": 0,
+                    "position": "absolute",
+                    "right": 0,
+                    "top": 0,
+                  },
+                  Object {
+                    "backgroundColor": "transparent",
+                    "bottom": 0,
+                    "left": 0,
+                    "position": "absolute",
+                    "right": 0,
+                    "top": 0,
+                  },
+                ]
+              }
+            />
           </View>
         </View>
       </View>
@@ -910,10 +845,6 @@ exports[`ResourceCarouselView avoid re-renders correctly 2`] = `
           focusable={true}
           hasTVPreferredFocus={false}
           isTVSelectable={true}
-          nextFocusDown={null}
-          nextFocusLeft={null}
-          nextFocusRight={null}
-          nextFocusUp={null}
           style={
             Array [
               Object {
@@ -927,8 +858,6 @@ exports[`ResourceCarouselView avoid re-renders correctly 2`] = `
                 "marginTop": 15,
               },
               undefined,
-              Object {},
-              Object {},
             ]
           }
           testID="carouselCardView"
@@ -939,16 +868,7 @@ exports[`ResourceCarouselView avoid re-renders correctly 2`] = `
                 Array [
                   Object {
                     "aspectRatio": 1.7777777777777777,
-                    "backgroundColor": "#ffffff",
-                    "borderRadius": 15,
-                    "elevation": 2,
-                    "shadowColor": "#333333",
-                    "shadowOffset": Object {
-                      "height": 1,
-                      "width": 0,
-                    },
-                    "shadowOpacity": 1,
-                    "shadowRadius": 2,
+                    "borderRadius": 0,
                     "width": 375,
                   },
                   Object {
@@ -998,8 +918,7 @@ exports[`ResourceCarouselView avoid re-renders correctly 2`] = `
                   source={
                     Object {
                       "cache": "web",
-                      "priority": "high",
-                      "uri": undefined,
+                      "uri": "undefined&width=784&height=784&scalingMode=aspectFit",
                     }
                   }
                   style={
@@ -1013,55 +932,55 @@ exports[`ResourceCarouselView avoid re-renders correctly 2`] = `
                   }
                 />
               </View>
-              <BVLinearGradient
-                colors={
-                  Array [
-                    0,
-                    1712328720,
-                    3423604752,
-                  ]
-                }
-                endPoint={
-                  Object {
-                    "x": 0,
-                    "y": 1,
-                  }
-                }
-                locations={
-                  Array [
-                    0,
-                    0.5,
-                    1,
-                  ]
-                }
-                startPoint={
-                  Object {
-                    "x": 0,
-                    "y": 0.5,
-                  }
-                }
-                style={
-                  Array [
-                    Object {
-                      "backgroundColor": "transparent",
-                      "bottom": 0,
-                      "left": 0,
-                      "position": "absolute",
-                      "right": 0,
-                      "top": 0,
-                    },
-                    Object {
-                      "backgroundColor": "transparent",
-                      "bottom": 0,
-                      "left": 0,
-                      "position": "absolute",
-                      "right": 0,
-                      "top": 0,
-                    },
-                  ]
-                }
-              />
             </View>
+            <BVLinearGradient
+              colors={
+                Array [
+                  0,
+                  1712328720,
+                  3423604752,
+                ]
+              }
+              endPoint={
+                Object {
+                  "x": 0,
+                  "y": 1,
+                }
+              }
+              locations={
+                Array [
+                  0,
+                  0.5,
+                  1,
+                ]
+              }
+              startPoint={
+                Object {
+                  "x": 0,
+                  "y": 0.5,
+                }
+              }
+              style={
+                Array [
+                  Object {
+                    "backgroundColor": "transparent",
+                    "bottom": 0,
+                    "left": 0,
+                    "position": "absolute",
+                    "right": 0,
+                    "top": 0,
+                  },
+                  Object {
+                    "backgroundColor": "transparent",
+                    "bottom": 0,
+                    "left": 0,
+                    "position": "absolute",
+                    "right": 0,
+                    "top": 0,
+                  },
+                ]
+              }
+            />
           </View>
         </View>
       </View>
@@ -1081,10 +1000,6 @@ exports[`ResourceCarouselView avoid re-renders correctly 2`] = `
           focusable={true}
           hasTVPreferredFocus={false}
           isTVSelectable={true}
-          nextFocusDown={null}
-          nextFocusLeft={null}
-          nextFocusRight={null}
-          nextFocusUp={null}
           style={
             Array [
               Object {
@@ -1098,8 +1013,6 @@ exports[`ResourceCarouselView avoid re-renders correctly 2`] = `
                 "marginTop": 15,
               },
               undefined,
-              Object {},
-              Object {},
             ]
           }
           testID="carouselCardView"
@@ -1110,16 +1023,7 @@ exports[`ResourceCarouselView avoid re-renders correctly 2`] = `
                 Array [
                   Object {
                     "aspectRatio": 1.7777777777777777,
-                    "backgroundColor": "#ffffff",
-                    "borderRadius": 15,
-                    "elevation": 2,
-                    "shadowColor": "#333333",
-                    "shadowOffset": Object {
-                      "height": 1,
-                      "width": 0,
-                    },
-                    "shadowOpacity": 1,
-                    "shadowRadius": 2,
+                    "borderRadius": 0,
                     "width": 375,
                   },
                   Object {
@@ -1169,8 +1073,7 @@ exports[`ResourceCarouselView avoid re-renders correctly 2`] = `
                   source={
                     Object {
                       "cache": "web",
-                      "priority": "high",
-                      "uri": undefined,
+                      "uri": "undefined&width=784&height=784&scalingMode=aspectFit",
                     }
                   }
                   style={
@@ -1184,55 +1087,55 @@ exports[`ResourceCarouselView avoid re-renders correctly 2`] = `
                   }
                 />
               </View>
-              <BVLinearGradient
-                colors={
-                  Array [
-                    0,
-                    1712328720,
-                    3423604752,
-                  ]
-                }
-                endPoint={
-                  Object {
-                    "x": 0,
-                    "y": 1,
-                  }
-                }
-                locations={
-                  Array [
-                    0,
-                    0.5,
-                    1,
-                  ]
-                }
-                startPoint={
-                  Object {
-                    "x": 0,
-                    "y": 0.5,
-                  }
-                }
-                style={
-                  Array [
-                    Object {
-                      "backgroundColor": "transparent",
-                      "bottom": 0,
-                      "left": 0,
-                      "position": "absolute",
-                      "right": 0,
-                      "top": 0,
-                    },
-                    Object {
-                      "backgroundColor": "transparent",
-                      "bottom": 0,
-                      "left": 0,
-                      "position": "absolute",
-                      "right": 0,
-                      "top": 0,
-                    },
-                  ]
-                }
-              />
             </View>
+            <BVLinearGradient
+              colors={
+                Array [
+                  0,
+                  1712328720,
+                  3423604752,
+                ]
+              }
+              endPoint={
+                Object {
+                  "x": 0,
+                  "y": 1,
+                }
+              }
+              locations={
+                Array [
+                  0,
+                  0.5,
+                  1,
+                ]
+              }
+              startPoint={
+                Object {
+                  "x": 0,
+                  "y": 0.5,
+                }
+              }
+              style={
+                Array [
+                  Object {
+                    "backgroundColor": "transparent",
+                    "bottom": 0,
+                    "left": 0,
+                    "position": "absolute",
+                    "right": 0,
+                    "top": 0,
+                  },
+                  Object {
+                    "backgroundColor": "transparent",
+                    "bottom": 0,
+                    "left": 0,
+                    "position": "absolute",
+                    "right": 0,
+                    "top": 0,
+                  },
+                ]
+              }
+            />
           </View>
         </View>
       </View>
@@ -1246,6 +1149,7 @@ exports[`ResourceCarouselView avoid re-renders correctly 2`] = `
           "flex": 1,
           "flexDirection": "row",
           "justifyContent": "center",
+          "paddingTop": 20,
         },
       ]
     }
@@ -1299,7 +1203,6 @@ exports[`ResourceCarouselView renders correctly when custom wrapper style doesn'
   }
 >
   <RCTScrollView
-    bounces={false}
     data={
       Array [
         Object {
@@ -1383,10 +1286,6 @@ exports[`ResourceCarouselView renders correctly when custom wrapper style doesn'
           focusable={true}
           hasTVPreferredFocus={false}
           isTVSelectable={true}
-          nextFocusDown={null}
-          nextFocusLeft={null}
-          nextFocusRight={null}
-          nextFocusUp={null}
           style={
             Array [
               Object {
@@ -1396,8 +1295,6 @@ exports[`ResourceCarouselView renders correctly when custom wrapper style doesn'
               },
               undefined,
               undefined,
-              Object {},
-              Object {},
             ]
           }
           testID="carouselCardView"
@@ -1408,16 +1305,7 @@ exports[`ResourceCarouselView renders correctly when custom wrapper style doesn'
                 Array [
                   Object {
                     "aspectRatio": 1.7777777777777777,
-                    "backgroundColor": "#ffffff",
-                    "borderRadius": 15,
-                    "elevation": 2,
-                    "shadowColor": "#333333",
-                    "shadowOffset": Object {
-                      "height": 1,
-                      "width": 0,
-                    },
-                    "shadowOpacity": 1,
-                    "shadowRadius": 2,
+                    "borderRadius": 0,
                     "width": 375,
                   },
                   Object {
@@ -1450,8 +1338,7 @@ exports[`ResourceCarouselView renders correctly when custom wrapper style doesn'
                   source={
                     Object {
                       "cache": "web",
-                      "priority": "high",
-                      "uri": undefined,
+                      "uri": "undefined&width=200&height=200&scalingMode=aspectFit",
                     }
                   }
                   style={
@@ -1465,48 +1352,48 @@ exports[`ResourceCarouselView renders correctly when custom wrapper style doesn'
                   }
                 />
               </View>
-              <BVLinearGradient
-                colors={
-                  Array [
-                    0,
-                    1712328720,
-                    3423604752,
-                  ]
-                }
-                endPoint={
-                  Object {
-                    "x": 0,
-                    "y": 1,
-                  }
-                }
-                locations={
-                  Array [
-                    0,
-                    0.5,
-                    1,
-                  ]
-                }
-                startPoint={
-                  Object {
-                    "x": 0,
-                    "y": 0.5,
-                  }
-                }
-                style={
-                  Array [
-                    Object {
-                      "backgroundColor": "transparent",
-                      "bottom": 0,
-                      "left": 0,
-                      "position": "absolute",
-                      "right": 0,
-                      "top": 0,
-                    },
-                    undefined,
-                  ]
-                }
-              />
             </View>
+            <BVLinearGradient
+              colors={
+                Array [
+                  0,
+                  1712328720,
+                  3423604752,
+                ]
+              }
+              endPoint={
+                Object {
+                  "x": 0,
+                  "y": 1,
+                }
+              }
+              locations={
+                Array [
+                  0,
+                  0.5,
+                  1,
+                ]
+              }
+              startPoint={
+                Object {
+                  "x": 0,
+                  "y": 0.5,
+                }
+              }
+              style={
+                Array [
+                  Object {
+                    "backgroundColor": "transparent",
+                    "bottom": 0,
+                    "left": 0,
+                    "position": "absolute",
+                    "right": 0,
+                    "top": 0,
+                  },
+                  undefined,
+                ]
+              }
+            />
           </View>
         </View>
       </View>
@@ -1526,10 +1413,6 @@ exports[`ResourceCarouselView renders correctly when custom wrapper style doesn'
           focusable={true}
           hasTVPreferredFocus={false}
           isTVSelectable={true}
-          nextFocusDown={null}
-          nextFocusLeft={null}
-          nextFocusRight={null}
-          nextFocusUp={null}
           style={
             Array [
               Object {
@@ -1539,8 +1422,6 @@ exports[`ResourceCarouselView renders correctly when custom wrapper style doesn'
               },
               undefined,
               undefined,
-              Object {},
-              Object {},
             ]
           }
           testID="carouselCardView"
@@ -1551,16 +1432,7 @@ exports[`ResourceCarouselView renders correctly when custom wrapper style doesn'
                 Array [
                   Object {
                     "aspectRatio": 1.7777777777777777,
-                    "backgroundColor": "#ffffff",
-                    "borderRadius": 15,
-                    "elevation": 2,
-                    "shadowColor": "#333333",
-                    "shadowOffset": Object {
-                      "height": 1,
-                      "width": 0,
-                    },
-                    "shadowOpacity": 1,
-                    "shadowRadius": 2,
+                    "borderRadius": 0,
                     "width": 375,
                   },
                   Object {
@@ -1593,8 +1465,7 @@ exports[`ResourceCarouselView renders correctly when custom wrapper style doesn'
                   source={
                     Object {
                       "cache": "web",
-                      "priority": "high",
-                      "uri": undefined,
+                      "uri": "undefined&width=200&height=200&scalingMode=aspectFit",
                     }
                   }
                   style={
@@ -1608,48 +1479,48 @@ exports[`ResourceCarouselView renders correctly when custom wrapper style doesn'
                   }
                 />
               </View>
-              <BVLinearGradient
-                colors={
-                  Array [
-                    0,
-                    1712328720,
-                    3423604752,
-                  ]
-                }
-                endPoint={
-                  Object {
-                    "x": 0,
-                    "y": 1,
-                  }
-                }
-                locations={
-                  Array [
-                    0,
-                    0.5,
-                    1,
-                  ]
-                }
-                startPoint={
-                  Object {
-                    "x": 0,
-                    "y": 0.5,
-                  }
-                }
-                style={
-                  Array [
-                    Object {
-                      "backgroundColor": "transparent",
-                      "bottom": 0,
-                      "left": 0,
-                      "position": "absolute",
-                      "right": 0,
-                      "top": 0,
-                    },
-                    undefined,
-                  ]
-                }
-              />
             </View>
+            <BVLinearGradient
+              colors={
+                Array [
+                  0,
+                  1712328720,
+                  3423604752,
+                ]
+              }
+              endPoint={
+                Object {
+                  "x": 0,
+                  "y": 1,
+                }
+              }
+              locations={
+                Array [
+                  0,
+                  0.5,
+                  1,
+                ]
+              }
+              startPoint={
+                Object {
+                  "x": 0,
+                  "y": 0.5,
+                }
+              }
+              style={
+                Array [
+                  Object {
+                    "backgroundColor": "transparent",
+                    "bottom": 0,
+                    "left": 0,
+                    "position": "absolute",
+                    "right": 0,
+                    "top": 0,
+                  },
+                  undefined,
+                ]
+              }
+            />
           </View>
         </View>
       </View>
@@ -1669,10 +1540,6 @@ exports[`ResourceCarouselView renders correctly when custom wrapper style doesn'
           focusable={true}
           hasTVPreferredFocus={false}
           isTVSelectable={true}
-          nextFocusDown={null}
-          nextFocusLeft={null}
-          nextFocusRight={null}
-          nextFocusUp={null}
           style={
             Array [
               Object {
@@ -1682,8 +1549,6 @@ exports[`ResourceCarouselView renders correctly when custom wrapper style doesn'
               },
               undefined,
               undefined,
-              Object {},
-              Object {},
             ]
           }
           testID="carouselCardView"
@@ -1694,16 +1559,7 @@ exports[`ResourceCarouselView renders correctly when custom wrapper style doesn'
                 Array [
                   Object {
                     "aspectRatio": 1.7777777777777777,
-                    "backgroundColor": "#ffffff",
-                    "borderRadius": 15,
-                    "elevation": 2,
-                    "shadowColor": "#333333",
-                    "shadowOffset": Object {
-                      "height": 1,
-                      "width": 0,
-                    },
-                    "shadowOpacity": 1,
-                    "shadowRadius": 2,
+                    "borderRadius": 0,
                     "width": 375,
                   },
                   Object {
@@ -1736,8 +1592,7 @@ exports[`ResourceCarouselView renders correctly when custom wrapper style doesn'
                   source={
                     Object {
                       "cache": "web",
-                      "priority": "high",
-                      "uri": undefined,
+                      "uri": "undefined&width=200&height=200&scalingMode=aspectFit",
                     }
                   }
                   style={
@@ -1751,48 +1606,48 @@ exports[`ResourceCarouselView renders correctly when custom wrapper style doesn'
                   }
                 />
               </View>
-              <BVLinearGradient
-                colors={
-                  Array [
-                    0,
-                    1712328720,
-                    3423604752,
-                  ]
-                }
-                endPoint={
-                  Object {
-                    "x": 0,
-                    "y": 1,
-                  }
-                }
-                locations={
-                  Array [
-                    0,
-                    0.5,
-                    1,
-                  ]
-                }
-                startPoint={
-                  Object {
-                    "x": 0,
-                    "y": 0.5,
-                  }
-                }
-                style={
-                  Array [
-                    Object {
-                      "backgroundColor": "transparent",
-                      "bottom": 0,
-                      "left": 0,
-                      "position": "absolute",
-                      "right": 0,
-                      "top": 0,
-                    },
-                    undefined,
-                  ]
-                }
-              />
             </View>
+            <BVLinearGradient
+              colors={
+                Array [
+                  0,
+                  1712328720,
+                  3423604752,
+                ]
+              }
+              endPoint={
+                Object {
+                  "x": 0,
+                  "y": 1,
+                }
+              }
+              locations={
+                Array [
+                  0,
+                  0.5,
+                  1,
+                ]
+              }
+              startPoint={
+                Object {
+                  "x": 0,
+                  "y": 0.5,
+                }
+              }
+              style={
+                Array [
+                  Object {
+                    "backgroundColor": "transparent",
+                    "bottom": 0,
+                    "left": 0,
+                    "position": "absolute",
+                    "right": 0,
+                    "top": 0,
+                  },
+                  undefined,
+                ]
+              }
+            />
           </View>
         </View>
       </View>
@@ -1806,6 +1661,7 @@ exports[`ResourceCarouselView renders correctly when custom wrapper style doesn'
           "flex": 1,
           "flexDirection": "row",
           "justifyContent": "center",
+          "paddingTop": 20,
         },
       ]
     }
@@ -1859,7 +1715,6 @@ exports[`ResourceCarouselView renders correctly with default styles 1`] = `
   }
 >
   <RCTScrollView
-    bounces={false}
     data={
       Array [
         Object {
@@ -1943,10 +1798,6 @@ exports[`ResourceCarouselView renders correctly with default styles 1`] = `
           focusable={true}
           hasTVPreferredFocus={false}
           isTVSelectable={true}
-          nextFocusDown={null}
-          nextFocusLeft={null}
-          nextFocusRight={null}
-          nextFocusUp={null}
           style={
             Array [
               Object {
@@ -1960,8 +1811,6 @@ exports[`ResourceCarouselView renders correctly with default styles 1`] = `
                 "marginTop": 15,
               },
               undefined,
-              Object {},
-              Object {},
             ]
           }
           testID="carouselCardView"
@@ -1972,16 +1821,7 @@ exports[`ResourceCarouselView renders correctly with default styles 1`] = `
                 Array [
                   Object {
                     "aspectRatio": 1.7777777777777777,
-                    "backgroundColor": "#ffffff",
-                    "borderRadius": 15,
-                    "elevation": 2,
-                    "shadowColor": "#333333",
-                    "shadowOffset": Object {
-                      "height": 1,
-                      "width": 0,
-                    },
-                    "shadowOpacity": 1,
-                    "shadowRadius": 2,
+                    "borderRadius": 0,
                     "width": 375,
                   },
                   Object {
@@ -2031,8 +1871,7 @@ exports[`ResourceCarouselView renders correctly with default styles 1`] = `
                   source={
                     Object {
                       "cache": "web",
-                      "priority": "high",
-                      "uri": undefined,
+                      "uri": "undefined&width=784&height=784&scalingMode=aspectFit",
                     }
                   }
                   style={
@@ -2046,55 +1885,55 @@ exports[`ResourceCarouselView renders correctly with default styles 1`] = `
                   }
                 />
               </View>
-              <BVLinearGradient
-                colors={
-                  Array [
-                    0,
-                    1712328720,
-                    3423604752,
-                  ]
-                }
-                endPoint={
-                  Object {
-                    "x": 0,
-                    "y": 1,
-                  }
-                }
-                locations={
-                  Array [
-                    0,
-                    0.5,
-                    1,
-                  ]
-                }
-                startPoint={
-                  Object {
-                    "x": 0,
-                    "y": 0.5,
-                  }
-                }
-                style={
-                  Array [
-                    Object {
-                      "backgroundColor": "transparent",
-                      "bottom": 0,
-                      "left": 0,
-                      "position": "absolute",
-                      "right": 0,
-                      "top": 0,
-                    },
-                    Object {
-                      "backgroundColor": "transparent",
-                      "bottom": 0,
-                      "left": 0,
-                      "position": "absolute",
-                      "right": 0,
-                      "top": 0,
-                    },
-                  ]
-                }
-              />
             </View>
+            <BVLinearGradient
+              colors={
+                Array [
+                  0,
+                  1712328720,
+                  3423604752,
+                ]
+              }
+              endPoint={
+                Object {
+                  "x": 0,
+                  "y": 1,
+                }
+              }
+              locations={
+                Array [
+                  0,
+                  0.5,
+                  1,
+                ]
+              }
+              startPoint={
+                Object {
+                  "x": 0,
+                  "y": 0.5,
+                }
+              }
+              style={
+                Array [
+                  Object {
+                    "backgroundColor": "transparent",
+                    "bottom": 0,
+                    "left": 0,
+                    "position": "absolute",
+                    "right": 0,
+                    "top": 0,
+                  },
+                  Object {
+                    "backgroundColor": "transparent",
+                    "bottom": 0,
+                    "left": 0,
+                    "position": "absolute",
+                    "right": 0,
+                    "top": 0,
+                  },
+                ]
+              }
+            />
           </View>
         </View>
       </View>
@@ -2114,10 +1953,6 @@ exports[`ResourceCarouselView renders correctly with default styles 1`] = `
           focusable={true}
           hasTVPreferredFocus={false}
           isTVSelectable={true}
-          nextFocusDown={null}
-          nextFocusLeft={null}
-          nextFocusRight={null}
-          nextFocusUp={null}
           style={
             Array [
               Object {
@@ -2131,8 +1966,6 @@ exports[`ResourceCarouselView renders correctly with default styles 1`] = `
                 "marginTop": 15,
               },
               undefined,
-              Object {},
-              Object {},
             ]
           }
           testID="carouselCardView"
@@ -2143,16 +1976,7 @@ exports[`ResourceCarouselView renders correctly with default styles 1`] = `
                 Array [
                   Object {
                     "aspectRatio": 1.7777777777777777,
-                    "backgroundColor": "#ffffff",
-                    "borderRadius": 15,
-                    "elevation": 2,
-                    "shadowColor": "#333333",
-                    "shadowOffset": Object {
-                      "height": 1,
-                      "width": 0,
-                    },
-                    "shadowOpacity": 1,
-                    "shadowRadius": 2,
+                    "borderRadius": 0,
                     "width": 375,
                   },
                   Object {
@@ -2202,8 +2026,7 @@ exports[`ResourceCarouselView renders correctly with default styles 1`] = `
                   source={
                     Object {
                       "cache": "web",
-                      "priority": "high",
-                      "uri": undefined,
+                      "uri": "undefined&width=784&height=784&scalingMode=aspectFit",
                     }
                   }
                   style={
@@ -2217,55 +2040,55 @@ exports[`ResourceCarouselView renders correctly with default styles 1`] = `
                   }
                 />
               </View>
-              <BVLinearGradient
-                colors={
-                  Array [
-                    0,
-                    1712328720,
-                    3423604752,
-                  ]
-                }
-                endPoint={
-                  Object {
-                    "x": 0,
-                    "y": 1,
-                  }
-                }
-                locations={
-                  Array [
-                    0,
-                    0.5,
-                    1,
-                  ]
-                }
-                startPoint={
-                  Object {
-                    "x": 0,
-                    "y": 0.5,
-                  }
-                }
-                style={
-                  Array [
-                    Object {
-                      "backgroundColor": "transparent",
-                      "bottom": 0,
-                      "left": 0,
-                      "position": "absolute",
-                      "right": 0,
-                      "top": 0,
-                    },
-                    Object {
-                      "backgroundColor": "transparent",
-                      "bottom": 0,
-                      "left": 0,
-                      "position": "absolute",
-                      "right": 0,
-                      "top": 0,
-                    },
-                  ]
-                }
-              />
             </View>
+            <BVLinearGradient
+              colors={
+                Array [
+                  0,
+                  1712328720,
+                  3423604752,
+                ]
+              }
+              endPoint={
+                Object {
+                  "x": 0,
+                  "y": 1,
+                }
+              }
+              locations={
+                Array [
+                  0,
+                  0.5,
+                  1,
+                ]
+              }
+              startPoint={
+                Object {
+                  "x": 0,
+                  "y": 0.5,
+                }
+              }
+              style={
+                Array [
+                  Object {
+                    "backgroundColor": "transparent",
+                    "bottom": 0,
+                    "left": 0,
+                    "position": "absolute",
+                    "right": 0,
+                    "top": 0,
+                  },
+                  Object {
+                    "backgroundColor": "transparent",
+                    "bottom": 0,
+                    "left": 0,
+                    "position": "absolute",
+                    "right": 0,
+                    "top": 0,
+                  },
+                ]
+              }
+            />
           </View>
         </View>
       </View>
@@ -2285,10 +2108,6 @@ exports[`ResourceCarouselView renders correctly with default styles 1`] = `
           focusable={true}
           hasTVPreferredFocus={false}
           isTVSelectable={true}
-          nextFocusDown={null}
-          nextFocusLeft={null}
-          nextFocusRight={null}
-          nextFocusUp={null}
           style={
             Array [
               Object {
@@ -2302,8 +2121,6 @@ exports[`ResourceCarouselView renders correctly with default styles 1`] = `
                 "marginTop": 15,
               },
               undefined,
-              Object {},
-              Object {},
             ]
           }
           testID="carouselCardView"
@@ -2314,16 +2131,7 @@ exports[`ResourceCarouselView renders correctly with default styles 1`] = `
                 Array [
                   Object {
                     "aspectRatio": 1.7777777777777777,
-                    "backgroundColor": "#ffffff",
-                    "borderRadius": 15,
-                    "elevation": 2,
-                    "shadowColor": "#333333",
-                    "shadowOffset": Object {
-                      "height": 1,
-                      "width": 0,
-                    },
-                    "shadowOpacity": 1,
-                    "shadowRadius": 2,
+                    "borderRadius": 0,
                     "width": 375,
                   },
                   Object {
@@ -2373,8 +2181,7 @@ exports[`ResourceCarouselView renders correctly with default styles 1`] = `
                   source={
                     Object {
                       "cache": "web",
-                      "priority": "high",
-                      "uri": undefined,
+                      "uri": "undefined&width=784&height=784&scalingMode=aspectFit",
                     }
                   }
                   style={
@@ -2388,55 +2195,55 @@ exports[`ResourceCarouselView renders correctly with default styles 1`] = `
                   }
                 />
               </View>
-              <BVLinearGradient
-                colors={
-                  Array [
-                    0,
-                    1712328720,
-                    3423604752,
-                  ]
-                }
-                endPoint={
-                  Object {
-                    "x": 0,
-                    "y": 1,
-                  }
-                }
-                locations={
-                  Array [
-                    0,
-                    0.5,
-                    1,
-                  ]
-                }
-                startPoint={
-                  Object {
-                    "x": 0,
-                    "y": 0.5,
-                  }
-                }
-                style={
-                  Array [
-                    Object {
-                      "backgroundColor": "transparent",
-                      "bottom": 0,
-                      "left": 0,
-                      "position": "absolute",
-                      "right": 0,
-                      "top": 0,
-                    },
-                    Object {
-                      "backgroundColor": "transparent",
-                      "bottom": 0,
-                      "left": 0,
-                      "position": "absolute",
-                      "right": 0,
-                      "top": 0,
-                    },
-                  ]
-                }
-              />
             </View>
+            <BVLinearGradient
+              colors={
+                Array [
+                  0,
+                  1712328720,
+                  3423604752,
+                ]
+              }
+              endPoint={
+                Object {
+                  "x": 0,
+                  "y": 1,
+                }
+              }
+              locations={
+                Array [
+                  0,
+                  0.5,
+                  1,
+                ]
+              }
+              startPoint={
+                Object {
+                  "x": 0,
+                  "y": 0.5,
+                }
+              }
+              style={
+                Array [
+                  Object {
+                    "backgroundColor": "transparent",
+                    "bottom": 0,
+                    "left": 0,
+                    "position": "absolute",
+                    "right": 0,
+                    "top": 0,
+                  },
+                  Object {
+                    "backgroundColor": "transparent",
+                    "bottom": 0,
+                    "left": 0,
+                    "position": "absolute",
+                    "right": 0,
+                    "top": 0,
+                  },
+                ]
+              }
+            />
           </View>
         </View>
       </View>
@@ -2450,6 +2257,7 @@ exports[`ResourceCarouselView renders correctly with default styles 1`] = `
           "flex": 1,
           "flexDirection": "row",
           "justifyContent": "center",
+          "paddingTop": 20,
         },
       ]
     }

@@ -2,7 +2,7 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { useAppPreferencesState } from 'utils/AppPreferencesContext';
 
-export const Pill = ({ children, borderRadius }: { children: React.PropsWithChildren<{}>; borderRadius: number }) => {
+export const Pill = ({ children }: React.PropsWithChildren<{}>) => {
     const prefs = useAppPreferencesState();
     const { appTheme } = prefs;
     let { appColors } = appTheme && appTheme(prefs);
@@ -10,7 +10,7 @@ export const Pill = ({ children, borderRadius }: { children: React.PropsWithChil
     const styles = StyleSheet.create({
         container: {
             backgroundColor: appColors.brandTint,
-            borderRadius: borderRadius || 12,
+            borderRadius: 12,
             padding: 2,
         },
     });

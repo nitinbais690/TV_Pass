@@ -14,7 +14,9 @@ import {
     setStreamQuality,
     getDownloadQuality,
     setDownloadQuality,
+    canStreamOverCellular,
     setStreamOverCellular,
+    canDownloadOverCellular,
     setDownloadOverCellular,
     canSendPushNotifications,
     setSendPushNotifications,
@@ -23,15 +25,12 @@ import {
 } from 'utils/UserPreferenceUtils';
 import { AppEvents, condensePreferanceData } from 'utils/ReportingUtils';
 import { useAnalytics } from 'utils/AnalyticsReporterContext';
-import { useSwrve, SWRVE_KEY } from 'contexts/SwrveContextProvider';
 import { useDownloads } from 'platform/hooks/useDownloads';
 import Button from 'screens/components/Button';
-import BackgroundGradient from 'screens/components/BackgroundGradient';
-import { useDownloadsContext, PreferenceUpdates } from 'utils/DownloadsContextProvider';
+import BackgroundGradient from 'core/presentation/components/atoms/BackgroundGradient';
 
 export const PreferencesScreen = ({ navigation }: { navigation: any }): JSX.Element => {
     const actionSheetRef = useRef<ActionSheet>(null);
-    const downloadQualityActionSheetRef = useRef<ActionSheet>(null);
     const clearDownloadsActionSheetRef = useRef<ActionSheet>(null);
     const { width, height } = useDimensions().window;
     const prefs = useAppPreferencesState();
@@ -41,13 +40,12 @@ export const PreferencesScreen = ({ navigation }: { navigation: any }): JSX.Elem
     const isPortrait = height > width;
     const settStyle = settingStyle({ appColors, isPortrait });
     const [purging, setPurging] = useState<boolean>(false);
+    const [streamOverCellular, setStreamCellularLocal] = useState<boolean | undefined>(undefined);
     const [downloadOverCellular, setDownloadCellularLocal] = useState<boolean | undefined>(undefined);
     const [sendPushNotification, setSendPushNotificationLocal] = useState<boolean | undefined>(undefined);
     const [qp, setQp] = useState(DEFAULT_STREAM_QUALITY);
     const [dwQuality, setDwQuality] = useState(DEFAULT_DOWNLOAD_QUALITY);
-    const { swrveUserUpdate } = useSwrve();
     const { downloads } = useDownloads(downloadManager);
-    const { downloadOverWifiOnly, streamOverCellular: streamOverCellular, updatePreference } = useDownloadsContext();
 
     const qualityPlaybackValues = [
         {
@@ -115,22 +113,17 @@ export const PreferencesScreen = ({ navigation }: { navigation: any }): JSX.Elem
         const setup = async () => {
             setQp(await getStreamQuality());
             setDwQuality(await getDownloadQuality());
-            setDownloadCellularLocal(downloadOverWifiOnly);
+            setDownloadCellularLocal(await canDownloadOverCellular());
+            setStreamCellularLocal(await canStreamOverCellular());
             setSendPushNotificationLocal(await canSendPushNotifications());
         };
 
         setup();
-    }, [downloadOverWifiOnly]);
+    }, []);
 
     const showActionSheet = () => {
         if (actionSheetRef.current) {
             actionSheetRef.current.show();
-        }
-    };
-
-    const showDownloadQualityActionSheet = () => {
-        if (downloadQualityActionSheetRef.current) {
-            downloadQualityActionSheetRef.current.show();
         }
     };
 
@@ -162,7 +155,6 @@ export const PreferencesScreen = ({ navigation }: { navigation: any }): JSX.Elem
                 </Text>
                 <ActionSheet
                     ref={actionSheetRef}
-                    title={strings['preference.playback_quality.title']}
                     options={qualityPlaybackValues.map(q => q.label)}
                     cancelButtonIndex={0}
                     onPress={index => {
@@ -184,14 +176,7 @@ export const PreferencesScreen = ({ navigation }: { navigation: any }): JSX.Elem
                 />
                 <TouchableOpacity onPress={() => showActionSheet()}>
                     <View style={[settStyle.row_between, settStyle.borderBottom, settStyle.borderTop]}>
-                        <View style={[settStyle.row_between_container]}>
-                            <Text style={[settStyle.text_md_sm, settStyle.container]}>
-                                {strings['preference.quality']}
-                            </Text>
-                            <Text style={[settStyle.text_md_xxs, settStyle.container, settStyle.paddingTop]}>
-                                {strings['preference.quality_sub.text']}
-                            </Text>
-                        </View>
+                        <Text style={[settStyle.text_md_sm, settStyle.container]}>{strings['preference.quality']}</Text>
                         <View style={settStyle.toggle}>
                             <Text style={settStyle.qpText}>{qp}</Text>
                         </View>
@@ -202,12 +187,12 @@ export const PreferencesScreen = ({ navigation }: { navigation: any }): JSX.Elem
                     <View style={settStyle.toggle}>
                         <Switch
                             ios_backgroundColor={appColors.primary}
-                            style={[settStyle.margin_toggle]}
+                            style={[settStyle.margin_toggle, { transform: [{ scaleX: 0.9 }, { scaleY: 0.9 }] }]}
                             thumbColor={streamOverCellular ? appColors.secondary : appColors.tertiary}
                             trackColor={{ true: appColors.brandTint, false: appColors.primary }}
                             onValueChange={value => {
                                 setStreamOverCellular(value);
-                                updatePreference(PreferenceUpdates.streamOverCellular, value);
+                                setStreamCellularLocal(value);
                                 recordEvent(
                                     AppEvents.UPDATE_USER_PREFRENCES,
                                     condensePreferanceData({
@@ -226,7 +211,7 @@ export const PreferencesScreen = ({ navigation }: { navigation: any }): JSX.Elem
                     {strings['preference.downloads']}
                 </Text>
                 <ActionSheet
-                    ref={downloadQualityActionSheetRef}
+                    ref={actionSheetRef}
                     title={strings['preference.download_quality.title']}
                     options={downloadQualityValues.map(q => q.label)}
                     cancelButtonIndex={0}
@@ -238,7 +223,7 @@ export const PreferencesScreen = ({ navigation }: { navigation: any }): JSX.Elem
                         }
                     }}
                 />
-                <TouchableOpacity onPress={() => showDownloadQualityActionSheet()}>
+                <TouchableOpacity onPress={() => showActionSheet()}>
                     <View style={[settStyle.row_between, settStyle.borderBottom, settStyle.borderTop]}>
                         <Text style={[settStyle.text_md_sm, settStyle.container]}>
                             {strings['preference.download.quality']}
@@ -249,22 +234,16 @@ export const PreferencesScreen = ({ navigation }: { navigation: any }): JSX.Elem
                     </View>
                 </TouchableOpacity>
                 <View style={[settStyle.row_between, settStyle.borderBottom, settStyle.borderTop]}>
-                    <View style={[settStyle.row_between_container]}>
-                        <Text style={[settStyle.text_md_sm, settStyle.container]}>{strings['preference.wifi']}</Text>
-                        <Text style={[settStyle.text_md_xxs, settStyle.container, settStyle.paddingTop]}>
-                            {strings['preference.wifi_sub.text_1']}
-                        </Text>
-                    </View>
+                    <Text style={[settStyle.text_md_sm, settStyle.container]}>{strings['preference.wifi']}</Text>
                     <View style={settStyle.toggle}>
                         <Switch
                             ios_backgroundColor={appColors.primary}
-                            style={[settStyle.margin_toggle]}
-                            thumbColor={downloadOverCellular ? appColors.secondary : appColors.captionLight}
+                            style={[settStyle.margin_toggle, { transform: [{ scaleX: 0.9 }, { scaleY: 0.9 }] }]}
+                            thumbColor={!downloadOverCellular ? appColors.secondary : appColors.captionLight}
                             trackColor={{ true: appColors.brandTint, false: appColors.primaryVariant4 }}
                             onValueChange={value => {
-                                setDownloadOverCellular(value);
-                                setDownloadCellularLocal(value);
-                                updatePreference(PreferenceUpdates.downloadOverWifiOnly, value);
+                                setDownloadOverCellular(!value);
+                                setDownloadCellularLocal(!value);
                                 recordEvent(
                                     AppEvents.UPDATE_USER_PREFRENCES,
                                     condensePreferanceData({
@@ -275,7 +254,7 @@ export const PreferencesScreen = ({ navigation }: { navigation: any }): JSX.Elem
                                     }),
                                 );
                             }}
-                            value={downloadOverWifiOnly}
+                            value={!downloadOverCellular}
                         />
                     </View>
                 </View>
@@ -315,7 +294,7 @@ export const PreferencesScreen = ({ navigation }: { navigation: any }): JSX.Elem
                     <View style={settStyle.toggle}>
                         <Switch
                             ios_backgroundColor={appColors.primary}
-                            style={[settStyle.margin_toggle]}
+                            style={[settStyle.margin_toggle, { transform: [{ scaleX: 0.9 }, { scaleY: 0.9 }] }]}
                             thumbColor={sendPushNotification ? appColors.secondary : appColors.captionLight}
                             trackColor={{ true: appColors.brandTint, false: appColors.caption }}
                             onValueChange={value => {
@@ -330,7 +309,6 @@ export const PreferencesScreen = ({ navigation }: { navigation: any }): JSX.Elem
                                         prefDownloadOnWifiOnly: !downloadOverCellular,
                                     }),
                                 );
-                                swrveUserUpdate({ [SWRVE_KEY.opt_out_push]: value ? 0 : 1 });
                             }}
                             value={sendPushNotification}
                         />

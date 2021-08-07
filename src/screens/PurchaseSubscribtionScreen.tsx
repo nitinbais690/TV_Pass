@@ -5,7 +5,7 @@ import { useAlert } from 'contexts/AlertContext';
 import { useIAPState, ErrorCodes } from 'utils/IAPContextProvider';
 import { useGetProducts } from './hooks/useGetProducts';
 import AppLoadingIndicator from './components/AppLoadingIndicator';
-import BackgroundGradient from './components/BackgroundGradient';
+import BackgroundGradient from 'core/presentation/components/atoms/BackgroundGradient';
 import { routeToPurchaseConfirmation, routeToContinueSubscription } from 'utils/NavigationUtils';
 import { useAnalytics } from 'utils/AnalyticsReporterContext';
 import { AppEvents, condenseErrorObject, condenseSubscriptionData } from 'utils/ReportingUtils';
@@ -18,8 +18,7 @@ const PurchaseSubscribtionScreen = ({ navigation }: { navigation: any }): JSX.El
     const { Alert } = useAlert();
     const { strings } = useLocalization();
     const { recordEvent } = useAnalytics();
-    const { purchaseSubscription, transactionSuccess, errorObject, openSubscriptionAndroid } = useIAPState();
-    const hasTriggeredAutoPurchase = useRef<boolean>(false);
+    const { loading: purchaseInProgress, purchaseSubscription, transactionSuccess, errorObject } = useIAPState();
     const {
         loading: loadingSubscriptions,
         response: subscriptions,
@@ -27,8 +26,6 @@ const PurchaseSubscribtionScreen = ({ navigation }: { navigation: any }): JSX.El
         reload,
         reset,
     } = useGetProducts(true);
-
-    console.log('SUBSCRIPTIONS', subscriptions, transactionSuccess);
 
     const style = StyleSheet.create({
         container: {
@@ -40,6 +37,7 @@ const PurchaseSubscribtionScreen = ({ navigation }: { navigation: any }): JSX.El
 
     useEffect(() => {
         isMounted.current = true;
+
         if (subscriptionFetchError === true) {
             recordEvent(AppEvents.PURCHASE_FAILURE, condenseErrorObject(errorObject));
             Alert.alert(
@@ -64,16 +62,15 @@ const PurchaseSubscribtionScreen = ({ navigation }: { navigation: any }): JSX.El
             isMounted.current = false;
         };
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [subscriptionFetchError, subscriptions]);
+    }, [subscriptionFetchError]);
 
     useEffect(() => {
-        if (subscriptions !== undefined && !hasTriggeredAutoPurchase.current) {
+        if (subscriptions !== undefined && purchaseInProgress === undefined) {
             purchaseSubscription(subscriptions[0]);
-            openSubscriptionAndroid(subscriptions[0].appChannels[0].appID);
-            hasTriggeredAutoPurchase.current = true;
         }
+
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [loadingSubscriptions]);
+    }, [purchaseInProgress, loadingSubscriptions]);
 
     useEffect(() => {
         if (!subscriptions || !isMounted.current) {
@@ -90,6 +87,7 @@ const PurchaseSubscribtionScreen = ({ navigation }: { navigation: any }): JSX.El
                         onPress: () => {
                             purchaseSubscription(subscriptions[0]);
                         },
+                        style: 'cancel',
                     },
                     {
                         text: strings['subscription.finish_later_btn'],
@@ -108,17 +106,17 @@ const PurchaseSubscribtionScreen = ({ navigation }: { navigation: any }): JSX.El
                 undefined,
                 [
                     {
-                        text: strings['global.okay'],
-                        onPress: () => {
-                            routeToContinueSubscription({ navigation });
-                        },
-                    },
-                    {
                         text: strings['subscription.retry_btn'],
                         onPress: () => {
                             purchaseSubscription(subscriptions[0]);
                         },
                         style: 'cancel',
+                    },
+                    {
+                        text: strings['global.okay'],
+                        onPress: () => {
+                            routeToContinueSubscription({ navigation });
+                        },
                     },
                 ],
                 { cancelable: false },

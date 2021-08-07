@@ -1,11 +1,11 @@
-import React, { useRef, useEffect } from 'react';
-import { Animated, Easing } from 'react-native';
+import React from 'react';
+import { View, Platform } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
 import { AspectRatio, AspectRatioUtil } from 'qp-common-ui';
-import { useHeaderTabBarHeight } from 'screens/components/HeaderTabBar';
 import SkeletonCatalogContainer from './SkeletonCatalogContainer';
 import { useAppPreferencesState } from 'utils/AppPreferencesContext';
 import { useDimensions } from '@react-native-community/hooks';
+import { useHeaderTabBarHeight } from 'core/presentation/components/molecules/HeaderTabBar';
 
 export type SkeletonCatalogType = 'Strorefront' | 'MyContent';
 
@@ -14,46 +14,17 @@ const SkeletonCatalog = ({ type }: { type?: SkeletonCatalogType }) => {
     const { appConfig } = useAppPreferencesState();
     const { width, height } = useDimensions().window;
     const isPortrait = height > width;
-    const enterAnimValue = useRef(new Animated.Value(0)).current;
     let bannerAspectRatio = AspectRatio._16by9;
-    const aspectRatioOverrideKey = `sf.aspectratio_banner_${DeviceInfo.getDeviceType().toLowerCase()}_${
-        isPortrait ? 'portrait' : 'landscape'
-    }`;
+    const aspectRatioOverrideKey = Platform.isTV
+        ? `sf.aspectratio_banner_${DeviceInfo.getDeviceType().toLowerCase()}`
+        : `sf.aspectratio_banner_${DeviceInfo.getDeviceType().toLowerCase()}_${isPortrait ? 'portrait' : 'landscape'}`;
     const arOverride = appConfig && appConfig[aspectRatioOverrideKey];
     if (arOverride) {
         bannerAspectRatio = AspectRatioUtil.fromString(arOverride);
     }
 
-    useEffect(() => {
-        Animated.timing(enterAnimValue, {
-            toValue: 1,
-            duration: 300,
-            useNativeDriver: true,
-            easing: Easing.out(Easing.quad),
-        }).start();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
-
-    const opacityStyle = type !== 'MyContent' ? enterAnimValue : 1;
-    const transformStyle =
-        type !== 'MyContent'
-            ? enterAnimValue.interpolate({
-                  inputRange: [0, 1],
-                  outputRange: [100, 0], // 0 : 150, 0.5 : 75, 1 : 0
-              })
-            : 0;
-
     return (
-        <Animated.View
-            style={{
-                paddingTop: headerTabBarHeight,
-                opacity: opacityStyle,
-                transform: [
-                    {
-                        translateY: transformStyle,
-                    },
-                ],
-            }}>
+        <View style={{ paddingTop: Platform.isTV ? 0 : headerTabBarHeight }}>
             {type === 'MyContent' ? (
                 <>
                     <SkeletonCatalogContainer
@@ -62,14 +33,14 @@ const SkeletonCatalog = ({ type }: { type?: SkeletonCatalogType }) => {
                         showContainerLabel
                         footerLabelsCount={3}
                         count={3}
-                        size={'regular'}
+                        size={'large'}
                     />
                     <SkeletonCatalogContainer
                         aspectRatio={AspectRatio._16by9}
                         showFooter
                         showContainerLabel
                         count={3}
-                        size={'regular'}
+                        size={'large'}
                     />
                     <SkeletonCatalogContainer
                         aspectRatio={AspectRatio._16by9}
@@ -112,7 +83,7 @@ const SkeletonCatalog = ({ type }: { type?: SkeletonCatalogType }) => {
                     />
                 </>
             )}
-        </Animated.View>
+        </View>
     );
 };
 

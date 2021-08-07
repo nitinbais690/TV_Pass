@@ -76,7 +76,7 @@ export const fetchContentMetadata = (
     if (resourceType === 'airing') {
         return createAction({
             clientIdentifier: 'epg',
-            endpoint: '/program' + '/' + resourceId,
+            endpoint: 'program' + '/' + resourceId,
         });
     } else {
         const action = createAction({
@@ -147,6 +147,7 @@ export const fetchDiscoverySearch = (search: string = '', pageNumber: number, pa
             term: search,
             mode: 'detail',
             st: 'published',
+            dst: 'published',
             pageNumber: pageNumber,
             pageSize: pageSize,
         },
@@ -176,6 +177,7 @@ export const fetchContentIdsLookup = (ids: string[]): Action => {
         params: {
             mode: 'detail',
             st: 'published',
+            dst: 'published',
             pageSize: ids.length,
             ids: ids.join(','),
         },

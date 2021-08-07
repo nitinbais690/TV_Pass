@@ -6,7 +6,6 @@ import SkeletonCard, { SkeletonCardProps } from './SkeletonCard';
 interface SkeletonGridProps extends SkeletonCardProps {
     count: number;
     containerStyle: StyleProp<ViewStyle>;
-    viewAllAspectRatio?: number;
 }
 
 const SkeletonGrid = (props: SkeletonGridProps) => {

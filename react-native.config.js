@@ -4,11 +4,4 @@ module.exports = {
         android: {},
     },
     assets: ['./assets/fonts/'],
-    dependencies: {
-        'react-native-google-cast': {
-            platforms: {
-                android: null,
-            },
-        },
-    },
 };

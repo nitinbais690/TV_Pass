@@ -1,6 +1,6 @@
 import { Platform, StyleSheet } from 'react-native';
 import { selectDeviceType } from 'qp-common-ui';
-import { appFonts, tvPixelSizeForLayout } from '../../AppStyles';
+import { appFonts } from '../../AppStyles';
 
 export const headerStyle = () => {
     return StyleSheet.create({
@@ -10,23 +10,26 @@ export const headerStyle = () => {
 
 export const formStyle = ({ appColors, appPadding, isPortrait }: any) => {
     return StyleSheet.create({
+        keyboardAvoidView: {
+            flex: 1,
+        },
         container: {
             flex: 1,
             justifyContent: 'center',
             alignItems: 'center',
-            marginHorizontal: selectDeviceType({ Tablet: isPortrait ? '25%' : '32%' }, appPadding.sm()),
+            marginHorizontal: selectDeviceType({ Handset: appPadding.sm() }, isPortrait ? '25%' : '30%'),
         },
         formContainer: {
             flex: 1,
             justifyContent: 'flex-start',
-            marginTop: Platform.isTV ? tvPixelSizeForLayout(87) : appPadding.sm(),
-            width: Platform.isTV ? '60%' : '100%',
+            marginTop: Platform.isTV ? 0 : appPadding.sm(),
+            width: '100%',
         },
         formLabel: {
             marginBottom: 30,
         },
         formGroup: {
-            marginTop: Platform.isTV ? tvPixelSizeForLayout(30) : 30,
+            marginTop: 30,
         },
         userProfileGroup: {
             marginTop: 10,
@@ -47,14 +50,14 @@ export const formStyle = ({ appColors, appPadding, isPortrait }: any) => {
             fontFamily: appFonts.primary,
         },
         inputContainer: {
-            backgroundColor: Platform.isTV ? 'transparent' : appColors.primaryVariant2,
-            borderRadius: Platform.isTV ? tvPixelSizeForLayout(27) : 14,
+            backgroundColor: appColors.primaryVariant3,
+            borderRadius: 14,
             width: '100%',
             flexDirection: 'row',
             alignItems: 'center',
         },
         userProfileInputContainer: {
-            backgroundColor: appColors.primaryVariant1,
+            backgroundColor: appColors.primaryVariant3,
             borderRadius: 14,
             width: '100%',
             flexDirection: 'row',
@@ -66,26 +69,14 @@ export const formStyle = ({ appColors, appPadding, isPortrait }: any) => {
             flexDirection: 'row',
             alignItems: 'center',
         },
-        inputFocusTv: {
-            borderWidth: Platform.isTV ? tvPixelSizeForLayout(4) : 0,
-            borderColor: Platform.isTV ? appColors.secondary : 'transparent',
-        },
         inputs: {
             flex: 1,
             padding: 5,
+            marginHorizontal: 16,
             color: appColors.secondary,
             fontFamily: appFonts.primary,
             fontSize: appFonts.xs,
             height: 50,
-        },
-        inputsTv: {
-            color: appColors.secondary,
-            fontFamily: appFonts.primary,
-            fontSize: tvPixelSizeForLayout(45),
-            height: tvPixelSizeForLayout(100),
-            width: '100%',
-            borderRadius: tvPixelSizeForLayout(27),
-            backgroundColor: appColors.primaryVariant1,
         },
         buttonContainer: {
             marginVertical: 30,

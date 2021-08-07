@@ -1,12 +1,10 @@
 import React from 'react';
 import { Text, View, StyleSheet } from 'react-native';
-import { ResourceVm, ResizableImage, Category } from 'qp-discovery-ui';
+import { ResourceVm } from 'qp-discovery-ui';
 import { useAppPreferencesState } from 'utils/AppPreferencesContext';
 import { useLocalization } from 'contexts/LocalizationContext';
 import { appFonts } from '../../../AppStyles';
-import { Pill } from './Pill';
-import CreditsIcon from '../../../assets/images/credits_small.svg';
-import { AspectRatio, ImageType } from 'qp-common-ui';
+//import { AspectRatio, ImageType } from 'qp-common-ui';
 
 const CardFooter = ({ resource }: { resource: ResourceVm }) => {
     const { strings } = useLocalization();
@@ -16,7 +14,9 @@ const CardFooter = ({ resource }: { resource: ResourceVm }) => {
 
     const styles = StyleSheet.create({
         container: {
-            flexDirection: 'column',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
             overflow: 'hidden',
             borderBottomLeftRadius: 0,
             borderBottomRightRadius: 0,
@@ -33,7 +33,7 @@ const CardFooter = ({ resource }: { resource: ResourceVm }) => {
             fontSize: appFonts.xxs,
             fontFamily: appFonts.primary,
             fontWeight: '500',
-            color: appColors.secondary,
+            color: appColors.tertiary,
             flexWrap: 'wrap',
             textTransform: 'capitalize',
         },
@@ -47,9 +47,6 @@ const CardFooter = ({ resource }: { resource: ResourceVm }) => {
         footer: {
             flexDirection: 'row',
             justifyContent: 'space-between',
-        },
-        pillContainer: {
-            justifyContent: 'center',
         },
         pillWrapper: {
             flexDirection: 'row',
@@ -74,6 +71,7 @@ const CardFooter = ({ resource }: { resource: ResourceVm }) => {
             fontSize: appFonts.xxs,
             fontWeight: '500',
             marginLeft: 1,
+            textTransform: 'capitalize',
         },
         pillTextPadding: {
             padding: 4,
@@ -105,65 +103,62 @@ const CardFooter = ({ resource }: { resource: ResourceVm }) => {
         },
         logo: {
             aspectRatio: 16 / 9,
-            minHeight: 25,
+            minHeight: 20,
         },
     });
 
-    let hrsLeft, minsLeft;
+    let minsLeft;
     if (resource.completedPercent !== undefined && resource.runningTime) {
         const timeleft = Math.ceil(
             (resource.runningTime - resource.runningTime * (resource.completedPercent / 100)) / 60,
         );
-
         if (timeleft <= 1) {
             minsLeft = strings['my_content.continue_watching_min_left'];
-        } else if (timeleft < 60) {
-            hrsLeft = strings['my_content.continue_watching_0hr_left'];
-            minsLeft = strings.formatString(strings['my_content.continue_watching_mins_left'], timeleft) as string;
         } else {
-            if (timeleft >= 60) {
-                hrsLeft = strings['my_content.continue_watching_1hr_left'];
-                minsLeft = strings.formatString(
-                    strings['my_content.continue_watching_mins_left'],
-                    timeleft - 60,
-                ) as string;
-            }
-            if (timeleft >= 120) {
-                hrsLeft = strings['my_content.continue_watching_2hr_left'];
-                minsLeft = strings.formatString(
-                    strings['my_content.continue_watching_mins_left'],
-                    timeleft - 120,
-                ) as string;
-            }
-            if (timeleft >= 180) {
-                hrsLeft = strings['my_content.continue_watching_3hr_left'];
-                minsLeft = strings.formatString(
-                    strings['my_content.continue_watching_mins_left'],
-                    timeleft - 180,
-                ) as string;
-            }
+            minsLeft = strings.formatString(strings['my_content.continue_watching_mins_left'], timeleft) as string;
         }
     }
 
     return (
         <View style={styles.container}>
+            {resource.showFooterTitles && (
+                <View style={{ paddingVertical: 0, paddingHorizontal: 5 }}>
+                    <Text numberOfLines={1} style={styles.title}>
+                        {resource.title}
+                    </Text>
+                    {resource.subtitle !== undefined ? (
+                        <>
+                            <Text numberOfLines={1} ellipsizeMode="tail" style={styles.subtitle}>
+                                {resource.subtitle}
+                            </Text>
+                            {minsLeft && <Text style={styles.caption}>{minsLeft}</Text>}
+                        </>
+                    ) : (
+                        <>
+                            {minsLeft && <Text style={styles.caption}>{minsLeft}</Text>}
+                            <Text style={styles.caption} />
+                        </>
+                    )}
+                </View>
+            )}
             <View style={styles.footer}>
                 {resource.expiresIn && (
                     <View style={styles.pillTextWrapper}>
                         <Text style={[styles.pillText, styles.pillTextPadding]}>{resource.expiresIn}</Text>
                     </View>
                 )}
-                <View style={styles.pillContainer}>
-                    {!resource.expiresIn && !!resource.credits && (
-                        <Pill>
-                            <View style={styles.pillWrapper}>
-                                <CreditsIcon width={12} height={12} />
-                                <Text style={styles.pillText}>{resource.credits}</Text>
-                            </View>
-                        </Pill>
-                    )}
-                </View>
-                {resource.providerName && (
+                {/* <View>
+                    {!resource.expiresIn &&
+                        resource.credits &&
+                        (userType != 'SUBSCRIBED' || resource.credits === 'tvod') && (
+                            <Pill>
+                                <View style={styles.pillWrapper}>
+                                    <Text style={styles.pillText}>{resource.credits}</Text>
+                                </View>
+                            </Pill>
+                        )}
+                </View> */}
+                {/* {resource.providerName && (
                     <View style={styles.logoContainer}>
                         <ResizableImage
                             keyId={(resource.providerName && resource.providerName.toLowerCase()) || ''}
@@ -172,36 +167,8 @@ const CardFooter = ({ resource }: { resource: ResourceVm }) => {
                             aspectRatioKey={AspectRatio._16by9}
                         />
                     </View>
-                )}
+                )} */}
             </View>
-            {(resource.showFooterTitles || resource.type === Category.TVEpisode) && (
-                <View style={{ paddingVertical: 5, paddingHorizontal: 5 }}>
-                    <Text numberOfLines={1} style={styles.title}>
-                        {resource.title}
-                    </Text>
-                    {resource.subtitle !== undefined ? (
-                        <>
-                            <Text numberOfLines={1} style={styles.subtitle}>
-                                {resource.subtitle}
-                            </Text>
-                            {minsLeft && (
-                                <Text style={styles.caption}>
-                                    {hrsLeft} : {minsLeft}
-                                </Text>
-                            )}
-                        </>
-                    ) : (
-                        <>
-                            {minsLeft && (
-                                <Text style={styles.caption}>
-                                    {hrsLeft} : {minsLeft}
-                                </Text>
-                            )}
-                            <Text style={styles.caption} />
-                        </>
-                    )}
-                </View>
-            )}
         </View>
     );
 };

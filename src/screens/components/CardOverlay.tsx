@@ -1,13 +1,12 @@
 import React from 'react';
 import { Text, View, StyleSheet } from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
 import { ResourceVm, ResizableImage } from 'qp-discovery-ui';
 import { useAppPreferencesState } from 'utils/AppPreferencesContext';
-import { appFonts } from '../../../AppStyles';
-import { Pill } from './Pill';
-import CreditsIcon from '../../../assets/images/credits_small.svg';
 import ResumeIcon from '../../../assets/images/resume.svg';
 import { AspectRatio, ImageType } from 'qp-common-ui';
+import LinearGradient from 'react-native-linear-gradient';
+import { appFonts, appFontStyle, appPaddingValues } from 'core/styles/AppStyles';
+import CardTagsOverlay from 'features/discovery/presentation/components/molecules/CardTagsOverlay';
 
 const CardOverlay = ({ resource }: { resource: ResourceVm }) => {
     const prefs = useAppPreferencesState();
@@ -18,7 +17,6 @@ const CardOverlay = ({ resource }: { resource: ResourceVm }) => {
         container: {
             flex: 1,
             flexDirection: 'column',
-            padding: 10,
             borderBottomLeftRadius: 0,
             borderBottomRightRadius: 0,
         },
@@ -73,6 +71,7 @@ const CardOverlay = ({ resource }: { resource: ResourceVm }) => {
             fontSize: appFonts.xxs,
             fontWeight: '500',
             marginLeft: 1,
+            textTransform: 'capitalize',
         },
         pillTextPadding: {
             padding: 4,
@@ -112,32 +111,53 @@ const CardOverlay = ({ resource }: { resource: ResourceVm }) => {
             aspectRatio: 16 / 9,
             minHeight: 20,
         },
+        bannerGradiant: {
+            width: '100%',
+            height: '100%',
+        },
+        bannerOverlay: {
+            width: '100%',
+            height: '40%',
+            position: 'absolute',
+            bottom: 0,
+            left: 0,
+            flexDirection: 'column',
+            justifyContent: 'flex-end',
+            paddingLeft: appPaddingValues.sm,
+            paddingBottom: appPaddingValues.xs,
+        },
+        bannerOverlayText: {
+            color: appColors.secondary,
+            ...appFontStyle.body3,
+            fontFamily: appFonts.semibold,
+        },
     });
 
     return (
         <View style={styles.container}>
-            {resource.layout === 'banner' && (
+            {
                 <>
-                    <LinearGradient
-                        locations={[0, 1]}
-                        colors={['transparent', 'rgba(0, 0, 0, 1)']}
-                        start={{ x: 0, y: 0 }}
-                        end={{ x: 0, y: 1 }}
-                        style={styles.gradient}
-                    />
                     <View style={styles.footer}>
                         {resource.expiresIn && (
                             <View style={styles.pillTextWrapper}>
                                 <Text style={[styles.pillText, styles.pillTextPadding]}>{resource.expiresIn}</Text>
                             </View>
                         )}
-                        {!resource.expiresIn && !!resource.credits && (
-                            <Pill>
-                                <View style={styles.pillWrapper}>
-                                    <CreditsIcon width={12} height={12} />
-                                    <Text style={styles.pillText}>{resource.credits}</Text>
+                        {(resource.layout === 'banner' || resource.size === 'large') && (
+                            <LinearGradient
+                                style={styles.bannerGradiant}
+                                locations={[0.2, 0.9]}
+                                useAngle={true}
+                                angle={2.23}
+                                colors={['rgba(0,0,0,0.7)', 'rgba(0,0,0,0)']}>
+                                <CardTagsOverlay
+                                    isOriginals={resource.isOriginals}
+                                    isPremium={!resource.isFreeContent}
+                                />
+                                <View style={styles.bannerOverlay}>
+                                    <Text style={styles.bannerOverlayText}>{resource.title}</Text>
                                 </View>
-                            </Pill>
+                            </LinearGradient>
                         )}
                         {resource.providerName && (
                             <View style={styles.logoContainer}>
@@ -151,7 +171,7 @@ const CardOverlay = ({ resource }: { resource: ResourceVm }) => {
                         )}
                     </View>
                 </>
-            )}
+            }
             {resource.completedPercent !== undefined && (
                 <>
                     <View style={styles.progressContainer}>

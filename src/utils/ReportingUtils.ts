@@ -1,4 +1,4 @@
-import { ResourceVm, ContainerVm } from 'qp-discovery-ui';
+import { ResourceVm } from 'qp-discovery-ui';
 import { PlatformError, PlayerConfig } from 'rn-qp-nxg-player';
 import { ProductsResponseMessage } from 'screens/hooks/useGetProducts';
 import { errorCode, EvergentEndpoints } from './EvergentAPIUtil';
@@ -18,12 +18,7 @@ export enum ScreenOrigin {
     SEARCH = 'Search',
     COLLECTION = 'Collection',
     MY_CONTENT = 'MyContent',
-    USAGE = 'Usage',
     RELATED_RESOURCE = 'RelatedResource',
-}
-export enum UsageScreenOrigin {
-    ContenUsage = 'ContentUsage',
-    ServicesUsage = 'ServicesUsage',
 }
 
 export enum ScreenTabs {
@@ -35,12 +30,38 @@ export enum ScreenTabs {
 
 export enum AppEvents {
     //Application Events
+    SIGN_UP = 'Signed Up',
+    LOGIN = 'Login',
+    LOGOUT = 'Logout',
+    SHARED = 'Shared',
+    PAGE_VIEW = 'Page View',
+    DEVICE_DEACTIVATE = 'Device activate',
+    APP_LAUNCHED = 'App launched ',
+    APP_INSTALLED = 'App installed',
+
+    //Search
+    SEARCHED = 'Searched',
+
+    //Watchlist
+    ADD_TO_WATCHLIST = 'Added to Watchlist',
+    REMOVED_FROM_WATCHLIST = 'Removed From Watchlist',
+
+    //Player
+    WATCHED = 'Watched',
+    PLAY_STARTED = 'Play Started',
+    PLAYER_BITRATE_CHANGED = 'Player BitRate changed',
+
+    //Subscription
+    VIEW_PLANS = 'View Plans',
+    SUBSCRIPTION_INITIATED = 'Subscription Initiated',
+    SUBSCRIPTION_PLAN_SUCCESS = 'Subscription Plan Status Success',
+    SUBSCRIPTION_PLAN_FAILURE = 'Subscription Plan Status Failure',
+    SUBSCRIPTION_END = 'Subscription End',
+
+    //Application Events
     APP_START = 'APP_START',
     APP_FOREGROUND = 'APP_FOREGROUND',
     APP_BACKGROUND = 'APP_BACKGROUND',
-    SIGN_UP = 'SIGN_UP',
-    LOGIN = 'LOGIN',
-    LOGOUT = 'LOGOUT',
     TNC = 'TNC',
     SEARCH = 'SEARCH',
     PURCHASE_SUBSCRIPTION = 'PURCHASE_SUBSCRIPTION',
@@ -61,7 +82,6 @@ export enum AppEvents {
     PP_UPDATE = 'PP_UPDATE',
     FAVORITE_CONTENT = 'FAVORITE_CONTENT',
     UPDATE_USER_PREFRENCES = 'UPDATE_USER_PREFRENCES',
-    VIEW_ALL = 'VIEW_ALL',
     //Playback
     PLAYBACK_START = 'PLAYBACK_START',
     PLAYBACK_PREPARED = 'PLAYBACK_PREPARED',
@@ -95,7 +115,9 @@ export enum AppEvents {
     //Errors
     ENTITLEMENTS_ERROR = 'ENTITLEMENTS_FETCH_ERROR',
     PLATFORM_CONFIGURATION_ERROR = 'PLATFORM_CONFIGURATION_ERROR',
-    PURCHASE_FAILURE = 'PURCHASE_SUBSCRIPTION_FAILURE',
+    PROFILE_ERROR = 'PROFILE_ERROR',
+    LANGUAGE_ERROR = 'LANGUAGE_ERROR',
+    PURCHASE_FAILURE = 'SUBSCRIPTION_PURCHASE_FAILURE',
     DISCOVERY_FAILURE = 'DISCOVERY_SEARCH_ERROR',
     TVOD_ERROR = 'TVOD_ENTITLEMENT_ERROR',
     TOP_UP_FAILURE = 'PURCHASE_TOPUP_FAILURE',
@@ -103,6 +125,7 @@ export enum AppEvents {
 
 export enum ErrorEvents {
     //Events for Developers
+    MEDIA_ERROR = 'Media Error',
     ACKNOWLEDGEMENT_FAILURE = 'ACKNOWLEDGEMENT_FAILURE',
     ONBOARD_RESOURCE_ERROR = 'ONBOARD_RESOURCE_ERROR',
     SPLASH_ERROR = 'SPLASH_SCREEN_ERROR',
@@ -157,26 +180,11 @@ export const condensePlayerData = (
     };
 };
 
-export const getContentDetailsAttributes = (
-    resource: ResourceVm,
-    searchPosition?: string,
-    recommendedSearchWord?: string,
-    contentTabName?: string,
-    usageTabName?: string,
-): Attributes => {
+export const getContentDetailsAttributes = (resource: ResourceVm, searchPosition?: string): Attributes => {
     let detailsAttributes: Attributes = {};
 
     if (searchPosition) {
         detailsAttributes.searchItemPosition = searchPosition;
-    }
-    if (recommendedSearchWord) {
-        detailsAttributes.searchWord = recommendedSearchWord;
-    }
-    if (contentTabName) {
-        detailsAttributes.myContentTabName = contentTabName;
-    }
-    if (usageTabName) {
-        detailsAttributes.usageTabName = usageTabName;
     }
     if (resource) {
         if (resource.credits) {
@@ -198,7 +206,7 @@ export const getContentDetailsAttributes = (
             detailsAttributes.containerName = resource.containerName;
         }
         if (resource.collectionID) {
-            detailsAttributes.collectionId = resource.collectionID;
+            detailsAttributes.collectionID = resource.collectionID;
         }
         if (resource.collectionName) {
             detailsAttributes.collectionName = resource.collectionName;
@@ -228,11 +236,10 @@ export const getContentDetailsAttributes = (
             detailsAttributes.providerId = resource.providerName;
         }
         if (resource.origin) {
-            detailsAttributes.pageId = resource.origin;
+            detailsAttributes.origin = resource.origin;
         }
         detailsAttributes.contentType = 'VOD';
     }
-
     return detailsAttributes;
 };
 
@@ -270,68 +277,6 @@ export const condenseErrorData = (error: PlatformError, errorType?: AppEvents) =
     return errorAttributes;
 };
 
-export const condenseDownloadData = (resource: ResourceVm, downloadProgress?: number) => {
-    let downloadAttributes: Attributes = {};
-    if (downloadProgress) {
-        downloadAttributes.downloadProgress = downloadProgress;
-    }
-    if (resource) {
-        if (resource.credits) {
-            downloadAttributes.priceCode = resource.credits;
-        }
-        if (resource.id) {
-            downloadAttributes.contentId = resource.id;
-        }
-        if (resource.storeFrontId) {
-            downloadAttributes.storeFrontId = resource.storeFrontId;
-        }
-        if (resource.tabId) {
-            downloadAttributes.tabId = resource.tabId;
-        }
-        if (resource.tabName) {
-            downloadAttributes.tabName = resource.tabName;
-        }
-        if (resource.containerName) {
-            downloadAttributes.containerName = resource.containerName;
-        }
-        if (resource.collectionID) {
-            downloadAttributes.collectionId = resource.collectionID;
-        }
-        if (resource.collectionName) {
-            downloadAttributes.collectionName = resource.collectionName;
-        }
-        if (resource.containerId) {
-            downloadAttributes.containerId = resource.containerId;
-        }
-        if (resource.key) {
-            downloadAttributes.contentKey = resource.key;
-        }
-        if (resource.name) {
-            downloadAttributes.contentName = resource.name;
-        }
-        if (resource.contentGenre && resource.contentGenre.en) {
-            downloadAttributes.contentGenre = resource.contentGenre.en.join(', ');
-        }
-        if (resource.runningTime) {
-            downloadAttributes.runningTime = resource.runningTime;
-        }
-        if (resource.seriesTitle) {
-            downloadAttributes.seriesName = resource.seriesTitle;
-        }
-        if (resource.network) {
-            downloadAttributes.networkId = resource.network;
-        }
-        if (resource.providerName) {
-            downloadAttributes.providerId = resource.providerName;
-        }
-        if (resource.origin) {
-            downloadAttributes.pageId = resource.origin;
-        }
-        downloadAttributes.contentType = 'VOD';
-    }
-    return downloadAttributes;
-};
-
 export const condenseSearchData = (searchString: string, totalItems: number, position?: number) => {
     let searchAttributes: Attributes = {};
     if (searchString) {
@@ -344,16 +289,6 @@ export const condenseSearchData = (searchString: string, totalItems: number, pos
         searchAttributes.searchItemPosition = position;
     }
     return searchAttributes;
-};
-
-export const condenseViewAllData = (containerItem: ContainerVm) => {
-    return {
-        pageId: ScreenOrigin.BROWSE,
-        containerName: containerItem.name,
-        containerId: containerItem.id,
-        contentCount: containerItem.contentCount,
-        contentUrl: containerItem.contentUrl,
-    };
 };
 
 export const condensePreferanceData = ({
@@ -416,12 +351,6 @@ export const condenseErrorObject = (error: any, errorType?: AppEvents) => {
         }
         if (error.productId) {
             errorAttributes.productId = error.productId;
-        }
-        if (error.domain) {
-            errorAttributes.domain = error.domain;
-        }
-        if (error.desc) {
-            errorAttributes.description = error.desc;
         }
         if (error.debugMessage) {
             errorAttributes.debugMessage = error.debugMessage;

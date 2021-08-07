@@ -77,10 +77,6 @@ exports[`SearchResults avoid re-renders correctly 1`] = `
             focusable={true}
             hasTVPreferredFocus={false}
             isTVSelectable={true}
-            nextFocusDown={null}
-            nextFocusLeft={null}
-            nextFocusRight={null}
-            nextFocusUp={null}
             style={
               Array [
                 Object {
@@ -94,8 +90,6 @@ exports[`SearchResults avoid re-renders correctly 1`] = `
                   "marginTop": 15,
                 },
                 undefined,
-                Object {},
-                Object {},
               ]
             }
             testID="cardView"
@@ -106,30 +100,12 @@ exports[`SearchResults avoid re-renders correctly 1`] = `
                   Array [
                     Object {
                       "aspectRatio": 1.7777777777777777,
-                      "backgroundColor": "#ffffff",
-                      "borderRadius": 15,
-                      "elevation": 2,
-                      "shadowColor": "#333333",
-                      "shadowOffset": Object {
-                        "height": 1,
-                        "width": 0,
-                      },
-                      "shadowOpacity": 1,
-                      "shadowRadius": 2,
+                      "borderRadius": 0,
                       "width": 375,
                     },
                     Object {
                       "aspectRatio": 1.7777777777777777,
-                      "backgroundColor": "#ffffff",
-                      "borderRadius": 15,
-                      "elevation": 2,
-                      "shadowColor": "#333333",
-                      "shadowOffset": Object {
-                        "height": 1,
-                        "width": 0,
-                      },
-                      "shadowOpacity": 1,
-                      "shadowRadius": 2,
+                      "borderRadius": 0,
                       "width": 352.5,
                     },
                   ]
@@ -161,8 +137,7 @@ exports[`SearchResults avoid re-renders correctly 1`] = `
                     source={
                       Object {
                         "cache": "web",
-                        "priority": "high",
-                        "uri": undefined,
+                        "uri": "undefined&width=705&height=705&scalingMode=aspectFit",
                       }
                     }
                     style={
@@ -176,55 +151,55 @@ exports[`SearchResults avoid re-renders correctly 1`] = `
                     }
                   />
                 </View>
-                <BVLinearGradient
-                  colors={
-                    Array [
-                      0,
-                      1712328720,
-                      3423604752,
-                    ]
-                  }
-                  endPoint={
-                    Object {
-                      "x": 0,
-                      "y": 1,
-                    }
-                  }
-                  locations={
-                    Array [
-                      0,
-                      0.5,
-                      1,
-                    ]
-                  }
-                  startPoint={
-                    Object {
-                      "x": 0,
-                      "y": 0.5,
-                    }
-                  }
-                  style={
-                    Array [
-                      Object {
-                        "backgroundColor": "transparent",
-                        "bottom": 0,
-                        "left": 0,
-                        "position": "absolute",
-                        "right": 0,
-                        "top": 0,
-                      },
-                      Object {
-                        "backgroundColor": "transparent",
-                        "bottom": 0,
-                        "left": 0,
-                        "position": "absolute",
-                        "right": 0,
-                        "top": 0,
-                      },
-                    ]
-                  }
-                />
               </View>
+              <BVLinearGradient
+                colors={
+                  Array [
+                    0,
+                    1712328720,
+                    3423604752,
+                  ]
+                }
+                endPoint={
+                  Object {
+                    "x": 0,
+                    "y": 1,
+                  }
+                }
+                locations={
+                  Array [
+                    0,
+                    0.5,
+                    1,
+                  ]
+                }
+                startPoint={
+                  Object {
+                    "x": 0,
+                    "y": 0.5,
+                  }
+                }
+                style={
+                  Array [
+                    Object {
+                      "backgroundColor": "transparent",
+                      "bottom": 0,
+                      "left": 0,
+                      "position": "absolute",
+                      "right": 0,
+                      "top": 0,
+                    },
+                    Object {
+                      "backgroundColor": "transparent",
+                      "bottom": 0,
+                      "left": 0,
+                      "position": "absolute",
+                      "right": 0,
+                      "top": 0,
+                    },
+                  ]
+                }
+              />
             </View>
           </View>
           <View
@@ -233,10 +208,6 @@ exports[`SearchResults avoid re-renders correctly 1`] = `
             focusable={true}
             hasTVPreferredFocus={false}
             isTVSelectable={true}
-            nextFocusDown={null}
-            nextFocusLeft={null}
-            nextFocusRight={null}
-            nextFocusUp={null}
             style={
               Array [
                 Object {
@@ -250,8 +221,6 @@ exports[`SearchResults avoid re-renders correctly 1`] = `
                   "marginTop": 15,
                 },
                 undefined,
-                Object {},
-                Object {},
               ]
             }
             testID="cardView"
@@ -262,30 +231,12 @@ exports[`SearchResults avoid re-renders correctly 1`] = `
                   Array [
                     Object {
                       "aspectRatio": 1.7777777777777777,
-                      "backgroundColor": "#ffffff",
-                      "borderRadius": 15,
-                      "elevation": 2,
-                      "shadowColor": "#333333",
-                      "shadowOffset": Object {
-                        "height": 1,
-                        "width": 0,
-                      },
-                      "shadowOpacity": 1,
-                      "shadowRadius": 2,
+                      "borderRadius": 0,
                       "width": 375,
                     },
                     Object {
                       "aspectRatio": 1.7777777777777777,
-                      "backgroundColor": "#ffffff",
-                      "borderRadius": 15,
-                      "elevation": 2,
-                      "shadowColor": "#333333",
-                      "shadowOffset": Object {
-                        "height": 1,
-                        "width": 0,
-                      },
-                      "shadowOpacity": 1,
-                      "shadowRadius": 2,
+                      "borderRadius": 0,
                       "width": 352.5,
                     },
                   ]
@@ -317,8 +268,7 @@ exports[`SearchResults avoid re-renders correctly 1`] = `
                     source={
                       Object {
                         "cache": "web",
-                        "priority": "high",
-                        "uri": undefined,
+                        "uri": "undefined&width=705&height=705&scalingMode=aspectFit",
                       }
                     }
                     style={
@@ -332,55 +282,55 @@ exports[`SearchResults avoid re-renders correctly 1`] = `
                     }
                   />
                 </View>
-                <BVLinearGradient
-                  colors={
-                    Array [
-                      0,
-                      1712328720,
-                      3423604752,
-                    ]
-                  }
-                  endPoint={
-                    Object {
-                      "x": 0,
-                      "y": 1,
-                    }
-                  }
-                  locations={
-                    Array [
-                      0,
-                      0.5,
-                      1,
-                    ]
-                  }
-                  startPoint={
-                    Object {
-                      "x": 0,
-                      "y": 0.5,
-                    }
-                  }
-                  style={
-                    Array [
-                      Object {
-                        "backgroundColor": "transparent",
-                        "bottom": 0,
-                        "left": 0,
-                        "position": "absolute",
-                        "right": 0,
-                        "top": 0,
-                      },
-                      Object {
-                        "backgroundColor": "transparent",
-                        "bottom": 0,
-                        "left": 0,
-                        "position": "absolute",
-                        "right": 0,
-                        "top": 0,
-                      },
-                    ]
-                  }
-                />
               </View>
+              <BVLinearGradient
+                colors={
+                  Array [
+                    0,
+                    1712328720,
+                    3423604752,
+                  ]
+                }
+                endPoint={
+                  Object {
+                    "x": 0,
+                    "y": 1,
+                  }
+                }
+                locations={
+                  Array [
+                    0,
+                    0.5,
+                    1,
+                  ]
+                }
+                startPoint={
+                  Object {
+                    "x": 0,
+                    "y": 0.5,
+                  }
+                }
+                style={
+                  Array [
+                    Object {
+                      "backgroundColor": "transparent",
+                      "bottom": 0,
+                      "left": 0,
+                      "position": "absolute",
+                      "right": 0,
+                      "top": 0,
+                    },
+                    Object {
+                      "backgroundColor": "transparent",
+                      "bottom": 0,
+                      "left": 0,
+                      "position": "absolute",
+                      "right": 0,
+                      "top": 0,
+                    },
+                  ]
+                }
+              />
             </View>
           </View>
         </View>
@@ -401,10 +351,6 @@ exports[`SearchResults avoid re-renders correctly 1`] = `
             focusable={true}
             hasTVPreferredFocus={false}
             isTVSelectable={true}
-            nextFocusDown={null}
-            nextFocusLeft={null}
-            nextFocusRight={null}
-            nextFocusUp={null}
             style={
               Array [
                 Object {
@@ -418,8 +364,6 @@ exports[`SearchResults avoid re-renders correctly 1`] = `
                   "marginTop": 15,
                 },
                 undefined,
-                Object {},
-                Object {},
               ]
             }
             testID="cardView"
@@ -430,30 +374,12 @@ exports[`SearchResults avoid re-renders correctly 1`] = `
                   Array [
                     Object {
                       "aspectRatio": 1.7777777777777777,
-                      "backgroundColor": "#ffffff",
-                      "borderRadius": 15,
-                      "elevation": 2,
-                      "shadowColor": "#333333",
-                      "shadowOffset": Object {
-                        "height": 1,
-                        "width": 0,
-                      },
-                      "shadowOpacity": 1,
-                      "shadowRadius": 2,
+                      "borderRadius": 0,
                       "width": 375,
                     },
                     Object {
                       "aspectRatio": 1.7777777777777777,
-                      "backgroundColor": "#ffffff",
-                      "borderRadius": 15,
-                      "elevation": 2,
-                      "shadowColor": "#333333",
-                      "shadowOffset": Object {
-                        "height": 1,
-                        "width": 0,
-                      },
-                      "shadowOpacity": 1,
-                      "shadowRadius": 2,
+                      "borderRadius": 0,
                       "width": 352.5,
                     },
                   ]
@@ -485,8 +411,7 @@ exports[`SearchResults avoid re-renders correctly 1`] = `
                     source={
                       Object {
                         "cache": "web",
-                        "priority": "high",
-                        "uri": undefined,
+                        "uri": "undefined&width=705&height=705&scalingMode=aspectFit",
                       }
                     }
                     style={
@@ -500,55 +425,55 @@ exports[`SearchResults avoid re-renders correctly 1`] = `
                     }
                   />
                 </View>
-                <BVLinearGradient
-                  colors={
-                    Array [
-                      0,
-                      1712328720,
-                      3423604752,
-                    ]
-                  }
-                  endPoint={
-                    Object {
-                      "x": 0,
-                      "y": 1,
-                    }
-                  }
-                  locations={
-                    Array [
-                      0,
-                      0.5,
-                      1,
-                    ]
-                  }
-                  startPoint={
-                    Object {
-                      "x": 0,
-                      "y": 0.5,
-                    }
-                  }
-                  style={
-                    Array [
-                      Object {
-                        "backgroundColor": "transparent",
-                        "bottom": 0,
-                        "left": 0,
-                        "position": "absolute",
-                        "right": 0,
-                        "top": 0,
-                      },
-                      Object {
-                        "backgroundColor": "transparent",
-                        "bottom": 0,
-                        "left": 0,
-                        "position": "absolute",
-                        "right": 0,
-                        "top": 0,
-                      },
-                    ]
-                  }
-                />
               </View>
+              <BVLinearGradient
+                colors={
+                  Array [
+                    0,
+                    1712328720,
+                    3423604752,
+                  ]
+                }
+                endPoint={
+                  Object {
+                    "x": 0,
+                    "y": 1,
+                  }
+                }
+                locations={
+                  Array [
+                    0,
+                    0.5,
+                    1,
+                  ]
+                }
+                startPoint={
+                  Object {
+                    "x": 0,
+                    "y": 0.5,
+                  }
+                }
+                style={
+                  Array [
+                    Object {
+                      "backgroundColor": "transparent",
+                      "bottom": 0,
+                      "left": 0,
+                      "position": "absolute",
+                      "right": 0,
+                      "top": 0,
+                    },
+                    Object {
+                      "backgroundColor": "transparent",
+                      "bottom": 0,
+                      "left": 0,
+                      "position": "absolute",
+                      "right": 0,
+                      "top": 0,
+                    },
+                  ]
+                }
+              />
             </View>
           </View>
         </View>
@@ -635,10 +560,6 @@ exports[`SearchResults avoid re-renders correctly 2`] = `
             focusable={true}
             hasTVPreferredFocus={false}
             isTVSelectable={true}
-            nextFocusDown={null}
-            nextFocusLeft={null}
-            nextFocusRight={null}
-            nextFocusUp={null}
             style={
               Array [
                 Object {
@@ -652,8 +573,6 @@ exports[`SearchResults avoid re-renders correctly 2`] = `
                   "marginTop": 15,
                 },
                 undefined,
-                Object {},
-                Object {},
               ]
             }
             testID="cardView"
@@ -664,30 +583,12 @@ exports[`SearchResults avoid re-renders correctly 2`] = `
                   Array [
                     Object {
                       "aspectRatio": 1.7777777777777777,
-                      "backgroundColor": "#ffffff",
-                      "borderRadius": 15,
-                      "elevation": 2,
-                      "shadowColor": "#333333",
-                      "shadowOffset": Object {
-                        "height": 1,
-                        "width": 0,
-                      },
-                      "shadowOpacity": 1,
-                      "shadowRadius": 2,
+                      "borderRadius": 0,
                       "width": 375,
                     },
                     Object {
                       "aspectRatio": 1.7777777777777777,
-                      "backgroundColor": "#ffffff",
-                      "borderRadius": 15,
-                      "elevation": 2,
-                      "shadowColor": "#333333",
-                      "shadowOffset": Object {
-                        "height": 1,
-                        "width": 0,
-                      },
-                      "shadowOpacity": 1,
-                      "shadowRadius": 2,
+                      "borderRadius": 0,
                       "width": 352.5,
                     },
                   ]
@@ -719,8 +620,7 @@ exports[`SearchResults avoid re-renders correctly 2`] = `
                     source={
                       Object {
                         "cache": "web",
-                        "priority": "high",
-                        "uri": undefined,
+                        "uri": "undefined&width=705&height=705&scalingMode=aspectFit",
                       }
                     }
                     style={
@@ -734,55 +634,55 @@ exports[`SearchResults avoid re-renders correctly 2`] = `
                     }
                   />
                 </View>
-                <BVLinearGradient
-                  colors={
-                    Array [
-                      0,
-                      1712328720,
-                      3423604752,
-                    ]
-                  }
-                  endPoint={
-                    Object {
-                      "x": 0,
-                      "y": 1,
-                    }
-                  }
-                  locations={
-                    Array [
-                      0,
-                      0.5,
-                      1,
-                    ]
-                  }
-                  startPoint={
-                    Object {
-                      "x": 0,
-                      "y": 0.5,
-                    }
-                  }
-                  style={
-                    Array [
-                      Object {
-                        "backgroundColor": "transparent",
-                        "bottom": 0,
-                        "left": 0,
-                        "position": "absolute",
-                        "right": 0,
-                        "top": 0,
-                      },
-                      Object {
-                        "backgroundColor": "transparent",
-                        "bottom": 0,
-                        "left": 0,
-                        "position": "absolute",
-                        "right": 0,
-                        "top": 0,
-                      },
-                    ]
-                  }
-                />
               </View>
+              <BVLinearGradient
+                colors={
+                  Array [
+                    0,
+                    1712328720,
+                    3423604752,
+                  ]
+                }
+                endPoint={
+                  Object {
+                    "x": 0,
+                    "y": 1,
+                  }
+                }
+                locations={
+                  Array [
+                    0,
+                    0.5,
+                    1,
+                  ]
+                }
+                startPoint={
+                  Object {
+                    "x": 0,
+                    "y": 0.5,
+                  }
+                }
+                style={
+                  Array [
+                    Object {
+                      "backgroundColor": "transparent",
+                      "bottom": 0,
+                      "left": 0,
+                      "position": "absolute",
+                      "right": 0,
+                      "top": 0,
+                    },
+                    Object {
+                      "backgroundColor": "transparent",
+                      "bottom": 0,
+                      "left": 0,
+                      "position": "absolute",
+                      "right": 0,
+                      "top": 0,
+                    },
+                  ]
+                }
+              />
             </View>
           </View>
           <View
@@ -791,10 +691,6 @@ exports[`SearchResults avoid re-renders correctly 2`] = `
             focusable={true}
             hasTVPreferredFocus={false}
             isTVSelectable={true}
-            nextFocusDown={null}
-            nextFocusLeft={null}
-            nextFocusRight={null}
-            nextFocusUp={null}
             style={
               Array [
                 Object {
@@ -808,8 +704,6 @@ exports[`SearchResults avoid re-renders correctly 2`] = `
                   "marginTop": 15,
                 },
                 undefined,
-                Object {},
-                Object {},
               ]
             }
             testID="cardView"
@@ -820,30 +714,12 @@ exports[`SearchResults avoid re-renders correctly 2`] = `
                   Array [
                     Object {
                       "aspectRatio": 1.7777777777777777,
-                      "backgroundColor": "#ffffff",
-                      "borderRadius": 15,
-                      "elevation": 2,
-                      "shadowColor": "#333333",
-                      "shadowOffset": Object {
-                        "height": 1,
-                        "width": 0,
-                      },
-                      "shadowOpacity": 1,
-                      "shadowRadius": 2,
+                      "borderRadius": 0,
                       "width": 375,
                     },
                     Object {
                       "aspectRatio": 1.7777777777777777,
-                      "backgroundColor": "#ffffff",
-                      "borderRadius": 15,
-                      "elevation": 2,
-                      "shadowColor": "#333333",
-                      "shadowOffset": Object {
-                        "height": 1,
-                        "width": 0,
-                      },
-                      "shadowOpacity": 1,
-                      "shadowRadius": 2,
+                      "borderRadius": 0,
                       "width": 352.5,
                     },
                   ]
@@ -875,8 +751,7 @@ exports[`SearchResults avoid re-renders correctly 2`] = `
                     source={
                       Object {
                         "cache": "web",
-                        "priority": "high",
-                        "uri": undefined,
+                        "uri": "undefined&width=705&height=705&scalingMode=aspectFit",
                       }
                     }
                     style={
@@ -890,55 +765,55 @@ exports[`SearchResults avoid re-renders correctly 2`] = `
                     }
                   />
                 </View>
-                <BVLinearGradient
-                  colors={
-                    Array [
-                      0,
-                      1712328720,
-                      3423604752,
-                    ]
-                  }
-                  endPoint={
-                    Object {
-                      "x": 0,
-                      "y": 1,
-                    }
-                  }
-                  locations={
-                    Array [
-                      0,
-                      0.5,
-                      1,
-                    ]
-                  }
-                  startPoint={
-                    Object {
-                      "x": 0,
-                      "y": 0.5,
-                    }
-                  }
-                  style={
-                    Array [
-                      Object {
-                        "backgroundColor": "transparent",
-                        "bottom": 0,
-                        "left": 0,
-                        "position": "absolute",
-                        "right": 0,
-                        "top": 0,
-                      },
-                      Object {
-                        "backgroundColor": "transparent",
-                        "bottom": 0,
-                        "left": 0,
-                        "position": "absolute",
-                        "right": 0,
-                        "top": 0,
-                      },
-                    ]
-                  }
-                />
               </View>
+              <BVLinearGradient
+                colors={
+                  Array [
+                    0,
+                    1712328720,
+                    3423604752,
+                  ]
+                }
+                endPoint={
+                  Object {
+                    "x": 0,
+                    "y": 1,
+                  }
+                }
+                locations={
+                  Array [
+                    0,
+                    0.5,
+                    1,
+                  ]
+                }
+                startPoint={
+                  Object {
+                    "x": 0,
+                    "y": 0.5,
+                  }
+                }
+                style={
+                  Array [
+                    Object {
+                      "backgroundColor": "transparent",
+                      "bottom": 0,
+                      "left": 0,
+                      "position": "absolute",
+                      "right": 0,
+                      "top": 0,
+                    },
+                    Object {
+                      "backgroundColor": "transparent",
+                      "bottom": 0,
+                      "left": 0,
+                      "position": "absolute",
+                      "right": 0,
+                      "top": 0,
+                    },
+                  ]
+                }
+              />
             </View>
           </View>
         </View>
@@ -959,10 +834,6 @@ exports[`SearchResults avoid re-renders correctly 2`] = `
             focusable={true}
             hasTVPreferredFocus={false}
             isTVSelectable={true}
-            nextFocusDown={null}
-            nextFocusLeft={null}
-            nextFocusRight={null}
-            nextFocusUp={null}
             style={
               Array [
                 Object {
@@ -976,8 +847,6 @@ exports[`SearchResults avoid re-renders correctly 2`] = `
                   "marginTop": 15,
                 },
                 undefined,
-                Object {},
-                Object {},
               ]
             }
             testID="cardView"
@@ -988,30 +857,12 @@ exports[`SearchResults avoid re-renders correctly 2`] = `
                   Array [
                     Object {
                       "aspectRatio": 1.7777777777777777,
-                      "backgroundColor": "#ffffff",
-                      "borderRadius": 15,
-                      "elevation": 2,
-                      "shadowColor": "#333333",
-                      "shadowOffset": Object {
-                        "height": 1,
-                        "width": 0,
-                      },
-                      "shadowOpacity": 1,
-                      "shadowRadius": 2,
+                      "borderRadius": 0,
                       "width": 375,
                     },
                     Object {
                       "aspectRatio": 1.7777777777777777,
-                      "backgroundColor": "#ffffff",
-                      "borderRadius": 15,
-                      "elevation": 2,
-                      "shadowColor": "#333333",
-                      "shadowOffset": Object {
-                        "height": 1,
-                        "width": 0,
-                      },
-                      "shadowOpacity": 1,
-                      "shadowRadius": 2,
+                      "borderRadius": 0,
                       "width": 352.5,
                     },
                   ]
@@ -1043,8 +894,7 @@ exports[`SearchResults avoid re-renders correctly 2`] = `
                     source={
                       Object {
                         "cache": "web",
-                        "priority": "high",
-                        "uri": undefined,
+                        "uri": "undefined&width=705&height=705&scalingMode=aspectFit",
                       }
                     }
                     style={
@@ -1058,55 +908,55 @@ exports[`SearchResults avoid re-renders correctly 2`] = `
                     }
                   />
                 </View>
-                <BVLinearGradient
-                  colors={
-                    Array [
-                      0,
-                      1712328720,
-                      3423604752,
-                    ]
-                  }
-                  endPoint={
-                    Object {
-                      "x": 0,
-                      "y": 1,
-                    }
-                  }
-                  locations={
-                    Array [
-                      0,
-                      0.5,
-                      1,
-                    ]
-                  }
-                  startPoint={
-                    Object {
-                      "x": 0,
-                      "y": 0.5,
-                    }
-                  }
-                  style={
-                    Array [
-                      Object {
-                        "backgroundColor": "transparent",
-                        "bottom": 0,
-                        "left": 0,
-                        "position": "absolute",
-                        "right": 0,
-                        "top": 0,
-                      },
-                      Object {
-                        "backgroundColor": "transparent",
-                        "bottom": 0,
-                        "left": 0,
-                        "position": "absolute",
-                        "right": 0,
-                        "top": 0,
-                      },
-                    ]
-                  }
-                />
               </View>
+              <BVLinearGradient
+                colors={
+                  Array [
+                    0,
+                    1712328720,
+                    3423604752,
+                  ]
+                }
+                endPoint={
+                  Object {
+                    "x": 0,
+                    "y": 1,
+                  }
+                }
+                locations={
+                  Array [
+                    0,
+                    0.5,
+                    1,
+                  ]
+                }
+                startPoint={
+                  Object {
+                    "x": 0,
+                    "y": 0.5,
+                  }
+                }
+                style={
+                  Array [
+                    Object {
+                      "backgroundColor": "transparent",
+                      "bottom": 0,
+                      "left": 0,
+                      "position": "absolute",
+                      "right": 0,
+                      "top": 0,
+                    },
+                    Object {
+                      "backgroundColor": "transparent",
+                      "bottom": 0,
+                      "left": 0,
+                      "position": "absolute",
+                      "right": 0,
+                      "top": 0,
+                    },
+                  ]
+                }
+              />
             </View>
           </View>
         </View>
@@ -1193,10 +1043,6 @@ exports[`SearchResults renders correctly when custom wrapper style doesn't defin
             focusable={true}
             hasTVPreferredFocus={false}
             isTVSelectable={true}
-            nextFocusDown={null}
-            nextFocusLeft={null}
-            nextFocusRight={null}
-            nextFocusUp={null}
             style={
               Array [
                 Object {
@@ -1206,8 +1052,6 @@ exports[`SearchResults renders correctly when custom wrapper style doesn't defin
                 },
                 undefined,
                 undefined,
-                Object {},
-                Object {},
               ]
             }
             testID="cardView"
@@ -1218,16 +1062,7 @@ exports[`SearchResults renders correctly when custom wrapper style doesn't defin
                   Array [
                     Object {
                       "aspectRatio": 1.7777777777777777,
-                      "backgroundColor": "#ffffff",
-                      "borderRadius": 15,
-                      "elevation": 2,
-                      "shadowColor": "#333333",
-                      "shadowOffset": Object {
-                        "height": 1,
-                        "width": 0,
-                      },
-                      "shadowOpacity": 1,
-                      "shadowRadius": 2,
+                      "borderRadius": 0,
                       "width": 375,
                     },
                     Object {
@@ -1260,8 +1095,7 @@ exports[`SearchResults renders correctly when custom wrapper style doesn't defin
                     source={
                       Object {
                         "cache": "web",
-                        "priority": "high",
-                        "uri": undefined,
+                        "uri": "undefined&width=705&height=705&scalingMode=aspectFit",
                       }
                     }
                     style={
@@ -1275,48 +1109,48 @@ exports[`SearchResults renders correctly when custom wrapper style doesn't defin
                     }
                   />
                 </View>
-                <BVLinearGradient
-                  colors={
-                    Array [
-                      0,
-                      1712328720,
-                      3423604752,
-                    ]
-                  }
-                  endPoint={
-                    Object {
-                      "x": 0,
-                      "y": 1,
-                    }
-                  }
-                  locations={
-                    Array [
-                      0,
-                      0.5,
-                      1,
-                    ]
-                  }
-                  startPoint={
-                    Object {
-                      "x": 0,
-                      "y": 0.5,
-                    }
-                  }
-                  style={
-                    Array [
-                      Object {
-                        "backgroundColor": "transparent",
-                        "bottom": 0,
-                        "left": 0,
-                        "position": "absolute",
-                        "right": 0,
-                        "top": 0,
-                      },
-                      undefined,
-                    ]
-                  }
-                />
               </View>
+              <BVLinearGradient
+                colors={
+                  Array [
+                    0,
+                    1712328720,
+                    3423604752,
+                  ]
+                }
+                endPoint={
+                  Object {
+                    "x": 0,
+                    "y": 1,
+                  }
+                }
+                locations={
+                  Array [
+                    0,
+                    0.5,
+                    1,
+                  ]
+                }
+                startPoint={
+                  Object {
+                    "x": 0,
+                    "y": 0.5,
+                  }
+                }
+                style={
+                  Array [
+                    Object {
+                      "backgroundColor": "transparent",
+                      "bottom": 0,
+                      "left": 0,
+                      "position": "absolute",
+                      "right": 0,
+                      "top": 0,
+                    },
+                    undefined,
+                  ]
+                }
+              />
             </View>
           </View>
           <View
@@ -1325,10 +1159,6 @@ exports[`SearchResults renders correctly when custom wrapper style doesn't defin
             focusable={true}
             hasTVPreferredFocus={false}
             isTVSelectable={true}
-            nextFocusDown={null}
-            nextFocusLeft={null}
-            nextFocusRight={null}
-            nextFocusUp={null}
             style={
               Array [
                 Object {
@@ -1338,8 +1168,6 @@ exports[`SearchResults renders correctly when custom wrapper style doesn't defin
                 },
                 undefined,
                 undefined,
-                Object {},
-                Object {},
               ]
             }
             testID="cardView"
@@ -1350,16 +1178,7 @@ exports[`SearchResults renders correctly when custom wrapper style doesn't defin
                   Array [
                     Object {
                       "aspectRatio": 1.7777777777777777,
-                      "backgroundColor": "#ffffff",
-                      "borderRadius": 15,
-                      "elevation": 2,
-                      "shadowColor": "#333333",
-                      "shadowOffset": Object {
-                        "height": 1,
-                        "width": 0,
-                      },
-                      "shadowOpacity": 1,
-                      "shadowRadius": 2,
+                      "borderRadius": 0,
                       "width": 375,
                     },
                     Object {
@@ -1392,8 +1211,7 @@ exports[`SearchResults renders correctly when custom wrapper style doesn't defin
                     source={
                       Object {
                         "cache": "web",
-                        "priority": "high",
-                        "uri": undefined,
+                        "uri": "undefined&width=705&height=705&scalingMode=aspectFit",
                       }
                     }
                     style={
@@ -1407,48 +1225,48 @@ exports[`SearchResults renders correctly when custom wrapper style doesn't defin
                     }
                   />
                 </View>
-                <BVLinearGradient
-                  colors={
-                    Array [
-                      0,
-                      1712328720,
-                      3423604752,
-                    ]
-                  }
-                  endPoint={
-                    Object {
-                      "x": 0,
-                      "y": 1,
-                    }
-                  }
-                  locations={
-                    Array [
-                      0,
-                      0.5,
-                      1,
-                    ]
-                  }
-                  startPoint={
-                    Object {
-                      "x": 0,
-                      "y": 0.5,
-                    }
-                  }
-                  style={
-                    Array [
-                      Object {
-                        "backgroundColor": "transparent",
-                        "bottom": 0,
-                        "left": 0,
-                        "position": "absolute",
-                        "right": 0,
-                        "top": 0,
-                      },
-                      undefined,
-                    ]
-                  }
-                />
               </View>
+              <BVLinearGradient
+                colors={
+                  Array [
+                    0,
+                    1712328720,
+                    3423604752,
+                  ]
+                }
+                endPoint={
+                  Object {
+                    "x": 0,
+                    "y": 1,
+                  }
+                }
+                locations={
+                  Array [
+                    0,
+                    0.5,
+                    1,
+                  ]
+                }
+                startPoint={
+                  Object {
+                    "x": 0,
+                    "y": 0.5,
+                  }
+                }
+                style={
+                  Array [
+                    Object {
+                      "backgroundColor": "transparent",
+                      "bottom": 0,
+                      "left": 0,
+                      "position": "absolute",
+                      "right": 0,
+                      "top": 0,
+                    },
+                    undefined,
+                  ]
+                }
+              />
             </View>
           </View>
         </View>
@@ -1469,10 +1287,6 @@ exports[`SearchResults renders correctly when custom wrapper style doesn't defin
             focusable={true}
             hasTVPreferredFocus={false}
             isTVSelectable={true}
-            nextFocusDown={null}
-            nextFocusLeft={null}
-            nextFocusRight={null}
-            nextFocusUp={null}
             style={
               Array [
                 Object {
@@ -1482,8 +1296,6 @@ exports[`SearchResults renders correctly when custom wrapper style doesn't defin
                 },
                 undefined,
                 undefined,
-                Object {},
-                Object {},
               ]
             }
             testID="cardView"
@@ -1494,16 +1306,7 @@ exports[`SearchResults renders correctly when custom wrapper style doesn't defin
                   Array [
                     Object {
                       "aspectRatio": 1.7777777777777777,
-                      "backgroundColor": "#ffffff",
-                      "borderRadius": 15,
-                      "elevation": 2,
-                      "shadowColor": "#333333",
-                      "shadowOffset": Object {
-                        "height": 1,
-                        "width": 0,
-                      },
-                      "shadowOpacity": 1,
-                      "shadowRadius": 2,
+                      "borderRadius": 0,
                       "width": 375,
                     },
                     Object {
@@ -1536,8 +1339,7 @@ exports[`SearchResults renders correctly when custom wrapper style doesn't defin
                     source={
                       Object {
                         "cache": "web",
-                        "priority": "high",
-                        "uri": undefined,
+                        "uri": "undefined&width=705&height=705&scalingMode=aspectFit",
                       }
                     }
                     style={
@@ -1551,48 +1353,48 @@ exports[`SearchResults renders correctly when custom wrapper style doesn't defin
                     }
                   />
                 </View>
-                <BVLinearGradient
-                  colors={
-                    Array [
-                      0,
-                      1712328720,
-                      3423604752,
-                    ]
-                  }
-                  endPoint={
-                    Object {
-                      "x": 0,
-                      "y": 1,
-                    }
-                  }
-                  locations={
-                    Array [
-                      0,
-                      0.5,
-                      1,
-                    ]
-                  }
-                  startPoint={
-                    Object {
-                      "x": 0,
-                      "y": 0.5,
-                    }
-                  }
-                  style={
-                    Array [
-                      Object {
-                        "backgroundColor": "transparent",
-                        "bottom": 0,
-                        "left": 0,
-                        "position": "absolute",
-                        "right": 0,
-                        "top": 0,
-                      },
-                      undefined,
-                    ]
-                  }
-                />
               </View>
+              <BVLinearGradient
+                colors={
+                  Array [
+                    0,
+                    1712328720,
+                    3423604752,
+                  ]
+                }
+                endPoint={
+                  Object {
+                    "x": 0,
+                    "y": 1,
+                  }
+                }
+                locations={
+                  Array [
+                    0,
+                    0.5,
+                    1,
+                  ]
+                }
+                startPoint={
+                  Object {
+                    "x": 0,
+                    "y": 0.5,
+                  }
+                }
+                style={
+                  Array [
+                    Object {
+                      "backgroundColor": "transparent",
+                      "bottom": 0,
+                      "left": 0,
+                      "position": "absolute",
+                      "right": 0,
+                      "top": 0,
+                    },
+                    undefined,
+                  ]
+                }
+              />
             </View>
           </View>
         </View>
@@ -1679,10 +1481,6 @@ exports[`SearchResults renders correctly with custom number of card to show 1`] 
             focusable={true}
             hasTVPreferredFocus={false}
             isTVSelectable={true}
-            nextFocusDown={null}
-            nextFocusLeft={null}
-            nextFocusRight={null}
-            nextFocusUp={null}
             style={
               Array [
                 Object {
@@ -1696,8 +1494,6 @@ exports[`SearchResults renders correctly with custom number of card to show 1`] 
                   "marginTop": 15,
                 },
                 undefined,
-                Object {},
-                Object {},
               ]
             }
             testID="cardView"
@@ -1708,30 +1504,12 @@ exports[`SearchResults renders correctly with custom number of card to show 1`] 
                   Array [
                     Object {
                       "aspectRatio": 1.7777777777777777,
-                      "backgroundColor": "#ffffff",
-                      "borderRadius": 15,
-                      "elevation": 2,
-                      "shadowColor": "#333333",
-                      "shadowOffset": Object {
-                        "height": 1,
-                        "width": 0,
-                      },
-                      "shadowOpacity": 1,
-                      "shadowRadius": 2,
+                      "borderRadius": 0,
                       "width": 375,
                     },
                     Object {
                       "aspectRatio": 1.7777777777777777,
-                      "backgroundColor": "#ffffff",
-                      "borderRadius": 15,
-                      "elevation": 2,
-                      "shadowColor": "#333333",
-                      "shadowOffset": Object {
-                        "height": 1,
-                        "width": 0,
-                      },
-                      "shadowOpacity": 1,
-                      "shadowRadius": 2,
+                      "borderRadius": 0,
                       "width": 230,
                     },
                   ]
@@ -1763,8 +1541,7 @@ exports[`SearchResults renders correctly with custom number of card to show 1`] 
                     source={
                       Object {
                         "cache": "web",
-                        "priority": "high",
-                        "uri": undefined,
+                        "uri": "undefined&width=460&height=460&scalingMode=aspectFit",
                       }
                     }
                     style={
@@ -1778,55 +1555,55 @@ exports[`SearchResults renders correctly with custom number of card to show 1`] 
                     }
                   />
                 </View>
-                <BVLinearGradient
-                  colors={
-                    Array [
-                      0,
-                      1712328720,
-                      3423604752,
-                    ]
-                  }
-                  endPoint={
-                    Object {
-                      "x": 0,
-                      "y": 1,
-                    }
-                  }
-                  locations={
-                    Array [
-                      0,
-                      0.5,
-                      1,
-                    ]
-                  }
-                  startPoint={
-                    Object {
-                      "x": 0,
-                      "y": 0.5,
-                    }
-                  }
-                  style={
-                    Array [
-                      Object {
-                        "backgroundColor": "transparent",
-                        "bottom": 0,
-                        "left": 0,
-                        "position": "absolute",
-                        "right": 0,
-                        "top": 0,
-                      },
-                      Object {
-                        "backgroundColor": "transparent",
-                        "bottom": 0,
-                        "left": 0,
-                        "position": "absolute",
-                        "right": 0,
-                        "top": 0,
-                      },
-                    ]
-                  }
-                />
               </View>
+              <BVLinearGradient
+                colors={
+                  Array [
+                    0,
+                    1712328720,
+                    3423604752,
+                  ]
+                }
+                endPoint={
+                  Object {
+                    "x": 0,
+                    "y": 1,
+                  }
+                }
+                locations={
+                  Array [
+                    0,
+                    0.5,
+                    1,
+                  ]
+                }
+                startPoint={
+                  Object {
+                    "x": 0,
+                    "y": 0.5,
+                  }
+                }
+                style={
+                  Array [
+                    Object {
+                      "backgroundColor": "transparent",
+                      "bottom": 0,
+                      "left": 0,
+                      "position": "absolute",
+                      "right": 0,
+                      "top": 0,
+                    },
+                    Object {
+                      "backgroundColor": "transparent",
+                      "bottom": 0,
+                      "left": 0,
+                      "position": "absolute",
+                      "right": 0,
+                      "top": 0,
+                    },
+                  ]
+                }
+              />
             </View>
           </View>
           <View
@@ -1835,10 +1612,6 @@ exports[`SearchResults renders correctly with custom number of card to show 1`] 
             focusable={true}
             hasTVPreferredFocus={false}
             isTVSelectable={true}
-            nextFocusDown={null}
-            nextFocusLeft={null}
-            nextFocusRight={null}
-            nextFocusUp={null}
             style={
               Array [
                 Object {
@@ -1852,8 +1625,6 @@ exports[`SearchResults renders correctly with custom number of card to show 1`] 
                   "marginTop": 15,
                 },
                 undefined,
-                Object {},
-                Object {},
               ]
             }
             testID="cardView"
@@ -1864,30 +1635,12 @@ exports[`SearchResults renders correctly with custom number of card to show 1`] 
                   Array [
                     Object {
                       "aspectRatio": 1.7777777777777777,
-                      "backgroundColor": "#ffffff",
-                      "borderRadius": 15,
-                      "elevation": 2,
-                      "shadowColor": "#333333",
-                      "shadowOffset": Object {
-                        "height": 1,
-                        "width": 0,
-                      },
-                      "shadowOpacity": 1,
-                      "shadowRadius": 2,
+                      "borderRadius": 0,
                       "width": 375,
                     },
                     Object {
                       "aspectRatio": 1.7777777777777777,
-                      "backgroundColor": "#ffffff",
-                      "borderRadius": 15,
-                      "elevation": 2,
-                      "shadowColor": "#333333",
-                      "shadowOffset": Object {
-                        "height": 1,
-                        "width": 0,
-                      },
-                      "shadowOpacity": 1,
-                      "shadowRadius": 2,
+                      "borderRadius": 0,
                       "width": 230,
                     },
                   ]
@@ -1919,8 +1672,7 @@ exports[`SearchResults renders correctly with custom number of card to show 1`] 
                     source={
                       Object {
                         "cache": "web",
-                        "priority": "high",
-                        "uri": undefined,
+                        "uri": "undefined&width=460&height=460&scalingMode=aspectFit",
                       }
                     }
                     style={
@@ -1934,55 +1686,55 @@ exports[`SearchResults renders correctly with custom number of card to show 1`] 
                     }
                   />
                 </View>
-                <BVLinearGradient
-                  colors={
-                    Array [
-                      0,
-                      1712328720,
-                      3423604752,
-                    ]
-                  }
-                  endPoint={
-                    Object {
-                      "x": 0,
-                      "y": 1,
-                    }
-                  }
-                  locations={
-                    Array [
-                      0,
-                      0.5,
-                      1,
-                    ]
-                  }
-                  startPoint={
-                    Object {
-                      "x": 0,
-                      "y": 0.5,
-                    }
-                  }
-                  style={
-                    Array [
-                      Object {
-                        "backgroundColor": "transparent",
-                        "bottom": 0,
-                        "left": 0,
-                        "position": "absolute",
-                        "right": 0,
-                        "top": 0,
-                      },
-                      Object {
-                        "backgroundColor": "transparent",
-                        "bottom": 0,
-                        "left": 0,
-                        "position": "absolute",
-                        "right": 0,
-                        "top": 0,
-                      },
-                    ]
-                  }
-                />
               </View>
+              <BVLinearGradient
+                colors={
+                  Array [
+                    0,
+                    1712328720,
+                    3423604752,
+                  ]
+                }
+                endPoint={
+                  Object {
+                    "x": 0,
+                    "y": 1,
+                  }
+                }
+                locations={
+                  Array [
+                    0,
+                    0.5,
+                    1,
+                  ]
+                }
+                startPoint={
+                  Object {
+                    "x": 0,
+                    "y": 0.5,
+                  }
+                }
+                style={
+                  Array [
+                    Object {
+                      "backgroundColor": "transparent",
+                      "bottom": 0,
+                      "left": 0,
+                      "position": "absolute",
+                      "right": 0,
+                      "top": 0,
+                    },
+                    Object {
+                      "backgroundColor": "transparent",
+                      "bottom": 0,
+                      "left": 0,
+                      "position": "absolute",
+                      "right": 0,
+                      "top": 0,
+                    },
+                  ]
+                }
+              />
             </View>
           </View>
           <View
@@ -1991,10 +1743,6 @@ exports[`SearchResults renders correctly with custom number of card to show 1`] 
             focusable={true}
             hasTVPreferredFocus={false}
             isTVSelectable={true}
-            nextFocusDown={null}
-            nextFocusLeft={null}
-            nextFocusRight={null}
-            nextFocusUp={null}
             style={
               Array [
                 Object {
@@ -2008,8 +1756,6 @@ exports[`SearchResults renders correctly with custom number of card to show 1`] 
                   "marginTop": 15,
                 },
                 undefined,
-                Object {},
-                Object {},
               ]
             }
             testID="cardView"
@@ -2020,30 +1766,12 @@ exports[`SearchResults renders correctly with custom number of card to show 1`] 
                   Array [
                     Object {
                       "aspectRatio": 1.7777777777777777,
-                      "backgroundColor": "#ffffff",
-                      "borderRadius": 15,
-                      "elevation": 2,
-                      "shadowColor": "#333333",
-                      "shadowOffset": Object {
-                        "height": 1,
-                        "width": 0,
-                      },
-                      "shadowOpacity": 1,
-                      "shadowRadius": 2,
+                      "borderRadius": 0,
                       "width": 375,
                     },
                     Object {
                       "aspectRatio": 1.7777777777777777,
-                      "backgroundColor": "#ffffff",
-                      "borderRadius": 15,
-                      "elevation": 2,
-                      "shadowColor": "#333333",
-                      "shadowOffset": Object {
-                        "height": 1,
-                        "width": 0,
-                      },
-                      "shadowOpacity": 1,
-                      "shadowRadius": 2,
+                      "borderRadius": 0,
                       "width": 230,
                     },
                   ]
@@ -2075,8 +1803,7 @@ exports[`SearchResults renders correctly with custom number of card to show 1`] 
                     source={
                       Object {
                         "cache": "web",
-                        "priority": "high",
-                        "uri": undefined,
+                        "uri": "undefined&width=460&height=460&scalingMode=aspectFit",
                       }
                     }
                     style={
@@ -2090,55 +1817,55 @@ exports[`SearchResults renders correctly with custom number of card to show 1`] 
                     }
                   />
                 </View>
-                <BVLinearGradient
-                  colors={
-                    Array [
-                      0,
-                      1712328720,
-                      3423604752,
-                    ]
-                  }
-                  endPoint={
-                    Object {
-                      "x": 0,
-                      "y": 1,
-                    }
-                  }
-                  locations={
-                    Array [
-                      0,
-                      0.5,
-                      1,
-                    ]
-                  }
-                  startPoint={
-                    Object {
-                      "x": 0,
-                      "y": 0.5,
-                    }
-                  }
-                  style={
-                    Array [
-                      Object {
-                        "backgroundColor": "transparent",
-                        "bottom": 0,
-                        "left": 0,
-                        "position": "absolute",
-                        "right": 0,
-                        "top": 0,
-                      },
-                      Object {
-                        "backgroundColor": "transparent",
-                        "bottom": 0,
-                        "left": 0,
-                        "position": "absolute",
-                        "right": 0,
-                        "top": 0,
-                      },
-                    ]
-                  }
-                />
               </View>
+              <BVLinearGradient
+                colors={
+                  Array [
+                    0,
+                    1712328720,
+                    3423604752,
+                  ]
+                }
+                endPoint={
+                  Object {
+                    "x": 0,
+                    "y": 1,
+                  }
+                }
+                locations={
+                  Array [
+                    0,
+                    0.5,
+                    1,
+                  ]
+                }
+                startPoint={
+                  Object {
+                    "x": 0,
+                    "y": 0.5,
+                  }
+                }
+                style={
+                  Array [
+                    Object {
+                      "backgroundColor": "transparent",
+                      "bottom": 0,
+                      "left": 0,
+                      "position": "absolute",
+                      "right": 0,
+                      "top": 0,
+                    },
+                    Object {
+                      "backgroundColor": "transparent",
+                      "bottom": 0,
+                      "left": 0,
+                      "position": "absolute",
+                      "right": 0,
+                      "top": 0,
+                    },
+                  ]
+                }
+              />
             </View>
           </View>
         </View>
@@ -2225,10 +1952,6 @@ exports[`SearchResults renders correctly with default styles 1`] = `
             focusable={true}
             hasTVPreferredFocus={false}
             isTVSelectable={true}
-            nextFocusDown={null}
-            nextFocusLeft={null}
-            nextFocusRight={null}
-            nextFocusUp={null}
             style={
               Array [
                 Object {
@@ -2242,8 +1965,6 @@ exports[`SearchResults renders correctly with default styles 1`] = `
                   "marginTop": 15,
                 },
                 undefined,
-                Object {},
-                Object {},
               ]
             }
             testID="cardView"
@@ -2254,30 +1975,12 @@ exports[`SearchResults renders correctly with default styles 1`] = `
                   Array [
                     Object {
                       "aspectRatio": 1.7777777777777777,
-                      "backgroundColor": "#ffffff",
-                      "borderRadius": 15,
-                      "elevation": 2,
-                      "shadowColor": "#333333",
-                      "shadowOffset": Object {
-                        "height": 1,
-                        "width": 0,
-                      },
-                      "shadowOpacity": 1,
-                      "shadowRadius": 2,
+                      "borderRadius": 0,
                       "width": 375,
                     },
                     Object {
                       "aspectRatio": 1.7777777777777777,
-                      "backgroundColor": "#ffffff",
-                      "borderRadius": 15,
-                      "elevation": 2,
-                      "shadowColor": "#333333",
-                      "shadowOffset": Object {
-                        "height": 1,
-                        "width": 0,
-                      },
-                      "shadowOpacity": 1,
-                      "shadowRadius": 2,
+                      "borderRadius": 0,
                       "width": 352.5,
                     },
                   ]
@@ -2309,8 +2012,7 @@ exports[`SearchResults renders correctly with default styles 1`] = `
                     source={
                       Object {
                         "cache": "web",
-                        "priority": "high",
-                        "uri": undefined,
+                        "uri": "undefined&width=705&height=705&scalingMode=aspectFit",
                       }
                     }
                     style={
@@ -2324,55 +2026,55 @@ exports[`SearchResults renders correctly with default styles 1`] = `
                     }
                   />
                 </View>
-                <BVLinearGradient
-                  colors={
-                    Array [
-                      0,
-                      1712328720,
-                      3423604752,
-                    ]
-                  }
-                  endPoint={
-                    Object {
-                      "x": 0,
-                      "y": 1,
-                    }
-                  }
-                  locations={
-                    Array [
-                      0,
-                      0.5,
-                      1,
-                    ]
-                  }
-                  startPoint={
-                    Object {
-                      "x": 0,
-                      "y": 0.5,
-                    }
-                  }
-                  style={
-                    Array [
-                      Object {
-                        "backgroundColor": "transparent",
-                        "bottom": 0,
-                        "left": 0,
-                        "position": "absolute",
-                        "right": 0,
-                        "top": 0,
-                      },
-                      Object {
-                        "backgroundColor": "transparent",
-                        "bottom": 0,
-                        "left": 0,
-                        "position": "absolute",
-                        "right": 0,
-                        "top": 0,
-                      },
-                    ]
-                  }
-                />
               </View>
+              <BVLinearGradient
+                colors={
+                  Array [
+                    0,
+                    1712328720,
+                    3423604752,
+                  ]
+                }
+                endPoint={
+                  Object {
+                    "x": 0,
+                    "y": 1,
+                  }
+                }
+                locations={
+                  Array [
+                    0,
+                    0.5,
+                    1,
+                  ]
+                }
+                startPoint={
+                  Object {
+                    "x": 0,
+                    "y": 0.5,
+                  }
+                }
+                style={
+                  Array [
+                    Object {
+                      "backgroundColor": "transparent",
+                      "bottom": 0,
+                      "left": 0,
+                      "position": "absolute",
+                      "right": 0,
+                      "top": 0,
+                    },
+                    Object {
+                      "backgroundColor": "transparent",
+                      "bottom": 0,
+                      "left": 0,
+                      "position": "absolute",
+                      "right": 0,
+                      "top": 0,
+                    },
+                  ]
+                }
+              />
             </View>
           </View>
           <View
@@ -2381,10 +2083,6 @@ exports[`SearchResults renders correctly with default styles 1`] = `
             focusable={true}
             hasTVPreferredFocus={false}
             isTVSelectable={true}
-            nextFocusDown={null}
-            nextFocusLeft={null}
-            nextFocusRight={null}
-            nextFocusUp={null}
             style={
               Array [
                 Object {
@@ -2398,8 +2096,6 @@ exports[`SearchResults renders correctly with default styles 1`] = `
                   "marginTop": 15,
                 },
                 undefined,
-                Object {},
-                Object {},
               ]
             }
             testID="cardView"
@@ -2410,30 +2106,12 @@ exports[`SearchResults renders correctly with default styles 1`] = `
                   Array [
                     Object {
                       "aspectRatio": 1.7777777777777777,
-                      "backgroundColor": "#ffffff",
-                      "borderRadius": 15,
-                      "elevation": 2,
-                      "shadowColor": "#333333",
-                      "shadowOffset": Object {
-                        "height": 1,
-                        "width": 0,
-                      },
-                      "shadowOpacity": 1,
-                      "shadowRadius": 2,
+                      "borderRadius": 0,
                       "width": 375,
                     },
                     Object {
                       "aspectRatio": 1.7777777777777777,
-                      "backgroundColor": "#ffffff",
-                      "borderRadius": 15,
-                      "elevation": 2,
-                      "shadowColor": "#333333",
-                      "shadowOffset": Object {
-                        "height": 1,
-                        "width": 0,
-                      },
-                      "shadowOpacity": 1,
-                      "shadowRadius": 2,
+                      "borderRadius": 0,
                       "width": 352.5,
                     },
                   ]
@@ -2465,8 +2143,7 @@ exports[`SearchResults renders correctly with default styles 1`] = `
                     source={
                       Object {
                         "cache": "web",
-                        "priority": "high",
-                        "uri": undefined,
+                        "uri": "undefined&width=705&height=705&scalingMode=aspectFit",
                       }
                     }
                     style={
@@ -2480,55 +2157,55 @@ exports[`SearchResults renders correctly with default styles 1`] = `
                     }
                   />
                 </View>
-                <BVLinearGradient
-                  colors={
-                    Array [
-                      0,
-                      1712328720,
-                      3423604752,
-                    ]
-                  }
-                  endPoint={
-                    Object {
-                      "x": 0,
-                      "y": 1,
-                    }
-                  }
-                  locations={
-                    Array [
-                      0,
-                      0.5,
-                      1,
-                    ]
-                  }
-                  startPoint={
-                    Object {
-                      "x": 0,
-                      "y": 0.5,
-                    }
-                  }
-                  style={
-                    Array [
-                      Object {
-                        "backgroundColor": "transparent",
-                        "bottom": 0,
-                        "left": 0,
-                        "position": "absolute",
-                        "right": 0,
-                        "top": 0,
-                      },
-                      Object {
-                        "backgroundColor": "transparent",
-                        "bottom": 0,
-                        "left": 0,
-                        "position": "absolute",
-                        "right": 0,
-                        "top": 0,
-                      },
-                    ]
-                  }
-                />
               </View>
+              <BVLinearGradient
+                colors={
+                  Array [
+                    0,
+                    1712328720,
+                    3423604752,
+                  ]
+                }
+                endPoint={
+                  Object {
+                    "x": 0,
+                    "y": 1,
+                  }
+                }
+                locations={
+                  Array [
+                    0,
+                    0.5,
+                    1,
+                  ]
+                }
+                startPoint={
+                  Object {
+                    "x": 0,
+                    "y": 0.5,
+                  }
+                }
+                style={
+                  Array [
+                    Object {
+                      "backgroundColor": "transparent",
+                      "bottom": 0,
+                      "left": 0,
+                      "position": "absolute",
+                      "right": 0,
+                      "top": 0,
+                    },
+                    Object {
+                      "backgroundColor": "transparent",
+                      "bottom": 0,
+                      "left": 0,
+                      "position": "absolute",
+                      "right": 0,
+                      "top": 0,
+                    },
+                  ]
+                }
+              />
             </View>
           </View>
         </View>
@@ -2549,10 +2226,6 @@ exports[`SearchResults renders correctly with default styles 1`] = `
             focusable={true}
             hasTVPreferredFocus={false}
             isTVSelectable={true}
-            nextFocusDown={null}
-            nextFocusLeft={null}
-            nextFocusRight={null}
-            nextFocusUp={null}
             style={
               Array [
                 Object {
@@ -2566,8 +2239,6 @@ exports[`SearchResults renders correctly with default styles 1`] = `
                   "marginTop": 15,
                 },
                 undefined,
-                Object {},
-                Object {},
               ]
             }
             testID="cardView"
@@ -2578,30 +2249,12 @@ exports[`SearchResults renders correctly with default styles 1`] = `
                   Array [
                     Object {
                       "aspectRatio": 1.7777777777777777,
-                      "backgroundColor": "#ffffff",
-                      "borderRadius": 15,
-                      "elevation": 2,
-                      "shadowColor": "#333333",
-                      "shadowOffset": Object {
-                        "height": 1,
-                        "width": 0,
-                      },
-                      "shadowOpacity": 1,
-                      "shadowRadius": 2,
+                      "borderRadius": 0,
                       "width": 375,
                     },
                     Object {
                       "aspectRatio": 1.7777777777777777,
-                      "backgroundColor": "#ffffff",
-                      "borderRadius": 15,
-                      "elevation": 2,
-                      "shadowColor": "#333333",
-                      "shadowOffset": Object {
-                        "height": 1,
-                        "width": 0,
-                      },
-                      "shadowOpacity": 1,
-                      "shadowRadius": 2,
+                      "borderRadius": 0,
                       "width": 352.5,
                     },
                   ]
@@ -2633,8 +2286,7 @@ exports[`SearchResults renders correctly with default styles 1`] = `
                     source={
                       Object {
                         "cache": "web",
-                        "priority": "high",
-                        "uri": undefined,
+                        "uri": "undefined&width=705&height=705&scalingMode=aspectFit",
                       }
                     }
                     style={
@@ -2648,55 +2300,55 @@ exports[`SearchResults renders correctly with default styles 1`] = `
                     }
                   />
                 </View>
-                <BVLinearGradient
-                  colors={
-                    Array [
-                      0,
-                      1712328720,
-                      3423604752,
-                    ]
-                  }
-                  endPoint={
-                    Object {
-                      "x": 0,
-                      "y": 1,
-                    }
-                  }
-                  locations={
-                    Array [
-                      0,
-                      0.5,
-                      1,
-                    ]
-                  }
-                  startPoint={
-                    Object {
-                      "x": 0,
-                      "y": 0.5,
-                    }
-                  }
-                  style={
-                    Array [
-                      Object {
-                        "backgroundColor": "transparent",
-                        "bottom": 0,
-                        "left": 0,
-                        "position": "absolute",
-                        "right": 0,
-                        "top": 0,
-                      },
-                      Object {
-                        "backgroundColor": "transparent",
-                        "bottom": 0,
-                        "left": 0,
-                        "position": "absolute",
-                        "right": 0,
-                        "top": 0,
-                      },
-                    ]
-                  }
-                />
               </View>
+              <BVLinearGradient
+                colors={
+                  Array [
+                    0,
+                    1712328720,
+                    3423604752,
+                  ]
+                }
+                endPoint={
+                  Object {
+                    "x": 0,
+                    "y": 1,
+                  }
+                }
+                locations={
+                  Array [
+                    0,
+                    0.5,
+                    1,
+                  ]
+                }
+                startPoint={
+                  Object {
+                    "x": 0,
+                    "y": 0.5,
+                  }
+                }
+                style={
+                  Array [
+                    Object {
+                      "backgroundColor": "transparent",
+                      "bottom": 0,
+                      "left": 0,
+                      "position": "absolute",
+                      "right": 0,
+                      "top": 0,
+                    },
+                    Object {
+                      "backgroundColor": "transparent",
+                      "bottom": 0,
+                      "left": 0,
+                      "position": "absolute",
+                      "right": 0,
+                      "top": 0,
+                    },
+                  ]
+                }
+              />
             </View>
           </View>
         </View>

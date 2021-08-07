@@ -38,7 +38,7 @@ const SkeletonCard = (props: SkeletonCardProps) => {
           );
     let footerHeight = 0;
     if (props.showFooter) {
-        footerHeight = props.footerLabelsCount === 2 ? 90 : props.footerLabelsCount === 3 ? 100 : 43;
+        footerHeight = props.footerLabelsCount === 2 ? 90 : props.footerLabelsCount === 3 ? 100 : 38;
     }
     const cardH = cardW / props.aspectRatio + footerHeight;
 
@@ -60,7 +60,13 @@ const SkeletonCard = (props: SkeletonCardProps) => {
         },
         footer: { position: 'absolute', left: 0, right: 0, bottom: 0, height: footerHeight },
         pillContainer: { position: 'absolute', left: 13, right: 13 },
-        pill: { width: 28, height: 18, borderRadius: 12, position: 'absolute', backgroundColor: appColors.caption },
+        pill: {
+            width: 48,
+            height: 18,
+            borderRadius: 12,
+            position: 'absolute',
+            backgroundColor: appColors.primaryVariant3,
+        },
         title: {
             width: 100,
             height: 11,
@@ -84,14 +90,14 @@ const SkeletonCard = (props: SkeletonCardProps) => {
             {props.layout === 'banner' && (
                 <View style={[styles.pillContainer, { bottom: 10 }]}>
                     <View style={[styles.pill, { left: 0, bottom: 0 }]} />
-                    <View style={[styles.pill, { right: 0, bottom: 0 }]} />
+                    {/* <View style={[styles.pill, { right: 0, bottom: 0 }]} /> */}
                 </View>
             )}
             {props.showFooter && (
                 <View style={styles.footer}>
                     <View style={[styles.pillContainer, { top: 30 }]}>
                         <View style={[styles.pill, { left: 0, bottom: 0 }]} />
-                        <View style={[styles.pill, { right: 0, bottom: 0 }]} />
+                        {/* <View style={[styles.pill, { right: 0, bottom: 0 }]} /> */}
                     </View>
                     {props.footerLabelsCount && props.footerLabelsCount > 1 && (
                         <View style={[styles.pillContainer, { top: 30, bottom: 0 }]}>

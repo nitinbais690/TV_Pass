@@ -11,7 +11,7 @@ import useFunction from 'helper/useFunction';
 import useFP from 'utils/useFP';
 import { AppEvents } from 'utils/ReportingUtils';
 import { useAnalytics } from 'utils/AnalyticsReporterContext';
-import BackgroundGradient from 'screens/components/BackgroundGradient';
+import BackgroundGradient from 'core/presentation/components/atoms/BackgroundGradient';
 import FloatingLabelInput, { InputType } from '../../components/FloatingLabelInput';
 
 const initialValues = {

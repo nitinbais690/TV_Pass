@@ -1,0 +1,111 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`detailsTitle render with custom style 1`] = `
+<View
+  collapsable={true}
+  pointerEvents="box-none"
+  style={
+    Object {
+      "flex": 1,
+    }
+  }
+>
+  <Text
+    ellipsizeMode="tail"
+    numberOfLines={2}
+    style={
+      Array [
+        Object {
+          "fontFamily": "ProximaNova-Black",
+          "fontSize": 40,
+          "fontWeight": "900",
+        },
+        Object {
+          "color": "#ECECEC",
+          "fontFamily": "ProximaNova-Black",
+          "fontSize": 28,
+          "fontWeight": "900",
+          "textTransform": "uppercase",
+        },
+        Object {
+          "textTransform": "lowercase",
+        },
+      ]
+    }
+  >
+    Inception
+  </Text>
+</View>
+`;
+
+exports[`detailsTitle render with default style 1`] = `
+<View
+  collapsable={true}
+  pointerEvents="box-none"
+  style={
+    Object {
+      "flex": 1,
+    }
+  }
+>
+  <Text
+    ellipsizeMode="tail"
+    numberOfLines={2}
+    style={
+      Array [
+        Object {
+          "fontFamily": "ProximaNova-Black",
+          "fontSize": 40,
+          "fontWeight": "900",
+        },
+        Object {
+          "color": "#ECECEC",
+          "fontFamily": "ProximaNova-Black",
+          "fontSize": 28,
+          "fontWeight": "900",
+          "textTransform": "uppercase",
+        },
+        undefined,
+      ]
+    }
+  >
+    Inception
+  </Text>
+</View>
+`;
+
+exports[`detailsTitle render with empty text 1`] = `
+<View
+  collapsable={true}
+  pointerEvents="box-none"
+  style={
+    Object {
+      "flex": 1,
+    }
+  }
+>
+  <Text
+    ellipsizeMode="tail"
+    numberOfLines={2}
+    style={
+      Array [
+        Object {
+          "fontFamily": "ProximaNova-Black",
+          "fontSize": 40,
+          "fontWeight": "900",
+        },
+        Object {
+          "color": "#ECECEC",
+          "fontFamily": "ProximaNova-Black",
+          "fontSize": 28,
+          "fontWeight": "900",
+          "textTransform": "uppercase",
+        },
+        undefined,
+      ]
+    }
+  >
+     
+  </Text>
+</View>
+`;

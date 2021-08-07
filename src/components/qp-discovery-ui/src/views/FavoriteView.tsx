@@ -43,6 +43,8 @@ export interface FavoriteViewProps extends FavoriteViewBaseProps {
      * The ovat token for the current session
      */
     ovatToken: string | undefined;
+
+    flAuthToken: string | undefined;
 }
 
 const FavoriteView = ({
@@ -54,9 +56,11 @@ const FavoriteView = ({
     underlayColor = colors.primary,
     iconSize = 40,
     iconColor = colors.brandTint,
+    flAuthToken,
 }: FavoriteViewProps): JSX.Element => {
-    const { liked, loading, like, unlike } = useFavorite(resourceId, ovatToken);
+    const { liked, loading, like, unlike } = useFavorite(resourceId, ovatToken, flAuthToken);
     const iconName = liked ? 'ios-heart' : 'ios-heart-empty';
+
     return (
         <TouchableHighlight
             style={wrapperStyle}

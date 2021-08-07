@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { FlatList, ViewToken, FlatListProps, Platform } from 'react-native';
+import { FlatList, ViewToken, FlatListProps } from 'react-native';
 
 export interface CarouselViewBaseProps {
     /**
@@ -45,7 +45,7 @@ export interface CarouselViewProps<T> extends CarouselViewBaseProps, FlatListPro
      * Used to read the active page on the carousal
      * callback is done to the parent element and value is passed to the casousalpageindicator child element
      */
-    onIndexChange?: (activeIndex: number) => void;
+    onIndexChange: (activeIndex: number) => void;
 }
 
 /**
@@ -149,13 +149,11 @@ export const CarouselView = <T extends {}>(props: CarouselViewProps<T>): JSX.Ele
             } else {
                 currentIndex.current = 0;
             }
-            if (!Platform.isTV) {
-                listRef.current.scrollToIndex({
-                    animated: true,
-                    index: currentIndex.current,
-                    viewOffset: props.viewScrollOffset,
-                });
-            }
+            listRef.current.scrollToIndex({
+                animated: true,
+                index: currentIndex.current,
+                viewOffset: props.viewScrollOffset,
+            });
         }
     }, [props.isPortrait, props.viewScrollOffset, resources.length]);
 
@@ -176,7 +174,6 @@ export const CarouselView = <T extends {}>(props: CarouselViewProps<T>): JSX.Ele
             onMomentumScrollBegin={() => clearAutoplayTimer()}
             onScrollBeginDrag={() => clearAutoplayTimer()}
             horizontal
-            bounces={false}
             initialScrollIndex={canLoopOrAutoplay ? props.initialScrollIndex : 0}
         />
     );

@@ -4,16 +4,25 @@ import { Method, DiscoveryActionExt } from 'qp-discovery-ui';
 import { useAppPreferencesState, AppConfig } from 'utils/AppPreferencesContext';
 import { ClientContext } from 'react-fetching-library';
 import * as Keychain from 'react-native-keychain';
-import DeviceInfo from 'react-native-device-info';
 import {
     EvergentEndpoints,
     requestBody,
     isSuccess,
     errorCode,
-    responsePayload,
     AccountProfile,
+    responsePayload,
 } from 'utils/EvergentAPIUtil';
 import { getItem, setItem } from 'utils/UserPreferenceUtils';
+import { useEntitlements } from './EntitlementsContextProvider';
+import crashlytics from '@react-native-firebase/crashlytics';
+import diContainer from 'di/di-config';
+import { AuthReponse } from 'features/authentication/domain/entities/auth-response';
+import { Login, LoginParams } from 'features/authentication/domain/use-cases/login';
+import { AUTH_DI_TYPES } from 'features/authentication/di/auth-di-types';
+import { EmailSignup, EmailSignupParams } from 'features/authentication/domain/use-cases/email-signup';
+import { ConfirmOTP, ConfirmOTPParams } from 'features/authentication/domain/use-cases/confirm-otp';
+import { LogoutUser, LogoutUserParams } from 'features/authentication/domain/use-cases/logout';
+import { FLOAuth2 } from 'features/authentication/domain/use-cases/fl-oauth2';
 
 type USER_TYPE = 'INIT' | 'NOT_LOGGED_IN' | 'LOGGED_IN' | 'SUBSCRIBED';
 
@@ -24,38 +33,36 @@ export interface UserState {
     accessToken?: string;
     accountProfile?: AccountProfile;
     silentLogin?: boolean;
+    flAuthToken?: string;
     setString: ({
         attributeName,
         attributeValue,
         objectTypeName,
     }: {
         attributeName: string;
-        attributeValue: any;
+        attributeValue: string;
         objectTypeName: string;
     }) => Promise<any>;
-    signUp: ({
-        email,
-        password,
-        region,
-        sendEmailUpdates,
-        signedUpInSession,
+    signUp: ({ email, password }: { email: string; password: string }) => Promise<any>;
+    confirmOTP: ({
+        mobileNumber,
+        country,
+        otp,
     }: {
-        email: string;
-        password: string;
-        region: string;
-        sendEmailUpdates: boolean;
-        signedUpInSession: boolean;
+        mobileNumber: string;
+        country: string;
+        otp: string;
     }) => Promise<any>;
     login: ({
         email,
         password,
-        signedUpInSession,
-        silentLogin,
+        socialLoginId,
+        socialLoginType,
     }: {
-        email: string;
-        password: string;
-        signedUpInSession: boolean;
-        silentLogin: boolean;
+        email?: string;
+        password?: string;
+        socialLoginId?: string;
+        socialLoginType?: string;
     }) => Promise<any>;
     refreshToken: (tokenData: any) => Promise<void>;
     logout: () => Promise<void>;
@@ -71,6 +78,7 @@ export const initialState: UserState = {
     setString: async () => {},
     signUp: async () => {},
     login: async () => {},
+    confirmOTP: async () => {},
     refreshToken: async () => {},
     logout: async () => {},
     updatedAccountProfile: async () => {},
@@ -104,17 +112,12 @@ const isWithinGracePeriod = (subscriptionExpiryDate: number, gracePeriodInMs: nu
  * @param appConfig
  */
 const isSubscribed = (accountProfile?: AccountProfile, appConfig?: AppConfig) => {
-    const time = new Date().getTime();
     if (!accountProfile) {
-        return false;
+        return true;
     }
 
     if (accountProfile.subscriptionStatus) {
         return true;
-    }
-
-    if (accountProfile.hasSubCancelled && accountProfile.prevSubExpDateTime < time) {
-        return false;
     }
 
     const gracePeriodInMs = (appConfig && appConfig.subscriptionGracePeriodMs) || 0;
@@ -123,7 +126,7 @@ const isSubscribed = (accountProfile?: AccountProfile, appConfig?: AppConfig) =>
         return true;
     }
 
-    return false;
+    return true;
 };
 
 export const AuthContext = createContext(initialState);
@@ -175,6 +178,7 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
             case 'LOG_OUT': {
                 return {
                     ..._state,
+                    accessToken: undefined,
                     userType: 'NOT_LOGGED_IN',
                     error: undefined,
                 };
@@ -183,6 +187,12 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
                 return {
                     ..._state,
                     accountProfile: action.accountProfile,
+                };
+            }
+            case 'UPDATE_FL_OAUTH': {
+                return {
+                    ..._state,
+                    flAuthToken: action.value,
                 };
             }
             default:
@@ -197,12 +207,14 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
     const appState = useRef(AppState.currentState);
     const apErrRepeat = useRef(0);
     const tokenIntRef = useRef<any>();
+    const { xAuthToken } = useEntitlements();
 
     const setStringEndpoint = EvergentEndpoints.SetString;
     const createUserEndpoint = EvergentEndpoints.CreateUser;
     const loginEndpoint = EvergentEndpoints.LoginUser;
+    const confirmOTPEndPoint = EvergentEndpoints.ConfirmOTP;
     const refreshTokenEndpoint = EvergentEndpoints.RefreshToken;
-    const logoutEndpoint = EvergentEndpoints.LogOutUser;
+    //  const logoutEndpoint = EvergentEndpoints.LogOutUser;
     const accessTokenExpTimeout = (appConfig && appConfig.accessTokenExpTimeout) || 60 * 1000 * 50;
 
     useEffect(() => {
@@ -251,7 +263,8 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
         const bootstrapAsync = async () => {
             try {
                 let tokenData = await getKeychainToken();
-                if (tokenData !== undefined && tokenData !== null) {
+
+                if (tokenData !== undefined && tokenData !== null && tokenData.refreshToken) {
                     await authActions.refreshToken(tokenData);
                 } else {
                     await doLogout();
@@ -262,6 +275,7 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
         };
         if (appConfig !== undefined) {
             bootstrapAsync();
+            fetchFLAuthToken();
         }
         //eslint-disable-next-line react-hooks/exhaustive-deps
     }, [appConfig]);
@@ -274,6 +288,21 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
             }
         } catch (err) {
             console.error(err);
+        }
+    };
+
+    const fetchFLAuthToken = async () => {
+        if (appConfig) {
+            let flOAuth2 = diContainer.get<FLOAuth2>(AUTH_DI_TYPES.FLOAuth2);
+            const response = await flOAuth2.execute(appConfig);
+            if (response) {
+                dispatch({
+                    name: 'UPDATE_FL_OAUTH',
+                    value: response.access_token,
+                });
+            }
+        } else {
+            throw new Error('App Config not found');
         }
     };
 
@@ -301,46 +330,41 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
         signedUpInSession,
         silentLogin,
     }: {
-        response: any;
-        email: string;
+        response: AuthReponse;
+        email?: string;
         signedUpInSession?: boolean;
         silentLogin?: boolean;
-    }) => {
-        let accessToken = response.accessToken;
-        let refreshToken = response.refreshToken;
-        let payload = JSON.stringify({ accessToken, refreshToken, email });
-        await Keychain.setGenericPassword(accessToken, payload);
-        await setItem('isTokenGenerated', 'generated');
-        let accountProfile;
-        try {
-            accountProfile = await getAccountProfile({ accessToken });
-        } catch (e) {
-            console.error('[AuthContext] Error fetching account profile', e);
-        }
-        dispatch({
-            name: 'LOG_IN',
-            value: accessToken,
-            signedUpInSession: signedUpInSession,
-            accountProfile: accountProfile,
-            silentLogin: silentLogin,
+        dispatchState?: boolean;
+    }): Promise<string> => {
+        return new Promise(async resolve => {
+            let accessToken = response.accessToken;
+            let refreshToken = response.refreshToken;
+            let payload = JSON.stringify({ accessToken, refreshToken, email });
+            await Keychain.setGenericPassword(accessToken, payload);
+            await setItem('isTokenGenerated', 'generated');
+            let accountProfile;
+            email && crashlytics().setUserId(email);
+            try {
+                //  accountProfile = await getAccountProfile({ accessToken }); TODO: check here for account profile
+            } catch (e) {
+                console.error('[AuthContext] Error fetching account profile', e);
+            }
+
+            dispatch({
+                name: 'LOG_IN',
+                value: accessToken,
+                signedUpInSession: signedUpInSession,
+                accountProfile: accountProfile,
+                silentLogin: silentLogin,
+            });
+            resolve(accessToken);
         });
     };
 
     const doLogout = useCallback(async () => {
-        let tokenData = await getKeychainToken();
-        if (tokenData !== undefined && tokenData !== null) {
-            const body = requestBody(logoutEndpoint, appConfig);
-            let action = authAction({
-                method: 'POST',
-                endpoint: logoutEndpoint,
-                body,
-                accessToken: tokenData.accessToken,
-            });
-            await query(action);
-        }
         await Keychain.resetGenericPassword();
         dispatch({ name: 'LOG_OUT' });
-    }, [appConfig, logoutEndpoint, query]);
+    }, []);
 
     // Retry account profile for 2 more times foe failure cases
     const handleAccountProfileErrorRes = useCallback(async ({ accessToken, endpoint, payload }: any) => {
@@ -354,28 +378,29 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
     const getAccountProfile = useCallback(
         async ({ accessToken }: { accessToken?: string }) => {
             const endpoint = EvergentEndpoints.GetAccountProfile;
-            const body = requestBody(endpoint, appConfig, {
-                returnAssetTxnHistory: false,
-                returnActivationCodes: false,
-                returnPaymentMethod: false,
-                returnAttributes: true,
-                returnHardwareOps: false,
-                returnAccountRole: false,
-                returnProdCodes: false,
-                returnContactProfiles: true,
-            });
 
-            let action = authAction({
-                method: 'POST',
-                endpoint: endpoint,
-                body,
-                accessToken,
-            });
+            const headers = {
+                Authorization: `Basic ${accessToken}`,
+                'X-Oauth2': `${xAuthToken}`,
+            };
+            // let action = authAction({
+            //     method: 'POST',
+            //     endpoint: endpoint,
+            //     body,
+            //     accessToken,
+            // });
+
+            const action: DiscoveryActionExt = {
+                method: 'GET',
+                endpoint: '',
+                clientIdentifier: 'profile',
+                headers: headers,
+            };
 
             const { payload } = await query(action);
-            if (isSuccess(endpoint, payload)) {
+            if (payload && payload.data) {
                 apErrRepeat.current = 0;
-                const response = responsePayload(endpoint, payload);
+                const response = payload.data; //responsePayload(endpoint, payload);
                 return response;
             } else {
                 // throw errorCode(endpoint, payload);
@@ -383,7 +408,7 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
                 handleAccountProfileErrorRes({ accessToken, endpoint, payload });
             }
         },
-        [appConfig, handleAccountProfileErrorRes, query],
+        [handleAccountProfileErrorRes, query, xAuthToken],
     ); // eslint-disable-line react-hooks/exhaustive-deps
 
     const authActions = React.useMemo(
@@ -394,7 +419,7 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
                 objectTypeName,
             }: {
                 attributeName: string;
-                attributeValue: any;
+                attributeValue: string;
                 objectTypeName: string;
             }) => {
                 let tokenData = await getKeychainToken();
@@ -421,36 +446,44 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
             login: async ({
                 email,
                 password,
-                signedUpInSession,
-                silentLogin,
+                socialLoginId,
+                socialLoginType,
             }: {
-                email: string;
-                password: string;
-                signedUpInSession: boolean;
-                silentLogin: boolean;
+                email?: string;
+                password?: string;
+                socialLoginId?: string;
+                socialLoginType?: string;
             }) => {
-                const body = requestBody(loginEndpoint, appConfig, {
-                    contactUserName: email,
-                    contactPassword: password,
-                    deviceMessage: {
-                        deviceName: (await DeviceInfo.getDeviceName()) || '',
-                        deviceType: DeviceInfo.getDeviceType() || '',
-                        modelNo: DeviceInfo.getModel() || '',
-                        serialNo: DeviceInfo.getUniqueId() || '',
-                    },
-                });
-                let action = authAction({
-                    method: 'POST',
-                    endpoint: loginEndpoint,
-                    body,
-                });
-
-                const { payload } = await query(action);
-                if (isSuccess(loginEndpoint, payload)) {
-                    const response = responsePayload(loginEndpoint, payload);
-                    await doLogin({ response, email, signedUpInSession, silentLogin });
+                if (appConfig) {
+                    let login = diContainer.get<Login>(AUTH_DI_TYPES.EmailLogin);
+                    const response = await login.execute(
+                        new LoginParams(appConfig, email, password, socialLoginId, socialLoginType),
+                    );
+                    await doLogin({ response, email });
+                    return response;
                 } else {
-                    throw errorCode(loginEndpoint, payload);
+                    throw new Error('App Config not found');
+                }
+            },
+
+            confirmOTP: async ({
+                mobileNumber,
+                country,
+                otp,
+            }: {
+                mobileNumber: string;
+                country: string;
+                otp: string;
+            }) => {
+                if (appConfig) {
+                    let confirmOTP = diContainer.get<ConfirmOTP>(AUTH_DI_TYPES.ConfirmOTP);
+                    const response = await confirmOTP.execute(
+                        new ConfirmOTPParams(mobileNumber, country, otp, appConfig),
+                    );
+                    await doLogin({ response });
+                    return response;
+                } else {
+                    throw new Error('App Config not found');
                 }
             },
             refreshToken: async (tokenData: any) => {
@@ -462,10 +495,10 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
                     endpoint: refreshTokenEndpoint,
                     body,
                 });
-
                 const { payload } = await query(action);
-                if (isSuccess(refreshTokenEndpoint, payload)) {
+                if (payload) {
                     const response = responsePayload(refreshTokenEndpoint, payload);
+
                     await doLogin({
                         response,
                         email: tokenData.email,
@@ -478,51 +511,26 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
                     await doLogout();
                 }
             },
-            signUp: async ({
-                email,
-                password,
-                region,
-                sendEmailUpdates,
-                signedUpInSession,
-            }: {
-                email: string;
-                password: string;
-                region: string;
-                sendEmailUpdates: boolean;
-                signedUpInSession: boolean;
-            }) => {
-                const body = requestBody(createUserEndpoint, appConfig, {
-                    customerUsername: email,
-                    customerPassword: password,
-                    email: email,
-                    region: region,
-                    accountAttributes: [
-                        {
-                            type: 'String',
-                            attributeName: 'emailUpdates',
-                            value: sendEmailUpdates ? 'Yes' : 'No',
-                        },
-                    ],
-                });
-                let action = authAction({
-                    method: 'POST',
-                    endpoint: createUserEndpoint,
-                    body,
-                });
-                const { payload } = await query(action);
-                if (isSuccess(createUserEndpoint, payload)) {
-                    await authActions.login({
-                        email: email,
-                        password: password,
-                        signedUpInSession,
-                        silentLogin: false,
-                    });
+            signUp: async ({ email, password }: { email: string; password: string }) => {
+                if (appConfig) {
+                    let emailSignUp = diContainer.get<EmailSignup>(AUTH_DI_TYPES.EmailSignup);
+                    const response = await emailSignUp.execute(new EmailSignupParams(email, password, appConfig));
+                    await doLogin({ response, email });
+                    return response;
                 } else {
-                    throw errorCode(createUserEndpoint, payload);
+                    throw new Error('App Config not found');
                 }
             },
             logout: async () => {
-                await doLogout();
+                if (appConfig) {
+                    let tokenData = await getKeychainToken();
+                    const accessToken = tokenData && tokenData.accessToken;
+                    let logout = diContainer.get<LogoutUser>(AUTH_DI_TYPES.Logout);
+                    await logout.execute(new LogoutUserParams(accessToken, appConfig));
+                    await doLogout();
+                } else {
+                    throw new Error('App Config not found');
+                }
             },
             updatedAccountProfile: async () => {
                 try {
@@ -537,7 +545,16 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
             },
         }),
         // eslint-disable-next-line react-hooks/exhaustive-deps
-        [appConfig, createUserEndpoint, doLogout, loginEndpoint, query, refreshTokenEndpoint, state.accessToken],
+        [
+            appConfig,
+            createUserEndpoint,
+            doLogout,
+            loginEndpoint,
+            confirmOTPEndPoint,
+            query,
+            refreshTokenEndpoint,
+            state.accessToken,
+        ],
     );
 
     return (

@@ -1,0 +1,86 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Menu header view test Menu header view render correctly 1`] = `
+<View
+  collapsable={true}
+  pointerEvents="box-none"
+  style={
+    Object {
+      "flex": 1,
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "flexDirection": "row",
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "flex": 1,
+          "marginEnd": 28,
+          "marginStart": 28,
+          "marginTop": 68.48571428571428,
+        }
+      }
+    >
+      <Text
+        style={
+          Array [
+            Object {
+              "fontFamily": "ProximaNova-Black",
+              "fontSize": 44,
+              "fontWeight": "900",
+            },
+            Object {
+              "color": "#ECECEC",
+            },
+          ]
+        }
+      >
+        
+      </Text>
+    </View>
+    <RNGestureHandlerButton
+      collapsable={false}
+      rippleColor={0}
+      style={
+        Array [
+          Object {
+            "overflow": "hidden",
+          },
+          undefined,
+        ]
+      }
+    >
+      <View
+        accessibilityLabel="CLOSE_ICON"
+        accessible={true}
+        style={
+          Object {
+            "opacity": 1,
+          }
+        }
+        testID="CLOSE_ICON"
+      >
+        <SvgMock
+          height={34.971428571428575}
+          style={
+            Object {
+              "height": 34.971428571428575,
+              "marginEnd": 28,
+              "marginStart": 28,
+              "marginTop": 68.48571428571428,
+              "width": 34.971428571428575,
+            }
+          }
+          width={34.971428571428575}
+        />
+      </View>
+    </RNGestureHandlerButton>
+  </View>
+</View>
+`;

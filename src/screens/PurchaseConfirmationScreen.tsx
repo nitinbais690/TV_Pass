@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { View, Text, StyleSheet, Animated, Platform } from 'react-native';
+import { View, Text, StyleSheet, Animated } from 'react-native';
 import { useSafeArea } from 'react-native-safe-area-context';
 import { useDimensions } from '@react-native-community/hooks';
 import { selectDeviceType } from 'qp-common-ui';
@@ -9,11 +9,10 @@ import { useAuth } from 'contexts/AuthContextProvider';
 import { useAppState } from 'utils/AppContextProvider';
 import { AccountProfile } from 'utils/EvergentAPIUtil';
 import Button from './components/Button';
-import BackgroundGradient from './components/BackgroundGradient';
+import BackgroundGradient from 'core/presentation/components/atoms/BackgroundGradient';
 import { appFonts } from '../../AppStyles';
 import CreditsIcon from '../../assets/images/credits_large.svg';
 import Ticker from 'react-native-ticker';
-import { NAVIGATION_TYPE } from './Navigation/NavigationConstants';
 
 const emailFromAccount = (accountProfile?: AccountProfile) => {
     if (accountProfile && accountProfile.contactMessage && accountProfile.contactMessage.length) {
@@ -167,11 +166,7 @@ const PurchaseConfirmationScreen = ({ navigation, route }: { navigation: any; ro
                         if (existingSubscriber) {
                             triggerSubscribedFlow();
                         } else {
-                            if (Platform.isTV) {
-                                navigation.navigate(NAVIGATION_TYPE.SIGN_UP_PROFILE_TV);
-                            } else {
-                                navigation.navigate('UserProfile');
-                            }
+                            navigation.navigate('UserProfile');
                         }
                     }}
                 />

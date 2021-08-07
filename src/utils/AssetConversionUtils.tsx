@@ -1,5 +1,4 @@
 import { Platform } from 'react-native';
-import DeviceInfo from 'react-native-device-info';
 import {
     PlatformAsset,
     contentAuthorizer,
@@ -10,16 +9,15 @@ import {
     MediaTypeValue,
     DrmTypeValue,
     ContentAuthToken,
+    DeliveryTypeValue,
     BookmarkerConfig,
     StreamConcurrencyConfig,
-    DeliveryTypeValue,
 } from 'rn-qp-nxg-player';
+import DeviceInfo from 'react-native-device-info';
 import { ResourceVm } from 'qp-discovery-ui';
 import { AppConfig } from 'utils/AppPreferencesContext';
-//import { name as appName } from '../../app.json';
-//import { AccountProfile } from './EvergentAPIUtil';
-import { getDownloadQuality } from 'utils/UserPreferenceUtils';
-//import { default as newRelic } from 'rn-qp-nxg-newrelic';
+import { AccountProfile } from './EvergentAPIUtil';
+import { DEFAULT_DOWNLOAD_QUALITY, DownloadQuality, getDownloadQuality } from 'utils/UserPreferenceUtils';
 
 const DEFAULT_BOOKMARK_SYNC_INTERVAL_MS = 5000;
 const DEFAULT_BOOKMARK_DELETE_THRESHOLD = 0.95;
@@ -47,82 +45,68 @@ export const resourceToPlatformAsset: (resource: ResourceVm, deliveryType: Deliv
         consumptionType: resource.type === 'channel' ? 'LIVE' : 'VOD',
         drmType: Platform.OS === 'android' ? 'WIDEVINE' : 'FAIRPLAY',
         deliveryType: deliveryType,
-        quality: 'LOW',
+        quality: 'HIGH',
     };
 };
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const platformAssetToPlayerConfig: (
     platformAsset: PlatformAsset,
     resource: ResourceVm,
     tvodToken: string,
-    liveStreamUrl: string, //fetching the livestream url from environment config
     appConfig?: AppConfig,
-) => //accountProfile?: AccountProfile,
-Promise<PlayerConfig> = async (
+    initialPlaybackTime?: number,
+    accountProfile?: AccountProfile,
+) => Promise<PlayerConfig> = async (
     platformAsset: PlatformAsset,
     resource: ResourceVm,
     tvodToken: string,
-    liveStreamUrl: string,
     appConfig?: AppConfig,
-    //accountProfile?: AccountProfile,
+    initialPlaybackTime?: number,
 ): Promise<PlayerConfig> => {
-    console.log('authorizing playback...');
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
     // const appReleaseVersion = `${DeviceInfo.getVersion()}(${DeviceInfo.getBuildNumber()})`;
     // const sessionId: string = await newRelic.getSessionId();
     //NOTE: using authorize playback for now.
     //Have to change to authorize download.
-    if (platformAsset.consumptionType === 'VOD') {
-        //  const authToken = await contentAuthorizer.authorizePlayback(platformAsset);
-        const headers = {
-            'X-Tvod-Authorization': tvodToken,
-        };
-        const authToken = await contentAuthorizer.authorizePlayback(platformAsset, headers);
-        const bookmarkConfig: BookmarkerConfig = {
-            bookmarkAssetID: resource.id,
-            bookmarkSyncIntervalMs:
-                (appConfig && appConfig.bookmarkSyncIntervalMs) || DEFAULT_BOOKMARK_SYNC_INTERVAL_MS,
-            bookmarkDeleteThreshold:
-                (appConfig && appConfig.bookmarkDeleteThreshold) || DEFAULT_BOOKMARK_DELETE_THRESHOLD,
-            bookmarkServiceEndpoint: appConfig && appConfig.bookmarkURL,
-        };
 
-        const streamConcurrencyConfig: StreamConcurrencyConfig = {
-            streamConcurrencySyncIntervalMs:
-                (appConfig && appConfig.streamConcurrencySyncIntervalMs) || DEFAULT_STREAM_CONCURRENCY_SYNC_INTERVAL_MS,
-            streamConcurrencyServiceEndpoint: appConfig && appConfig.strConcurrencyURL,
-            platformClient: {
-                id: DeviceInfo.getUniqueId(),
-                type: Platform.OS === 'ios' ? 'iosmobile' : 'androidmobile',
-            },
-        };
-        const initialPlaybackTime = resource && resource.watchedOffset ? resource.watchedOffset / 1000 : 0;
+    const headers = {
+        'X-Tvod-Authorization': tvodToken,
+    };
 
-        return {
-            mediaURL: authToken.contentURL,
-            mediaType: authToken.mediaType,
-            drmLicenseURL: authToken.licenseURL,
-            drmType: authToken.drmType,
-            skd: authToken.skd,
-            // TODO: fallback cert should be from app-config
-            fairplayCertificate: authToken.fpCertificateUrl ? authToken.fpCertificateUrl : '',
-            contentType: platformAsset.consumptionType,
-            bookmarkConfig: bookmarkConfig,
-            streamConcurrencyConfig: streamConcurrencyConfig,
-            playbackProperties: {
-                initialStartTimeMillis: initialPlaybackTime * 1000,
-            },
-        };
-    } else {
-        return {
-            mediaURL: liveStreamUrl,
-            mediaType: 'HLS',
-            drmLicenseURL: 'NONE',
-            drmType: 'NONE',
-            skd: '',
-            fairplayCertificate: '',
-            contentType: 'LIVE',
-        };
-    }
+    const authToken = await contentAuthorizer.authorizePlayback(platformAsset, headers);
+    const bookmarkConfig: BookmarkerConfig = {
+        bookmarkAssetID: resource.id,
+        bookmarkSyncIntervalMs: (appConfig && appConfig.bookmarkSyncIntervalMs) || DEFAULT_BOOKMARK_SYNC_INTERVAL_MS,
+        bookmarkDeleteThreshold: (appConfig && appConfig.bookmarkDeleteThreshold) || DEFAULT_BOOKMARK_DELETE_THRESHOLD,
+        bookmarkServiceEndpoint: appConfig && appConfig.bookmarkURL,
+    };
+
+    const streamConcurrencyConfig: StreamConcurrencyConfig = {
+        streamConcurrencySyncIntervalMs:
+            (appConfig && appConfig.streamConcurrencySyncIntervalMs) || DEFAULT_STREAM_CONCURRENCY_SYNC_INTERVAL_MS,
+        streamConcurrencyServiceEndpoint: appConfig && appConfig.strConcurrencyURL,
+        platformClient: {
+            id: DeviceInfo.getUniqueId(),
+            type: Platform.OS === 'ios' ? 'iosmobile' : 'androidmobile',
+        },
+    };
+
+    return {
+        mediaURL: authToken.contentURL,
+        mediaType: authToken.mediaType,
+        drmLicenseURL: authToken.licenseURL,
+        drmType: authToken.drmType,
+        skd: authToken.skd,
+        fairplayCertificate: authToken.fpCertificateUrl ? authToken.fpCertificateUrl : 'fairplayCertificate',
+        contentType: platformAsset.consumptionType,
+        bookmarkConfig: bookmarkConfig,
+        streamConcurrencyConfig: streamConcurrencyConfig,
+        playbackProperties: {
+            initialStartTimeMillis: initialPlaybackTime,
+        },
+    };
 };
 
 export const platformDownloadToPlayerConfig: (download: Download) => PlayerConfig = (
@@ -135,43 +119,60 @@ export const platformDownloadToPlayerConfig: (download: Download) => PlayerConfi
         mediaType: assetMetadata.mediaType,
         skd: assetMetadata.skd,
         downloadID: assetMetadata.id,
+        drmType: assetMetadata.drmType,
+        drmLicenseURL: assetMetadata.drmLicenseURL ? assetMetadata.drmLicenseURL : '',
         deliveryType: assetMetadata.deliveryType,
     };
 };
 
-const preferredDownloadBitrate = async (appConfig?: AppConfig) => {
-    const preferredDownloadQuality = await getDownloadQuality();
-    const preferredDownloadQualityKey = `downloadBitRate_${preferredDownloadQuality}`;
+const preferredDownloadBitrate = async (appConfig?: AppConfig, quality?: DownloadQuality) => {
+    let preferredDownloadQuality;
+    if (quality) {
+        preferredDownloadQuality = quality;
+    }
+
+    if (!quality) {
+        preferredDownloadQuality = await getDownloadQuality();
+        if (!preferredDownloadQuality) {
+            preferredDownloadQuality = DEFAULT_DOWNLOAD_QUALITY;
+        }
+    }
+    const preferredDownloadQualityKey = `preferredPeakBitRate_${preferredDownloadQuality}`;
+
     let preferredBitRate = 0;
     if (appConfig) {
         preferredBitRate = (appConfig as any)[preferredDownloadQualityKey] || 0;
     }
-    return preferredBitRate;
+    return Number(preferredBitRate);
 };
 
 export const platformAssetToDownloadRequest: (
     platformAsset: PlatformAsset,
     tvodToken: string,
     appConfig?: AppConfig,
+    quality?: DownloadQuality,
 ) => Promise<DownloadRequest> = async (
     platformAsset: PlatformAsset,
     tvodToken: string,
     appConfig?: AppConfig,
+    quality?: DownloadQuality,
 ): Promise<DownloadRequest> => {
     //NOTE: using authorize playback for now.
     //Have to change to authorize download.
     const headers = {
         'X-Tvod-Authorization': tvodToken,
     };
+
     const authToken: ContentAuthToken = await contentAuthorizer.authorizePlayback(platformAsset, headers);
     const rentalExpiryTime = authToken.rentalExpiryTime;
+
     return {
         mediaURL: authToken.contentURL,
         mediaType: authToken.mediaType,
         drmLicenseURL: authToken.licenseURL || '',
         drmScheme: authToken.drmType || 'NONE',
         downloadStreamPreference: {
-            preferredVideoBitrate: await preferredDownloadBitrate(appConfig),
+            preferredVideoBitrate: await preferredDownloadBitrate(appConfig, quality),
             preferredAudioVariants: [
                 {
                     languageCode: 'en',

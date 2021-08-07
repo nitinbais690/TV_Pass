@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { Platform } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
 import { DownloadManager, Download, DownloadListener } from 'rn-qp-nxg-player';
 
@@ -11,8 +10,8 @@ export const useDownloads = (downloadManager: DownloadManager): { loading: boole
         async function fetchAllDownloads() {
             console.log('fetching downloads...');
             try {
-                const downloads = await downloadManager.getAllDownloads();
-                setDownloads(downloads);
+                const dowloads = await downloadManager.getAllDownloads();
+                setDownloads(dowloads);
                 setLoading(false);
             } catch (e) {
                 setLoading(false);
@@ -38,7 +37,7 @@ export const useDownloads = (downloadManager: DownloadManager): { loading: boole
         };
 
         (() => {
-            if (!DeviceInfo.isEmulatorSync() && !Platform.isTV) {
+            if (!DeviceInfo.isEmulatorSync()) {
                 downloadManager.addListener(downloadListener);
             }
         })();
@@ -47,9 +46,7 @@ export const useDownloads = (downloadManager: DownloadManager): { loading: boole
 
         return function cleanup() {
             console.log('removing download listener');
-            if (!Platform.isTV) {
-                downloadManager.removeListener(downloadListener);
-            }
+            downloadManager.removeListener(downloadListener);
         };
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);

@@ -11,7 +11,7 @@ import { NAVIGATION_TYPE } from 'screens/Navigation/NavigationConstants';
 import { appFonts } from '../../../../AppStyles';
 import OTPInput from '../../components/OTPInput';
 import useFP from 'utils/useFP';
-import BackgroundGradient from 'screens/components/BackgroundGradient';
+import BackgroundGradient from 'core/presentation/components/atoms/BackgroundGradient';
 import { ErrorMessage } from 'screens/components/ErrorMessageBox';
 
 const initialValues = {

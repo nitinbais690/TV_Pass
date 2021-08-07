@@ -1,6 +1,6 @@
-import { StyleSheet, Platform } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { selectDeviceType } from 'qp-common-ui';
-import { appFonts, appPadding, tvPixelSizeForLayout } from '../../AppStyles';
+import { appFonts, appPadding } from '../../AppStyles';
 
 export const settingStyle = ({ appColors, isPortrait }: { appColors: any; isPortrait?: boolean }) => {
     return StyleSheet.create({
@@ -26,10 +26,7 @@ export const settingStyle = ({ appColors, isPortrait }: { appColors: any; isPort
         margin_v: {
             marginVertical: appPadding.sm(true),
         },
-        margin_toggle: {
-            transform:
-                Platform.OS === 'android' ? [{ scaleX: 1.4 }, { scaleY: 1.4 }] : [{ scaleX: 0.9 }, { scaleY: 0.9 }],
-        },
+        margin_toggle: {},
         row: {
             flexDirection: 'row',
             justifyContent: 'space-between',
@@ -49,10 +46,6 @@ export const settingStyle = ({ appColors, isPortrait }: { appColors: any; isPort
             backgroundColor: appColors.primaryVariant2,
             height: selectDeviceType({ Handset: 70 }, 100),
             right: 0,
-        },
-        row_between_container: {
-            width: '80%',
-            flexGrow: 1,
         },
         row_between_noColor: {
             flexDirection: 'row',
@@ -90,11 +83,6 @@ export const settingStyle = ({ appColors, isPortrait }: { appColors: any; isPort
             fontFamily: appFonts.primary,
             fontSize: appFonts.xs,
         },
-        text_md_xxs: {
-            color: appColors.caption,
-            fontFamily: appFonts.primary,
-            fontSize: appFonts.xxs,
-        },
         top_Underline: {
             borderBottomColor: appColors.border,
             borderBottomWidth: StyleSheet.hairlineWidth,
@@ -126,39 +114,36 @@ export const settingStyle = ({ appColors, isPortrait }: { appColors: any; isPort
         button: {
             borderRadius: 10,
         },
-        paddingTop: {
-            paddingTop: appPadding.xs(),
-        },
 
         // Profile Page
         image: {
             alignItems: 'center',
             justifyContent: 'center',
-            backgroundColor: Platform.isTV ? appColors.iconBackgroundTv : appColors.primaryVariant1,
+            backgroundColor: appColors.primaryVariant1,
             flex: 0.3,
             aspectRatio: 1,
             borderRadius: 100,
             borderWidth: StyleSheet.hairlineWidth,
         },
         image_banner: {
-            marginLeft: Platform.isTV ? 0 : 20,
+            marginLeft: 20,
             justifyContent: 'center',
             flex: 0.7,
         },
         profile_header: {
-            flexDirection: Platform.isTV ? 'column' : 'row',
-            marginTop: Platform.isTV ? tvPixelSizeForLayout(0) : appPadding.xs(true),
-            alignItems: Platform.isTV ? 'flex-start' : 'center',
+            flexDirection: 'row',
+            marginTop: appPadding.xs(true),
+            alignItems: 'center',
             justifyContent: 'flex-start',
         },
         center: {
             textAlign: 'center',
-            color: Platform.isTV ? appColors.primary : appColors.secondary,
-            fontSize: Platform.isTV ? tvPixelSizeForLayout(45) : appFonts.xxxlg,
+            color: appColors.secondary,
+            fontSize: appFonts.xxxlg,
             fontFamily: appFonts.medium,
         },
         formSpacing: {
-            marginBottom: Platform.isTV ? tvPixelSizeForLayout(40) : 40,
+            marginBottom: appPadding.md(true),
         },
 
         //Main Page

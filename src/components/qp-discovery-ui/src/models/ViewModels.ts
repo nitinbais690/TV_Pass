@@ -1,4 +1,5 @@
 import { ImageType, AspectRatio } from 'qp-common-ui';
+import { FlatList } from 'react-native';
 
 export interface TabVm {
     id: string;
@@ -17,9 +18,10 @@ export type CardSize = 'regular' | 'large' | 'xlarge';
 export type CardStyle = 'regular' | 'rounded';
 export type ContainerType = 'Collection';
 export type CollectionLayoutType = 'banner' | 'carousel' | 'grid';
+export type ContainerName = 'coming_soon' | 'aha_original' | 'trailer' | 'regular';
+export type ContainerSourceType = 'continue_watching';
 
 export interface ContainerVm {
-    viewAll: boolean;
     id: string;
     type?: string;
     name: string;
@@ -40,12 +42,32 @@ export interface ContainerVm {
     lazyLoading?: boolean;
     pageNumber?: number;
     maxResources?: number;
+    containerType?: ContainerName;
+    soureType?: ContainerSourceType;
+    /**
+     * cardWidth is a first resource card width,
+     * assumption all the card aspect ratio will be same in the list.
+     */
+    cardWidth?: number;
+    /**
+     * cardAspectRatio is a first resource card AspectRatio ,
+     * assumption all the card aspect ratio will be same in the list.
+     */
+    cardAspectRatio?: AspectRatio;
+    /**
+     * containerListRef is the reference of list of resorces
+     */
+    containerListRef?: FlatList<ResourceVm> | null;
+    /**
+     * hasFocus to findout which container row item has focus
+     */
+    hasFocus?: boolean;
 }
 
 export interface ResourceVm {
-    id?: string;
-    key?: string;
-    name?: string;
+    id: string;
+    key: string;
+    name: string;
 
     title?: string;
     subtitle?: string;
@@ -54,7 +76,6 @@ export interface ResourceVm {
     colorLogo?: string;
     // contentType
     type: string;
-    canDownload?: boolean;
 
     // format: { ISO-639 code: name }
     localizedName?: { [key: string]: string };
@@ -75,8 +96,12 @@ export interface ResourceVm {
     releaseYear?: number;
     //format:{ratingSystem:ratingValue}
 
+    isFreeContent?: boolean;
+    isOriginals: boolean;
     rating?: string;
     allRatings?: { [key: string]: string };
+    audioQuality?: string;
+    videoQuality?: string;
 
     formattedRunningTime?: string;
     runningTime?: number;
@@ -92,6 +117,8 @@ export interface ResourceVm {
     programId?: string;
     endTime?: number;
     startTime?: number;
+    licenseWindowStarTime?: string;
+    enableUpcomingTag?: boolean;
     isProgramActive?: boolean;
     currentProgramProgress?: number;
     programHumanSchedule?: string;
@@ -125,7 +152,7 @@ export interface ResourceVm {
     ia?: string[];
 
     // TVPass specific meta-data
-    credits?: number;
+    credits?: string;
     expiresIn?: string;
     watchedOffset?: number;
     completedPercent?: number;
@@ -145,6 +172,7 @@ export interface ResourceVm {
     origin?: string;
     showFooter?: boolean;
     showFooterTitles?: boolean;
+    adv?: string[];
 }
 
 //TODO:To include Schedules when EPG is available

@@ -454,7 +454,7 @@ exports[`PlayerControlsViewTV should render all player controls 1`] = `
                   Object {
                     "backgroundColor": "transparent",
                     "color": "#ffffff",
-                    "fontSize": 14.742857142857144,
+                    "fontSize": 17.2,
                     "textAlign": "right",
                   }
                 }
@@ -466,7 +466,7 @@ exports[`PlayerControlsViewTV should render all player controls 1`] = `
               disabled={false}
               enabled={true}
               maximumValue={307360000}
-              minimumTrackTintColor="#686EFF"
+              minimumTrackTintColor="#FE6E2E"
               minimumValue={0}
               onRNCSliderSlidingComplete={null}
               onRNCSliderSlidingStart={null}
@@ -510,7 +510,7 @@ exports[`PlayerControlsViewTV should render all player controls 1`] = `
                     Object {
                       "backgroundColor": "transparent",
                       "color": "#ffffff",
-                      "fontSize": 14.742857142857144,
+                      "fontSize": 17.2,
                       "textAlign": "right",
                     }
                   }
@@ -1091,7 +1091,7 @@ exports[`PlayerControlsViewTV should render loading 1`] = `
                   Object {
                     "backgroundColor": "transparent",
                     "color": "#ffffff",
-                    "fontSize": 14.742857142857144,
+                    "fontSize": 17.2,
                     "textAlign": "right",
                   }
                 }
@@ -1103,7 +1103,7 @@ exports[`PlayerControlsViewTV should render loading 1`] = `
               disabled={false}
               enabled={true}
               maximumValue={1}
-              minimumTrackTintColor="#686EFF"
+              minimumTrackTintColor="#FE6E2E"
               minimumValue={0}
               onRNCSliderSlidingComplete={null}
               onRNCSliderSlidingStart={null}
@@ -1147,7 +1147,7 @@ exports[`PlayerControlsViewTV should render loading 1`] = `
                     Object {
                       "backgroundColor": "transparent",
                       "color": "#ffffff",
-                      "fontSize": 14.742857142857144,
+                      "fontSize": 17.2,
                       "textAlign": "right",
                     }
                   }

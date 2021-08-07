@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Animated, ListRenderItemInfo, StyleSheet, Text, TouchableHighlight, View } from 'react-native';
+import { Animated, ListRenderItemInfo, Platform, StyleSheet, Text, TouchableHighlight, View } from 'react-native';
 import { SwipeListView, SwipeRow } from 'react-native-swipe-list-view';
+import { BlurView } from '@react-native-community/blur';
 import { useDimensions } from '@react-native-community/hooks';
 import { useAppPreferencesState } from 'utils/AppPreferencesContext';
 import { useLocalization } from 'contexts/LocalizationContext';
@@ -19,11 +20,6 @@ import DownloadButton from 'screens/components/DownloadButton';
 import { useDownloads } from 'platform/hooks/useDownloads';
 import { formatSizeBytes } from 'utils/DownloadUtils';
 import { useAlert } from 'contexts/AlertContext';
-import { AppEvents, condenseDownloadData } from 'utils/ReportingUtils';
-import { useAnalytics } from 'utils/AnalyticsReporterContext';
-import { useDownloadsContext } from 'utils/DownloadsContextProvider';
-import { getDownloadsBookmark } from 'utils/DownloadBookmarkUtils';
-import BlurComponent from 'screens/components/BlurComponent';
 
 export type DownloadWithMetadata = ResourceVm & Download;
 
@@ -45,8 +41,6 @@ const DownloadList = ({ downloads }: DownloadListProps): JSX.Element => {
     let { appColors } = appTheme && appTheme(prefs);
     const imageWidth = (width * 40) / 100; // 40% width of the screen
     const rowHeight = imageWidth / AspectRatio._16by9 + 40;
-    const { recordEvent } = useAnalytics();
-    const { downloadOverWifiOnly } = useDownloadsContext();
 
     const styles = React.useMemo(
         () =>
@@ -156,9 +150,6 @@ const DownloadList = ({ downloads }: DownloadListProps): JSX.Element => {
         rowTranslateAnimatedValues[data.id] = new Animated.Value(1);
         rowSwipeAnimatedValues[data.id] = new Animated.Value(0);
     });
-    listData.sort((a: DownloadWithMetadata, b: DownloadWithMetadata): number => {
-        return a.episodeNumber! < b.episodeNumber! ? -1 : a.episodeNumber! > b.episodeNumber! ? 1 : 0;
-    });
 
     const config = useConfig();
     const resizerEndpoint = (config && config.imageResizeURL) || undefined;
@@ -205,7 +196,6 @@ const DownloadList = ({ downloads }: DownloadListProps): JSX.Element => {
             setListData(newData);
             animationIsRunning.current = false;
             await downloadManager.purgeDownload(downloadItem.id);
-            recordEvent(AppEvents.DOWNLOAD_DELETED, condenseDownloadData(downloadItem));
         });
     };
 
@@ -224,22 +214,7 @@ const DownloadList = ({ downloads }: DownloadListProps): JSX.Element => {
         );
     };
 
-    const showSettingsDownload = () => {
-        Alert.alert(
-            strings['download.error.wifi_only'],
-            undefined,
-            [
-                {
-                    text: strings['global.okay'],
-                },
-            ],
-            {
-                cancelable: false,
-            },
-        );
-    };
-
-    const _onPress = async (item: DownloadWithMetadata, index: number) => {
+    const _onPress = (item: DownloadWithMetadata, index: number) => {
         console.log(`gonna launch player for ${item.id} at index ${index}`);
         if (!item) {
             return;
@@ -263,19 +238,13 @@ const DownloadList = ({ downloads }: DownloadListProps): JSX.Element => {
                 showDownloadError();
                 break;
             case 'QUEUED':
-                if (!downloadOverWifiOnly) {
-                    downloadManager.resumeDownload(item.id);
-                } else {
-                    showSettingsDownload();
-                }
-                recordEvent(AppEvents.DOWNLOAD_RESUMED, condenseDownloadData(item));
+                downloadManager.resumeDownload(item.id);
                 break;
             case 'REMOVING':
             case 'STALE':
                 deleteItem(item);
                 break;
             case 'COMPLETED':
-                item.watchedOffset = await getDownloadsBookmark(item.skd);
                 let playerProps: PlayerProps = {
                     tvodToken: '',
                     resource: item,
@@ -380,14 +349,14 @@ const DownloadList = ({ downloads }: DownloadListProps): JSX.Element => {
                                     fallbackSource={default_thumbnail}
                                 />
                                 {originalItem && originalItem.state !== 'COMPLETED' && (
-                                    <BlurComponent
+                                    <BlurView
                                         style={{
                                             ...StyleSheet.absoluteFillObject,
                                             alignItems: 'center',
                                             justifyContent: 'center',
                                         }}>
                                         <DownloadButton fetchingAuthorization={false} download={originalItem} />
-                                    </BlurComponent>
+                                    </BlurView>
                                 )}
                             </View>
                             <View style={styles.textContainer}>
@@ -407,20 +376,21 @@ const DownloadList = ({ downloads }: DownloadListProps): JSX.Element => {
                                         <Text style={[styles.captionTypography]}>{item.subtitle}</Text>
                                     </View>
                                 )}
-                                {originalItem &&
-                                    originalItem.state === 'COMPLETED' &&
-                                    downloadExpiryTime &&
-                                    sizeOnDisk && (
-                                        <View>
+                                {originalItem && originalItem.state == 'COMPLETED' && downloadExpiryTime && sizeOnDisk && (
+                                    <View>
+                                        {
                                             <Text style={[styles.captionTypography, { color: appColors.brandTint }]}>
                                                 {strings.formatString(
                                                     strings['my_content.download_availability'],
                                                     downloadExpiryTime,
                                                 )}
                                             </Text>
+                                        }
+                                        {Platform.OS === 'ios' && (
                                             <Text style={[styles.captionTypography]}>{sizeOnDisk}</Text>
-                                        </View>
-                                    )}
+                                        )}
+                                    </View>
+                                )}
                             </View>
                             {isTVSeries && (
                                 <View style={styles.accessoryView}>

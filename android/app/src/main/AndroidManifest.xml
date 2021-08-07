@@ -1,8 +1,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-  package="com.ontvpass.tvpass">
+  package="ahaflix.tv">
+    <!-- Required to allow the app to send events and user profile information -->
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <!-- Recommended so that CleverTap knows when to attempt a network call -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!--Used for TV -->
+    <uses-feature android:name="android.software.leanback"
+        android:required="false" />
+
     <application
       android:usesCleartextTraffic="true"
       android:name=".MainApplication"
@@ -12,26 +18,43 @@
       android:allowBackup="false"
       android:largeHeap="true"
       android:theme="@style/AppTheme">
+        <meta-data
+            android:name="CLEVERTAP_ACCOUNT_ID"
+            android:value="K5K-W45-575Z"/>
+        <meta-data
+            android:name="CLEVERTAP_TOKEN"
+            android:value="540-353"/>
+        <activity
+            android:name=".SplashActivity"
+            android:theme="@style/SplashTheme"
+            android:label="aha">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+                 <!--Used to Launch app as TV supported -->
+                <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
+            </intent-filter>
+        </activity>
+
       <activity
         android:name=".MainActivity"
         android:label="@string/app_name"
         android:configChanges="keyboard|keyboardHidden|orientation|screenSize|uiMode"
-        android:launchMode="singleTask">
+        android:launchMode="singleTask"
+        android:exported="true"
+          >
 <!--        android:windowSoftInputMode="adjustResize">-->
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
       </activity>
       <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
       <activity android:name="com.facebook.flipper.android.diagnostics.FlipperDiagnosticActivity"
             android:exported="true"/>
-        <meta-data
+      <meta-data
             android:name="com.google.android.gms.cast.framework.OPTIONS_PROVIDER_CLASS_NAME"
             android:value="com.reactnative.googlecast.GoogleCastOptionsProvider" />
-        <meta-data
-            android:name="com.reactnative.googlecast.RECEIVER_APPLICATION_ID"
-            android:value="7C9FA33B" />
+      <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id"/>
+
     </application>
 
 </manifest>

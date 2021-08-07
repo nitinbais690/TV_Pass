@@ -1,0 +1,304 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`detailsDescription render always longOnly 1`] = `
+<View
+  collapsable={true}
+  pointerEvents="box-none"
+  style={
+    Object {
+      "flex": 1,
+    }
+  }
+>
+  <View>
+    <Text
+      ellipsizeMode="tail"
+      numberOfLines={99}
+      style={
+        Array [
+          Object {
+            "fontFamily": "ProximaNova-Regular",
+            "fontSize": 18,
+            "fontWeight": "600",
+          },
+          Object {
+            "color": "#FFFFFF",
+            "fontFamily": "ProximaNova-Regular",
+            "fontSize": 18,
+            "fontWeight": "400",
+            "marginTop": 22,
+          },
+        ]
+      }
+    >
+      North of the Seven Kingdoms of Westeros, Night's Watch soldiers are attacked by supernatural White Walkers. One soldier escapes but is captured at Castle Winterfell. Eddard "Ned" Stark, Warden of the North, executes him for desertion. Later, six orphaned dire wolf pups are found and one given to each Stark sibling, including Ned's bastard son, Jon Snow. In King's Landing, the Seven Kingdoms capital, Jon Arryn, the Hand of the King, dies suddenly.
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`detailsDescription render with both description and default style 1`] = `
+<View
+  collapsable={true}
+  pointerEvents="box-none"
+  style={
+    Object {
+      "flex": 1,
+    }
+  }
+>
+  <View>
+    <Text
+      ellipsizeMode="tail"
+      numberOfLines={2}
+      style={
+        Array [
+          Object {
+            "fontFamily": "ProximaNova-Regular",
+            "fontSize": 18,
+            "fontWeight": "600",
+          },
+          Object {
+            "color": "#FFFFFF",
+            "fontFamily": "ProximaNova-Regular",
+            "fontSize": 18,
+            "fontWeight": "400",
+            "marginTop": 22,
+          },
+        ]
+      }
+    >
+      North of the Seven Kingdoms of Westeros, Night's Watch soldiers are attacked by supernatural White Walkers. One soldier escapes but is captured at Castle Winterfell. Eddard "Ned" Stark, Warden of the North, executes him for desertion. Later, six orphaned dire wolf pups are found and one given to each Stark sibling, including Ned's bastard son, Jon Snow. In King's Landing, the Seven Kingdoms capital, Jon Arryn, the Hand of the King, dies suddenly.
+    </Text>
+    <RNGestureHandlerButton
+      activeOpacity={0.3}
+      borderless={true}
+      collapsable={false}
+      style={
+        Array [
+          Object {
+            "overflow": "hidden",
+          },
+          Object {
+            "opacity": 1,
+          },
+        ]
+      }
+    >
+      <Text
+        style={
+          Object {
+            "color": "#FFFFFF66",
+            "fontFamily": "ProximaNova-Semibold",
+            "fontSize": 18,
+            "marginTop": "1%",
+          }
+        }
+      >
+        Read more
+      </Text>
+    </RNGestureHandlerButton>
+  </View>
+</View>
+`;
+
+exports[`detailsDescription render with custom style 1`] = `
+<View
+  collapsable={true}
+  pointerEvents="box-none"
+  style={
+    Object {
+      "flex": 1,
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "padding": 16,
+      }
+    }
+  >
+    <Text
+      ellipsizeMode="tail"
+      numberOfLines={2}
+      style={
+        Array [
+          Object {
+            "fontFamily": "ProximaNova-Regular",
+            "fontSize": 18,
+            "fontWeight": "600",
+          },
+          Object {
+            "color": "#FFFFFF",
+            "fontFamily": "ProximaNova-Regular",
+            "fontSize": 18,
+            "fontWeight": "400",
+            "marginTop": 22,
+          },
+        ]
+      }
+    >
+      North of the Seven Kingdoms of Westeros, Night's Watch soldiers are attacked by supernatural White Walkers. One soldier escapes but is captured at Castle Winterfell. Eddard "Ned" Stark, Warden of the North, executes him for desertion. Later, six orphaned dire wolf pups are found and one given to each Stark sibling, including Ned's bastard son, Jon Snow. In King's Landing, the Seven Kingdoms capital, Jon Arryn, the Hand of the King, dies suddenly.
+    </Text>
+    <RNGestureHandlerButton
+      activeOpacity={0.3}
+      borderless={true}
+      collapsable={false}
+      style={
+        Array [
+          Object {
+            "overflow": "hidden",
+          },
+          Object {
+            "opacity": 1,
+          },
+        ]
+      }
+    >
+      <Text
+        style={
+          Object {
+            "color": "#FFFFFF66",
+            "fontFamily": "ProximaNova-Semibold",
+            "fontSize": 18,
+            "marginTop": "1%",
+          }
+        }
+      >
+        Read more
+      </Text>
+    </RNGestureHandlerButton>
+  </View>
+</View>
+`;
+
+exports[`detailsDescription render with long description and default style 1`] = `
+<View
+  collapsable={true}
+  pointerEvents="box-none"
+  style={
+    Object {
+      "flex": 1,
+    }
+  }
+>
+  <View>
+    <Text
+      ellipsizeMode="tail"
+      numberOfLines={2}
+      style={
+        Array [
+          Object {
+            "fontFamily": "ProximaNova-Regular",
+            "fontSize": 18,
+            "fontWeight": "600",
+          },
+          Object {
+            "color": "#FFFFFF",
+            "fontFamily": "ProximaNova-Regular",
+            "fontSize": 18,
+            "fontWeight": "400",
+            "marginTop": 22,
+          },
+        ]
+      }
+    >
+      North of the Seven Kingdoms of Westeros, Night's Watch soldiers are attacked by supernatural White Walkers. One soldier escapes but is captured at Castle Winterfell. Eddard "Ned" Stark, Warden of the North, executes him for desertion. Later, six orphaned dire wolf pups are found and one given to each Stark sibling, including Ned's bastard son, Jon Snow. In King's Landing, the Seven Kingdoms capital, Jon Arryn, the Hand of the King, dies suddenly.
+    </Text>
+    <RNGestureHandlerButton
+      activeOpacity={0.3}
+      borderless={true}
+      collapsable={false}
+      style={
+        Array [
+          Object {
+            "overflow": "hidden",
+          },
+          Object {
+            "opacity": 1,
+          },
+        ]
+      }
+    >
+      <Text
+        style={
+          Object {
+            "color": "#FFFFFF66",
+            "fontFamily": "ProximaNova-Semibold",
+            "fontSize": 18,
+            "marginTop": "1%",
+          }
+        }
+      >
+        Read more
+      </Text>
+    </RNGestureHandlerButton>
+  </View>
+</View>
+`;
+
+exports[`detailsDescription render with short description and default style 1`] = `
+<View
+  collapsable={true}
+  pointerEvents="box-none"
+  style={
+    Object {
+      "flex": 1,
+    }
+  }
+>
+  <View>
+    <Text
+      ellipsizeMode="tail"
+      numberOfLines={2}
+      style={
+        Array [
+          Object {
+            "fontFamily": "ProximaNova-Regular",
+            "fontSize": 18,
+            "fontWeight": "600",
+          },
+          Object {
+            "color": "#FFFFFF",
+            "fontFamily": "ProximaNova-Regular",
+            "fontSize": 18,
+            "fontWeight": "400",
+            "marginTop": 22,
+          },
+        ]
+      }
+    >
+      The story follows a war of succession among competing claimants for control of the Iron Throne of the Seven Kingdoms.
+    </Text>
+    <RNGestureHandlerButton
+      activeOpacity={0.3}
+      borderless={true}
+      collapsable={false}
+      style={
+        Array [
+          Object {
+            "overflow": "hidden",
+          },
+          Object {
+            "opacity": 1,
+          },
+        ]
+      }
+    >
+      <Text
+        style={
+          Object {
+            "color": "#FFFFFF66",
+            "fontFamily": "ProximaNova-Semibold",
+            "fontSize": 18,
+            "marginTop": "1%",
+          }
+        }
+      >
+        Read more
+      </Text>
+    </RNGestureHandlerButton>
+  </View>
+</View>
+`;

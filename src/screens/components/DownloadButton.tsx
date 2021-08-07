@@ -33,11 +33,8 @@ const DownloadButton = ({ fetchingAuthorization, download, onPress }: DownloadBu
         progressText: {
             color: appColors.secondary,
             fontFamily: appFonts.primary,
-            fontSize: appFonts.xxs,
+            fontSize: appFonts.xs,
             fontWeight: '500',
-        },
-        progressPercentText: {
-            fontSize: 6,
         },
         loadingContainer: {
             borderWidth: 2,
@@ -80,12 +77,7 @@ const DownloadButton = ({ fetchingAuthorization, download, onPress }: DownloadBu
                         fill={download.progressPercent}
                         tintColor={appColors.secondary}
                         backgroundColor={'#FFFFFF4D'}>
-                        {fill => (
-                            <Text style={styles.progressText}>
-                                {fill.toFixed(0)}
-                                <Text style={styles.progressPercentText}>%</Text>
-                            </Text>
-                        )}
+                        {fill => <Text style={styles.progressText}>{fill.toFixed(0)}</Text>}
                     </AnimatedCircularProgress>
                 );
             default:

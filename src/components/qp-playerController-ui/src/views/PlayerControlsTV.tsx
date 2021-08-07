@@ -10,22 +10,17 @@ import {
     Animated,
     TVEventHandler,
     ActivityIndicator,
-    findNodeHandle,
-    TouchableOpacity,
+    Image,
+    Dimensions,
 } from 'react-native';
 import { padding, defaultFont, colors, fonts, percentage, typography } from 'qp-common-ui';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Slider from '@react-native-community/slider';
 import { visualizeVideoDuration } from '../utils/utils';
 import { debounce } from 'lodash';
-import {
-    ResourceVm,
-    // ResourceMetaInfoView
-} from 'qp-discovery-ui';
-import { TrackInfo } from 'screens/components/PlatformPlayer';
-import SubtitleIcon from '../../../../../assets/images/tv-icons/subtitle_menu.svg';
-import ProviderLogo from '../../../../screens/components/ProviderLogo';
-import { tvPixelSizeForLayout } from '../../../../../AppStyles';
+import { ResourceVm, ResourceMetaInfoView } from 'qp-discovery-ui';
+import { TrackInfo } from 'features/player/presentation/components/template/PlatformPlayer';
+import { TextStyles } from 'rn-qp-nxg-player';
 
 export interface PlayControllerTVProps {
     currentTime?: number;
@@ -60,23 +55,20 @@ export interface PlayControllerTVProps {
     onToggleSubtitleTrack?: (selected: boolean) => void;
     onRewindForward?: (value: number) => void;
     onSlidingComplete?: (value: number) => void;
-    onAudioOptionSelected: (selection: any) => void;
-    onTextOptionSelected: (name: string, languageCode: string) => void;
+    onAudioOptionSelected: (option: string, languageCode: string) => void;
+    onTextOptionSelected: (option: string, languageCode: string, textStyles?: TextStyles) => void;
 }
 
 /**
  * Component to render caption settings page
  */
-const PlayerControlsTV = (props: PlayControllerTVProps): JSX.Element => {
+export const PlayerControlsTV = (props: PlayControllerTVProps): JSX.Element => {
     const _playPauseButtonRef = useRef<TouchableHighlight>(null);
-    const _captionsButtonRef = useRef<TouchableHighlight>(null);
     const _playbackViewContainerRef = useRef<TouchableHighlight>(null);
     const [captionSelected, setCaptionSelected] = useState(false);
-    const [showAudioOptions, setshowAudioOptions] = useState(true);
-    const [subtitleFocus, setSubtitleFocus] = useState(false);
 
-    const OPT_SUBTITLES = 'Subtitles';
-    const OPT_AUDIO = 'Audio';
+    const OPT_SUBTITLES = 'SUBTITLES';
+    const OPT_AUDIO = 'AUDIO';
     const selectionColor = colors.secondary;
     const isAndroidTV = Platform.OS === 'android' && Platform.isTV;
     const controlUnderlayColor = 'rgba(256, 256, 256, 0.8)';
@@ -86,24 +78,12 @@ const PlayerControlsTV = (props: PlayControllerTVProps): JSX.Element => {
     const controlReducer = (state: any, action: any): any => {
         switch (action.name) {
             case 'showControls':
-                if (action.value === state.showControls) {
-                    return state;
-                }
                 return { ...state, showControls: action.value };
             case 'animations':
-                if (action.value === state.animations) {
-                    return state;
-                }
                 return { ...state, animations: action.value };
             case 'updateState':
-                if (action.value === state.animations) {
-                    return state;
-                }
                 return { ...state, animations: action.value };
             case 'captionControls':
-                if (action.value === state.showCaptions) {
-                    return state;
-                }
                 return { ...state, showCaptions: action.value };
         }
     };
@@ -190,7 +170,6 @@ const PlayerControlsTV = (props: PlayControllerTVProps): JSX.Element => {
             _tvEventHandler = new TVEventHandler();
 
             _tvEventHandler.enable(_playbackViewContainerRef.current, function(_, evt: any) {
-                // console.log('TV REMOTEEEEE: ', evt.eventType)
                 if (evt.eventKeyAction === 0) {
                     return;
                 }
@@ -212,22 +191,6 @@ const PlayerControlsTV = (props: PlayControllerTVProps): JSX.Element => {
                     case 'playPause':
                         methods.toggleControls();
                         methods.togglePlayPause();
-                        break;
-                    case 'up':
-                        if (!state.showControls) {
-                            methods.toggleControls();
-                            setSubtitleFocus(true);
-                        }
-                        break;
-                    case 'down':
-                        if (!state.showControls) {
-                            methods.toggleControls();
-                        }
-                        break;
-                    case 'select':
-                        if (!state.showControls) {
-                            methods.toggleControls();
-                        }
                         break;
                 }
             });
@@ -335,10 +298,8 @@ const PlayerControlsTV = (props: PlayControllerTVProps): JSX.Element => {
      * Render Top controls with back and fullscreen buttons
      */
     const renderTopControls = (): JSX.Element => {
-        const titleControl = resource && renderTitleContainer(resource);
         const backControl = props.disableBack ? renderNullControl() : renderBack();
         const fullscreenControl = props.disableFullscreen ? renderNullControl() : renderFullscreen();
-
         return (
             <Animated.View
                 style={[
@@ -348,9 +309,8 @@ const PlayerControlsTV = (props: PlayControllerTVProps): JSX.Element => {
                         marginTop: state.animations.topControl.marginTop,
                     },
                 ]}>
-                {!Platform.isTV && backControl}
+                {backControl}
                 {fullscreenControl}
-                {titleControl}
             </Animated.View>
         );
     };
@@ -358,79 +318,72 @@ const PlayerControlsTV = (props: PlayControllerTVProps): JSX.Element => {
     /**
      * Button to rewind vod playback
      */
-    // const renderRewindButton = () => {
-    //     // let source = require('../assets/ic_mat_rewind.png');
-    //     return renderControl(
-    //         'RewindButton',
-    //         <PlayerControlPrev width={25} height={25} />,
-    //         // <MaterialCommunityIcons color={colors.primary} size={40} name={'rewind'} />,
-    //         methods.toggleRewind,
-    //         // styles.controls.iconDirection
-    //         styles.playerControls.buttonContainer,
-    //     );
-    // };
+    const renderRewindButton = () => {
+        let source = require('../assets/ic_mat_rewind.png');
+        return renderControl(
+            'RewindButton',
+            <Image source={source} style={styles.playerControls.iconStyle} />,
+            methods.toggleRewind,
+            // styles.controls.iconDirection
+            styles.playerControls.buttonContainer,
+        );
+    };
 
     /**
      * Button to forward vod playback
      */
-    // const renderForwardButton = () => {
-    //     // let source = require('../assets/ic_mat_foreward.png');
-    //     return renderControl(
-    //         'ForwardButton',
-    //         <PlayerControlNext width={25} height={25} />,
-    //         // <MaterialCommunityIcons color={colors.primary} size={40} name={'fast-forward'} />,
-    //         methods.toggleForward,
-    //         styles.playerControls.buttonContainer,
-    //     );
-    // };
+    const renderForwardButton = () => {
+        let source = require('../assets/ic_mat_foreward.png');
+        return renderControl(
+            'ForwardButton',
+            <Image source={source} style={styles.playerControls.iconStyle} />,
+            methods.toggleForward,
+            styles.playerControls.buttonContainer,
+        );
+    };
 
     /**
      * Button to restart live playback
      */
 
-    // const renderRestartButton = () => {
-    //     let source = require('../assets/ic_restart.png');
-    //     return renderControl(
-    //         'RestartButton',
-    //         <Image source={source} style={styles.playerControls.iconStyle} />,
-    //         methods.toggleRestart,
-    //         styles.playerControls.buttonContainer,
-    //     );
-    // };
+    const renderRestartButton = () => {
+        let source = require('../assets/ic_restart.png');
+        return renderControl(
+            'RestartButton',
+            <Image source={source} style={styles.playerControls.iconStyle} />,
+            methods.toggleRestart,
+            styles.playerControls.buttonContainer,
+        );
+    };
 
     /**
      * Button to lookback live playback by few seconds
      */
-    // const renderLookbackButton = () => {
-    //     let source = require('../assets/ic_lookback.png');
-    //     return renderControl(
-    //         'LookbackButton',
-    //         <Image source={source} style={styles.playerControls.iconStyle} />,
-    //         methods.toggleLookback,
-    //         styles.playerControls.buttonContainer,
-    //     );
-    // };
+    const renderLookbackButton = () => {
+        let source = require('../assets/ic_lookback.png');
+        return renderControl(
+            'LookbackButton',
+            <Image source={source} style={styles.playerControls.iconStyle} />,
+            methods.toggleLookback,
+            styles.playerControls.buttonContainer,
+        );
+    };
 
     /**
      * Render More settings button
      */
     const renderMoreSettingsButton = () => {
         return (
-            <TouchableOpacity
-                ref={_captionsButtonRef}
+            <TouchableHighlight
                 onPress={() => {
                     methods.toggleSettings();
                 }}
-                onFocus={() => console.log('FOOOOOCUSSSSSS')}
-                onBlur={() => console.log('BLLLUUUUUURRRRR')}
-                hasTVPreferredFocus={subtitleFocus}
-                nextFocusLeft={Platform.isTV ? findNodeHandle(_captionsButtonRef.current) : undefined}
-                nextFocusRight={Platform.isTV ? findNodeHandle(_captionsButtonRef.current) : undefined}
-                nextFocusUp={Platform.isTV && findNodeHandle(_captionsButtonRef.current)}
                 underlayColor={controlUnderlayColor}
                 style={styles.playerControls.moreButton}>
-                <SubtitleIcon width={25} height={25} />
-            </TouchableOpacity>
+                <>
+                    <MaterialCommunityIcons color={colors.primary} size={30} name={'dots-horizontal'} />
+                </>
+            </TouchableHighlight>
         );
     };
     /**
@@ -444,15 +397,6 @@ const PlayerControlsTV = (props: PlayControllerTVProps): JSX.Element => {
         return (
             <View style={styles.title.root}>
                 <View style={styles.title.metadata}>
-                    {resource.providerName && (
-                        <View
-                            style={[
-                                styles.title.headerLogoContainer,
-                                state.showCaptions && styles.title.headerLogoContainerHidden,
-                            ]}>
-                            <ProviderLogo provider={resource && resource.providerName} />
-                        </View>
-                    )}
                     {!state.showCaptions && (
                         <View style={styles.title.metadataHeading}>
                             <Text numberOfLines={1} style={styles.title.metadataHeadingText}>
@@ -460,15 +404,15 @@ const PlayerControlsTV = (props: PlayControllerTVProps): JSX.Element => {
                             </Text>
                         </View>
                     )}
-                    <View style={styles.title.metadataSubheading}>
-                        {!state.showCaptions && isEpisode && (
+                    {!state.showCaptions && isEpisode && (
+                        <View style={styles.title.metadataSubheading}>
                             <Text
                                 numberOfLines={1}
                                 style={
                                     styles.title.metadataSubheadingText
                                 }>{`Season ${contentSeason} Episode ${contentEpisode}`}</Text>
-                        )}
-                    </View>
+                        </View>
+                    )}
                 </View>
                 <View style={styles.playerControls.moreContainer}>{renderMoreSettingsButton()}</View>
             </View>
@@ -504,7 +448,6 @@ const PlayerControlsTV = (props: PlayControllerTVProps): JSX.Element => {
             <View style={styles.playerControls.seekbarContainer}>
                 <View style={[styles.playerControls.sliderContainer]}>
                     {/* {props.disableDuration ? renderNullControl() : renderProgress()} */}
-                    <View style={styles.playerControls.timerContainer}>{renderProgress()}</View>
                     <Slider
                         maximumValue={props.isLive ? 1 : props.playbackDuration}
                         minimumValue={0}
@@ -517,16 +460,12 @@ const PlayerControlsTV = (props: PlayControllerTVProps): JSX.Element => {
                                 props.onSlidingComplete(value);
                             }
                         }}
-                        thumbTintColor={colors.brandTint}
+                        thumbTintColor="white"
                         minimumTrackTintColor={colors.brandTint}
                         // maximumTrackTintColor={colors.inActiveTintColor}
                     />
-                    <View style={styles.playerControls.timerContainer}>
-                        <Text style={[styles.playerControls.timerText, styles.playerControls.timerTextRight]}>
-                            {visualizeVideoDuration(props.playbackDuration!)}
-                        </Text>
-                    </View>
                 </View>
+                <View style={styles.playerControls.timerContainer}>{renderProgress()}</View>
             </View>
         );
     };
@@ -538,24 +477,24 @@ const PlayerControlsTV = (props: PlayControllerTVProps): JSX.Element => {
         const playPauseControl = props.disablePlayPause ? renderNullControl() : renderPlayPauseButton();
         //const rewindControl = props.disableRewind ? renderNullControl() : renderRewindButton();
         //const forwardControl = props.disableForward ? renderNullControl() : renderForwardButton();
-        // const rewindRestartControl = props.disableRewind
-        //     ? props.disableRestart
-        //         ? renderNullControl()
-        //         : renderRestartButton()
-        //     : renderRewindButton();
-        //
-        // const forwardLookbackControl = props.disableForward
-        //     ? props.disableLookback
-        //         ? renderNullControl()
-        //         : renderLookbackButton()
-        //     : renderForwardButton();
+        const rewindRestartControl = props.disableRewind
+            ? props.disableRestart
+                ? renderNullControl()
+                : renderRestartButton()
+            : renderRewindButton();
+
+        const forwardLookbackControl = props.disableForward
+            ? props.disableLookback
+                ? renderNullControl()
+                : renderLookbackButton()
+            : renderForwardButton();
 
         return (
             <View style={styles.trickplay.root}>
                 <View style={styles.trickplay.trickPlayControls}>
-                    {/*{rewindRestartControl}*/}
                     {playPauseControl}
-                    {/*{forwardLookbackControl}*/}
+                    {rewindRestartControl}
+                    {forwardLookbackControl}
                 </View>
             </View>
         );
@@ -565,6 +504,7 @@ const PlayerControlsTV = (props: PlayControllerTVProps): JSX.Element => {
      * Bottom controls container
      */
     const renderBottomControls = (): JSX.Element => {
+        const titleControl = resource && renderTitleContainer(resource);
         const seekBarControl = renderSeekBar();
         const trickplayControls = trickPlayControls();
         return (
@@ -576,7 +516,8 @@ const PlayerControlsTV = (props: PlayControllerTVProps): JSX.Element => {
                         marginTop: state.animations.bottomControl.marginBottom,
                     },
                 ]}>
-                {!(Platform.isTV && Platform.OS == 'ios') && seekBarControl}
+                {titleControl}
+                {seekBarControl}
                 {trickplayControls}
             </Animated.View>
         );
@@ -584,38 +525,46 @@ const PlayerControlsTV = (props: PlayControllerTVProps): JSX.Element => {
     /**
      * Content description
      */
-    // const resourceInfo = (resource: ResourceVm): JSX.Element => {
-    //     return (
-    //         <View style={[styles.metadata.textWrapperStyle]}>
-    //             <View style={styles.metadata.infoContainerStyle}>
-    //                 <View style={styles.metadata.titleContainerStyle}>
-    //                     <Text style={[styles.metadata.titleStyle]}>{resource.name}</Text>
-    //                 </View>
-    //             </View>
-    //             <View style={[styles.metadata.metaInfo]}>
-    //                 {/*<ResourceMetaInfoView*/}
-    //                 {/*    resource={resource}*/}
-    //                 {/*    defaultImageAspectRatio={''}*/}
-    //                 {/*    infoViewStyle={styles.metadata}*/}
-    //                 {/*    onResourcePlayPress={() => {}}*/}
-    //                 {/*/>*/}
-    //             </View>
-    //         </View>
-    //     );
-    // };
+    const resourceInfo = (resource: ResourceVm): JSX.Element => {
+        return (
+            <View style={[styles.metadata.textWrapperStyle]}>
+                <View style={styles.metadata.infoContainerStyle}>
+                    <View style={styles.metadata.titleContainerStyle}>
+                        <Text style={[styles.metadata.titleStyle]}>{resource.name}</Text>
+                    </View>
+                </View>
+                <View style={[styles.metadata.metaInfo]}>
+                    <ResourceMetaInfoView
+                        resource={resource}
+                        defaultImageAspectRatio={''}
+                        infoViewStyle={styles.metadata}
+                        onResourcePlayPress={() => {}}
+                    />
+                </View>
+                <Text style={[styles.metadata.infoTextStyle]}>
+                    {resource.shortDescription ? resource.shortDescription : resource.longDescription}
+                </Text>
+            </View>
+        );
+    };
 
     /**
      * Create description container on pressing more
      */
-    // const descriptionContainer = (): JSX.Element => {
-    //     return <View style={styles.metadata.root}>{resource && resourceInfo(resource)}</View>;
-    // };
+    const descriptionContainer = (): JSX.Element => {
+        return <View style={styles.metadata.root}>{resource && resourceInfo(resource)}</View>;
+    };
 
     /**
      * Renders list of available audio tracks
      */
     const renderLanguageContainer = (): JSX.Element => {
-        return <View style={styles.caption.languageContainer}>{renderButton(false, props.audioOptions)}</View>;
+        return (
+            <View style={styles.caption.languageContainer}>
+                <Text style={styles.caption.headingText}>{OPT_AUDIO}</Text>
+                <ScrollView style={styles.caption.scrollview}>{renderButton(false, props.audioOptions)}</ScrollView>
+            </View>
+        );
     };
 
     /**
@@ -625,6 +574,7 @@ const PlayerControlsTV = (props: PlayControllerTVProps): JSX.Element => {
         props.captionOptions[0] !== 'OFF' && props.captionOptions.splice(0, 0, 'OFF');
         return (
             <View style={styles.caption.subtitleContainer}>
+                <Text style={styles.caption.headingText}>{OPT_SUBTITLES}</Text>
                 <ScrollView style={styles.caption.scrollview}>{renderButton(true, props.captionOptions)}</ScrollView>
             </View>
         );
@@ -634,9 +584,6 @@ const PlayerControlsTV = (props: PlayControllerTVProps): JSX.Element => {
      * Button to display for the available set of subtitles and audio
      */
     const renderButton = (isSubtitle: boolean, captionOptions: string[], isActive = false): JSX.Element[] => {
-        // console.log('captionOptionsSSSSSS: ', captionOptions)
-        // const [focused, setFocused] = useState(false);
-
         return captionOptions.map(displayText => (
             <TouchableHighlight
                 underlayColor={isAndroidTV ? selectionColor : ''}
@@ -655,9 +602,7 @@ const PlayerControlsTV = (props: PlayControllerTVProps): JSX.Element => {
                             name={'done'}
                         />
                     )}
-                    <Text style={styles.caption.buttonText}>{`${
-                        displayText.displayName ? displayText.displayName : displayText
-                    }`}</Text>
+                    <Text style={styles.caption.buttonText}>{displayText}</Text>
                 </View>
             </TouchableHighlight>
         ));
@@ -668,16 +613,12 @@ const PlayerControlsTV = (props: PlayControllerTVProps): JSX.Element => {
      * @param isSubtitle Param to identify if the passed value is subtitle
      * @param trackName Name of the selected track
      */
-    const handleSelectedTrack = (isSubtitle: boolean, trackName: any): void => {
+    const handleSelectedTrack = (isSubtitle: boolean, trackName: string): void => {
         console.log(`selectTrack = ${isSubtitle}, ${trackName}`);
         if (isSubtitle) {
-            if (trackName === 'OFF') {
-                props.onTextOptionSelected(trackName, '');
-            } else {
-                props.onTextOptionSelected(trackName.displayName, trackName.languageCode);
-            }
+            props.onTextOptionSelected(trackName, '');
         } else {
-            props.onAudioOptionSelected(trackName);
+            props.onAudioOptionSelected(trackName, '');
         }
     };
 
@@ -687,21 +628,9 @@ const PlayerControlsTV = (props: PlayControllerTVProps): JSX.Element => {
     const captionContainer = (): JSX.Element => {
         return (
             <View style={styles.caption.root}>
-                <View style={styles.caption.captionMainOptions}>
-                    <TouchableHighlight
-                        onPress={() => setshowAudioOptions(true)}
-                        style={[styles.caption.headingButton, showAudioOptions && styles.caption.buttonFocused]}>
-                        <Text style={styles.caption.headingText}>{OPT_AUDIO}</Text>
-                    </TouchableHighlight>
-                    <TouchableHighlight
-                        onPress={() => setshowAudioOptions(false)}
-                        style={[styles.caption.headingButton, !showAudioOptions && styles.caption.buttonFocused]}>
-                        <Text style={styles.caption.headingText}>{OPT_SUBTITLES}</Text>
-                    </TouchableHighlight>
-                </View>
                 <View style={styles.caption.wrapper}>
-                    {showAudioOptions && renderLanguageContainer()}
-                    {!showAudioOptions && renderSubtitleContainer()}
+                    {renderLanguageContainer()}
+                    {renderSubtitleContainer()}
                 </View>
             </View>
         );
@@ -716,15 +645,11 @@ const PlayerControlsTV = (props: PlayControllerTVProps): JSX.Element => {
                         opacity: state.animations.centerControl.opacity,
                     },
                 ]}>
-                {/*{state.showCaptions && descriptionContainer()}*/}
+                {state.showCaptions && descriptionContainer()}
                 {state.showCaptions && captionContainer()}
             </Animated.View>
         );
     };
-
-    // useEffect(() => {
-    //     console.log('RE RENDEEEEEER')
-    // })
 
     /**
      * Render the play/pause button and show the respective icon
@@ -734,23 +659,18 @@ const PlayerControlsTV = (props: PlayControllerTVProps): JSX.Element => {
         const pauseButton = <MaterialCommunityIcons color={colors.primary} size={30} name={'pause'} />;
         let source = state.paused ? playButton : pauseButton;
         return (
-            <TouchableOpacity
+            <TouchableHighlight
                 accessibilityLabel={'Play'}
                 ref={_playPauseButtonRef}
                 activeOpacity={1}
-                underlayColor={colors.brandTint}
-                onFocus={() => console.log('PLAAAAY FOOOOOCUSSSSSS')}
-                onBlur={() => console.log('PLAYY BLLLUUUUUURRRRR')}
+                underlayColor={controlUnderlayColor}
                 hasTVPreferredFocus={false}
-                nextFocusLeft={Platform.isTV ? findNodeHandle(_playPauseButtonRef.current) : undefined}
-                nextFocusRight={Platform.isTV ? findNodeHandle(_playPauseButtonRef.current) : undefined}
-                nextFocusDown={Platform.isTV && findNodeHandle(_playPauseButtonRef.current)}
                 style={[styles.playerControls.playButton]}
                 onPress={() => {
                     methods.togglePlayPause();
                 }}>
                 {source}
-            </TouchableOpacity>
+            </TouchableHighlight>
         );
     };
 
@@ -906,24 +826,22 @@ const PlayerControlsTV = (props: PlayControllerTVProps): JSX.Element => {
         if (hideAnimationTimeoutId.current) {
             clearTimeout(hideAnimationTimeoutId.current);
         }
+
         hideAnimationTimeoutId.current = setTimeout(() => {
             Animated.parallel([
-                Animated.timing(animations.topControl.opacity, { toValue: 0, delay: 0, duration: 0 }),
-                Animated.timing(animations.topControl.marginTop, { toValue: -100, delay: 0, duration: 0 }),
-                Animated.timing(animations.centerControl.opacity, { toValue: 0, delay: 0, duration: 0 }),
-                Animated.timing(animations.centerControl.marginTop, { toValue: 0, delay: 0, duration: 0 }),
-                Animated.timing(animations.forwardControl.opacity, { toValue: 0, delay: 0, duration: 0 }),
-                Animated.timing(animations.rewindControl.opacity, { toValue: 0, delay: 0, duration: 0 }),
-                Animated.timing(animations.bottomControl.opacity, { toValue: 0, delay: 0, duration: 0 }),
-                Animated.timing(animations.bottomControl.marginBottom, { toValue: -100, delay: 0, duration: 0 }),
+                Animated.timing(animations.topControl.opacity, { toValue: 0, delay: 0 }),
+                Animated.timing(animations.topControl.marginTop, { toValue: -100, delay: 0 }),
+                Animated.timing(animations.centerControl.opacity, { toValue: 0, delay: 0 }),
+                Animated.timing(animations.centerControl.marginTop, { toValue: 0, delay: 0 }),
+                Animated.timing(animations.forwardControl.opacity, { toValue: 0, delay: 0 }),
+                Animated.timing(animations.rewindControl.opacity, { toValue: 0, delay: 0 }),
+                Animated.timing(animations.bottomControl.opacity, { toValue: 0, delay: 0 }),
+                Animated.timing(animations.bottomControl.marginBottom, { toValue: -100, delay: 0 }),
             ]).start(result => {
                 // Platform.OS === 'android' ? VstbLibrary.hideNavigationBar() : '';
                 if (result.finished) {
                     if (_playbackViewContainerRef !== null && _playbackViewContainerRef.current !== null) {
                         _playbackViewContainerRef.current.setNativeProps({ hasTVPreferredFocus: true });
-                    }
-                    if (state.showCaptions) {
-                        methods.toggleSettings();
                     }
                     setState({ name: 'showControls', value: false });
                 }
@@ -1037,31 +955,6 @@ const PlayerControlsTV = (props: PlayControllerTVProps): JSX.Element => {
     );
 };
 
-// PlayerControlsTV.whyDidYouRender = {
-//     logOnDifferentValues: true,
-//     customName: 'PLAYER Controls'
-// };
-
-const propsAreEqual = (prevProps: any, nextProps: any): boolean => {
-    return (
-        prevProps.resource === nextProps.resource &&
-        prevProps.isLoading === nextProps.isLoading &&
-        prevProps.isLive === nextProps.isLive &&
-        prevProps.showOnStart === nextProps.showOnStart &&
-        prevProps.disableBack === nextProps.disableBack &&
-        prevProps.disableFullscreen === nextProps.disableFullscreen &&
-        prevProps.toggleResizeModeOnFullscreen === nextProps.toggleResizeModeOnFullscreen &&
-        prevProps.disableRewind === nextProps.disableRewind &&
-        prevProps.disableForward === nextProps.disableForward &&
-        prevProps.disableRestart === nextProps.disableRestart &&
-        prevProps.disableLookback === nextProps.disableLookback &&
-        prevProps.disablePlayPause === nextProps.disablePlayPause &&
-        prevProps.disableDuration === nextProps.disableDuration
-    );
-};
-
-export default React.memo(PlayerControlsTV, propsAreEqual);
-
 const styles = {
     player: StyleSheet.create({
         container: {
@@ -1085,23 +978,23 @@ const styles = {
     container: StyleSheet.create({
         topControls: {
             height: '16%',
-            justifyContent: 'center',
-            flexDirection: 'column',
-            backgroundColor: 'rgba(0,0,0,0.6)',
+            justifyContent: 'space-between',
+            flexDirection: 'row',
+            backgroundColor: 'rgba(0, 0, 0, 0.4)',
             paddingLeft: 50,
             paddingRight: 50,
         },
         centerControls: {
             flexDirection: 'row',
             height: '55%',
-            backgroundColor: 'rgba(0,0,0,0.6)',
+            backgroundColor: 'rgba(0, 0, 0, 0.4)',
             paddingLeft: 50,
             paddingRight: 50,
         },
         bottomControls: {
             height: '30%',
-            paddingTop: '4%',
-            backgroundColor: 'rgba(0,0,0,0.6)',
+            paddingTop: '1%',
+            backgroundColor: 'rgba(0, 0, 0, 0.4)',
             paddingBottom: 50,
             paddingLeft: 50,
             paddingRight: 50,
@@ -1109,32 +1002,22 @@ const styles = {
     }),
     caption: StyleSheet.create({
         root: {
-            width: '100%',
+            width: '40%',
             alignItems: 'center',
-            flexDirection: 'column',
-        },
-        captionMainOptions: {
-            width: '100%',
             flexDirection: 'row',
-            justifyContent: 'center',
         },
         wrapper: {
-            flex: 1,
             flexDirection: 'row',
         },
         languageContainer: {
-            height: '100%',
-            justifyContent: 'center',
             flex: 1,
-            flexDirection: 'row',
-            flexWrap: 'wrap',
-            marginTop: 20,
+            marginTop: 10,
             paddingLeft: '2%',
             paddingRight: '2%',
         },
         subtitleContainer: {
             flex: 1,
-            marginTop: 20,
+            marginTop: 10,
             paddingLeft: '2%',
             paddingRight: '2%',
         },
@@ -1142,42 +1025,32 @@ const styles = {
             color: colors.backgroundGrey,
             fontFamily: defaultFont.bold,
             alignSelf: 'center',
-            marginVertical: padding.xs(),
-        },
-        headingButton: {
-            paddingVertical: tvPixelSizeForLayout(10),
-            paddingHorizontal: tvPixelSizeForLayout(40),
-            marginRight: 20,
-            borderRadius: 20,
-            alignItems: 'center',
-            justifyContent: 'center',
-            borderWidth: 2,
-            borderColor: 'rgba(255,255,255,0)',
+            marginTop: padding.sm(),
         },
         scrollview: {
             alignSelf: 'center',
         },
         selectedButton: {
-            backgroundColor: colors.primary,
-            borderColor: colors.primary,
+            height: 45,
+            width: 150,
+            backgroundColor: colors.brandTint,
+            marginTop: padding.sm(),
+            alignSelf: 'center',
+            justifyContent: 'center',
         },
         unselectedButton: {
-            paddingVertical: tvPixelSizeForLayout(10),
-            paddingHorizontal: tvPixelSizeForLayout(40),
-            borderRadius: 20,
-            borderWidth: 2,
-            borderColor: 'rgba(255,255,255,0)',
+            height: 45,
+            width: 150,
+            backgroundColor: colors.tertiary,
+            marginTop: padding.sm(),
             alignSelf: 'center',
             justifyContent: 'center',
             opacity: 1,
         },
-        buttonFocused: {
-            borderColor: colors.primary,
-        },
         buttonTextContainer: {
             flexDirection: 'row',
             alignSelf: 'center',
-            justifyContent: 'center',
+            marginBottom: 5,
         },
         buttonText: {
             color: colors.primary,
@@ -1194,7 +1067,6 @@ const styles = {
             justifyContent: 'flex-end',
         },
         trickPlayControls: {
-            display: 'flex',
             flexDirection: 'row',
             alignSelf: 'center',
         },
@@ -1205,34 +1077,23 @@ const styles = {
             justifyContent: 'space-between',
             flexDirection: 'row',
         },
-        logo: {
-            aspectRatio: 16 / 9,
-            minHeight: 40,
-        },
-        headerLogoContainer: {
-            marginTop: 30,
-            height: Platform.OS === 'ios' ? tvPixelSizeForLayout(90) : tvPixelSizeForLayout(110),
-            width: Platform.OS === 'ios' ? tvPixelSizeForLayout(90) : tvPixelSizeForLayout(110),
-        },
-        headerLogoContainerHidden: {
-            opacity: 0,
-        },
         metadata: {
-            width: '50%',
+            width: '40%',
             paddingLeft: 13,
-            alignSelf: 'center',
         },
-        metadataHeading: {},
+        metadataHeading: {
+            height: '60%',
+        },
         metadataHeadingText: {
             color: colors.primary,
             fontFamily: defaultFont.bold,
             fontSize: fonts.sm,
         },
         metadataSubheading: {
-            height: '35%',
+            height: '40%',
         },
         metadataSubheadingText: {
-            color: colors.captionMedium,
+            color: colors.primary,
             fontFamily: defaultFont.bold,
             fontSize: fonts.xxs,
         },
@@ -1244,9 +1105,6 @@ const styles = {
             borderRadius: 20,
             alignItems: 'center',
             justifyContent: 'center',
-            backgroundColor: colors.brandTint,
-            borderWidth: 2,
-            borderColor: colors.primary,
         },
         moreButton: {
             height: 40,
@@ -1254,16 +1112,18 @@ const styles = {
             borderRadius: 20,
             alignItems: 'center',
             justifyContent: 'center',
-            overflow: 'hidden',
         },
         buttonContainer: {
             flexDirection: 'row',
             justifyContent: 'center',
-            marginLeft: percentage(5, true),
-            marginRight: percentage(5, true),
+            marginLeft: percentage(10, true),
+            marginRight: percentage(10, true),
             alignItems: 'center',
-            height: 40,
-            width: 40,
+            width: percentage(8, true),
+            height: percentage(8, true),
+            borderRadius: Dimensions.get('window').width * 0.075,
+            borderWidth: 0.8,
+            borderColor: 'rgba(255,255,255,0.7)',
         },
         iconStyle: {
             width: percentage(6, true),
@@ -1271,7 +1131,7 @@ const styles = {
             resizeMode: 'contain',
         },
         backIcon: {
-            alignSelf: 'flex-start',
+            alignSelf: 'center',
             height: 40,
             width: 40,
             borderRadius: 20,
@@ -1293,11 +1153,11 @@ const styles = {
             justifyContent: 'center',
         },
         sliderContainer: {
-            width: '80%',
+            width: '95%',
             flexDirection: 'row',
         },
         timerContainer: {
-            width: '10%',
+            width: '5%',
             alignItems: 'center',
             justifyContent: 'center',
         },
@@ -1308,20 +1168,17 @@ const styles = {
         },
         control: {
             //padding: percentage(2, true),
+            //backgroundColor: 'red',
         },
         timer: {
             width: '10%',
-        },
-        timerTextRight: {
-            //backgroundColor: 'transparent',
-            alignSelf: 'flex-start',
+            paddingRight: 3,
         },
         timerText: {
             //backgroundColor: 'transparent',
             color: colors.primary,
-            fontSize: fonts.xxs,
+            fontSize: fonts.xs,
             textAlign: 'right',
-            alignSelf: 'flex-end',
         },
     }),
     metadata: StyleSheet.create({

@@ -18,7 +18,6 @@ export enum AspectRatio {
     _3by4 = 3 / 4,
     _3by1 = 3 / 1,
     _16by9 = 16 / 9,
-    _18by12 = 18 / 12,
 }
 
 export class AspectRatioUtil {
@@ -34,8 +33,6 @@ export class AspectRatioUtil {
                 return AspectRatio._3by1;
             case '16x9':
                 return AspectRatio._16by9;
-            case '18x12':
-                return AspectRatio._18by12;
             default:
                 return AspectRatio._1by1;
         }
@@ -53,8 +50,6 @@ export class AspectRatioUtil {
                 return '3x1';
             case AspectRatio._16by9:
                 return '16x9';
-            case AspectRatio._18by12:
-                return '18x12';
             default:
                 return 'Unknown';
         }
@@ -106,24 +101,25 @@ export const dimensions = {
 };
 
 export const colors = {
-    brandTint: '#686EFF',
-    brandTintLight: '#76a5d6',
-    brandTintDark: '#3979bd',
-    brandTintTranslucent: '#558FCC4D',
+    brandTint: '#FE6E2E',
+    brandTintLight: '#FF6D2E',
+    brandTintDark: '#B61A09',
+    brandTintTranslucent: '#FE6E2E4D',
     overlayText: '#fff',
-    primary: '#ffffff',
     secondary: '#111',
+    primary: '#ffffff',
+    primaryEnd: '#131313',
     tertiary: '#333333',
     caption: '#666',
     captionLight: '#999',
-    captionMedium: '#9BADBE',
+    greyText: '#7F7E86',
     backgroundGrey: '#D3D3D3',
-    backgroundVariant1: '#2E425980',
-    backgroundInactive: '#EEEEEE',
-    backgroundInactiveSelected: '#BDBDBD',
-    backgroundActive: '#FFFFFF',
-    borderLineColor: '#2E4259',
-    primaryVariant1: '#0C1021',
+    backgroundInactive: '#2D2D2D',
+    backgroundInactiveSelected: '#0A0A0A',
+    backgroundActive: '#393E46',
+    primaryVariant1: '#262629',
+    transparent: '#00000000',
+    black: '#000000',
 };
 
 export const secondaryColors = ['#46ABAD', '#F0A46B', '#C90619', '#E5D063', '#FB5A33'];
@@ -138,8 +134,43 @@ export const padding: { [key: string]: PaddingMetric } = {
     lg: absoluteValue => percentage(10, absoluteValue),
 };
 
+export const dimentionsValues = {
+    xxxxxs: selectDeviceType({ Handset: scale(2, 0) }, scale(4, 0)),
+    xxxxs: selectDeviceType({ Handset: scale(4, 0) }, scale(6, 0)),
+    xxxs: selectDeviceType({ Handset: scale(8, 0) }, scale(10, 0)),
+    xxs: selectDeviceType({ Handset: scale(12, 0) }, scale(14, 0)),
+    xs: selectDeviceType({ Handset: scale(14, 0) }, scale(18, 0)),
+    sm: selectDeviceType({ Handset: scale(16, 0) }, scale(20, 0)),
+    md: selectDeviceType({ Handset: scale(18, 0) }, scale(22, 0)),
+    xmd: selectDeviceType({ Handset: scale(20, 0) }, scale(24, 0)),
+    lg: selectDeviceType({ Handset: scale(24, 0) }, scale(28, 0)),
+    mlg: selectDeviceType({ Handset: scale(26, 0) }, scale(30, 0)),
+    xlg: selectDeviceType({ Handset: scale(30, 0) }, scale(34, 0)),
+    xxlg: selectDeviceType({ Handset: scale(32, 0) }, scale(36, 0)),
+    xxxlg: selectDeviceType({ Handset: scale(36, 0) }, scale(40, 0)),
+    xxxxlg: selectDeviceType({ Handset: scale(40, 0) }, scale(44, 0)),
+    xxxxxlg: selectDeviceType({ Handset: scale(48, 0) }, scale(52, 0)),
+    xxxxxxlg: selectDeviceType({ Handset: scale(52, 0) }, scale(56, 0)),
+};
+
+export const appPaddingValues = {
+    xxxxxs: selectDeviceType({ Handset: scale(2, 0) }, scale(4, 0)),
+    xxxxs: selectDeviceType({ Handset: scale(4, 0) }, scale(6, 0)),
+    xxxs: selectDeviceType({ Handset: scale(8, 0) }, scale(10, 0)),
+    xxs: selectDeviceType({ Handset: scale(12, 0) }, scale(14, 0)),
+    xs: selectDeviceType({ Handset: scale(14, 0) }, scale(18, 0)),
+    sm: selectDeviceType({ Handset: scale(16, 0) }, scale(20, 0)),
+    md: selectDeviceType({ Handset: scale(18, 0) }, scale(22, 0)),
+    xmd: selectDeviceType({ Handset: scale(20, 0) }, scale(24, 0)),
+    lg: selectDeviceType({ Handset: scale(24, 0) }, scale(28, 0)),
+    xlg: selectDeviceType({ Handset: scale(30, 0) }, scale(34, 0)),
+    xxlg: selectDeviceType({ Handset: scale(32, 0) }, scale(36, 0)),
+    xxxlg: selectDeviceType({ Handset: scale(40, 0) }, scale(44, 0)),
+    xxxxxlg: selectDeviceType({ Handset: scale(54, 0) }, scale(58, 0)),
+};
+
 export const fonts = {
-    xxs: selectDeviceType({ Handset: scale(11, 0) }, scale(12, 0.2)),
+    xxs: selectDeviceType({ Handset: scale(12, 0) }, scale(14, 0.2)),
     xs: selectDeviceType({ Handset: scale(14, 0) }, scale(18, 0)),
     sm: selectDeviceType({ Handset: scale(16, 0) }, scale(20, 0)),
     md: selectDeviceType({ Handset: scale(18, 0) }, scale(22, 0)),
@@ -148,9 +179,73 @@ export const fonts = {
     xxlg: scale(28, 0),
     xxxlg: scale(34, 0),
     headline: scale(70, 0),
-    primary: 'Inter-Regular',
-    light: 'Inter-Light',
-    medium: 'Inter-Medium',
-    bold: 'Inter-Bold',
-    semibold: 'Inter-SemiBold',
+    primary: 'ProximaNova-Regular',
+    light: 'ProximaNova-Light',
+    medium: 'ProximaNova-Regular',
+    semibold: 'ProximaNova-Semibold',
+    bold: 'ProximaNova-Black',
 };
+
+export const appFontStyle = StyleSheet.create({
+    header1: {
+        fontSize: fonts.xxlg,
+        fontFamily: fonts.bold,
+        fontWeight: '900',
+    },
+    header2: {
+        fontSize: fonts.xlg,
+        fontFamily: fonts.bold,
+        fontWeight: '900',
+    },
+    header3: {
+        fontSize: fonts.lg,
+        fontFamily: fonts.medium,
+        fontWeight: 'normal',
+    },
+    body: {
+        fontSize: fonts.lg,
+        fontFamily: fonts.semibold,
+        fontWeight: '600',
+    },
+    body1: {
+        fontSize: fonts.md,
+        fontFamily: fonts.semibold,
+        fontWeight: '600',
+    },
+    body2: {
+        fontSize: fonts.sm,
+        fontFamily: fonts.semibold,
+        fontWeight: '600',
+    },
+    body3: {
+        fontSize: fonts.xs,
+        fontFamily: fonts.semibold,
+        fontWeight: '600',
+    },
+    sublineText: {
+        fontSize: fonts.xxs,
+        fontFamily: fonts.semibold,
+        fontWeight: '600',
+    },
+    subTitle: {
+        fontSize: fonts.md,
+        fontFamily: fonts.primary,
+        fontWeight: '600',
+    },
+    menuText: {
+        fontSize: fonts.xs,
+        fontFamily: fonts.primary,
+        fontWeight: '600',
+    },
+    buttonText: {
+        fontSize: fonts.xs,
+        fontFamily: fonts.primary,
+        fontWeight: '600',
+    },
+});
+
+export const appFlexStyles = StyleSheet.create({
+    flexRow: {
+        flexDirection: 'row',
+    },
+});

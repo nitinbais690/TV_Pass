@@ -1,0 +1,168 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Menu Item row test Menu item render correctly 1`] = `
+<View
+  collapsable={true}
+  pointerEvents="box-none"
+  style={
+    Object {
+      "flex": 1,
+    }
+  }
+>
+  <RNGestureHandlerButton
+    collapsable={false}
+    rippleColor={0}
+    style={
+      Array [
+        Object {
+          "overflow": "hidden",
+        },
+        undefined,
+      ]
+    }
+  >
+    <View
+      accessibilityLabel="MENU_ITEM_Privacy"
+      accessible={true}
+      style={
+        Object {
+          "opacity": 1,
+        }
+      }
+      testID="MENU_ITEM_Privacy"
+    >
+      <View
+        style={
+          Object {
+            "alignItems": "flex-start",
+            "height": 72.85714285714286,
+            "justifyContent": "center",
+            "paddingHorizontal": 34,
+          }
+        }
+      >
+        <View
+          style={
+            Object {
+              "alignItems": "center",
+              "flexDirection": "row",
+            }
+          }
+        >
+          <SvgMock />
+          <Text
+            style={
+              Object {
+                "color": "#FFFFFF",
+                "fontFamily": "ProximaNova-Semibold",
+                "fontSize": 18,
+                "fontWeight": "600",
+                "paddingLeft": 20,
+              }
+            }
+          >
+             
+            Privacy
+             
+          </Text>
+        </View>
+        <View
+          style={
+            Object {
+              "borderBottomWidth": 1,
+              "borderColor": "#FFFFFF",
+              "opacity": 0.07,
+              "paddingTop": 18,
+              "width": "100%",
+            }
+          }
+        />
+      </View>
+    </View>
+  </RNGestureHandlerButton>
+</View>
+`;
+
+exports[`Menu Item row test Menu item render correctly if is not given 1`] = `
+<View
+  collapsable={true}
+  pointerEvents="box-none"
+  style={
+    Object {
+      "flex": 1,
+    }
+  }
+>
+  <RNGestureHandlerButton
+    collapsable={false}
+    rippleColor={0}
+    style={
+      Array [
+        Object {
+          "overflow": "hidden",
+        },
+        undefined,
+      ]
+    }
+  >
+    <View
+      accessibilityLabel="MENU_ITEM_Privacy"
+      accessible={true}
+      style={
+        Object {
+          "opacity": 1,
+        }
+      }
+      testID="MENU_ITEM_Privacy"
+    >
+      <View
+        style={
+          Object {
+            "alignItems": "flex-start",
+            "height": 72.85714285714286,
+            "justifyContent": "center",
+            "paddingHorizontal": 34,
+          }
+        }
+      >
+        <View
+          style={
+            Object {
+              "alignItems": "center",
+              "flexDirection": "row",
+            }
+          }
+        >
+          <Text
+            style={
+              Object {
+                "color": "#FFFFFF",
+                "fontFamily": "ProximaNova-Semibold",
+                "fontSize": 18,
+                "fontWeight": "600",
+                "paddingLeft": 20,
+              }
+            }
+          >
+             
+            Privacy
+             
+          </Text>
+        </View>
+        <View
+          style={
+            Object {
+              "borderBottomWidth": 1,
+              "borderColor": "#FFFFFF",
+              "opacity": 0.07,
+              "paddingTop": 18,
+              "width": "100%",
+            }
+          }
+        />
+      </View>
+    </View>
+  </RNGestureHandlerButton>
+</View>
+`;

@@ -53,8 +53,8 @@ exports[`PlayerControlsView should render all player controls 1`] = `
                 "flex": 1,
                 "flexDirection": "row",
                 "opacity": 1,
-                "paddingHorizontal": 30,
-                "paddingTop": 10,
+                "paddingStart": 24,
+                "paddingTop": 22,
               }
             }
           >
@@ -64,6 +64,7 @@ exports[`PlayerControlsView should render all player controls 1`] = `
                   "flex": 1,
                   "flexDirection": "row",
                   "justifyContent": "space-between",
+                  "width": "100%",
                 }
               }
             >
@@ -71,63 +72,99 @@ exports[`PlayerControlsView should render all player controls 1`] = `
                 style={
                   Object {
                     "flexDirection": "row",
+                    "justifyContent": "space-between",
+                    "width": "100%",
                   }
                 }
               >
                 <View
-                  accessibilityLabel="TracksButton"
-                  accessible={true}
-                  focusable={true}
-                  hasTVPreferredFocus={false}
-                  isTVSelectable={true}
                   style={
-                    Array [
-                      Object {
-                        "alignItems": "center",
-                        "borderRadius": 20,
-                        "height": 40,
-                        "justifyContent": "center",
-                        "width": 40,
-                      },
-                    ]
+                    Object {
+                      "flexDirection": "row",
+                    }
                   }
                 >
-                  <SvgMock />
+                  <View
+                    accessibilityLabel="CloseButton"
+                    accessible={true}
+                    focusable={true}
+                    hasTVPreferredFocus={false}
+                    isTVSelectable={true}
+                    style={
+                      Object {
+                        "height": 44,
+                        "width": 44,
+                      }
+                    }
+                  >
+                    <SvgMock />
+                  </View>
+                  <View>
+                    <Text
+                      style={
+                        Array [
+                          Object {
+                            "color": "white",
+                            "fontFamily": "ProximaNova-Semibold",
+                            "fontSize": 18,
+                            "fontWeight": "600",
+                          },
+                          Object {
+                            "marginTop": 4,
+                          },
+                        ]
+                      }
+                    />
+                  </View>
                 </View>
                 <View
                   style={
                     Object {
-                      "flexGrow": 1,
-                      "height": 40,
-                      "marginLeft": 25,
-                      "tintColor": "#ffffff",
-                      "width": 40,
+                      "flexDirection": "row",
                     }
                   }
-                />
-              </View>
-              <View>
-                <View
-                  accessibilityLabel="CloseButton"
-                  accessible={true}
-                  focusable={true}
-                  hasTVPreferredFocus={false}
-                  isTVSelectable={true}
-                  style={
-                    Array [
-                      Array [
-                        Object {
-                          "alignItems": "center",
-                          "borderRadius": 20,
-                          "height": 40,
-                          "justifyContent": "center",
-                          "width": 40,
-                        },
-                      ],
-                    ]
-                  }
                 >
-                  <SvgMock />
+                  <View
+                    style={
+                      Object {
+                        "flexGrow": 1,
+                        "height": 44,
+                        "marginLeft": 28,
+                        "tintColor": "#ffffff",
+                        "width": 44,
+                      }
+                    }
+                  />
+                  <View
+                    accessibilityLabel="Lock/Un lock Controls"
+                    accessible={true}
+                    focusable={true}
+                    hasTVPreferredFocus={false}
+                    isTVSelectable={true}
+                    style={
+                      Object {
+                        "height": 44,
+                        "width": 44,
+                      }
+                    }
+                  >
+                    <SvgMock />
+                  </View>
+                  <View
+                    accessibilityLabel="Zoom in/ out screen"
+                    accessible={true}
+                    focusable={true}
+                    hasTVPreferredFocus={false}
+                    isTVSelectable={true}
+                    style={
+                      Object {
+                        "height": 44,
+                        "width": 44,
+                      }
+                    }
+                  >
+                    <SvgMock />
+                  </View>
                 </View>
               </View>
             </View>
@@ -136,7 +173,7 @@ exports[`PlayerControlsView should render all player controls 1`] = `
         <View
           style={
             Object {
-              "flex": 1,
+              "flex": 0.5,
             }
           }
         >
@@ -145,7 +182,7 @@ exports[`PlayerControlsView should render all player controls 1`] = `
               Object {
                 "alignItems": "center",
                 "backgroundColor": "rgba(0,0,0,0.7)",
-                "flex": 2,
+                "flex": 1,
                 "justifyContent": "center",
                 "opacity": 1,
               }
@@ -165,12 +202,10 @@ exports[`PlayerControlsView should render all player controls 1`] = `
                 hasTVPreferredFocus={false}
                 isTVSelectable={true}
                 style={
-                  Array [
-                    Object {
-                      "borderRadius": 50,
-                      "marginRight": "10%",
-                    },
-                  ]
+                  Object {
+                    "borderRadius": 52,
+                    "marginRight": "10%",
+                  }
                 }
               >
                 <SvgMock />
@@ -184,12 +219,10 @@ exports[`PlayerControlsView should render all player controls 1`] = `
                 style={
                   Array [
                     Object {
-                      "alignItems": "center",
-                      "borderRadius": 30,
-                      "height": 50,
-                      "justifyContent": "center",
-                      "width": 50,
+                      "paddingHorizontal": 6,
+                      "paddingTop": 6,
                     },
+                    Object {},
                   ]
                 }
               >
@@ -202,12 +235,10 @@ exports[`PlayerControlsView should render all player controls 1`] = `
                 hasTVPreferredFocus={false}
                 isTVSelectable={true}
                 style={
-                  Array [
-                    Object {
-                      "borderRadius": 50,
-                      "marginLeft": "10%",
-                    },
-                  ]
+                  Object {
+                    "borderRadius": 52,
+                    "marginLeft": "10%",
+                  }
                 }
               >
                 <SvgMock />
@@ -230,62 +261,45 @@ exports[`PlayerControlsView should render all player controls 1`] = `
                 "flex": 1,
                 "justifyContent": "flex-end",
                 "opacity": 1,
-                "paddingBottom": 10,
-                "paddingHorizontal": 50,
+                "paddingBottom": 20,
                 "translateY": 0,
               }
             }
             useNativeDriver={true}
           >
             <View
+              accessibilityLabel="Brightness Icon"
+              accessible={true}
+              focusable={true}
+              hasTVPreferredFocus={false}
+              isTVSelectable={true}
               style={
                 Object {
-                  "alignItems": "flex-end",
-                  "flexDirection": "row",
-                  "justifyContent": "space-between",
-                  "paddingBottom": 15,
+                  "alignItems": "center",
+                  "height": 44,
+                  "justifyContent": "center",
+                  "marginBottom": 40,
+                  "marginStart": 24,
+                  "width": 44,
+                  "zIndex": 10000,
                 }
               }
             >
-              <View />
-              <View
-                style={
-                  Object {
-                    "alignContent": "center",
-                    "flexDirection": "row",
-                    "paddingBottom": 25,
-                  }
-                }
-              >
-                <View
-                  accessibilityLabel="VolumeButton"
-                  accessible={true}
-                  focusable={true}
-                  hasTVPreferredFocus={false}
-                  isTVSelectable={true}
-                  style={
-                    Array [
-                      Object {
-                        "alignItems": "center",
-                        "borderRadius": 20,
-                        "height": 40,
-                        "justifyContent": "center",
-                        "width": 40,
-                      },
-                    ]
-                  }
-                >
-                  <SvgMock />
-                </View>
-              </View>
+              <SvgMock
+                height={40}
+                width={40}
+              />
             </View>
             <View
               style={
                 Array [
                   Object {
-                    "alignItems": "flex-start",
+                    "alignItems": "center",
                     "flexDirection": "row",
-                    "justifyContent": "flex-start",
+                    "justifyContent": "center",
+                    "marginBottom": 18,
+                    "paddingEnd": 24,
+                    "paddingStart": 10,
                   },
                 ]
               }
@@ -294,17 +308,15 @@ exports[`PlayerControlsView should render all player controls 1`] = `
                 style={
                   Object {
                     "flex": 1,
-                    "height": 45,
-                    "paddingBottom": 30,
                   }
                 }
               >
                 <RNCSlider
                   disabled={false}
                   enabled={true}
-                  maximumTrackTintColor="rgba(256, 256, 256, 0.2)"
+                  maximumTrackTintColor="grey"
                   maximumValue={307360000}
-                  minimumTrackTintColor="#686EFF"
+                  minimumTrackTintColor="#FE6E2E"
                   minimumValue={0}
                   step={1}
                   style={
@@ -316,33 +328,14 @@ exports[`PlayerControlsView should render all player controls 1`] = `
                         "alignItems": "center",
                         "flex": 1,
                         "flexDirection": "column",
-                        "height": 25,
+                        "height": 28,
+                        "justifyContent": "center",
                       },
                     ]
                   }
-                  thumbTintColor="#686EFF"
+                  thumbTintColor="#FE6E2E"
                   value={207360000}
                 />
-                <Text
-                  style={
-                    Array [
-                      Object {
-                        "bottom": 0,
-                        "color": "white",
-                        "fontFamily": "Inter-Regular",
-                        "fontSize": 14.742857142857144,
-                        "position": "absolute",
-                        "textAlign": "center",
-                      },
-                      Object {
-                        "left": -54.36621551275377,
-                        "width": 100,
-                      },
-                    ]
-                  }
-                >
-                  57:36:00
-                </Text>
               </View>
               <View
                 style={
@@ -350,8 +343,7 @@ exports[`PlayerControlsView should render all player controls 1`] = `
                     Object {
                       "alignItems": "flex-start",
                       "flexDirection": "row",
-                      "marginLeft": 8,
-                      "paddingTop": 0,
+                      "marginLeft": 10,
                     },
                   ]
                 }
@@ -361,7 +353,9 @@ exports[`PlayerControlsView should render all player controls 1`] = `
                     Object {
                       "backgroundColor": "transparent",
                       "color": "#ffffff",
-                      "fontSize": 14.742857142857144,
+                      "fontFamily": "ProximaNova-Semibold",
+                      "fontSize": 18,
+                      "fontWeight": "600",
                       "paddingLeft": 7.5,
                       "textAlign": "right",
                     }
@@ -369,6 +363,55 @@ exports[`PlayerControlsView should render all player controls 1`] = `
                 >
                   27:46:40
                 </Text>
+              </View>
+            </View>
+            <View
+              style={
+                Object {
+                  "alignSelf": "center",
+                  "flexDirection": "row",
+                  "justifyContent": "center",
+                }
+              }
+            >
+              <View
+                accessibilityLabel="Video Quality"
+                accessible={true}
+                focusable={true}
+                hasTVPreferredFocus={false}
+                isTVSelectable={true}
+              >
+                <View
+                  style={
+                    Array [
+                      Object {
+                        "alignItems": "center",
+                        "flexDirection": "row",
+                        "marginHorizontal": 22,
+                      },
+                    ]
+                  }
+                >
+                  <SvgMock />
+                  <Text
+                    style={
+                      Array [
+                        Object {
+                          "fontFamily": "ProximaNova-Semibold",
+                          "fontSize": 17.2,
+                          "fontWeight": "600",
+                          "marginStart": 10,
+                        },
+                        Object {
+                          "color": "white",
+                          "fontFamily": "ProximaNova-Semibold",
+                          "fontSize": 18,
+                          "fontWeight": "600",
+                        },
+                      ]
+                    }
+                  />
+                </View>
               </View>
             </View>
           </View>

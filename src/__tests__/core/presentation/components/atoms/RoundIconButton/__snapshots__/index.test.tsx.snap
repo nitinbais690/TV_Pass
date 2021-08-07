@@ -1,0 +1,194 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`roundIconButton render with style 1`] = `
+<View
+  collapsable={true}
+  pointerEvents="box-none"
+  style={
+    Object {
+      "flex": 1,
+    }
+  }
+>
+  <View
+    accessible={true}
+    focusable={false}
+    hasTVPreferredFocus={false}
+    isTVSelectable={true}
+    style={
+      Object {
+        "opacity": 1,
+        "padding": 16,
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "alignItems": "center",
+        }
+      }
+    >
+      <BVLinearGradient
+        angle={180}
+        colors={
+          Array [
+            4282073158,
+            4281151543,
+          ]
+        }
+        endPoint={
+          Object {
+            "x": 0.5,
+            "y": 1,
+          }
+        }
+        locations={
+          Array [
+            0.094,
+            1,
+          ]
+        }
+        startPoint={
+          Object {
+            "x": 0.5,
+            "y": 0,
+          }
+        }
+        style={
+          Object {
+            "alignItems": "center",
+            "borderRadius": 20,
+            "elevation": 4,
+            "flex": 1,
+            "height": 40,
+            "justifyContent": "center",
+            "shadowColor": "#40000000",
+            "shadowOffset": Object {
+              "height": 4,
+              "width": 0,
+            },
+            "shadowRadius": 20,
+            "width": 40,
+          }
+        }
+        useAngle={true}
+      >
+        <SvgMock
+          height={24}
+          width={24}
+        />
+      </BVLinearGradient>
+      <Text
+        style={
+          Object {
+            "color": "#ECECEC",
+            "fontFamily": "ProximaNova-Regular",
+            "fontSize": 12,
+            "fontWeight": "600",
+            "marginTop": 11.657142857142857,
+          }
+        }
+      >
+        Download
+      </Text>
+    </View>
+  </View>
+</View>
+`;
+
+exports[`roundIconButton renders correctly 1`] = `
+<View
+  collapsable={true}
+  pointerEvents="box-none"
+  style={
+    Object {
+      "flex": 1,
+    }
+  }
+>
+  <View
+    accessible={true}
+    focusable={false}
+    hasTVPreferredFocus={false}
+    isTVSelectable={true}
+    style={
+      Object {
+        "opacity": 1,
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "alignItems": "center",
+        }
+      }
+    >
+      <BVLinearGradient
+        angle={180}
+        colors={
+          Array [
+            4282073158,
+            4281151543,
+          ]
+        }
+        endPoint={
+          Object {
+            "x": 0.5,
+            "y": 1,
+          }
+        }
+        locations={
+          Array [
+            0.094,
+            1,
+          ]
+        }
+        startPoint={
+          Object {
+            "x": 0.5,
+            "y": 0,
+          }
+        }
+        style={
+          Object {
+            "alignItems": "center",
+            "borderRadius": 20,
+            "elevation": 4,
+            "flex": 1,
+            "height": 40,
+            "justifyContent": "center",
+            "shadowColor": "#40000000",
+            "shadowOffset": Object {
+              "height": 4,
+              "width": 0,
+            },
+            "shadowRadius": 20,
+            "width": 40,
+          }
+        }
+        useAngle={true}
+      >
+        <SvgMock
+          height={24}
+          width={24}
+        />
+      </BVLinearGradient>
+      <Text
+        style={
+          Object {
+            "color": "#ECECEC",
+            "fontFamily": "ProximaNova-Regular",
+            "fontSize": 12,
+            "fontWeight": "600",
+            "marginTop": 11.657142857142857,
+          }
+        }
+      >
+        Download
+      </Text>
+    </View>
+  </View>
+</View>
+`;

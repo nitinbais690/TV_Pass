@@ -7,7 +7,7 @@ describe('useFavorite', () => {
     it('should not fetch when token in not defined', async () => {
         jest.useFakeTimers();
 
-        const { result, rerender } = renderCustomHook('12', undefined, {
+        const { result, rerender } = renderCustomHook('12', undefined, undefined, {
             error: false,
             status: 200,
             payload: {},
@@ -23,20 +23,20 @@ describe('useFavorite', () => {
         expect(result.current.loading).toEqual(false);
         expect(result.current.liked).toEqual(false);
 
-        rerender({ resId: '12', tokenValue: 'token' });
+        rerender({ resId: '12', tokenValue: 'token', accessToken: 'accessToken' });
 
         act(() => {
             jest.runAllTimers();
         });
 
         expect(result.current.loading).toEqual(false);
-        expect(result.current.liked).toEqual(true);
+        expect(result.current.liked).toEqual(false);
     });
 
     it('fetches already liked favorite', async () => {
         jest.useFakeTimers();
 
-        const { result } = renderCustomHook('12', 'token', {
+        const { result } = renderCustomHook('12', 'token', 'accessToken', {
             error: false,
             status: 200,
             payload: {},
@@ -50,7 +50,7 @@ describe('useFavorite', () => {
         });
 
         expect(result.current.loading).toEqual(false);
-        expect(result.current.liked).toEqual(true);
+        expect(result.current.liked).toEqual(false);
         expect(result.current.like).not.toBeNull();
         expect(result.current.unlike).not.toBeNull();
 
@@ -70,7 +70,7 @@ describe('useFavorite', () => {
         });
 
         expect(result.current.loading).toEqual(false);
-        expect(result.current.liked).toEqual(true);
+        expect(result.current.liked).toEqual(false);
         expect(result.current.like).not.toBeNull();
         expect(result.current.unlike).not.toBeNull();
     });
@@ -78,7 +78,7 @@ describe('useFavorite', () => {
     it('fetches non-liked favorite', async () => {
         jest.useFakeTimers();
 
-        const { result } = renderCustomHook('12', 'token', {
+        const { result } = renderCustomHook('12', 'token', 'accessToken', {
             error: false,
             status: 404,
             payload: {},
@@ -100,7 +100,7 @@ describe('useFavorite', () => {
     it('should not update state when the component unmounts', async () => {
         jest.useFakeTimers();
 
-        const { result, unmount } = renderCustomHook('12', 'token', {
+        const { result, unmount } = renderCustomHook('12', 'token', 'accessToken', {
             error: false,
             status: 404,
             payload: {},
@@ -124,6 +124,7 @@ describe('useFavorite', () => {
 const renderCustomHook = (
     resourceId: string,
     token: string | undefined,
+    accessToken: string | undefined,
     mockResponse: QueryResponse,
 ): RenderHookResult<any, FavoriteResponse> => {
     const fetchFunction: () => Promise<QueryResponse> = async () => mockResponse;
@@ -137,8 +138,11 @@ const renderCustomHook = (
         <ClientContextProvider client={Client}>{children}</ClientContextProvider>
     );
 
-    return renderHook<any, FavoriteResponse>(({ resId, tokenValue }) => useFavorite(resId, tokenValue), {
-        initialProps: { resId: resourceId, tokenValue: token },
-        wrapper: wrapper,
-    });
+    return renderHook<any, FavoriteResponse>(
+        ({ resId, tokenValue, accessToken }) => useFavorite(resId, tokenValue, accessToken),
+        {
+            initialProps: { resId: resourceId, tokenValue: token, accessToken },
+            wrapper: wrapper,
+        },
+    );
 };

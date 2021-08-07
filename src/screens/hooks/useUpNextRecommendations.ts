@@ -1,6 +1,7 @@
 import { useEffect, useContext, useState, useRef, useCallback } from 'react';
 import { ClientContext } from 'react-fetching-library';
 import _ from 'lodash';
+import moment from 'moment';
 import {
     ResourceResponse,
     metaDataResourceAdapter,
@@ -13,8 +14,6 @@ import { useAppPreferencesState } from 'utils/AppPreferencesContext';
 import { useLocalization } from 'contexts/LocalizationContext';
 import { VODEntitlement, useUserData } from 'contexts/UserDataContextProvider';
 import { useNetworkStatus } from 'contexts/NetworkContextProvider';
-import { useAuth } from 'contexts/AuthContextProvider';
-import { getRedeemExpiringIn } from 'utils/RedeemedUtils';
 
 interface State {
     error: boolean;
@@ -46,7 +45,6 @@ export const useUpNextRecommendations = (resource: ResourceVm) => {
     } = useUserData();
     const { query } = useContext(ClientContext);
     const [state, setState] = useState<State>(initialState);
-    const { accountProfile } = useAuth();
 
     type UpNextType = 'UpNext' | 'SomethingNew';
 
@@ -91,14 +89,19 @@ export const useUpNextRecommendations = (resource: ResourceVm) => {
             if (!asset) {
                 return;
             }
-            let expireDays = getRedeemExpiringIn(parseInt(asset.validityEndDate, 10), accountProfile);
-            var stringToDisplay =
-                expireDays != 1
-                    ? strings.formatString(strings['content_detail.redeem_btn.entitled_other'], expireDays)
-                    : strings['my_content.expires_in_day'];
-            return stringToDisplay.toString();
+
+            const end = moment(parseInt(asset.validityEndDate, 10));
+            const now = moment();
+            const expiresInHours = end.diff(now, 'hours');
+            const expiresInDays = expiresInHours / 24;
+            const days = Math.max(Math.ceil(expiresInDays), 1);
+            let key = strings.formatString(strings['my_content.expires_in_days'], days);
+            if (days === 1) {
+                key = strings['my_content.expires_in_day'];
+            }
+            return key as string;
         },
-        [accountProfile, strings],
+        [strings],
     );
 
     useEffect(() => {
@@ -148,12 +151,7 @@ export const useUpNextRecommendations = (resource: ResourceVm) => {
                 }
 
                 const resourceIds = resources.map(r => r.id);
-                const bookmarkList = bookmarks.filter(bookmark => {
-                    if (bookmark.offset !== 0) {
-                        return bookmark;
-                    }
-                });
-                const bookmarkIds = bookmarkList.map(b => b.itemId);
+                const bookmarkIds = bookmarks.map(b => b.itemId);
                 const redeemedIds = redeemedAssets.map(r => r.serviceID);
 
                 // 1. Find already redeemed but not watched contents
@@ -171,51 +169,50 @@ export const useUpNextRecommendations = (resource: ResourceVm) => {
             return undefined;
         };
 
-        const fetchSomethingNewItem = async (res: ResourceVm, excludes?: [string]) => {
-            const upNextAction = createUpNextAction({ type: 'SomethingNew', res: res, pageSize: 1, excludes });
-            const { payload, error, errorObject } = await query<ResourceResponse>(upNextAction);
-            const resources =
-                payload &&
-                payload.data &&
-                payload.data.map(content => {
-                    return {
-                        ...metaDataResourceAdapter(content),
-                        get title() {
-                            return this.seriesTitle ? this.seriesTitle : this.name;
-                        },
-                        get subtitle() {
-                            return this.seasonNumber && this.episodeNumber
-                                ? `S${this.seasonNumber} E${this.episodeNumber}: ${this.name}`
-                                : undefined;
-                        },
-                    } as ResourceVm;
-                });
+        // const fetchSomethingNewItem = async (res: ResourceVm, excludes?: [string]) => {
+        //     const upNextAction = createUpNextAction({ type: 'SomethingNew', res: res, pageSize: 1, excludes });
+        //     const { payload, error, errorObject } = await query<ResourceResponse>(upNextAction);
+        //     const resources =
+        //         payload &&
+        //         payload.data &&
+        //         payload.data.map(content => {
+        //             return {
+        //                 ...metaDataResourceAdapter(content),
+        //                 get title() {
+        //                     return this.seriesTitle ? this.seriesTitle : this.name;
+        //                 },
+        //                 get subtitle() {
+        //                     return this.seasonNumber && this.episodeNumber
+        //                         ? `S${this.seasonNumber} E${this.episodeNumber}: ${this.name}`
+        //                         : undefined;
+        //                 },
+        //             } as ResourceVm;
+        //         });
 
-            if (error) {
-                console.debug('>>>>> error fetching resources', error, errorObject);
-                return undefined;
-            }
+        //     if (error) {
+        //         console.debug('>>>>> error fetching resources', error, errorObject);
+        //         return undefined;
+        //     }
 
-            if (resources && resources.length >= 1) {
-                return mixinRedeemed(resources[0]);
-            }
+        //     if (resources && resources.length >= 1) {
+        //         return mixinRedeemed(resources[0]);
+        //     }
 
-            return undefined;
-        };
+        //     return undefined;
+        // };
 
         const fetchUpNextItems = async (res: ResourceVm) => {
             const upNext = await fetchUpNextItem(res);
-            const somethingNew = await fetchSomethingNewItem(
-                res,
-                upNext ? [upNext.seriesId ? upNext.seriesId : upNext.id] : undefined,
-            );
+            // const somethingNew = await fetchSomethingNewItem(
+            //     res,
+            //     upNext ? [upNext.seriesId ? upNext.seriesId : upNext.id] : undefined,
+            // );
 
             if (isMounted.current) {
                 setState({
                     ...state,
                     loading: false,
                     upNext,
-                    somethingNew,
                 });
             }
         };

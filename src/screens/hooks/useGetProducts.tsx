@@ -41,16 +41,7 @@ export interface ProductsResponseMessage {
     displayOrder: number;
     LocaleDescription?: LocaleDescription;
     promotions?: promotions[];
-    attributes?: ProductAttribute[];
 }
-
-export interface ProductAttribute {
-    attributeLabel: string;
-    attributeType: string;
-    attributeValue: string;
-    attributeName: string;
-}
-
 export interface appChannels {
     appName: string;
     appChannel: string;
@@ -88,7 +79,6 @@ export const useGetProducts = (filterSubscriptions: boolean = false): ProductHoo
         dmaID: '001',
         returnAppChannels: 'T',
         returnPromotions: 'T',
-        returnAttributes: 'T',
     });
     const productEndpoints: DiscoveryActionExt = {
         endpoint: EvergentEndpoints.GetProducts,

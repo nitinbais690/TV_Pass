@@ -53,14 +53,14 @@ export const useFetchServiceUsage = () => {
     }, [platformAuthorizer]);
 
     const fetchServiceUsed = useCallback(async (): Promise<UsageServiceRecord[]> => {
-        const endPoint = 'aggregate/sum/credits';
+        const endPoint = 'aggregate/sum/duration';
 
         if (!platformAuth.current) {
             return [];
         }
         const authToken: AuthorizationToken = await platformAuth.current.ensureAuthorization();
         const date = moment()
-            .subtract(30, 'days')
+            .subtract(1, 'months')
             .toISOString();
         const fromDate = date.replace(/\.\d+/, '');
         const headers = {

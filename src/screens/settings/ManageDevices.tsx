@@ -15,7 +15,7 @@ import AppLoadingIndicator from 'screens/components/AppLoadingIndicator';
 import { settingStyle } from '../../styles/Settings.Style';
 import { AppEvents } from 'utils/ReportingUtils';
 import { useAnalytics } from 'utils/AnalyticsReporterContext';
-import BackgroundGradient from 'screens/components/BackgroundGradient';
+import BackgroundGradient from 'core/presentation/components/atoms/BackgroundGradient';
 
 export const ManageDevices = () => {
     const { Alert } = useAlert();

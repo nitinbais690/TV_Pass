@@ -1,20 +1,17 @@
 import React from 'react';
-import { TouchableOpacity, View, Text, StyleSheet, Platform } from 'react-native';
+import { TouchableOpacity, View, Text, StyleSheet } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { useLocalization } from 'contexts/LocalizationContext';
 import { useAuth } from 'contexts/AuthContextProvider';
-// import { useAppState } from 'utils/AppContextProvider';
+import { useAppState } from 'utils/AppContextProvider';
 import { useAppPreferencesState } from 'utils/AppPreferencesContext';
 import ContinueSubscriptionScreen from '../Errors/ContinueSubscriptionScreen';
 import PurchaseSubscribtionScreen from 'screens/PurchaseSubscribtionScreen';
 import PurchaseConfirmationScreen from 'screens/PurchaseConfirmationScreen';
-import SignUpProfileTVScreen from '../../TV/SignUpProfileTVScreen';
 import { UserProfile } from 'screens/settings/UserProfile';
 import { NAVIGATION_TYPE } from './NavigationConstants';
-import { BrandLogo } from 'screens/components/BrandLogo';
 import { appPadding, appFonts } from '../../../AppStyles';
-import BrowseWebView from 'screens/components/BrowseWebView';
-import HelpScreen from 'screens/HelpScreen';
+import BrandLogo from 'core/presentation/components/atoms/BrandLogo';
 
 export const LogOutButton = (): JSX.Element => {
     const { logout } = useAuth();
@@ -45,15 +42,8 @@ export const LogOutButton = (): JSX.Element => {
 
 const SubscriptionStack = createStackNavigator();
 const SubscriptionStackScreen = () => {
-    const { strings } = useLocalization();
-    // const { signedUpInSession } = useAppState();
-    // const isSignUpProfile = signedUpInSession && Platform.isTV;
-    const initialRouteName = NAVIGATION_TYPE.PURCHASE_SUBSCRIPTION;
-    // isSignUpProfile
-    //     ? NAVIGATION_TYPE.SIGN_UP_PROFILE_TV
-    //     : signedUpInSession
-    //     ? NAVIGATION_TYPE.PURCHASE_SUBSCRIPTION
-    //     : undefined;
+    const { signedUpInSession } = useAppState();
+    const initialRouteName = signedUpInSession ? NAVIGATION_TYPE.PURCHASE_SUBSCRIPTION : undefined;
 
     return (
         <SubscriptionStack.Navigator
@@ -63,14 +53,6 @@ const SubscriptionStackScreen = () => {
                 headerTransparent: true,
                 headerStyle: { shadowColor: 'transparent' },
             }}>
-            <SubscriptionStack.Screen
-                name={NAVIGATION_TYPE.SIGN_UP_PROFILE_TV}
-                options={{
-                    headerShown: !Platform.isTV,
-                    headerTransparent: true,
-                }}
-                component={SignUpProfileTVScreen}
-            />
             <SubscriptionStack.Screen
                 name={NAVIGATION_TYPE.CONTINUE_SUBSCRIPTION}
                 options={{
@@ -100,26 +82,9 @@ const SubscriptionStackScreen = () => {
                 component={PurchaseConfirmationScreen}
             />
             <SubscriptionStack.Screen
-                name={'UserProfile'}
+                name="UserProfile"
                 component={UserProfile}
                 options={{ title: '', headerTitle: () => <BrandLogo />, headerTransparent: false }}
-            />
-            <SubscriptionStack.Screen
-                name={NAVIGATION_TYPE.HELP}
-                component={HelpScreen}
-                options={{
-                    title: strings['settingsScreenKey.Help'],
-                    headerTransparent: true,
-                }}
-            />
-            <SubscriptionStack.Screen
-                name={NAVIGATION_TYPE.BROWSE_WEBVIEW}
-                component={BrowseWebView}
-                options={({ route }) => ({
-                    headerTransparent: false,
-                    headerStyle: { shadowColor: 'transparent' },
-                    title: route.params && route.params.type ? strings['title.' + route.params.type] : '',
-                })}
             />
         </SubscriptionStack.Navigator>
     );

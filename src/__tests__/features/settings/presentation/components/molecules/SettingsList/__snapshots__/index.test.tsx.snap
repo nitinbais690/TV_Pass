@@ -1,0 +1,421 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`settingsList renders correctly 1`] = `
+<View
+  collapsable={true}
+  pointerEvents="box-none"
+  style={
+    Object {
+      "flex": 1,
+    }
+  }
+>
+  <View>
+    <View
+      accessible={true}
+      focusable={true}
+      hasTVPreferredFocus={false}
+      isTVSelectable={true}
+      style={
+        Object {
+          "opacity": 1,
+        }
+      }
+    >
+      <View
+        style={
+          Object {
+            "flexDirection": "column",
+          }
+        }
+      >
+        <View
+          style={
+            Object {
+              "borderBottomWidth": 1,
+              "borderColor": "#FFFFFF",
+              "opacity": 0.07,
+              "width": "100%",
+            }
+          }
+        />
+        <View
+          style={
+            Object {
+              "alignItems": "center",
+              "flexDirection": "row",
+              "paddingTop": 32,
+            }
+          }
+        >
+          <SvgMock
+            height={34}
+            width={34}
+          />
+          <Text
+            style={
+              Object {
+                "color": "#FFFFFF",
+                "fontFamily": "ProximaNova-Semibold",
+                "fontSize": 20,
+                "fontWeight": "600",
+                "paddingLeft": 20,
+              }
+            }
+          >
+            Subscription Details
+          </Text>
+          <SvgMock
+            style={
+              Object {
+                "height": 34,
+                "marginStart": "auto",
+                "width": 34,
+              }
+            }
+          />
+        </View>
+        <Text
+          style={
+            Object {
+              "color": "#FFFFFF",
+              "fontFamily": "ProximaNova-Semibold",
+              "fontSize": 18,
+              "fontWeight": "600",
+              "opacity": 0.3,
+              "paddingBottom": 26,
+              "paddingTop": 9,
+            }
+          }
+        >
+          Manage your subscription & payment
+        </Text>
+      </View>
+    </View>
+    <View
+      accessible={true}
+      focusable={true}
+      hasTVPreferredFocus={false}
+      isTVSelectable={true}
+      style={
+        Object {
+          "opacity": 1,
+        }
+      }
+    >
+      <View
+        style={
+          Object {
+            "flexDirection": "column",
+          }
+        }
+      >
+        <View
+          style={
+            Object {
+              "borderBottomWidth": 1,
+              "borderColor": "#FFFFFF",
+              "opacity": 0.07,
+              "width": "100%",
+            }
+          }
+        />
+        <View
+          style={
+            Object {
+              "alignItems": "center",
+              "flexDirection": "row",
+              "paddingTop": 32,
+            }
+          }
+        >
+          <SvgMock
+            height={34}
+            width={34}
+          />
+          <Text
+            style={
+              Object {
+                "color": "#FFFFFF",
+                "fontFamily": "ProximaNova-Semibold",
+                "fontSize": 20,
+                "fontWeight": "600",
+                "paddingLeft": 20,
+              }
+            }
+          >
+            Device Management
+          </Text>
+          <SvgMock
+            style={
+              Object {
+                "height": 34,
+                "marginStart": "auto",
+                "width": 34,
+              }
+            }
+          />
+        </View>
+        <Text
+          style={
+            Object {
+              "color": "#FFFFFF",
+              "fontFamily": "ProximaNova-Semibold",
+              "fontSize": 18,
+              "fontWeight": "600",
+              "opacity": 0.3,
+              "paddingBottom": 26,
+              "paddingTop": 9,
+            }
+          }
+        >
+          Manage all your devices
+        </Text>
+      </View>
+    </View>
+    <View
+      accessible={true}
+      focusable={true}
+      hasTVPreferredFocus={false}
+      isTVSelectable={true}
+      style={
+        Object {
+          "opacity": 1,
+        }
+      }
+    >
+      <View
+        style={
+          Object {
+            "flexDirection": "column",
+          }
+        }
+      >
+        <View
+          style={
+            Object {
+              "borderBottomWidth": 1,
+              "borderColor": "#FFFFFF",
+              "opacity": 0.07,
+              "width": "100%",
+            }
+          }
+        />
+        <View
+          style={
+            Object {
+              "alignItems": "center",
+              "flexDirection": "row",
+              "paddingTop": 32,
+            }
+          }
+        >
+          <SvgMock
+            height={34}
+            width={34}
+          />
+          <Text
+            style={
+              Object {
+                "color": "#FFFFFF",
+                "fontFamily": "ProximaNova-Semibold",
+                "fontSize": 20,
+                "fontWeight": "600",
+                "paddingLeft": 20,
+              }
+            }
+          >
+            User Profiles
+          </Text>
+          <SvgMock
+            style={
+              Object {
+                "height": 34,
+                "marginStart": "auto",
+                "width": 34,
+              }
+            }
+          />
+        </View>
+        <Text
+          style={
+            Object {
+              "color": "#FFFFFF",
+              "fontFamily": "ProximaNova-Semibold",
+              "fontSize": 18,
+              "fontWeight": "600",
+              "opacity": 0.3,
+              "paddingBottom": 26,
+              "paddingTop": 9,
+            }
+          }
+        >
+          Manage your user profiles here
+        </Text>
+      </View>
+    </View>
+    <View
+      accessible={true}
+      focusable={true}
+      hasTVPreferredFocus={false}
+      isTVSelectable={true}
+      style={
+        Object {
+          "opacity": 1,
+        }
+      }
+    >
+      <View
+        style={
+          Object {
+            "flexDirection": "column",
+          }
+        }
+      >
+        <View
+          style={
+            Object {
+              "borderBottomWidth": 1,
+              "borderColor": "#FFFFFF",
+              "opacity": 0.07,
+              "width": "100%",
+            }
+          }
+        />
+        <View
+          style={
+            Object {
+              "alignItems": "center",
+              "flexDirection": "row",
+              "paddingTop": 32,
+            }
+          }
+        >
+          <SvgMock
+            height={34}
+            width={34}
+          />
+          <Text
+            style={
+              Object {
+                "color": "#FFFFFF",
+                "fontFamily": "ProximaNova-Semibold",
+                "fontSize": 20,
+                "fontWeight": "600",
+                "paddingLeft": 20,
+              }
+            }
+          >
+            Parental Controls
+          </Text>
+          <SvgMock
+            style={
+              Object {
+                "height": 34,
+                "marginStart": "auto",
+                "width": 34,
+              }
+            }
+          />
+        </View>
+        <Text
+          style={
+            Object {
+              "color": "#FFFFFF",
+              "fontFamily": "ProximaNova-Semibold",
+              "fontSize": 18,
+              "fontWeight": "600",
+              "opacity": 0.3,
+              "paddingBottom": 26,
+              "paddingTop": 9,
+            }
+          }
+        >
+          Manage viewing restrictions
+        </Text>
+      </View>
+    </View>
+    <View
+      accessible={true}
+      focusable={true}
+      hasTVPreferredFocus={false}
+      isTVSelectable={true}
+      style={
+        Object {
+          "opacity": 1,
+        }
+      }
+    >
+      <View
+        style={
+          Object {
+            "flexDirection": "column",
+          }
+        }
+      >
+        <View
+          style={
+            Object {
+              "borderBottomWidth": 1,
+              "borderColor": "#FFFFFF",
+              "opacity": 0.07,
+              "width": "100%",
+            }
+          }
+        />
+        <View
+          style={
+            Object {
+              "alignItems": "center",
+              "flexDirection": "row",
+              "paddingTop": 32,
+            }
+          }
+        >
+          <SvgMock
+            height={34}
+            width={34}
+          />
+          <Text
+            style={
+              Object {
+                "color": "#FFFFFF",
+                "fontFamily": "ProximaNova-Semibold",
+                "fontSize": 20,
+                "fontWeight": "600",
+                "paddingLeft": 20,
+              }
+            }
+          >
+            App Settings
+          </Text>
+          <SvgMock
+            style={
+              Object {
+                "height": 34,
+                "marginStart": "auto",
+                "width": 34,
+              }
+            }
+          />
+        </View>
+        <Text
+          style={
+            Object {
+              "color": "#FFFFFF",
+              "fontFamily": "ProximaNova-Semibold",
+              "fontSize": 18,
+              "fontWeight": "600",
+              "opacity": 0.3,
+              "paddingBottom": 26,
+              "paddingTop": 9,
+            }
+          }
+        >
+          Manage your app from here
+        </Text>
+      </View>
+    </View>
+  </View>
+</View>
+`;

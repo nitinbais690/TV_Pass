@@ -9,21 +9,7 @@ export default function useFunction() {
         return true;
     }
 
-    /**
-     * Its use to check only alphabets and space(eg. name)
-     */
-    function isName(nameVal: string) {
-        var reg = /^[a-zA-Z ]*$/;
-
-        if (reg.test(nameVal) == false) {
-            return false;
-        }
-
-        return true;
-    }
-
     return {
         isEmail,
-        isName,
     };
 }

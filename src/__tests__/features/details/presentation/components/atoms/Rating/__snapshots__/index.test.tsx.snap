@@ -1,0 +1,154 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`rating render with empty text 1`] = `
+<View
+  collapsable={true}
+  pointerEvents="box-none"
+  style={
+    Object {
+      "flex": 1,
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "backgroundColor": "#1A1D1E",
+        "borderColor": "#35393F",
+        "borderRadius": 7.285714285714286,
+        "borderStyle": "solid",
+        "borderWidth": 1.457142857142857,
+        "elevation": 3.934285714285714,
+        "flexDirection": "row",
+        "height": 26.228571428571428,
+        "justifyContent": "center",
+        "marginEnd": "2%",
+        "paddingHorizontal": 10.2,
+        "shadowColor": "#40000000",
+        "shadowOffset": Object {
+          "height": 3.934285714285714,
+          "width": 0,
+        },
+        "shadowRadius": 7.285714285714286,
+      }
+    }
+  >
+    <Text
+      style={
+        Object {
+          "color": "#FFFFFF",
+          "fontFamily": "ProximaNova-Regular",
+          "fontSize": 12,
+          "fontWeight": "600",
+          "letterSpacing": 0.13,
+        }
+      }
+    >
+      
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`rating render without icon 1`] = `
+<View
+  collapsable={true}
+  pointerEvents="box-none"
+  style={
+    Object {
+      "flex": 1,
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "backgroundColor": "#1A1D1E",
+        "borderColor": "#35393F",
+        "borderRadius": 7.285714285714286,
+        "borderStyle": "solid",
+        "borderWidth": 1.457142857142857,
+        "elevation": 3.934285714285714,
+        "flexDirection": "row",
+        "height": 26.228571428571428,
+        "justifyContent": "center",
+        "marginEnd": "2%",
+        "paddingHorizontal": 10.2,
+        "shadowColor": "#40000000",
+        "shadowOffset": Object {
+          "height": 3.934285714285714,
+          "width": 0,
+        },
+        "shadowRadius": 7.285714285714286,
+      }
+    }
+  >
+    <Text
+      style={
+        Object {
+          "color": "#FFFFFF",
+          "fontFamily": "ProximaNova-Regular",
+          "fontSize": 12,
+          "fontWeight": "600",
+          "letterSpacing": 0.13,
+        }
+      }
+    >
+      Violence
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`rating renders correctly 1`] = `
+<View
+  collapsable={true}
+  pointerEvents="box-none"
+  style={
+    Object {
+      "flex": 1,
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "backgroundColor": "#1A1D1E",
+        "borderColor": "#35393F",
+        "borderRadius": 7.285714285714286,
+        "borderStyle": "solid",
+        "borderWidth": 1.457142857142857,
+        "elevation": 3.934285714285714,
+        "flexDirection": "row",
+        "height": 26.228571428571428,
+        "justifyContent": "center",
+        "marginEnd": "2%",
+        "paddingHorizontal": 10.2,
+        "shadowColor": "#40000000",
+        "shadowOffset": Object {
+          "height": 3.934285714285714,
+          "width": 0,
+        },
+        "shadowRadius": 7.285714285714286,
+      }
+    }
+  >
+    <Text
+      style={
+        Object {
+          "color": "#FFFFFF",
+          "fontFamily": "ProximaNova-Regular",
+          "fontSize": 12,
+          "fontWeight": "600",
+          "letterSpacing": 0.13,
+        }
+      }
+    >
+      Violence
+    </Text>
+  </View>
+</View>
+`;

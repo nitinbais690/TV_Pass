@@ -36,13 +36,25 @@ function isValidPhoneNumber(msg: string) {
 }
 
 const loginSchema = object().shape({
-    email: string().required('email_empty_error'),
-    password: string().required('password_empty_error'),
+    email: string()
+        .email('error.invalid_email')
+        .required('error.email_empty_error'),
+    password: string().min(1, 'error.invalid_password'),
+});
+
+const validateEmailSchema = object().shape({
+    email: string()
+        .email('error.invalid_email')
+        .required('error.email_empty_error'),
 });
 
 const signupSchema = object().shape({
-    email: string().required('email_empty_error'),
-    password: string().required('password_empty_error'),
+    email: string()
+        .email('error.invalid_email')
+        .required('error.email_empty_error'),
+    password: string()
+        .min(4, 'error.invalid_password')
+        .max(60, 'error.invalid_password'),
 });
 
 const fpResetSchema = object().shape({
@@ -56,8 +68,20 @@ const profileSchema = object().shape({
     name: string().required('Name cannot be blank.'),
 });
 
+const mobileNumberSchema = object().shape({
+    mobileNumber: string().required('error.mobile_number_empty_error'),
+});
+
 export function loginValidate(values: LoginInput) {
     return handleErrorMeg(values, loginSchema);
+}
+
+export function signUpValidate(values: LoginInput) {
+    return handleErrorMeg(values, signupSchema);
+}
+
+export function emailValidate(values: LoginInput) {
+    return handleErrorMeg(values, validateEmailSchema);
 }
 
 export function signupValidate(values: any) {
@@ -70,4 +94,8 @@ export function fpResetValidate(values: any) {
 
 export function profileValidate(values: any) {
     return handleErrorMeg(values, profileSchema);
+}
+
+export function mobileNumberValidate<T>(values: T) {
+    return handleErrorMeg(values, mobileNumberSchema);
 }

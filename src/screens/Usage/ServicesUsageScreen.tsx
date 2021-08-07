@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { useAppPreferencesState } from '../../utils/AppPreferencesContext';
 import { selectDeviceType, AspectRatio, ImageType } from 'qp-common-ui';
@@ -8,21 +8,23 @@ import { useFetchHistoryList } from 'screens/hooks/useFetchHistoryList';
 import SkeletonUsageDashboard from 'screens/components/loading/SkeletonUsageDashboard';
 import { appFonts } from '../../../AppStyles';
 import { useLocalization } from 'contexts/LocalizationContext';
-import BackgroundGradient from 'screens/components/BackgroundGradient';
+import BackgroundGradient from 'core/presentation/components/atoms/BackgroundGradient';
 import HistoryListView from '../../components/qp-discovery-ui/src/views/HistoryListView';
-import { NAVIGATION_TYPE } from 'screens/Navigation/NavigationConstants';
 import { ResourceVm, ResizableImage } from 'qp-discovery-ui';
-import { useNavigation } from '@react-navigation/native';
 import CreditUsageEmptyState from 'screens/Usage/CreditUsageEmptyState';
 import HistoryEmptyState from 'screens/Usage/HistoryEmptyState';
 import RecommendedContent from 'screens/Usage/RecommendedContent';
-import { ScreenOrigin, UsageScreenOrigin } from 'utils/ReportingUtils';
+import DetailPopup from 'features/details/presentation/components/template/DetailPopupScreen';
 
 const ServicesUsageScreen = (): JSX.Element => {
     const prefs = useAppPreferencesState();
     let { appColors } = prefs.appTheme!(prefs);
-    const navigation = useNavigation();
+    const [detailModelResource, setDetailModelResource] = useState({});
+
     const style = StyleSheet.create({
+        flexContainer: {
+            flex: 1,
+        },
         rootContainer: {
             marginHorizontal: selectDeviceType({ Tablet: 40 }, 20),
             marginVertical: selectDeviceType({ Tablet: 30 }, 15),
@@ -68,13 +70,11 @@ const ServicesUsageScreen = (): JSX.Element => {
             height: selectDeviceType({ Tablet: 35 }, 24),
             backgroundColor: 'rgba(39, 56, 78, 0.5)',
             borderRadius: 6,
-            overflow: 'hidden',
         },
         subContainer: {
             marginLeft: 4,
             height: selectDeviceType({ Tablet: 60 }, 45),
             justifyContent: 'center',
-            flex: 1,
         },
         divider: {
             height: 1,
@@ -150,22 +150,23 @@ const ServicesUsageScreen = (): JSX.Element => {
     const creditSum = usageRecords.reduce((prev, next) => prev + next.value, 0);
     const cardProps = {
         onResourcePress: (tappedResource: ResourceVm) => {
-            tappedResource.origin = ScreenOrigin.USAGE;
-            navigation.navigate(NAVIGATION_TYPE.CONTENT_DETAILS, {
+            setDetailModelResource({
                 resource: tappedResource,
                 title: tappedResource.name,
                 resourceId: tappedResource.id,
                 resourceType: tappedResource.type,
-                usageTabName: UsageScreenOrigin.ServicesUsage,
             });
         },
     };
+    const onModelClosed = () => {
+        setDetailModelResource({});
+    };
 
     return (
-        <BackgroundGradient insetHeader={true} headerType={'HeaderTabLess'} insetTabBar={true}>
+        <BackgroundGradient insetHeader={true} headerType={'HeaderTab'} insetTabBar={true}>
             {loading && <SkeletonUsageDashboard />}
             <ScrollView showsVerticalScrollIndicator={false}>
-                <View style={{ flex: 1 }}>
+                <View style={style.flexContainer}>
                     {usageRecords.length > 0 && (
                         <View style={style.rootContainer}>
                             <View style={style.creditsUsage}>
@@ -254,6 +255,7 @@ const ServicesUsageScreen = (): JSX.Element => {
                     {!loading && historyList.length === 0 && <HistoryEmptyState />}
                 </View>
             </ScrollView>
+            <DetailPopup onModelClosed={onModelClosed} data={detailModelResource} />
         </BackgroundGradient>
     );
 };

@@ -1,7 +1,3 @@
-if(__DEV__) {
-    import('./ReactotronConfig').then(() => console.log('Reactotron Configured'))
-}
-
 import React, { useEffect } from 'react';
 // Importing here to fix race condition bug;
 // see details here: https://github.com/kmagiera/react-native-gesture-handler/issues/320#issuecomment-443815828
@@ -11,19 +7,17 @@ import { LogBox } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import Orientation from 'react-native-orientation-locker';
 import { enableScreens } from 'react-native-screens';
-import { AppPreferencesProvider } from 'utils/AppPreferencesContext';
-import { AppContextProvider } from 'utils/AppContextProvider';
+import { AppPreferencesProvider } from './src/utils/AppPreferencesContext';
+import { AppContextProvider } from './src/utils/AppContextProvider';
+import { LocalizationProvider } from './src/contexts/LocalizationContext';
+import { AuthContextProvider } from './src/contexts/AuthContextProvider';
+import { NetworkContextProvider } from './src/contexts/NetworkContextProvider';
 import { AnalyticsContextProvider } from 'utils/AnalyticsReporterContext';
-import { IAPContextProvider } from 'utils/IAPContextProvider';
-import { LocalizationProvider } from 'contexts/LocalizationContext';
-import { AuthContextProvider } from 'contexts/AuthContextProvider';
-import { SwrveContextProvider } from 'contexts/SwrveContextProvider';
-import { NetworkContextProvider } from 'contexts/NetworkContextProvider';
-import { AlertContextProvider } from 'contexts/AlertContext';
-import { ForceUpdateContextProvider } from 'contexts/ForceUpdateContextProvider';
-import { IAPProductsContextProvider } from 'contexts/IAPProductsContext';
 import { TimerContextProvider } from 'utils/TimerContext';
-import AppNavigator from './src/screens/AppNavigator';
+import { AlertContextProvider } from 'contexts/AlertContext';
+import { GeoDataContextProvider } from 'contexts/GeoDataProviderContext';
+import { MenuProvider } from 'react-native-popup-menu';
+import { DownloadSettingsProvider } from 'features/downloads/presentation/contexts/DownloadSettingsContext';
 
 // Temp-fix: https://github.com/joltup/rn-fetch-blob/issues/183
 // We should look for a long-term solution when working on Downloads, while is currently using
@@ -33,10 +27,7 @@ LogBox.ignoreLogs([
     'Remote debugger is in a background tab which may cause apps to perform slowly',
     'Require cycle: node_modules/rn-fetch-blob/index.js',
     'Require cycle: node_modules/react-native/Libraries/Network/fetch.js',
-    'Permanent storage is not supported on tvOS, your data may be removed at any point',
 ]);
-
-LogBox.ignoreAllLogs(); //Ignore all log notifications
 
 enableScreens();
 
@@ -44,29 +35,12 @@ enableScreens();
  * Top-level app component
  */
 export const Application = (): JSX.Element => {
+    const AppNavigator = require('./src/screens/AppNavigator').default;
     useEffect(() => {
-        if (DeviceInfo.getDeviceType() === 'Handset') {
+        if (DeviceInfo.getDeviceType() === 'Handset' || DeviceInfo.getDeviceType() === 'Tablet') {
             Orientation.lockToPortrait();
-        } else if (DeviceInfo.getDeviceType() === 'Tablet') {
-            Orientation.unlockAllOrientations();
         }
-        // if (!Platform.isTV) {
-        const SwrveSDK = require('react-native-swrve-plugin');
-        SwrveSDK.setListeners(
-            /** Swrve listeners arg **/ null,
-            { pushListener: onPushMessage, silentPushListener: onSilentPushMessage },
-            /** in-app listeners arg **/ null,
-        );
-        // }
     }, []);
-
-    const onPushMessage = async (payload: any) => {
-        console.log('onPushMessage', payload);
-    };
-
-    const onSilentPushMessage = async (payload: any) => {
-        console.log('onSilentPushMessage', payload);
-    };
 
     return (
         <TimerContextProvider>
@@ -76,19 +50,17 @@ export const Application = (): JSX.Element => {
                         <LocalizationProvider>
                             <AuthContextProvider>
                                 <AppContextProvider>
-                                    <IAPContextProvider>
-                                        <IAPProductsContextProvider>
-                                            <SwrveContextProvider>
-                                                <AnalyticsContextProvider>
-                                                    <AlertContextProvider>
-                                                        <ForceUpdateContextProvider>
-                                                            <AppNavigator />
-                                                        </ForceUpdateContextProvider>
-                                                    </AlertContextProvider>
-                                                </AnalyticsContextProvider>
-                                            </SwrveContextProvider>
-                                        </IAPProductsContextProvider>
-                                    </IAPContextProvider>
+                                    <GeoDataContextProvider>
+                                        <AnalyticsContextProvider>
+                                            <AlertContextProvider>
+                                                <DownloadSettingsProvider>
+                                                    <MenuProvider>
+                                                        <AppNavigator />
+                                                    </MenuProvider>
+                                                </DownloadSettingsProvider>
+                                            </AlertContextProvider>
+                                        </AnalyticsContextProvider>
+                                    </GeoDataContextProvider>
                                 </AppContextProvider>
                             </AuthContextProvider>
                         </LocalizationProvider>

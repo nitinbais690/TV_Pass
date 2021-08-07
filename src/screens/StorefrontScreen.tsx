@@ -1,7 +1,6 @@
-import React, { useEffect } from 'react';
-import { Platform, StyleSheet } from 'react-native';
-import { Route, SceneRendererProps } from 'react-native-tab-view';
-import Animated from 'react-native-reanimated';
+import React, { useCallback, useEffect, useState } from 'react';
+import { StyleSheet, View } from 'react-native';
+import DeviceInfo from 'react-native-device-info';
 import { useFetchRootContainerQuery, TabVm } from 'qp-discovery-ui';
 
 import { useAppPreferencesState } from '../utils/AppPreferencesContext';
@@ -12,99 +11,50 @@ import { useAppPreview } from '../contexts/AppPreviewContextProvider';
 import CatalogScreen from './CatalogScreen';
 import AppErrorComponent from '../utils/AppErrorComponent';
 import Button from './components/Button';
-import HeaderTabBar from './components/HeaderTabBar';
-import BackgroundGradient from './components/BackgroundGradient';
-import SkeletonCatalog, { SkeletonCatalogType } from './components/loading/SkeletonCatalog';
+import SkeletonCatalog from './components/loading/SkeletonCatalog';
 import { AppEvents } from 'utils/ReportingUtils';
 import { useAnalytics } from 'utils/AnalyticsReporterContext';
 import { TimerType, useTimer } from 'utils/TimerContext';
 import FooterGradient from './components/FooterGradient';
 import { selectDeviceType } from './../../src/components/qp-common-ui';
-import { useOnboarding } from 'contexts/OnboardingContext';
-import StorefrontScreenTV from '../TV/StorefrontScreenTV';
-
+import { useGeoData } from '../contexts/GeoDataProviderContext';
+import { useProfiles } from '../contexts/ProfilesContextProvider';
+import { useAuth } from 'contexts/AuthContextProvider';
+import HeaderTabBar, { Route } from 'core/presentation/components/molecules/HeaderTabBar';
+import { useContentLanguage } from 'features/language-selection/presentation/hooks/use-content-language';
+import { APP_LANGUAGE_CONSTANTS } from 'features/language-selection/utils/app-language-constants';
+import HomeBackgroundGradient from 'core/presentation/components/atoms/HomeBackgroundGradient';
+import WelcomeBanner from 'features/welcome-banner/presentation/component/template';
+import AsyncStorage from '@react-native-community/async-storage';
+import { SHOW_WELCOME_BANNER } from 'features/authentication/utils/auth-constants';
 const ERROR_KEY = 'error_tab_key';
-const SkeletonType: SkeletonCatalogType = 'Strorefront';
 
-type Route = {
-    key: string;
-};
-
-type Props = SceneRendererProps & {
-    index: number;
-    length: number;
-    route: Route;
-    storefrontId: string;
-};
-
-const SceneStyles = StyleSheet.create({
-    page: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-});
-
-const Scene = ({ route, position, layout, index, length, storefrontId }: Props) => {
-    const coverflowStyle: any = React.useMemo(() => {
-        const { width } = layout;
-
-        let inputRange = Array.from({ length }, (_, i) => i);
-        const translateOutputRange = inputRange.map(i => {
-            return (width / 100) * (index - i) * -1;
-        });
-        const opacityOutputRange = inputRange.map(i => {
-            if (index === i) {
-                return 1;
-            } else {
-                return 0;
-            }
-        });
-
-        const translateX = Animated.interpolate(position, {
-            inputRange,
-            outputRange: translateOutputRange,
-            extrapolate: Animated.Extrapolate.CLAMP,
-        });
-
-        const opacity = Animated.interpolate(position, {
-            inputRange,
-            outputRange: opacityOutputRange,
-            extrapolate: Animated.Extrapolate.CLAMP,
-        });
-
-        return {
-            transform: [{ translateX }],
-            opacity,
-        };
-    }, [index, layout, length, position]);
-
-    return (
-        <Animated.View style={[SceneStyles.page, coverflowStyle]}>
-            <CatalogScreen storefrontId={storefrontId} tabId={route.key} tabName={route.title} />
-        </Animated.View>
-    );
-};
-
-const StorefrontScreen = ({ route }: { route?: any }): JSX.Element => {
+const StorefrontScreen = (): JSX.Element => {
     const { toggleModal } = useAppPreview();
     const { strings } = useLocalization();
     const { appNavigationState } = useAppState();
+    const catalogueLanguage = useContentLanguage();
     const prefs = useAppPreferencesState();
     const { appConfig } = prefs;
-    const storefrontId = (appConfig && appConfig.storefrontId) || '';
-    const { loading, error, containers, reset, reload } = useFetchRootContainerQuery(storefrontId);
     const { elapsedTime, startTimer } = useTimer();
     const { recordEvent } = useAnalytics();
-    const { onboardNavigation } = useOnboarding();
-
+    const { region } = useGeoData();
+    const { preferredContentLang } = useProfiles();
+    const { accessToken } = useAuth();
+    const [showBanner, setShowBanner] = useState<any>(null);
     type TabRoute = {
         data?: any;
     } & Route;
 
+    async function getWelcomBannerStatus() {
+        //TODO We need to change this logic after subscription integration.
+        const status = await AsyncStorage.getItem(SHOW_WELCOME_BANNER);
+        setShowBanner(status);
+    }
+
     const styles = StyleSheet.create({
         footerGradient: {
-            position: Platform.isTV ? 'absolute' : 'relative',
+            position: 'absolute',
             bottom: 0,
             left: 0,
             right: 0,
@@ -114,30 +64,35 @@ const StorefrontScreen = ({ route }: { route?: any }): JSX.Element => {
             marginHorizontal: selectDeviceType({ Tablet: '20%' }, '5%'),
         },
     });
+    const getStorefrontId = useCallback(
+        (value: string) => {
+            switch (value) {
+                case 'tn':
+                case 'tam':
+                case APP_LANGUAGE_CONSTANTS.TAMIL:
+                    return appConfig && appConfig.tamilSfid;
+                case 'ap':
+                case 'ts':
+                case 'tel':
+                case APP_LANGUAGE_CONSTANTS.TELUGU:
+                    return appConfig && appConfig.teluguSfid;
+                default:
+                    return appConfig && appConfig.teluguSfid;
+            }
+        },
+        [appConfig],
+    );
+    const [storeFrontId, setStoreFrontId] = useState<string>(getStorefrontId(region.toLowerCase()));
 
-    const containerLoadingRoutes = [
-        {
-            key: '78C5A010-3FDB-4397-8993-1776C36532A2',
-            title: 'All',
-            accessibilityLabel: 'All',
-            testID: 'All',
-            data: { id: '78C5A010-3FDB-4397-8993-1776C36532A2', localizedName: { en: 'All' }, name: 'All' },
-        },
-        {
-            key: '2DE1CBFC-8069-493F-A4C4-42659F08F3FC',
-            title: 'TV',
-            accessibilityLabel: 'TV',
-            testID: 'TV',
-            data: { id: '2DE1CBFC-8069-493F-A4C4-42659F08F3FC', localizedName: { en: 'TV' }, name: 'TV' },
-        },
-        {
-            key: '1F8FCC50-F68C-46F2-87FE-447CC8EBB6A5',
-            title: 'Movies',
-            accessibilityLabel: 'Movies',
-            testID: 'Movies',
-            data: { id: '1F8FCC50-F68C-46F2-87FE-447CC8EBB6A5', localizedName: { en: 'Movies' }, name: 'Movies' },
-        },
-    ];
+    useEffect(() => {
+        if (preferredContentLang) {
+            setStoreFrontId(getStorefrontId(preferredContentLang.toLowerCase()));
+        } else {
+            setStoreFrontId(getStorefrontId(catalogueLanguage));
+        }
+    }, [preferredContentLang, region, accessToken, getStorefrontId, catalogueLanguage]);
+
+    const { loading, error, containers, reset, reload } = useFetchRootContainerQuery(storeFrontId);
 
     const containerRoutes: TabRoute[] = containers.map((tabContainer: TabVm) => {
         return {
@@ -151,47 +106,35 @@ const StorefrontScreen = ({ route }: { route?: any }): JSX.Element => {
 
     const routes = error ? [{ key: ERROR_KEY }] : [...containerRoutes];
 
-    const renderScene = ({ route, position, layout }: { route: any; position: any; layout: any }) => {
+    const renderScenePager = ({ route, index }: { route: any; index: number }) => {
         if (route.key === ERROR_KEY) {
             return (
-                <AppErrorComponent
-                    reload={() => {
-                        reset();
-                        reload();
-                    }}
-                />
+                <View key={index.toString()}>
+                    <AppErrorComponent
+                        key={index}
+                        reload={() => {
+                            reset();
+                            reload();
+                        }}
+                    />
+                </View>
             );
         }
 
         return (
-            <Scene
-                route={route}
-                position={position}
-                layout={layout}
-                index={loading ? containerLoadingRoutes.indexOf(route) : routes.indexOf(route)}
-                length={loading ? containerLoadingRoutes.length : routes.length}
-                storefrontId={storefrontId}
-            />
+            <View key={index.toString()}>
+                <CatalogScreen key={route.key} storefrontId={storeFrontId} tabId={route.key} tabName={route.title} />
+            </View>
         );
     };
 
     useEffect(() => {
-        let routeType = '';
-        if (route && route.params && route.params.tabIndex) {
-            routeType = route.params.tabIndex;
-        }
-        if (routeType === 'onboard') {
-            route.params.tabIndex = '';
-            onboardNavigation('');
-        }
-    }, [onboardNavigation, route]);
-
-    useEffect(() => {
         startTimer(TimerType.Storefront);
+        getWelcomBannerStatus();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    // console.log(`loading? ${loading}, error? ${error}`);
+    console.log(`loading? ${loading}, error? ${error}`);
 
     useEffect(() => {
         if (elapsedTime.timeToStoreFront) {
@@ -205,33 +148,16 @@ const StorefrontScreen = ({ route }: { route?: any }): JSX.Element => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [elapsedTime.timeToStoreFront]);
 
-    const initialTab = () => {
-        let index = 0;
-        if (route && route.params && route.params.tabIndex) {
-            index = route.params.tabIndex;
-        }
-
-        return index;
-    };
-
-    if (Platform.isTV) {
-        return <StorefrontScreenTV route={route} />;
-    }
-
     return (
-        <BackgroundGradient>
-            {/* Record event added for analytics */}
+        <HomeBackgroundGradient>
             <HeaderTabBar
-                analyticsEvent={AppEvents.STOREFRONT_TAB_CHANGE}
-                recordEvent={recordEvent}
-                routes={loading ? containerLoadingRoutes : routes}
-                renderScene={renderScene}
-                timingConfig={{ duration: Platform.OS === 'android' ? 450 : 300 }}
-                initialTab={initialTab()}
+                routes={routes}
+                renderScenePager={renderScenePager}
+                centerTabs={DeviceInfo.getDeviceType() === 'Handset'}
             />
 
             {/* Loading State */}
-            {loading && !error && containers.length === 0 ? <SkeletonCatalog type={SkeletonType} /> : null}
+            {loading && <SkeletonCatalog />}
 
             {/* Preview Mode */}
             {appNavigationState === 'PREVIEW_APP' && (
@@ -239,12 +165,13 @@ const StorefrontScreen = ({ route }: { route?: any }): JSX.Element => {
                     <Button
                         type={'solid'}
                         containerStyle={styles.button}
-                        title={strings['preview.sign_up_btn_label']}
+                        title={strings.subscribe}
                         onPress={toggleModal}
                     />
                 </FooterGradient>
             )}
-        </BackgroundGradient>
+            {showBanner && <WelcomeBanner />}
+        </HomeBackgroundGradient>
     );
 };
 

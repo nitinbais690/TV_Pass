@@ -8,7 +8,7 @@ interface NetworkState {
 }
 
 const initialState: NetworkState = {
-    type: NetInfoStateType && NetInfoStateType.unknown,
+    type: NetInfoStateType.unknown,
     isInternetReachable: null,
     retry: async () => {},
 };

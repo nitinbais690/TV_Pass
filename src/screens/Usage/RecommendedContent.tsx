@@ -1,24 +1,21 @@
-import React from 'react';
-import { View, Text, StyleSheet, TouchableHighlight } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, StyleSheet } from 'react-native';
 import { useAppPreferencesState } from '../../utils/AppPreferencesContext';
 import { appFonts } from '../../../AppStyles';
 import { useLocalization } from 'contexts/LocalizationContext';
 import { selectDeviceType, AspectRatio, ImageType } from 'qp-common-ui';
-import { NAVIGATION_TYPE } from 'screens/Navigation/NavigationConstants';
 import { ResourceVm, ResizableImage } from 'qp-discovery-ui';
-import { useNavigation } from '@react-navigation/native';
 import StarIcon from '../../../assets/images/star.svg';
 import LinearGradient from 'react-native-linear-gradient';
 import { Button as RNEButton } from 'react-native-elements';
 import CreditsIcon from '../../../assets/images/credits.svg';
-import { useTVODEntitlement } from 'screens/hooks/useTVODEntitlement';
-import CreditLoading from 'screens/components/CreditLoading';
+import DetailPopup from 'features/details/presentation/components/template/DetailPopupScreen';
 
 const RecommendedContent = (props: any): JSX.Element => {
     const prefs = useAppPreferencesState();
     let { appColors } = prefs.appTheme!(prefs);
-    const navigation = useNavigation();
     const darkBackClr = '#0C1021';
+    const [detailModelResource, setDetailModelResource] = useState({});
 
     const style = StyleSheet.create({
         imageWrapper: {
@@ -79,14 +76,16 @@ const RecommendedContent = (props: any): JSX.Element => {
             fontWeight: '500',
             color: appColors.secondary,
         },
+        rightzoro: {
+            right: '0%',
+        },
     });
 
     const { strings } = useLocalization();
     const { group, recommendedContent } = props;
-    const { loading: entitlementLoading, entitled } = useTVODEntitlement(recommendedContent[0].id);
     const cardProps = {
         onResourcePress: (tappedResource: ResourceVm) => {
-            navigation.navigate(NAVIGATION_TYPE.CONTENT_DETAILS, {
+            setDetailModelResource({
                 resource: tappedResource,
                 title: tappedResource.name,
                 resourceId: tappedResource.id,
@@ -94,18 +93,17 @@ const RecommendedContent = (props: any): JSX.Element => {
             });
         },
     };
+    const onModelClosed = () => {
+        setDetailModelResource({});
+    };
+
     const starIconSize = selectDeviceType({ Tablet: 25 }, 17);
     let recTitleStr =
-        recommendedContent && recommendedContent.length > 0 && entitled
-            ? strings['promotedContent.watchNow']
-            : strings.formatString(
-                  strings['content_detail.redeem_btn.not_entitled'],
-                  recommendedContent[0].credits || 0,
-              );
+        recommendedContent &&
+        recommendedContent.length > 0 &&
+        strings.formatString(strings['content_detail.redeem_btn.not_entitled'], recommendedContent[0].credits || 0);
     return (
-        <TouchableHighlight
-            onPress={() => cardProps.onResourcePress(recommendedContent[0])}
-            style={style.recmdContainer}>
+        <View style={style.recmdContainer}>
             {recommendedContent.length > 0 && (
                 <>
                     <View style={style.imageWrapper}>
@@ -120,7 +118,7 @@ const RecommendedContent = (props: any): JSX.Element => {
                             start={{ x: 0.2, y: 0.5 }}
                             end={{ x: 0.9, y: 0.5 }}
                             locations={[0.1, 1]}
-                            style={[style.LinearOverviewWrapper, { right: '0%' }]}
+                            style={[style.LinearOverviewWrapper, style.rightzoro]}
                         />
                     </View>
                     <View style={style.overviewWrapper}>
@@ -132,25 +130,20 @@ const RecommendedContent = (props: any): JSX.Element => {
                             <Text style={style.contentTitleText}>{recommendedContent[0].title}</Text>
                         </View>
                         <View style={style.genreTitle}>
-                            {entitlementLoading ? (
-                                <View style={style.btnStyle}>
-                                    <CreditLoading style={{}} />
-                                </View>
-                            ) : (
-                                <RNEButton
-                                    icon={<CreditsIcon />}
-                                    title={recTitleStr.toString()}
-                                    titleStyle={style.titleStyle}
-                                    containerStyle={style.contStyle}
-                                    buttonStyle={style.btnStyle}
-                                    onPress={() => cardProps.onResourcePress(recommendedContent[0])}
-                                />
-                            )}
+                            <RNEButton
+                                icon={<CreditsIcon />}
+                                title={recTitleStr.toString()}
+                                titleStyle={style.titleStyle}
+                                containerStyle={style.contStyle}
+                                buttonStyle={style.btnStyle}
+                                onPress={() => cardProps.onResourcePress(recommendedContent[0])}
+                            />
                         </View>
                     </View>
                 </>
             )}
-        </TouchableHighlight>
+            <DetailPopup onModelClosed={onModelClosed} data={detailModelResource} />
+        </View>
     );
 };
 

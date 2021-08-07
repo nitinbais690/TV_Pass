@@ -1,24 +1,34 @@
 PODS:
-  - appcenter-analytics (4.2.0):
+  - AppAuth (1.4.0):
+    - AppAuth/Core (= 1.4.0)
+    - AppAuth/ExternalUserAgent (= 1.4.0)
+  - AppAuth/Core (1.4.0)
+  - AppAuth/ExternalUserAgent (1.4.0)
+  - appcenter-analytics (4.0.2):
     - AppCenter/Analytics (~> 4.0)
     - AppCenterReactNativeShared (~> 4.0)
     - React-Core
-  - appcenter-core (4.2.0):
+  - appcenter-core (4.0.2):
     - AppCenterReactNativeShared (~> 4.0)
     - React-Core
-  - appcenter-crashes (4.2.0):
+  - appcenter-crashes (4.0.2):
     - AppCenter/Crashes (~> 4.0)
     - AppCenterReactNativeShared (~> 4.0)
     - React-Core
-  - AppCenter/Analytics (4.2.0):
+  - AppCenter/Analytics (4.1.1):
     - AppCenter/Core
-  - AppCenter/Core (4.2.0)
-  - AppCenter/Crashes (4.2.0):
+  - AppCenter/Core (4.1.1)
+  - AppCenter/Crashes (4.1.1):
     - AppCenter/Core
-  - AppCenterReactNativeShared (4.2.0):
-    - AppCenter/Core (= 4.2.0)
+  - AppCenterReactNativeShared (4.1.0):
+    - AppCenter/Core (= 4.1.1)
   - boost-for-react-native (1.63.0)
   - BVLinearGradient (2.5.4):
+    - React
+  - CleverTap-iOS-SDK (3.9.3):
+    - SDWebImage (~> 5.1)
+  - clevertap-react-native (0.5.1):
+    - CleverTap-iOS-SDK (= 3.9.3)
     - React
   - DoubleConversion (1.1.6)
   - FBLazyVector (0.63.4-0)
@@ -29,6 +39,45 @@ PODS:
     - React-Core (= 0.63.4-0)
     - React-jsi (= 0.63.4-0)
     - ReactCommon/turbomodule/core (= 0.63.4-0)
+  - FBSDKCoreKit (9.3.0):
+    - FBSDKCoreKit/Basics (= 9.3.0)
+    - FBSDKCoreKit/Core (= 9.3.0)
+  - FBSDKCoreKit/Basics (9.3.0)
+  - FBSDKCoreKit/Core (9.3.0):
+    - FBSDKCoreKit/Basics
+  - FBSDKLoginKit (9.3.0):
+    - FBSDKLoginKit/Login (= 9.3.0)
+  - FBSDKLoginKit/Login (9.3.0):
+    - FBSDKCoreKit (~> 9.3.0)
+  - FBSDKShareKit (9.3.0):
+    - FBSDKShareKit/Share (= 9.3.0)
+  - FBSDKShareKit/Share (9.3.0):
+    - FBSDKCoreKit (~> 9.3.0)
+  - Firebase/CoreOnly (8.0.0):
+    - FirebaseCore (= 8.0.0)
+  - Firebase/Crashlytics (8.0.0):
+    - Firebase/CoreOnly
+    - FirebaseCrashlytics (~> 8.0.0)
+  - FirebaseCore (8.0.0):
+    - FirebaseCoreDiagnostics (~> 8.0)
+    - GoogleUtilities/Environment (~> 7.4)
+    - GoogleUtilities/Logger (~> 7.4)
+  - FirebaseCoreDiagnostics (8.1.0):
+    - GoogleDataTransport (~> 9.0)
+    - GoogleUtilities/Environment (~> 7.4)
+    - GoogleUtilities/Logger (~> 7.4)
+    - nanopb (~> 2.30908.0)
+  - FirebaseCrashlytics (8.0.0):
+    - FirebaseCore (~> 8.0)
+    - FirebaseInstallations (~> 8.0)
+    - GoogleDataTransport (~> 9.0)
+    - nanopb (~> 2.30908.0)
+    - PromisesObjC (~> 1.2)
+  - FirebaseInstallations (8.1.0):
+    - FirebaseCore (~> 8.0)
+    - GoogleUtilities/Environment (~> 7.4)
+    - GoogleUtilities/UserDefaults (~> 7.4)
+    - PromisesObjC (~> 1.2)
   - Folly (2020.01.13.00):
     - boost-for-react-native
     - DoubleConversion
@@ -39,11 +88,24 @@ PODS:
     - DoubleConversion
     - glog
   - glog (0.3.5)
-  - google-cast-sdk-no-bluetooth (4.6.1):
-    - google-cast-sdk-no-bluetooth/Core (= 4.6.1)
-    - Protobuf (~> 3.13)
-  - google-cast-sdk-no-bluetooth/Core (4.6.1):
-    - Protobuf (~> 3.13)
+  - GoogleDataTransport (9.0.1):
+    - GoogleUtilities/Environment (~> 7.2)
+    - nanopb (~> 2.30908.0)
+    - PromisesObjC (~> 1.2)
+  - GoogleSignIn (5.0.2):
+    - AppAuth (~> 1.2)
+    - GTMAppAuth (~> 1.0)
+    - GTMSessionFetcher/Core (~> 1.1)
+  - GoogleUtilities/Environment (7.4.1):
+    - PromisesObjC (~> 1.2)
+  - GoogleUtilities/Logger (7.4.1):
+    - GoogleUtilities/Environment
+  - GoogleUtilities/UserDefaults (7.4.1):
+    - GoogleUtilities/Logger
+  - GTMAppAuth (1.2.2):
+    - AppAuth/Core (~> 1.4)
+    - GTMSessionFetcher/Core (~> 1.5)
+  - GTMSessionFetcher/Core (1.5.0)
   - libwebp (1.2.0):
     - libwebp/demux (= 1.2.0)
     - libwebp/mux (= 1.2.0)
@@ -56,9 +118,14 @@ PODS:
   - lottie-ios (3.1.9)
   - lottie-react-native (3.5.0):
     - lottie-ios (~> 3.1.8)
-    - React-Core
+    - React
+  - nanopb (2.30908.0):
+    - nanopb/decode (= 2.30908.0)
+    - nanopb/encode (= 2.30908.0)
+  - nanopb/decode (2.30908.0)
+  - nanopb/encode (2.30908.0)
   - NewRelicAgent (7.0.0)
-  - Protobuf (3.17.0)
+  - PromisesObjC (1.2.12)
   - RCTRequired (0.63.4-0)
   - RCTSystemSetting (1.7.6):
     - React
@@ -227,20 +294,26 @@ PODS:
   - React-jsinspector (0.63.4-0)
   - react-native-blur (0.8.0):
     - React
-  - react-native-config (1.4.3):
-    - react-native-config/App (= 1.4.3)
-  - react-native-config/App (1.4.3):
+  - react-native-config (1.4.2):
+    - react-native-config/App (= 1.4.2)
+  - react-native-config/App (1.4.2):
     - React-Core
-  - react-native-google-cast/NoBluetooth (3.3.0):
-    - google-cast-sdk-no-bluetooth
-    - React
-    - react-native-google-cast/RNGoogleCast
-  - react-native-google-cast/RNGoogleCast (3.3.0):
-    - React
+  - react-native-fbsdk-next (4.3.0):
+    - React-Core
+    - react-native-fbsdk-next/Core (= 4.3.0)
+    - react-native-fbsdk-next/Login (= 4.3.0)
+    - react-native-fbsdk-next/Share (= 4.3.0)
+  - react-native-fbsdk-next/Core (4.3.0):
+    - FBSDKCoreKit (~> 9.3)
+    - React-Core
+  - react-native-fbsdk-next/Login (4.3.0):
+    - FBSDKLoginKit (~> 9.3)
+    - React-Core
+  - react-native-fbsdk-next/Share (4.3.0):
+    - FBSDKShareKit (~> 9.3)
+    - React-Core
   - react-native-home-indicator (0.2.6):
     - React-Core
-  - react-native-month-year-picker (1.6.4):
-    - React
   - react-native-netinfo (5.9.10):
     - React-Core
   - react-native-newrelic (1.1.4):
@@ -248,6 +321,8 @@ PODS:
     - React
   - react-native-orientation-locker (1.1.6):
     - React
+  - react-native-pager-view (5.1.10):
+    - React-Core
   - react-native-safe-area-context (0.7.3):
     - React
   - react-native-segmented-control (2.2.2):
@@ -256,18 +331,6 @@ PODS:
     - React
   - react-native-splash-screen (3.2.0):
     - React
-  - react-native-swrve-plugin (1.3.0):
-    - React-Core
-    - SwrveSDK (= 6.8.1)
-  - react-native-version-check (3.4.2):
-    - React
-  - react-native-video (5.1.1):
-    - React-Core
-    - react-native-video/Video (= 5.1.1)
-  - react-native-video/Video (5.1.1):
-    - React-Core
-  - react-native-webview (11.6.6):
-    - React-Core
   - React-RCTActionSheet (0.63.4-0):
     - React-Core/RCTActionSheetHeaders (= 0.63.4-0)
   - React-RCTAnimation (0.63.4-0):
@@ -328,19 +391,19 @@ PODS:
     - React-Core (= 0.63.4-0)
     - React-cxxreact (= 0.63.4-0)
     - React-jsi (= 0.63.4-0)
-  - ReactNativeLocalization (2.1.7):
-    - React-Core
+  - ReactNativeLocalization (2.1.6):
+    - React
   - rn-fetch-blob (0.12.0):
     - React-Core
-  - rn-qp-nxg-player (1.7.10):
+  - rn-qp-nxg-player (1.7.3):
     - React
     - YouboraAVPlayerAdapter (= 6.3.4)
     - YouboraLib (= 6.3.9)
-  - RNCAsyncStorage (1.15.5):
+  - RNCAsyncStorage (1.12.1):
     - React-Core
-  - RNCMaskedView (0.1.11):
+  - RNCMaskedView (0.1.10):
     - React
-  - RNDateTimePicker (3.5.2):
+  - RNDateTimePicker (3.0.9):
     - React-Core
   - RNDeviceInfo (5.6.5):
     - React
@@ -348,11 +411,21 @@ PODS:
     - React
     - SDWebImage (~> 5.0)
     - SDWebImageWebPCoder (~> 0.2.3)
+  - RNFBApp (12.0.0):
+    - Firebase/CoreOnly (= 8.0.0)
+    - React-Core
+  - RNFBCrashlytics (12.0.0):
+    - Firebase/Crashlytics (= 8.0.0)
+    - React-Core
+    - RNFBApp
   - RNGestureHandler (1.5.0):
     - React
-  - RNIap (7.1.0):
+  - RNGoogleSignin (6.0.1):
+    - GoogleSignIn (~> 5.0.0)
     - React-Core
-  - RNInAppBrowser (3.6.3):
+  - RNIap (4.6.3):
+    - React-Core
+  - RNInAppBrowser (3.5.1):
     - React-Core
   - RNKeychain (6.2.0):
     - React
@@ -360,9 +433,9 @@ PODS:
     - React-Core
   - RNReanimated (1.8.0):
     - React
-  - RNScreens (2.18.1):
-    - React-Core
-  - RNSVG (12.1.1):
+  - RNScreens (2.9.0):
+    - React
+  - RNSVG (12.1.0):
     - React
   - RNVectorIcons (7.1.0):
     - React
@@ -372,14 +445,6 @@ PODS:
   - SDWebImageWebPCoder (0.2.5):
     - libwebp (~> 1.0)
     - SDWebImage/Core (~> 5.0)
-  - SRSRadialGradient (1.0.8):
-    - React
-  - SwrveConversationSDK (6.8.1):
-    - SwrveSDKCommon (= 6.8.1)
-  - SwrveSDK (6.8.1):
-    - SwrveConversationSDK (= 6.8.1)
-    - SwrveSDKCommon (= 6.8.1)
-  - SwrveSDKCommon (6.8.1)
   - Yoga (1.14.0)
   - YouboraAVPlayerAdapter (6.3.4):
     - YouboraLib (~> 6.3.0)
@@ -390,11 +455,13 @@ DEPENDENCIES:
   - appcenter-core (from `../node_modules/appcenter/ios`)
   - appcenter-crashes (from `../node_modules/appcenter-crashes/ios`)
   - BVLinearGradient (from `../node_modules/react-native-linear-gradient`)
+  - clevertap-react-native (from `../node_modules/clevertap-react-native`)
   - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
   - FBLazyVector (from `../node_modules/react-native/Libraries/FBLazyVector`)
   - FBReactNativeSpec (from `../node_modules/react-native/Libraries/FBReactNativeSpec`)
   - Folly (from `../node_modules/react-native/third-party-podspecs/Folly.podspec`)
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
+  - GoogleSignIn (~> 5.0.2)
   - lottie-react-native (from `../node_modules/lottie-react-native`)
   - NewRelicAgent
   - RCTRequired (from `../node_modules/react-native/Libraries/RCTRequired`)
@@ -412,20 +479,16 @@ DEPENDENCIES:
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - "react-native-blur (from `../node_modules/@react-native-community/blur`)"
   - react-native-config (from `../node_modules/react-native-config`)
-  - react-native-google-cast/NoBluetooth (from `../node_modules/react-native-google-cast/ios/`)
+  - react-native-fbsdk-next (from `../node_modules/react-native-fbsdk-next`)
   - react-native-home-indicator (from `../node_modules/react-native-home-indicator`)
-  - react-native-month-year-picker (from `../node_modules/react-native-month-year-picker`)
   - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
   - react-native-newrelic (from `../node_modules/rn-qp-nxg-newrelic`)
   - react-native-orientation-locker (from `../node_modules/react-native-orientation-locker`)
+  - react-native-pager-view (from `../node_modules/react-native-pager-view`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - "react-native-segmented-control (from `../node_modules/@react-native-community/segmented-control`)"
   - "react-native-slider (from `../node_modules/@react-native-community/slider`)"
   - react-native-splash-screen (from `../node_modules/react-native-splash-screen`)
-  - react-native-swrve-plugin (from `../node_modules/react-native-swrve-plugin`)
-  - react-native-version-check (from `../node_modules/react-native-version-check`)
-  - react-native-video (from `../node_modules/react-native-video`)
-  - react-native-webview (from `../node_modules/react-native-webview`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
   - React-RCTAnimation (from `../node_modules/react-native/Libraries/NativeAnimation`)
   - React-RCTBlob (from `../node_modules/react-native/Libraries/Blob`)
@@ -439,12 +502,15 @@ DEPENDENCIES:
   - ReactNativeLocalization (from `../node_modules/react-native-localization`)
   - rn-fetch-blob (from `../node_modules/rn-fetch-blob`)
   - rn-qp-nxg-player (from `../node_modules/rn-qp-nxg-player`)
-  - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
+  - "RNCAsyncStorage (from `../node_modules/@react-native-community/async-storage`)"
   - "RNCMaskedView (from `../node_modules/@react-native-community/masked-view`)"
   - "RNDateTimePicker (from `../node_modules/@react-native-community/datetimepicker`)"
   - RNDeviceInfo (from `../node_modules/react-native-device-info`)
   - RNFastImage (from `../node_modules/react-native-fast-image`)
-  - RNGestureHandler (from `../node_modules/react-native-gesture-handler/RNGestureHandler.podspec`)
+  - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
+  - "RNFBCrashlytics (from `../node_modules/@react-native-firebase/crashlytics`)"
+  - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
+  - "RNGoogleSignin (from `../node_modules/@react-native-google-signin/google-signin`)"
   - RNIap (from `../node_modules/react-native-iap`)
   - RNInAppBrowser (from `../node_modules/react-native-inappbrowser-reborn`)
   - RNKeychain (from `../node_modules/react-native-keychain`)
@@ -453,24 +519,35 @@ DEPENDENCIES:
   - RNScreens (from `../node_modules/react-native-screens`)
   - RNSVG (from `../node_modules/react-native-svg`)
   - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
-  - SRSRadialGradient (from `../node_modules/react-native-radial-gradient/ios`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
   trunk:
+    - AppAuth
     - AppCenter
     - AppCenterReactNativeShared
     - boost-for-react-native
-    - google-cast-sdk-no-bluetooth
+    - CleverTap-iOS-SDK
+    - FBSDKCoreKit
+    - FBSDKLoginKit
+    - FBSDKShareKit
+    - Firebase
+    - FirebaseCore
+    - FirebaseCoreDiagnostics
+    - FirebaseCrashlytics
+    - FirebaseInstallations
+    - GoogleDataTransport
+    - GoogleSignIn
+    - GoogleUtilities
+    - GTMAppAuth
+    - GTMSessionFetcher
     - libwebp
     - lottie-ios
+    - nanopb
     - NewRelicAgent
-    - Protobuf
+    - PromisesObjC
     - SDWebImage
     - SDWebImageWebPCoder
-    - SwrveConversationSDK
-    - SwrveSDK
-    - SwrveSDKCommon
     - YouboraAVPlayerAdapter
     - YouboraLib
 
@@ -483,6 +560,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/appcenter-crashes/ios"
   BVLinearGradient:
     :path: "../node_modules/react-native-linear-gradient"
+  clevertap-react-native:
+    :path: "../node_modules/clevertap-react-native"
   DoubleConversion:
     :podspec: "../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec"
   FBLazyVector:
@@ -521,18 +600,18 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-community/blur"
   react-native-config:
     :path: "../node_modules/react-native-config"
-  react-native-google-cast:
-    :path: "../node_modules/react-native-google-cast/ios/"
+  react-native-fbsdk-next:
+    :path: "../node_modules/react-native-fbsdk-next"
   react-native-home-indicator:
     :path: "../node_modules/react-native-home-indicator"
-  react-native-month-year-picker:
-    :path: "../node_modules/react-native-month-year-picker"
   react-native-netinfo:
     :path: "../node_modules/@react-native-community/netinfo"
   react-native-newrelic:
     :path: "../node_modules/rn-qp-nxg-newrelic"
   react-native-orientation-locker:
     :path: "../node_modules/react-native-orientation-locker"
+  react-native-pager-view:
+    :path: "../node_modules/react-native-pager-view"
   react-native-safe-area-context:
     :path: "../node_modules/react-native-safe-area-context"
   react-native-segmented-control:
@@ -541,14 +620,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-community/slider"
   react-native-splash-screen:
     :path: "../node_modules/react-native-splash-screen"
-  react-native-swrve-plugin:
-    :path: "../node_modules/react-native-swrve-plugin"
-  react-native-version-check:
-    :path: "../node_modules/react-native-version-check"
-  react-native-video:
-    :path: "../node_modules/react-native-video"
-  react-native-webview:
-    :path: "../node_modules/react-native-webview"
   React-RCTActionSheet:
     :path: "../node_modules/react-native/Libraries/ActionSheetIOS"
   React-RCTAnimation:
@@ -576,7 +647,7 @@ EXTERNAL SOURCES:
   rn-qp-nxg-player:
     :path: "../node_modules/rn-qp-nxg-player"
   RNCAsyncStorage:
-    :path: "../node_modules/@react-native-async-storage/async-storage"
+    :path: "../node_modules/@react-native-community/async-storage"
   RNCMaskedView:
     :path: "../node_modules/@react-native-community/masked-view"
   RNDateTimePicker:
@@ -585,8 +656,14 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-device-info"
   RNFastImage:
     :path: "../node_modules/react-native-fast-image"
+  RNFBApp:
+    :path: "../node_modules/@react-native-firebase/app"
+  RNFBCrashlytics:
+    :path: "../node_modules/@react-native-firebase/crashlytics"
   RNGestureHandler:
-    :podspec: "../node_modules/react-native-gesture-handler/RNGestureHandler.podspec"
+    :path: "../node_modules/react-native-gesture-handler"
+  RNGoogleSignin:
+    :path: "../node_modules/@react-native-google-signin/google-signin"
   RNIap:
     :path: "../node_modules/react-native-iap"
   RNInAppBrowser:
@@ -603,32 +680,46 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-svg"
   RNVectorIcons:
     :path: "../node_modules/react-native-vector-icons"
-  SRSRadialGradient:
-    :path: "../node_modules/react-native-radial-gradient/ios"
   Yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
 SPEC CHECKSUMS:
-  AppCenter: 87ef6eefd8ade4df59e88951288587429f3dd2a5
-  appcenter-analytics: e34c776aa7145d0f3834c3bba2e003800d1572fe
-  appcenter-core: 1d3ae87d4f9280db4522fe8c25d3f7c9ab8e415f
-  appcenter-crashes: dcfc443bd9fe7094e4fe49b15fabe68389a80c70
-  AppCenterReactNativeShared: ef370308277adf71ec1586798b196e4cc35335ea
+  AppAuth: 31bcec809a638d7bd2f86ea8a52bd45f6e81e7c7
+  AppCenter: cd53e3ed3563cc720bcb806c9731a12389b40d44
+  appcenter-analytics: f1bcf80219acb97acdabeda751a1591869f83dfd
+  appcenter-core: 92618da8986eef80bae39d1bb2b4c9fa0fc873bd
+  appcenter-crashes: 6fe933bbc9a1d2b64e451b348169640a9fea8729
+  AppCenterReactNativeShared: 2d5a53b6cbd2fe7f63f0033e9f0a40757a4eacf5
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
   BVLinearGradient: 8cbc5155c978f2e43098818c91d206d07aae6d30
+  CleverTap-iOS-SDK: 38f386d9aed648de7ef3ca0e7e2c8531b4cf58e9
+  clevertap-react-native: d009d1cd0f03e88f379c609d7396348c5e5591db
   DoubleConversion: cde416483dac037923206447da6e1454df403714
   FBLazyVector: c036ad5a81ef36360c781b39c878267068e5ba32
   FBReactNativeSpec: 89777e9e170f9b5831f52361df305d65a91bbe8d
+  FBSDKCoreKit: 0d1ae58388a458b8222f72025804cdc84eb5d0c3
+  FBSDKLoginKit: aea68df6121c5e165ccae2fabfdc83c4644ee40f
+  FBSDKShareKit: 70889c97c62f0c6b3ccb8b999e73a85f19024001
+  Firebase: 73c3e3b216ec1ecbc54d2ffdd4670c65c749edb1
+  FirebaseCore: 3f09591d51292843e2a46f18358d60bf4e996255
+  FirebaseCoreDiagnostics: 3e249cee3de5c5f9cfd6cc2a19997231286fec11
+  FirebaseCrashlytics: 69cddb6bfa7656c5346e603bc85b029392252ee6
+  FirebaseInstallations: 7f31798a8198c354eadcb87176d2090b62edc187
   Folly: b73c3869541e86821df3c387eb0af5f65addfab4
   glog: 40a13f7840415b9a77023fbcae0f1e6f43192af3
-  google-cast-sdk-no-bluetooth: b3037c14fdf07a794326502e799beb0875ab2029
+  GoogleDataTransport: 04c3e9a480bbcaa2ec3f5d27f1cdeb6a92f20c8d
+  GoogleSignIn: 7137d297ddc022a7e0aa4619c86d72c909fa7213
+  GoogleUtilities: f8a43108b38a68eebe8b3540e1f4f2d28843ce20
+  GTMAppAuth: ad5c2b70b9a8689e1a04033c9369c4915bfcbe89
+  GTMSessionFetcher: b3503b20a988c4e20cc189aa798fd18220133f52
   libwebp: e90b9c01d99205d03b6bb8f2c8c415e5a4ef66f0
   lottie-ios: 3a3758ef5a008e762faec9c9d50a39842f26d124
-  lottie-react-native: 4ebe3bac66076e4714d21ef13e5b13e78049a411
+  lottie-react-native: 1fb4ce21d6ad37dab8343eaff8719df76035bd93
+  nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
   NewRelicAgent: b3e6187be5ed02df3095c082dba8bc52c8ca326d
-  Protobuf: 7327d4444215b5f18e560a97f879ff5503c4581c
+  PromisesObjC: 3113f7f76903778cf4a0586bd1ab89329a0b7b97
   RCTRequired: 71d07d4c5531893d9847a40209ab13a6edcae395
-  RCTSystemSetting: dd5f650105b39ea8d6202fcb16bfaf32b46dfe09
+  RCTSystemSetting: 5107b7350d63b3f7b42a1277d07e4e5d9df879be
   RCTTypeSafety: 72ea41b0b05e0d83a24afd4c54386912bfab6042
   React: 85cde11f8e154157205eb6fd2e93c1fe1e0a9398
   React-callinvoker: 92f943b1578808c42261fe05f76fbea35d4106fd
@@ -639,21 +730,17 @@ SPEC CHECKSUMS:
   React-jsiexecutor: a2d57cd174d11835a2e1369820664db94dc68244
   React-jsinspector: b02749ab9b71584a1a93e93bdf2b483179f5f4af
   react-native-blur: cad4d93b364f91e7b7931b3fa935455487e5c33c
-  react-native-config: 387b1ea507bc50a2059e69149dac1342b9532f58
-  react-native-google-cast: 410619ef162b8b91815ecf7271502224998dee8e
+  react-native-config: c98128a72bc2c3a1ca72caec0b021f0fa944aa29
+  react-native-fbsdk-next: 19e974b071047b7ed1dad86a9dc3fe77dff76b8c
   react-native-home-indicator: 4001d2f40e9e0d6d430a46662f3d04feee170945
-  react-native-month-year-picker: 9a59b4b8c4802a23123b0ce4ccadce880ad55f8a
   react-native-netinfo: 52cf0ee8342548a485e28f4b09e56b477567244d
   react-native-newrelic: cb95d928bf92322c8334203c7bde2411451a9a76
   react-native-orientation-locker: 9018003b7ac12cdbd08965c1d1f843acf35f2d7b
+  react-native-pager-view: 30d972691913da1f3d85dfa7f5cab62a571e5f1a
   react-native-safe-area-context: 8260e5157617df4b72865f44006797f895b2ada7
   react-native-segmented-control: e76778d2a724703f110bf2b696826fed98136b87
   react-native-slider: 27bcb456301032f9c7ea077a12d781765b5d6c3a
-  react-native-splash-screen: f0fc37d69469951bec8ebe5375a82f85931b910a
-  react-native-swrve-plugin: cd17fd20e68c3cf11f142514201e74d6e571943c
-  react-native-version-check: d172c2041bdcc0afa72ed54412356addc092286c
-  react-native-video: 1574074179ecaf6a9dd067116c8f31bf9fec15c8
-  react-native-webview: d5c9d6c72ed1afc66511d9109a8740458b18aaf0
+  react-native-splash-screen: 200d11d188e2e78cea3ad319964f6142b6384865
   React-RCTActionSheet: 5f3e34227c4a6a722cb8011867280d6288f43160
   React-RCTAnimation: 325e04d9a829ebf8199cf97dd93fbde540473ebe
   React-RCTBlob: ed6d47f5e46f71135c6d7c647c9c114641ee4ae4
@@ -664,33 +751,32 @@ SPEC CHECKSUMS:
   React-RCTText: c14fecaa52f682ffc920d21dc06accee58ac0475
   React-RCTVibration: 7038524514e9b0815a8a29f5b82854f773440454
   ReactCommon: d8af14f3e586d78c8e8443e32fedb4c2eb745402
-  ReactNativeLocalization: abc52802ba2a0bd0396e1bc0571bd3c76c66cab1
+  ReactNativeLocalization: 9abfb1717d6c6f2e3a4e444c4402d52acbf784cc
   rn-fetch-blob: f065bb7ab7fb48dd002629f8bdcb0336602d3cba
-  rn-qp-nxg-player: dda62fbad1446032be02ab4f1f10e591212b361c
-  RNCAsyncStorage: 8324611026e8dc3706f829953aa6e3899f581589
-  RNCMaskedView: f127cd9652acfa31b91dcff613e07ba18b774db6
-  RNDateTimePicker: c9911be59b1f8670b9f244b85af3a7c295e175ed
+  rn-qp-nxg-player: f582c0c33f10160e71d2d57c3f939584d8385c78
+  RNCAsyncStorage: cb9a623793918c6699586281f0b51cbc38f046f9
+  RNCMaskedView: f5c7d14d6847b7b44853f7acb6284c1da30a3459
+  RNDateTimePicker: 986d4794006e5caaebd089a724f54d35631a8dd4
   RNDeviceInfo: e841619c3dac5495a095c5455473579ff04908d4
   RNFastImage: 9b0c22643872bb7494c8d87bbbb66cc4c0d9e7a2
+  RNFBApp: cc2ff3f925840c53f0117d92e0f5e269b356d0f7
+  RNFBCrashlytics: e99a7bedc194c6ab325197f6d5b06e42ca583efc
   RNGestureHandler: a4ddde1ffc6e590c8127b8b7eabfdade45475c74
-  RNIap: 619124f5437d7f00e8f995dde2fa7e9a0085dea0
-  RNInAppBrowser: 5672feb84e731411f6911979c71649c240a90202
+  RNGoogleSignin: e64616a4080cf7d83f4b292fad82d174587444e2
+  RNIap: 091b98e143440e580e51d08b43a3196ae788e87b
+  RNInAppBrowser: 3733c1aa6699983a1c9b4963e85d5e5a48ad297e
   RNKeychain: b8e0711b959a19c5b057d1e970d3c83d159b6da5
-  RNLocalize: 0bec457079fff916bf74a2bc714f15d03cb48ac4
+  RNLocalize: ff8b96bffbe096a158f952a170741208f2c18746
   RNReanimated: 955cf4068714003d2f1a6e2bae3fb1118f359aff
-  RNScreens: 137006f78c7ca8495c12ff05d14d12e9622d72e3
-  RNSVG: 551acb6562324b1d52a4e0758f7ca0ec234e278f
+  RNScreens: 141eed3dec63a86ae8ec8ca91b8dbdbfbb5c2717
+  RNSVG: ce9d996113475209013317e48b05c21ee988d42e
   RNVectorIcons: bc69e6a278b14842063605de32bec61f0b251a59
   SDWebImage: a7f831e1a65eb5e285e3fb046a23fcfbf08e696d
   SDWebImageWebPCoder: 947093edd1349d820c40afbd9f42acb6cdecd987
-  SRSRadialGradient: 71378a83e52b616c40367c37ee7cb6865f9f7c6e
-  SwrveConversationSDK: e43773a451a61256789df70c2c568cd47e06c1cd
-  SwrveSDK: 44a5f2867108e9e8ee86fd54e8220c9eac4153ad
-  SwrveSDKCommon: fc7cb77519d1aa4ca482eb253064dc75a5174ebf
   Yoga: 1cb424a95ffa7e14cacce4c0ac07ba8e59393ebf
   YouboraAVPlayerAdapter: 3d1be274fc599da5e0a28dc530f5614b41ba4900
   YouboraLib: bee6890fb6cf8c4e8ff30a6462bc9692347e28ff
 
-PODFILE CHECKSUM: 7df25418e2fc335ebc3e271208ec6d6eb103dfcd
+PODFILE CHECKSUM: cfed7da62a7fd50d7a43ab730f5837b95c9f52d7
 
 COCOAPODS: 1.10.1

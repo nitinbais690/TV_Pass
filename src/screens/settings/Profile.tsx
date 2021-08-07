@@ -1,16 +1,8 @@
-import React, { useContext, useEffect, useState, useCallback, useRef } from 'react';
-import {
-    StyleSheet,
-    View,
-    Text,
-    TouchableHighlight,
-    Keyboard,
-    TextInput,
-    Platform,
-    useTVEventHandler,
-} from 'react-native';
+import React, { useContext, useEffect, useRef } from 'react';
+import { StyleSheet, View, Text, TouchableHighlight, ScrollView, Keyboard } from 'react-native';
 import moment from 'moment';
 import { useDimensions } from '@react-native-community/hooks';
+import ActionSheet from 'react-native-actionsheet';
 import { useAppPreferencesState } from 'utils/AppPreferencesContext';
 import { useLocalization } from 'contexts/LocalizationContext';
 import { useAuth } from 'contexts/AuthContextProvider';
@@ -19,7 +11,7 @@ import { AccountProfile } from 'utils/EvergentAPIUtil';
 import { userProfileStyle } from 'styles/UserProfile.style';
 import { formStyle } from 'styles/Common.style';
 import { settingStyle } from 'styles/Settings.Style';
-import { appFonts, appPadding, tvPixelSizeForLayout } from '../../../AppStyles';
+import { appPadding } from '../../../AppStyles';
 // import Button from '../components/Button';
 import useForm from 'helper/useForm';
 import { EvergentEndpoints, requestBody, isSuccess, errorCode, responsePayload } from 'utils/EvergentAPIUtil';
@@ -27,24 +19,18 @@ import { authAction } from 'contexts/AuthContextProvider';
 import { ClientContext } from 'react-fetching-library';
 import { profileValidate } from 'helper/validateRules';
 import { selectDeviceType } from 'qp-common-ui';
-import { useSwrve } from 'contexts/SwrveContextProvider';
-import BackgroundGradient from 'screens/components/BackgroundGradient';
+import BackgroundGradient from 'core/presentation/components/atoms/BackgroundGradient';
 import FloatingLabelInput from '../components/FloatingLabelInput';
-import DateTimePickerModal from 'react-native-month-year-picker';
-import useFunction from 'helper/useFunction';
-import { AppEvents } from 'utils/ReportingUtils';
-import { useAnalytics } from 'utils/AnalyticsReporterContext';
-import AppContant from 'utils/AppContant';
-import { defaultSignupTVStyle } from 'styles/Signup.style';
 
 const initialValues = {
     name: '',
     dob: '',
+    gender: '',
 };
 
-// export const ProfileScreen = ({ navigation }: { navigation?: any }) => {
-export const ProfileScreen = () => {
+export const ProfileScreen = ({ navigation: {} }: { navigation: any }) => {
     const { Alert } = useAlert();
+    const actionSheetRef = useRef<ActionSheet>(null);
     const { width, height } = useDimensions().window;
     const prefs = useAppPreferencesState();
     const { appTheme } = prefs;
@@ -52,7 +38,6 @@ export const ProfileScreen = () => {
     const { strings }: any = useLocalization();
     const formStyles = formStyle({ appColors, appPadding });
     const userStyle = userProfileStyle({ appColors });
-    const signUpstyles = defaultSignupTVStyle({ appColors, appPadding, isPortrait });
     const isPortrait = height > width;
     const settStyle = settingStyle({ appColors, isPortrait });
     const userAction = useAuth();
@@ -62,13 +47,17 @@ export const ProfileScreen = () => {
     const updateProfileEndpoint = EvergentEndpoints.UpdateProfile;
     const { accessToken, updatedAccountProfile } = useAuth();
     const { query } = useContext(ClientContext);
-    const { swrveUserUpdate } = useSwrve();
-    const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-    const { isName } = useFunction();
-    const { recordEvent } = useAnalytics();
 
-    async function userProfile({ firstName, dateOfBirth }: { firstName: string; dateOfBirth: string | null }) {
-        const body = requestBody(updateProfileEndpoint, appConfig, { firstName, dateOfBirth });
+    async function userProfile({
+        firstName,
+        dateOfBirth,
+        gender,
+    }: {
+        firstName: string;
+        dateOfBirth: number;
+        gender: string;
+    }) {
+        const body = requestBody(updateProfileEndpoint, appConfig, { firstName, dateOfBirth, gender });
 
         let action = authAction({
             method: 'POST',
@@ -87,29 +76,22 @@ export const ProfileScreen = () => {
     useEffect(() => {
         if (accountProfile && accountProfile.contactMessage.length > 0) {
             const nameData = accountProfile.contactMessage[0].firstName;
-            //const genderData = accountProfile.contactMessage[0].gender;
+            const genderData = accountProfile.contactMessage[0].gender;
             handleChange({ name: 'name', value: nameData });
-            // if (genderData) {
-            //     handleChange({ name: 'gender', value: genderData });
-            // }
+            if (genderData) {
+                handleChange({ name: 'gender', value: genderData });
+            }
         }
     }, [accountProfile, handleChange]);
 
     async function handleSubmitCB() {
         userProfile({
             firstName: values.name,
-            dateOfBirth: values.dob !== '' ? moment(values.dob, 'MM-DD').format('MM/DD') : null,
+            dateOfBirth: values.dob,
+            gender: values.gender,
         })
             .then(async () => {
-                try {
-                    await updatedAccountProfile();
-                    swrveUserUpdate({
-                        profileUpdate: 1,
-                    });
-                    recordEvent(AppEvents.UPDATE_PROFILE);
-                } catch (e) {
-                    console.error('[UserProfile] error updating user profile', e);
-                }
+                await updatedAccountProfile();
             })
             .catch(err => {
                 let msg;
@@ -124,85 +106,11 @@ export const ProfileScreen = () => {
 
     const defaultStyles = StyleSheet.create({
         listBottomPadding: {
-            margin: Platform.isTV ? 0 : appPadding.md(true),
+            margin: appPadding.md(true),
         },
         modalOverlay: {
             paddingHorizontal: selectDeviceType({ Tablet: isPortrait ? '15%' : '25%' }, '5%'),
             justifyContent: 'flex-end',
-        },
-        textBirthday: {
-            color: appColors.caption,
-            position: 'absolute',
-            left: 12,
-            fontFamily: appFonts.primary,
-            backgroundColor: 'transparent',
-        },
-        labelContainer: {
-            marginBottom: selectDeviceType({ Tablet: appPadding.xs(true) }, appPadding.md(true)),
-        },
-        inputs: {
-            padding: 5,
-            marginHorizontal: 12,
-            color: appColors.secondary,
-            fontFamily: appFonts.primary,
-            fontSize: appFonts.xs,
-            height: 50,
-        },
-        dateInputs: {
-            padding: 5,
-            marginHorizontal: 16,
-            color: appColors.secondary,
-            fontFamily: appFonts.primary,
-            fontSize: appFonts.sm,
-            height: 50,
-        },
-        textEmail: {
-            color: appColors.caption,
-            fontFamily: appFonts.primary,
-            fontSize: appFonts.xs,
-            marginVertical: appPadding.xs(true),
-            textTransform: 'lowercase',
-        },
-        viewContainer: {
-            borderWidth: 2,
-            borderColor: 'transparent',
-            height: 55,
-            alignItems: 'flex-end',
-        },
-        roundImage: {
-            height: tvPixelSizeForLayout(109),
-            width: tvPixelSizeForLayout(109),
-        },
-        subscribeHeading: {
-            marginTop: tvPixelSizeForLayout(35),
-        },
-        textName: {
-            color: appColors.tertiary,
-            fontFamily: appFonts.medium,
-            fontSize: tvPixelSizeForLayout(32),
-            fontWeight: '500',
-        },
-        textValue: {
-            color: appColors.secondary,
-            fontFamily: appFonts.medium,
-            fontSize: tvPixelSizeForLayout(32),
-            fontWeight: '500',
-        },
-        subContainer: {
-            marginTop: tvPixelSizeForLayout(80),
-        },
-        rowProfileContainer: {
-            flexDirection: 'row',
-            alignItems: 'center',
-            alignSelf: 'flex-start',
-            marginTop: tvPixelSizeForLayout(40),
-        },
-        profileLblTv: {
-            fontSize: tvPixelSizeForLayout(32),
-            color: appColors.tertiary,
-            fontWeight: '500',
-            fontStyle: 'normal',
-            marginBottom: tvPixelSizeForLayout(26),
         },
     });
 
@@ -219,338 +127,125 @@ export const ProfileScreen = () => {
         return singleLetterData && singleLetterData.join('').toUpperCase();
     };
 
-    const showDatePicker = () => {
-        setDatePickerVisibility(true);
-    };
-
-    const hideDatePicker = () => {
-        setDatePickerVisibility(false);
-    };
-
     const displayName = displayNamFromAccount(accountProfile);
     const initials = getInitials(displayName);
     const subscribeSince = accountProfile && moment(accountProfile.subscriberSince).format('YYYY');
-
-    const onValueChange = useCallback(
-        (event, newDate) => {
-            if (event === 'dateSetAction') {
-                handleChange({ name: 'dob', value: newDate });
-                hideDatePicker();
-                handleSubmit();
-            } else {
-                hideDatePicker();
-            }
+    const pickerValues = [
+        {
+            key: 1,
+            label: strings['global.cancel'],
+            value: '',
         },
-        [handleChange, handleSubmit],
-    );
+        {
+            key: 1,
+            label: strings['profile.male'],
+            value: 'Male',
+        },
+        {
+            key: 2,
+            label: strings['profile.female'],
+            value: 'Female',
+        },
+        {
+            key: 3,
+            label: strings['profile.other'],
+            value: 'Others',
+        },
+    ];
 
-    let nameRef = useRef();
-    let inputRefMonth = useRef();
-    let inputRefDay = useRef();
-
-    const [isFocused, setFocused] = React.useState<boolean>(false);
-    const [isFocusableMonth, setFocusableIMonthnput] = useState(false);
-    const [isFocusableDay, setFocusableDayInput] = useState(false);
-    const [lastRemoteKeyEvent, setLastRemoteKeyEvent] = useState();
-
-    useEffect(() => {
-        if (lastRemoteKeyEvent === AppContant.left && isFocused) {
-            (values.name === undefined || values.name === '') && setFocused(false);
-            (values.name === undefined || values.name === '') && nameRef.current.onBlur && nameRef.current.onBlur();
+    const showActionSheet = () => {
+        if (actionSheetRef.current) {
+            actionSheetRef.current.show();
         }
-
-        if (
-            accountProfile &&
-            accountProfile.contactMessage.length > 0 &&
-            accountProfile.contactMessage[0].dateOfBirth === undefined
-        ) {
-            if (lastRemoteKeyEvent === AppContant.down && isFocused) {
-                (values.name === undefined || values.name === '') && setFocused(false);
-                setFocusableDayInput(false);
-                setFocusableIMonthnput(true);
-                inputRefMonth && inputRefMonth.current.onFocus && inputRefMonth.current.onFocus();
-                inputRefDay.current.onBlur && inputRefDay.current.onBlur();
-                (values.name === undefined || values.name === '') && nameRef.current.onBlur && nameRef.current.onBlur();
-            }
-
-            if (lastRemoteKeyEvent === AppContant.right && isFocusableMonth) {
-                setFocusableIMonthnput(false);
-                setFocusableDayInput(true);
-                inputRefMonth.current.onBlur && inputRefMonth.current.onBlur();
-                inputRefDay.current.onFocus && inputRefDay.current.onFocus();
-            }
-            if (lastRemoteKeyEvent === AppContant.left && isFocusableDay) {
-                setFocusableDayInput(false);
-                setFocusableIMonthnput(true);
-                inputRefMonth.current.onFocus && inputRefMonth.current.onFocus();
-                inputRefDay.current.onBlur && inputRefDay.current.onBlur();
-            }
-            if (lastRemoteKeyEvent === AppContant.up && isFocusableDay) {
-                setFocusableDayInput(false);
-                (values.name === undefined || values.name === '') && setFocused(true);
-                inputRefDay.current.onBlur && inputRefDay.current.onBlur();
-                (values.name === undefined || values.name === '') &&
-                    nameRef.current.onFocus &&
-                    nameRef.current.onFocus();
-            }
-            if (lastRemoteKeyEvent === AppContant.up && isFocusableMonth) {
-                setFocusableIMonthnput(false);
-                (values.name === undefined || values.name === '') && setFocused(true);
-                inputRefMonth.current.onBlur && inputRefMonth.current.onBlur();
-                (values.name === undefined || values.name === '') &&
-                    nameRef.current.onFocus &&
-                    nameRef.current.onFocus();
-            }
-        }
-    }, [isFocusableMonth, isFocusableDay, lastRemoteKeyEvent, isFocused, accountProfile, values.name]);
-
-    const profileTVEventHandler = (evt: { eventType: string }) => {
-        setLastRemoteKeyEvent(evt.eventType);
     };
 
-    useTVEventHandler(profileTVEventHandler);
-
     return (
-        <BackgroundGradient insetTabBar={true} transparent={true}>
+        <BackgroundGradient insetTabBar={true}>
             <View style={settStyle.profileContainer_mh}>
-                <View style={defaultStyles.listBottomPadding}>
-                    <View style={[settStyle.profile_header, settStyle.formSpacing]}>
-                        {/* <View style={[settStyle.image, Platform.isTV && defaultStyles.roundImage]}>
-                            <Text style={settStyle.center}>{initials}</Text>
-                        </View>
-                         */}
-
-                        {Platform.isTV ? (
-                            <TouchableHighlight
-                                style={[settStyle.image, defaultStyles.roundImage]}
-                                onFocus={() => {
-                                    if (values.name === undefined || values.name === '') {
-                                        !isFocused && setFocused(true);
-                                    } else if (
-                                        accountProfile &&
-                                        accountProfile.contactMessage.length > 0 &&
-                                        accountProfile.contactMessage[0].dateOfBirth === undefined
-                                    ) {
-                                        setFocusableIMonthnput(true);
-                                        setFocusableDayInput(false);
-                                    }
-                                }}>
-                                <Text style={settStyle.center}>{initials}</Text>
-                            </TouchableHighlight>
-                        ) : (
-                            <View style={[settStyle.image]}>
+                <ScrollView>
+                    <View style={defaultStyles.listBottomPadding}>
+                        <View style={[settStyle.profile_header, settStyle.formSpacing]}>
+                            <View style={settStyle.image}>
                                 <Text style={settStyle.center}>{initials}</Text>
                             </View>
-                        )}
-                        <View style={settStyle.image_banner}>
-                            <Text
-                                style={[
-                                    userStyle.text_xxlg,
-                                    Platform.isTV ? defaultStyles.subscribeHeading : undefined,
-                                ]}>
-                                {strings['profile.subscribe']} {subscribeSince}
-                            </Text>
-                            {!Platform.isTV && (
-                                <Text style={defaultStyles.textEmail}>
-                                    {accountProfile &&
-                                        accountProfile.contactMessage.length > 0 &&
-                                        accountProfile.contactMessage[0].email}
+                            <View style={settStyle.image_banner}>
+                                <Text style={userStyle.text_xxlg}>
+                                    {strings['profile.subscribe']} {subscribeSince}
                                 </Text>
-                            )}
-                        </View>
-                    </View>
-
-                    {Platform.isTV ? (
-                        <>
-                            {values.name !== undefined || values.name !== '' ? (
-                                <>
-                                    <Text style={defaultStyles.textName}>{strings['profile.name']}</Text>
-                                    <Text style={defaultStyles.textValue}>{values.name}</Text>
-                                </>
-                            ) : (
-                                <>
-                                    <Text style={defaultStyles.profileLblTv}>{strings['profile.name']}</Text>
-                                    <FloatingLabelInput
-                                        ref={nameRef}
-                                        isFocusable={isFocused}
-                                        hasTVPreferredFocus={isFocused}
-                                        maxLength={15}
-                                        label={strings['profile.name']}
-                                        value={values.name}
-                                        onChangeText={value => {
-                                            handleChange({ name: 'name', value });
-                                        }}
-                                        onFocus={() => {
-                                            setFocused(true);
-                                        }}
-                                        onBlur={() => {
-                                            console.log('call name focus');
-                                            setFocused(false);
-                                            isName(values.name) && handleSubmitCB();
-                                        }}
-                                        onSubmitEditing={() => {
-                                            console.log('call onSubmitEditing');
-                                            setFocused(false);
-                                            Keyboard.dismiss();
-                                            isName(values.name) && handleSubmitCB();
-                                        }}
-                                    />
-                                </>
-                            )}
-
-                            {accountProfile &&
-                            accountProfile.contactMessage.length > 0 &&
-                            accountProfile.contactMessage[0].dateOfBirth !== undefined ? (
-                                <View style={defaultStyles.subContainer}>
-                                    <Text style={defaultStyles.textName}>{strings['profile.birthday']}</Text>
-                                    <Text style={defaultStyles.textValue}>
-                                        {moment(accountProfile.contactMessage[0].dateOfBirth, 'MM/DD').format('MM/DD')}
-                                    </Text>
-                                </View>
-                            ) : (
-                                <View style={defaultStyles.rowProfileContainer}>
-                                    <View style={signUpstyles.inputContainer}>
-                                        <Text style={defaultStyles.profileLblTv}>{strings['signup.month']}</Text>
-                                        <FloatingLabelInput
-                                            ref={inputRefMonth}
-                                            value={values.month}
-                                            isFocusable={isFocusableMonth}
-                                            hasTVPreferredFocus={isFocusableMonth}
-                                            maxLength={2}
-                                            onChangeText={value => {
-                                                if (parseInt(value) > 0 && parseInt(value) <= 12) {
-                                                    handleChange({ name: 'month', value: value.trim() });
-                                                }
-                                            }}
-                                            onBlur={() => {
-                                                if (values.month) {
-                                                    handleChange({
-                                                        name: 'dob',
-                                                        value: values.month + '-' + values.day,
-                                                    });
-                                                    handleSubmit();
-                                                }
-                                            }}
-                                            onSubmitEditing={() => {
-                                                Keyboard.dismiss();
-                                                if (values.month) {
-                                                    handleChange({
-                                                        name: 'dob',
-                                                        value: values.month + '-' + values.day,
-                                                    });
-                                                    handleSubmit();
-                                                }
-                                            }}
-                                        />
-                                    </View>
-                                    <View style={signUpstyles.inputContainer}>
-                                        <Text style={defaultStyles.profileLblTv}>{strings['signup.day']}</Text>
-                                        <FloatingLabelInput
-                                            value={values.day}
-                                            ref={inputRefDay}
-                                            isFocusable={isFocusableDay}
-                                            hasTVPreferredFocus={isFocusableDay}
-                                            maxLength={2}
-                                            onFocus={() => {
-                                                setFocusableDayInput(true);
-                                                setFocusableIMonthnput(false);
-                                            }}
-                                            onChangeText={value => {
-                                                if (parseInt(value) > 0 && parseInt(value) <= 31) {
-                                                    handleChange({ name: 'day', value: value.trim() });
-                                                }
-                                            }}
-                                            onBlur={() => {
-                                                if (values.month) {
-                                                    handleChange({
-                                                        name: 'dob',
-                                                        value: values.month + '-' + values.day,
-                                                    });
-                                                    handleSubmit();
-                                                }
-                                            }}
-                                            onSubmitEditing={() => {
-                                                Keyboard.dismiss();
-                                                if (values.month) {
-                                                    handleChange({
-                                                        name: 'dob',
-                                                        value: values.month + '-' + values.day,
-                                                    });
-                                                    handleSubmit();
-                                                }
-                                            }}
-                                        />
-                                    </View>
-                                </View>
-                            )}
-                        </>
-                    ) : (
-                        <>
-                            <View style={[formStyles.inputContainer, settStyle.formSpacing]}>
-                                <FloatingLabelInput
-                                    maxLength={15}
-                                    label={strings['profile.name']}
-                                    value={values.name}
-                                    onChangeText={value => handleChange({ name: 'name', value })}
-                                    onBlur={() => {
-                                        isName(values.name) && handleSubmitCB();
-                                    }}
-                                    onSubmitEditing={() => {
-                                        Keyboard.dismiss();
-                                        isName(values.name) && handleSubmitCB();
-                                    }}
-                                />
                             </View>
-                            {accountProfile &&
-                            accountProfile.contactMessage.length > 0 &&
-                            accountProfile.contactMessage[0].dateOfBirth !== undefined ? (
-                                <View>
-                                    <View style={defaultStyles.labelContainer}>
-                                        <Text style={defaultStyles.textBirthday}> {strings['profile.birthday']} </Text>
-                                    </View>
-                                    <Text style={defaultStyles.inputs}>
-                                        {moment(accountProfile.contactMessage[0].dateOfBirth, 'MM/DD').format('MM-DD')}
-                                    </Text>
-                                </View>
-                            ) : (
-                                <View>
-                                    <TouchableHighlight
-                                        style={[formStyles.userProfileInputContainer, defaultStyles.viewContainer]}
-                                        onPress={showDatePicker}
-                                        underlayColor={'transparent'}>
-                                        <TextInput
-                                            maxLength={15}
-                                            style={defaultStyles.dateInputs}
-                                            placeholder={strings['profile.birthday']}
-                                            placeholderTextColor={appColors.caption}
-                                            returnKeyType="next"
-                                            autoCorrect={false}
-                                            editable={false}
-                                            value={values.dob !== '' ? moment(values.dob).format('MM-DD') : undefined}
-                                            onChangeText={value => handleChange({ name: 'dob', value })}
-                                            clearButtonMode={'while-editing'}
-                                            blurOnSubmit={false}
-                                            onTouchStart={showDatePicker}
-                                        />
-                                    </TouchableHighlight>
-                                    <DateTimePickerModal
-                                        isVisible={isDatePickerVisible}
-                                        onChange={onValueChange}
-                                        maxWidth={selectDeviceType(
-                                            { Tablet: isPortrait ? width * 0.85 : width * 0.9 },
-                                            width,
-                                        )}
-                                        value={values.dob !== '' ? values.dob : new Date()}
-                                        locale="en"
-                                        mode="full"
-                                        autoTheme={true}
-                                        theme={'light'}
+                        </View>
+                        <View style={[formStyles.inputContainer, settStyle.formSpacing]}>
+                            <FloatingLabelInput
+                                label={strings['profile.name']}
+                                value={values.name}
+                                onChangeText={value => handleChange({ name: 'name', value })}
+                                onBlur={() => {
+                                    handleSubmitCB();
+                                }}
+                                onSubmitEditing={() => {
+                                    Keyboard.dismiss();
+                                    handleSubmitCB();
+                                }}
+                            />
+                        </View>
+                        <View>
+                            <TouchableHighlight underlayColor={'transparent'}>
+                                <View style={[formStyles.inputContainer, settStyle.formSpacing]}>
+                                    <FloatingLabelInput
+                                        label={strings['profile.date']}
+                                        disabled
+                                        value={
+                                            (accountProfile &&
+                                                accountProfile.contactMessage.length > 0 &&
+                                                accountProfile.contactMessage[0].dateOfBirth != undefined &&
+                                                moment(accountProfile.contactMessage[0].dateOfBirth).format('LL')) ||
+                                            undefined
+                                        }
+                                        onChangeText={value => handleChange({ name: 'dob', value })}
                                     />
                                 </View>
-                            )}
-                        </>
-                    )}
-                </View>
+                            </TouchableHighlight>
+                        </View>
+                        <TouchableHighlight
+                            style={formStyles.inputContainer}
+                            onPress={() => showActionSheet()}
+                            underlayColor={'transparent'}>
+                            <FloatingLabelInput
+                                showLabel
+                                useActionSheet
+                                label={strings['profile.gender']}
+                                disabled
+                                value={values.gender ? values.gender : strings['profile.gender']}
+                                onChangeText={value => handleChange({ name: 'gender', value })}
+                            />
+                        </TouchableHighlight>
+                        {/* <Button
+                            disabled={
+                                accountProfile &&
+                                accountProfile.contactMessage.length > 0 &&
+                                values.name === accountProfile.contactMessage[0].firstName &&
+                                values.gender === accountProfile.contactMessage[0].gender
+                            }
+                            title={strings['profile.update']}
+                            containerStyle={userStyle.button}
+                            onPress={() => {
+                                handleSubmit();
+                            }}
+                            loading={isSubmitLoading}
+                        /> */}
+                    </View>
+                </ScrollView>
+                <ActionSheet
+                    ref={actionSheetRef}
+                    options={pickerValues.map(q => q.label)}
+                    cancelButtonIndex={0}
+                    onPress={index => {
+                        if (index > 0) {
+                            handleChange({ name: 'gender', value: pickerValues[index].value });
+                            handleSubmit();
+                        }
+                    }}
+                />
             </View>
         </BackgroundGradient>
     );

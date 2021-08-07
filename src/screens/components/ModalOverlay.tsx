@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, ViewStyle, Animated, Platform } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
 import { EdgeInsets, useSafeArea } from 'react-native-safe-area-context';
 import { useDimensions } from '@react-native-community/hooks';
@@ -7,8 +7,7 @@ import { selectDeviceType } from 'qp-common-ui';
 import { useAppPreferencesState } from 'utils/AppPreferencesContext';
 import { HeaderContextProvider } from 'contexts/HeaderContextProvider';
 import Header from './Header';
-import BackgroundGradient from './BackgroundGradient';
-import { tvPixelSizeForLayout } from '../../../AppStyles';
+import BackgroundGradient from 'core/presentation/components/atoms/BackgroundGradient';
 
 export const ModalOverlay = ({
     headerTitle,
@@ -16,21 +15,11 @@ export const ModalOverlay = ({
     headerTransparent,
     narrow,
     children,
-    animatedStyle,
-    hideBackgroundGradient,
-    isHideCrossIcon,
-    isCollapsable,
-    scrollY,
 }: React.PropsWithChildren<{
     headerTitle?: string | (() => React.ReactNode);
     hideHeader?: boolean;
     headerTransparent?: boolean;
     narrow?: boolean;
-    animatedStyle?: Animated.AnimatedProps<ViewStyle>;
-    hideBackgroundGradient?: boolean;
-    isHideCrossIcon?: boolean;
-    isCollapsable?: boolean;
-    scrollY?: Animated.AnimatedValue;
 }>): JSX.Element => {
     const insets = useSafeArea();
     const { width: w, height: h } = useDimensions().window;
@@ -46,7 +35,7 @@ export const ModalOverlay = ({
             flex: 1,
             backgroundColor: appColors.primary,
             ...(narrow && {
-                width: isPortrait ? '80%' : '60%',
+                width: '80%',
                 alignSelf: 'center',
             }),
             ...(!narrow && {
@@ -67,29 +56,19 @@ export const ModalOverlay = ({
             position: 'absolute',
             top: 0,
             zIndex: 100,
-            height: Platform.isTV ? tvPixelSizeForLayout(140) : 66 + (isHandset ? insets.top : 0),
+            height: 46 + (isHandset ? insets.top : 0),
             width: '100%',
         },
     });
 
-    const ViewComponent = hideBackgroundGradient ? View : BackgroundGradient;
     return (
         <HeaderContextProvider>
-            <ViewComponent style={styles.containerStyle}>
+            <BackgroundGradient style={styles.containerStyle}>
                 {children}
                 <View style={styles.headerContainer}>
-                    {!hideHeader && (
-                        <Header
-                            animatedStyle={animatedStyle}
-                            headerTransparent={headerTransparent}
-                            headerTitle={headerTitle}
-                            isHideCrossIcon={isHideCrossIcon}
-                            isCollapsable={isCollapsable}
-                            scrollY={scrollY}
-                        />
-                    )}
+                    {!hideHeader && <Header headerTransparent={headerTransparent} headerTitle={headerTitle} />}
                 </View>
-            </ViewComponent>
+            </BackgroundGradient>
         </HeaderContextProvider>
     );
 };
@@ -99,5 +78,5 @@ export default React.memo(ModalOverlay);
 export const modalHeaderHeight = (insets: EdgeInsets) => {
     let type = DeviceInfo.getDeviceType();
     const isHandset = type === 'Handset';
-    return 66 + (isHandset ? insets.top : 0);
+    return 46 + (isHandset ? insets.top : 0);
 };

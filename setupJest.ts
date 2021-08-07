@@ -1,8 +1,9 @@
 import { GlobalWithFetchMock } from 'jest-fetch-mock';
-import mockAsyncStorage from '@react-native-async-storage/async-storage/jest/async-storage-mock';
+import mockAsyncStorage from '@react-native-community/async-storage/jest/async-storage-mock';
 import mockRNCNetInfo from '@react-native-community/netinfo/jest/netinfo-mock.js';
+import { NativeModules } from 'react-native';
 
-const customGlobal: GlobalWithFetchMock = (global as unknown) as GlobalWithFetchMock;
+const customGlobal: GlobalWithFetchMock = global as GlobalWithFetchMock;
 customGlobal.fetch = require('jest-fetch-mock');
 customGlobal.fetchMock = customGlobal.fetch;
 
@@ -20,9 +21,7 @@ jest.mock('react-native/Libraries/Components/Touchable/TouchableHighlight', () =
     return TouchableHighlight;
 });
 
-jest.mock('@react-native-async-storage/async-storage', () => mockAsyncStorage);
-
-jest.mock('@react-native-community/netinfo', () => mockRNCNetInfo);
+jest.mock('@react-native-community/async-storage', () => mockAsyncStorage);
 
 const keychainMock = {
     SECURITY_LEVEL_ANY: 'MOCK_SECURITY_LEVEL_ANY',
@@ -49,3 +48,29 @@ const safeArea = {
     },
 };
 jest.mock('react-native-safe-area-context', () => safeArea);
+
+jest.mock('react-native-localize', () => {
+    return {
+        getLocales: jest.fn(),
+    };
+});
+
+jest.mock('@react-native-community/netinfo', () => mockRNCNetInfo);
+
+NativeModules.ReactLocalization = {
+    language: 'en',
+};
+
+jest.mock('react-native-device-info', () => {
+    return {
+        getModel: jest.fn(),
+        getReadableVersion: jest.fn(),
+        getDeviceType: jest.fn(),
+    };
+});
+
+jest.mock('@react-navigation/native', () => {
+    return {
+        useNavigation: jest.fn(),
+    };
+});

@@ -1,12 +1,11 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { useDimensions } from '@react-native-community/hooks';
 import { useAuth } from 'contexts/AuthContextProvider';
 import { useAppPreferencesState } from 'utils/AppPreferencesContext';
-import { Text, View, ScrollView, Platform } from 'react-native';
+import { Text, View, ScrollView, KeyboardAvoidingView, Platform } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { loginValidate } from 'helper/validateRules';
 import useForm from 'helper/useForm';
-import useFunction from 'helper/useFunction';
 import { defaultSigninStyle } from 'styles/Signin.style';
 import { formStyle } from 'styles/Common.style';
 import { NAVIGATION_TYPE } from 'screens/Navigation/NavigationConstants';
@@ -14,7 +13,7 @@ import { useLocalization } from 'contexts/LocalizationContext';
 import Button from 'screens/components/Button';
 import { useAnalytics } from 'utils/AnalyticsReporterContext';
 import { AppEvents } from 'utils/ReportingUtils';
-import BackgroundGradient from 'screens/components/BackgroundGradient';
+import BackgroundGradient from 'core/presentation/components/atoms/BackgroundGradient';
 import FloatingLabelInput, { InputType } from '../components/FloatingLabelInput';
 import ErrorMessageBox, { ErrorMessage } from 'screens/components/ErrorMessageBox';
 import { useAlert } from 'contexts/AlertContext';
@@ -27,12 +26,10 @@ const initialValues = {
 const SigninScreen = ({ navigation }: { navigation: any }): JSX.Element => {
     const { strings }: any = useLocalization();
     const prefs = useAppPreferencesState();
-    const inputRef1 = useRef();
-    const inputRef2 = useRef();
     let { appColors, appPadding } = prefs.appTheme!(prefs);
     const { values, handleSubmit, handleChange } = useForm(initialValues, handleSubmitCB, loginValidate);
     const [isSubmitLoading, setIsSubmitLoading] = useState(false);
-    const [formErrors, setFormErrors] = useState({
+    const [formErrors] = useState({
         email: '',
     });
     const [submitError, setSubmitError] = useState<ErrorMessage>({
@@ -42,23 +39,25 @@ const SigninScreen = ({ navigation }: { navigation: any }): JSX.Element => {
 
     const { width, height } = useDimensions().window;
     const isPortrait = height > width;
-    const { isEmail } = useFunction();
     const userAction = useAuth();
     const { login } = userAction;
     const styles = defaultSigninStyle({ appColors, appPadding, isPortrait });
     const formStyles = formStyle({ appColors, appPadding, isPortrait });
     const { recordEvent } = useAnalytics();
     const { Alert } = useAlert();
-
+    //const { appConfig } = useAppPreferencesState();
     async function handleSubmitCB() {
         setIsSubmitLoading(true);
-        login({
-            email: trim(values.email),
-            password: trim(values.password),
-            signedUpInSession: false,
-            silentLogin: false,
-        })
+        login({ email: values.email.trim(), password: values.password, signedUpInSession: false, silentLogin: false })
             .then(() => {
+                // const loadProfileScreen = appConfig && appConfig.showProfiles.toLowerCase() === 'true';
+                // if (loadProfileScreen) {
+                //     navigation.navigate('Profile');
+                // } else {
+                //     //setActiveProfile()
+                //     navigation.navigate('AppTabsScreen');
+                // }
+                navigation.navigate('AppTabsScreen');
                 recordEvent(AppEvents.LOGIN);
             })
             .catch(err => {
@@ -66,12 +65,13 @@ const SigninScreen = ({ navigation }: { navigation: any }): JSX.Element => {
                 if (err === 'eV2327') {
                     Alert.alert(strings['signin.email_error_title'], strings['signin.email_error_msg'], [
                         {
-                            text: strings['signup.title'],
-                            onPress: () => navigation.push(NAVIGATION_TYPE.AUTH_SIGN_UP),
-                        },
-                        {
                             text: strings['signin.try_again'],
                             onPress: () => {},
+                            style: 'cancel',
+                        },
+                        {
+                            text: strings['signup.title'],
+                            onPress: () => navigation.push(NAVIGATION_TYPE.AUTH_SIGN_UP),
                         },
                     ]);
                 }
@@ -83,90 +83,67 @@ const SigninScreen = ({ navigation }: { navigation: any }): JSX.Element => {
             });
     }
 
-    const trim = (val: string) => {
-        return val.trim();
-    };
-
-    useEffect(() => {
-        if (Platform.isTV) {
-            inputRef1.current.focus();
-        }
-    }, []);
-
-    const triggerFocus = () => {
-        if (Platform.isTV) {
-            if (!values.email || formErrors.email) {
-                inputRef1.current.focus();
-            } else if (values.email && !formErrors.email && !values.password) {
-                inputRef2.current.focus();
-            }
-        }
-    };
-
     return (
-        <BackgroundGradient>
-            <ScrollView contentContainerStyle={formStyles.container} scrollEnabled={false}>
-                <View style={[formStyles.formContainer, styles.formContainer]}>
-                    <View style={formStyles.formGroup}>
-                        <View style={styles.titleContainer}>
-                            <Text style={styles.titleLabel}>{strings['signin.title']}</Text>
+        <KeyboardAvoidingView
+            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+            style={formStyles.keyboardAvoidView}>
+            <BackgroundGradient>
+                <ScrollView contentContainerStyle={formStyles.container} scrollEnabled={false}>
+                    <View style={[formStyles.formContainer, styles.formContainer]}>
+                        <View style={formStyles.formGroup}>
+                            <View style={styles.titleContainer}>
+                                <Text style={styles.titleLabel}>{strings['signin.title']}</Text>
+                            </View>
+                            <FloatingLabelInput
+                                inputType={InputType.email}
+                                label={strings['auth.email_placeholder']}
+                                isValid
+                                value={values.email}
+                                errorMessage={formErrors.email}
+                                onChangeText={value => handleChange({ name: 'email', value })}
+                            />
+                            <View style={styles.subscribeLabel}>
+                                <Text style={styles.subscribeLabelText}>{strings['signin.not_subscriber']}</Text>
+                                <TouchableOpacity
+                                    onPress={() => navigation.push(NAVIGATION_TYPE.AUTH_SIGN_UP)}
+                                    disabled={true}>
+                                    <Text style={styles.subscribeSignupLabelText}> {strings.sign_aha_web}</Text>
+                                </TouchableOpacity>
+                            </View>
                         </View>
-                        <FloatingLabelInput
-                            ref={inputRef1}
-                            inputType={InputType.email}
-                            label={strings['auth.email_placeholder']}
-                            isValid={isEmail(values.email)}
-                            value={values.email}
-                            errorMessage={formErrors.email}
-                            onBlur={() => {
-                                setFormErrors({
-                                    ...formErrors,
-                                    email: !isEmail(trim(values.email)) ? strings['auth.enter_valid_email'] : '',
-                                });
-                                triggerFocus();
-                            }}
-                            onChangeText={value => handleChange({ name: 'email', value: value.trim() })}
-                        />
-                        <View style={styles.subscribeLabel}>
-                            <Text style={styles.subscribeLabelText}>{strings['signin.not_subscriber']}</Text>
-                            <TouchableOpacity onPress={() => navigation.push(NAVIGATION_TYPE.AUTH_SIGN_UP)}>
-                                <Text style={styles.subscribeSignupLabelText}> {strings['signup.title_small']}</Text>
+                        <View style={formStyles.formGroup}>
+                            <FloatingLabelInput
+                                inputType={InputType.password}
+                                label={strings['auth.password_placeholder']}
+                                value={values.password}
+                                onChangeText={value => handleChange({ name: 'password', value })}
+                            />
+                        </View>
+                        <View style={styles.forgotPasswordContainer}>
+                            <Text style={styles.subscribeLabelText}>{strings['signin.forgot_your_password']}</Text>
+                            <TouchableOpacity
+                                testID="forgotPassword"
+                                accessibilityLabel={'forgotPassword'}
+                                disabled={true}
+                                onPress={() => navigation.push(NAVIGATION_TYPE.AUTH_FORGOT_PASSWORD)}>
+                                <Text style={styles.forgotPasswordText}> {strings.sign_aha_web}</Text>
                             </TouchableOpacity>
                         </View>
-                    </View>
-                    <View style={formStyles.formGroup}>
-                        <FloatingLabelInput
-                            ref={inputRef2}
-                            inputType={InputType.password}
-                            label={strings['auth.password_placeholder']}
-                            value={values.password}
-                            onBlur={() => triggerFocus()}
-                            onChangeText={value => handleChange({ name: 'password', value: value })}
+                        {submitError && submitError.displayError && (
+                            <View style={styles.errorMessageContainer}>
+                                <ErrorMessageBox value={submitError && submitError.message} />
+                            </View>
+                        )}
+                        <Button
+                            disabled={!values.email || !values.password || isSubmitLoading}
+                            title={strings['signin.btn_label']}
+                            onPress={() => handleSubmit()}
+                            loading={isSubmitLoading}
                         />
                     </View>
-                    <View style={styles.forgotPasswordContainer}>
-                        <Text style={styles.subscribeLabelText}>{strings['signin.forgot_your_password']}</Text>
-                        <TouchableOpacity
-                            testID="forgotPassword"
-                            accessibilityLabel={'forgotPassword'}
-                            onPress={() => navigation.push(NAVIGATION_TYPE.AUTH_FORGOT_PASSWORD)}>
-                            <Text style={styles.forgotPasswordText}> {strings['signin.reset_it']}</Text>
-                        </TouchableOpacity>
-                    </View>
-                    {submitError && submitError.displayError && (
-                        <View style={styles.errorMessageContainer}>
-                            <ErrorMessageBox value={submitError && submitError.message} />
-                        </View>
-                    )}
-                    <Button
-                        disabled={!values.email || !values.password || !isEmail(trim(values.email)) || isSubmitLoading}
-                        title={strings['signin.btn_label']}
-                        onPress={() => handleSubmit()}
-                        loading={isSubmitLoading}
-                    />
-                </View>
-            </ScrollView>
-        </BackgroundGradient>
+                </ScrollView>
+            </BackgroundGradient>
+        </KeyboardAvoidingView>
     );
 };
 export default SigninScreen;

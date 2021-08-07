@@ -7,6 +7,8 @@ import {
     CardSize,
     CollectionLayoutType,
     ContainerType,
+    ContainerName,
+    ContainerSourceType,
 } from './ViewModels';
 import {
     Airing,
@@ -20,7 +22,8 @@ import {
     R,
     DataStoreImage,
     LocalizedField,
-    Category,
+    Entitlements,
+    //  Category,
 } from './Storefront.types';
 import { ImageType, AspectRatioUtil } from 'qp-common-ui';
 import { getEpochTime, getCurrentTimeInEpoch, prettyTime } from '../utils/DateUtils';
@@ -68,6 +71,15 @@ const adaptLocalizedValues = <T>(lon: LocalizedField<T>[], shouldcapitalize?: bo
     return kvmap;
 };
 
+const checkIsFreeContent = (entitlements: Entitlements[]): boolean => {
+    for (const ent of entitlements) {
+        if (ent.sp && ent.sp.includes('urn:package:aha:free')) {
+            return true;
+        }
+    }
+    return false;
+};
+
 const adaptRatingValues = (ratingArray: Rating[]): StringMap => {
     const initialValue: StringMap = {};
     const kvmap = ratingArray.reduce((acc: StringMap, val: Rating) => {
@@ -77,12 +89,13 @@ const adaptRatingValues = (ratingArray: Rating[]): StringMap => {
     return kvmap;
 };
 
-export const tabAdapter = (tab: Tab): TabVm => {
+export const tabAdapter = (tab: Tab, appLanguage?: string): TabVm => {
+    const localizationLang = appLanguage ? appLanguage : defaultLanguage;
     const tabVm: TabVm = {
         id: tab.id,
         localizedName: adaptLocalizedValues(tab.lon),
         get name() {
-            return (this.localizedName && this.localizedName[defaultLanguage]) || '';
+            return (this.localizedName && this.localizedName[localizationLang]) || '';
         },
     };
     return tabVm;
@@ -107,16 +120,18 @@ const adaptDataStoreImage = (images: DataStoreImage[]): StringMap => {
     return kvmap;
 };
 
-const timestamp = (seconds: number) => {
+const timestamp = (seconds: number, isFullString?: boolean) => {
     var h = Math.floor(seconds / 3600);
     var mm = Math.floor((seconds - h * 3600) / 60);
     // var ss = seconds - (h * 3600) - (mm * 60);
 
     let components = [];
+    const hourString = isFullString ? 'hr' : 'h';
+    const minuteString = isFullString ? ' mins' : 'm';
     if (h > 0) {
-        components.push(`${h}h`);
+        components.push(`${h}${hourString}`);
     }
-    components.push(`${mm}m`);
+    components.push(`${mm}${minuteString}`);
     return components.join(' ');
 };
 
@@ -128,12 +143,14 @@ export const containerAdapter = (
     originScreen?: string,
     collectionId?: string,
     collectionTitle?: string,
+    appLanguage?: string,
 ): ContainerVm => {
+    const localizationLang = appLanguage ? appLanguage : defaultLanguage;
     const containerVm: ContainerVm = {
         id: container.id,
         localizedName: container.lon && adaptLocalizedValues(container.lon),
         get name() {
-            return (this.localizedName && this.localizedName[defaultLanguage]) || container.n;
+            return (this.localizedName && this.localizedName[localizationLang]) || container.n;
         },
         layout: container.lo as CardLayout,
         style: container.stl as CardStyle,
@@ -142,6 +159,8 @@ export const containerAdapter = (
         aspectRatio: AspectRatioUtil.fromString(container.iar.split('-')[1]),
         imageAspectRatio: container.iar,
         source: container.src,
+        containerType: container.con_ty as ContainerName,
+        soureType: container.src_ty as ContainerSourceType,
         contentCount: container.i && container.i.length && container.i[0].count,
         get contentUrl() {
             return (container.i && container.i.length && container.i[0].cu) || undefined;
@@ -159,6 +178,7 @@ export const containerAdapter = (
                             originScreen,
                             collectionId,
                             collectionTitle,
+                            appLanguage,
                         ),
                     )) ||
                 []
@@ -177,16 +197,18 @@ export const catalogResourceAdapter = (
     originScreen?: string,
     collectionId?: string,
     collectionTitle?: string,
+    appLanguage?: string,
 ): ResourceVm => {
+    const localizationLang = appLanguage ? appLanguage : defaultLanguage;
     const resourceVm: ResourceVm = {
         id: resource.id,
         key: resource.key,
         localizedName: adaptLocalizedValues(resource.lon),
         get name() {
-            return (this.localizedName && this.localizedName[defaultLanguage]) || '';
+            return (this.localizedName && this.localizedName[localizationLang]) || '';
         },
         get title() {
-            return (this.localizedName && this.localizedName[defaultLanguage]) || '';
+            return (this.localizedName && this.localizedName[localizationLang]) || '';
         },
         get subtitle() {
             const metaInfo = [];
@@ -201,8 +223,7 @@ export const catalogResourceAdapter = (
             return metaInfo.join(' - ');
         },
         type: resource.cty,
-        canDownload: resource.ad ? (resource.ad.toLowerCase() === 'true' ? true : false) : false,
-        contentGenre: adaptLocalizedValues<string[]>(resource.log, true),
+        contentGenre: adaptLocalizedValues<string[]>([{ lang: localizationLang, n: resource.g }], true),
         syndicationImages: resource.ex_ia ? adaptDataStoreImage(resource.ex_ia) : undefined,
         style: container.style,
         size: container.size,
@@ -224,15 +245,19 @@ export const catalogResourceAdapter = (
         get formattedRunningTime() {
             return this.runningTime ? timestamp(this.runningTime) : undefined;
         },
+        isFreeContent: checkIsFreeContent(resource.ent ? resource.ent : []),
         allRatings: resource.rat ? adaptRatingValues(resource.rat) : undefined,
         get rating() {
             return (this.allRatings && this.allRatings[defaultRatingSystem]) || '';
         },
+        licenseWindowStarTime: resource.lws,
+        enableUpcomingTag: container.containerType === 'coming_soon',
         backgroundColor: resource.bgc,
         ia: resource.ia,
         providerName: resource.pn,
         network: resource.net,
-        credits: resource.cre,
+        //credits: resource.cre,
+        credits: resource.ccty || 'free',
         storeFrontId: storefrontId,
         tabId: tabId,
         tabName: tabName,
@@ -240,46 +265,8 @@ export const catalogResourceAdapter = (
         collectionName: collectionTitle,
         origin: originScreen,
         showFooter: !(container.layout === 'banner' || resource.ty === 'Collection'),
-        showFooterTitles: resource.cty === Category.TVEpisode,
-    };
-    return resourceVm;
-};
-
-export const storefrontResourceAdapter = (storefrontData: Data, parent?: string): ResourceVm => {
-    const resourceVm: ResourceVm = {
-        id: storefrontData.id,
-        key: storefrontData.key,
-        localizedName: adaptLocalizedValues(storefrontData.lon),
-        get name() {
-            return (this.localizedName && this.localizedName[defaultLanguage]) || '';
-        },
-        type: storefrontData.ty,
-        canDownload: storefrontData.ad ? (storefrontData.ad.toLowerCase() === 'true' ? true : false) : false,
-        contentGenre: adaptLocalizedValues<string[]>(storefrontData.log, true),
-        syndicationImages: storefrontData.ex_ia ? adaptDataStoreImage(storefrontData.ex_ia) : undefined,
-        containerId: storefrontData.id,
-        image: storefrontData.i,
-        collectionLayout: storefrontData.c_lo as CollectionLayoutType,
-        containerType: storefrontData.ty as ContainerType,
-        containers: storefrontData.c,
-        ex_id: storefrontData.ex_id,
-        releaseYear: storefrontData.r,
-        runningTime: storefrontData.rt,
-        get formattedRunningTime() {
-            return this.runningTime ? timestamp(this.runningTime) : undefined;
-        },
-        allRatings: storefrontData.rat ? adaptRatingValues(storefrontData.rat) : undefined,
-        get rating() {
-            return (this.allRatings && this.allRatings[defaultRatingSystem]) || '';
-        },
-        origin: parent,
-        backgroundColor: storefrontData.bgc,
-        ia: storefrontData.ia,
-        providerName: storefrontData.pn,
-        network: storefrontData.net,
-        credits: storefrontData.cre,
-        showFooter: !(storefrontData.ty === 'Collection'),
-        showFooterTitles: storefrontData.cty === Category.TVEpisode,
+        showFooterTitles: true, //resource.cty === Category.TVEpisode,
+        isOriginals: resource.ao && resource.ao === 'true' ? true : false,
     };
     return resourceVm;
 };
@@ -348,6 +335,7 @@ export const epgProgramAdapter = (resource: ProgramData): ResourceVm => {
         name: resource.t,
         type: resource.cty,
         originalLanguage: resource.tl,
+        isFreeContent: checkIsFreeContent(resource.ent ? resource.ent : []),
         allRatings: resource.r ? adaptProgramRatingValues(resource.r) : undefined,
         get rating() {
             return (this.allRatings && this.allRatings[defaultRatingSystem]) || '';
@@ -362,20 +350,30 @@ export const epgProgramAdapter = (resource: ProgramData): ResourceVm => {
     return resourceVm;
 };
 
-export const metaDataResourceAdapter = (resource: Data, parent?: string, container?: ContainerVm): ResourceVm => {
+export const metaDataResourceAdapter = (
+    resource: Data,
+    parent?: string,
+    container?: ContainerVm,
+    appLanguage?: string,
+): ResourceVm => {
+    const localizationLang = appLanguage ? appLanguage : defaultLanguage;
     let resourceVm: ResourceVm = {
         id: resource.id,
         key: resource.key,
         type: resource.cty,
-        canDownload: resource.ad ? (resource.ad.toLowerCase() === 'true' ? true : false) : false,
-        contentGenre: adaptLocalizedValues<string[]>(resource.log, true),
+        licenseWindowStarTime: resource.lws,
+        enableUpcomingTag: container && container.containerType === 'coming_soon',
+        audioQuality: resource.qty && resource.qty.aq,
+        videoQuality: resource.qty && resource.qty.vq,
+        contentGenre: adaptLocalizedValues(resource.log),
+        isFreeContent: checkIsFreeContent(resource.ent ? resource.ent : []),
         allRatings: resource.rat ? adaptRatingValues(resource.rat) : undefined,
         get rating() {
             return (this.allRatings && this.allRatings[defaultRatingSystem]) || '';
         },
         localizedName: adaptLocalizedValues(resource.lon),
         get name() {
-            return (this.localizedName && this.localizedName[defaultLanguage]) || '';
+            return (this.localizedName && this.localizedName[localizationLang]) || '';
         },
         localizedDescription: resource.lold
             ? adaptLocalizedValues(resource.lold)
@@ -383,12 +381,12 @@ export const metaDataResourceAdapter = (resource: Data, parent?: string, contain
             ? adaptLocalizedValues(resource.lod)
             : undefined,
         get shortDescription() {
-            return (this.localizedDescription && this.localizedDescription[defaultLanguage]) || '';
+            return (this.localizedDescription && this.localizedDescription[localizationLang]) || '';
         },
         releaseYear: resource.r,
         runningTime: resource.rt,
         get formattedRunningTime() {
-            return this.runningTime ? timestamp(this.runningTime) : undefined;
+            return this.runningTime && Number.isInteger(this.runningTime) ? timestamp(this.runningTime, true) + '' : '';
         },
         episodes: resource.episodes,
         seasons: resource.seasons,
@@ -398,7 +396,7 @@ export const metaDataResourceAdapter = (resource: Data, parent?: string, contain
         seriesId: resource.stl_id,
         localizedSeriesTitle: resource.lostl ? adaptLocalizedValues(resource.lostl) : undefined,
         get seriesTitle() {
-            return (this.localizedSeriesTitle && this.localizedSeriesTitle[defaultLanguage]) || undefined;
+            return (this.localizedSeriesTitle && this.localizedSeriesTitle[localizationLang]) || undefined;
         },
         seasonNumber: resource.snum,
         episodeNumber: resource.epnum,
@@ -409,7 +407,8 @@ export const metaDataResourceAdapter = (resource: Data, parent?: string, contain
         publicationStatus: resource.st,
         providerName: resource.pn,
         network: resource.net,
-        credits: resource.cre,
+        // credits: resource.cre,
+        credits: resource.ccty || 'free',
         origin: parent,
         style: container && container.style,
         size: container && container.size,
@@ -421,7 +420,8 @@ export const metaDataResourceAdapter = (resource: Data, parent?: string, contain
         containerId: container && container.id,
         containerName: container && container.name,
         showFooter: true,
-        showFooterTitles: resource.cty === Category.TVEpisode,
+        showFooterTitles: true, //resource.cty === Category.TVEpisode,
+        adv: resource.adv,
         get title() {
             return this.name;
         },

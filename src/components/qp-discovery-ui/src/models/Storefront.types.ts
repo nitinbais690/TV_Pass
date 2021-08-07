@@ -94,6 +94,8 @@ export interface Container {
     i: Items[];
     st_dt: Date;
     urn: string;
+    con_ty: string;
+    src_ty: string;
 }
 
 export interface Resource {
@@ -105,7 +107,6 @@ export interface Resource {
     lon: LocalizedField<string>[];
     c_lo: string;
     ct: Date;
-    ad?: string;
     ed_dt: Date;
     n: string;
     st: string;
@@ -119,15 +120,19 @@ export interface Resource {
     director?: string[];
     ex_ia?: DataStoreImage[];
     ex_id?: string;
-    log: LocalizedField<string[]>[];
+    g: string[];
+    // log: LocalizedField<string[]>[];
     keywords?: string[] | null;
     lod?: LocalizedField<string>[];
     lold?: LocalizedField<string>[];
+    lws?: string;
     bgc?: string;
     pn?: string;
     net?: string;
     r?: number;
     r_dt?: Date;
+    ent?: Entitlements[];
+    qty?: Quality;
     rat?: Rating[];
     rt?: number;
     epnum?: number;
@@ -140,6 +145,8 @@ export interface Resource {
     sc?: number;
     cs?: string;
     cre?: number;
+    ccty?: string;
+    ao: string;
 }
 
 export enum Category {
@@ -174,6 +181,8 @@ export interface ProgramData {
     id: string;
     im: Im;
     ldes: string;
+    ent?: Entitlements[];
+    qty?: Quality;
     r: R[];
     sdes: string;
     serId: string;
@@ -188,7 +197,6 @@ export interface Data {
     ct: Date;
     ed_dt?: Date;
     id: string;
-    ad?: string;
     key: string;
     st: string;
     st_dt?: Date;
@@ -204,16 +212,20 @@ export interface Data {
     dpu?: string;
     dwu?: string;
     ex_id?: string;
+    g: string[];
     log: LocalizedField<string[]>[];
     hfu: string;
     ia: string[];
     i?: string;
+    lws?: any;
     lod: LocalizedField<string>[];
     lon: LocalizedField<string>[];
     pkg_id: string;
     pn: string;
     net?: string;
     r?: number;
+    ent?: Entitlements[];
+    qty?: Quality;
     rat: Rating[];
     rt?: number;
     d?: number;
@@ -233,6 +245,7 @@ export interface Data {
     director: string[];
     images: string[];
     keywords: string[];
+    adv: string[];
     lold: LocalizedField<string>[];
     ex_ia: DataStoreImage[];
     oa_dt: Date;
@@ -241,6 +254,7 @@ export interface Data {
     ex_sid: string;
     setl_id: string;
     cre?: number;
+    ccty?: string;
 }
 export interface Items {
     count?: number;
@@ -257,6 +271,16 @@ export interface Episodes {
     queryOnType: string;
     urn: string;
 }
+
+export interface Entitlements {
+    sp?: string[];
+}
+
+export interface Quality {
+    aq: string;
+    vq: string;
+}
+
 export interface Rating {
     s: string;
     v: string;

@@ -1,12 +1,23 @@
 import { StyleSheet } from 'react-native';
-import { colors, dimensions, fonts, padding, selectDeviceType } from 'qp-common-ui';
+import {
+    appFlexStyles,
+    appFontStyle,
+    colors,
+    dimentionsValues,
+    fonts,
+    padding,
+    scale,
+    selectDeviceType,
+} from 'qp-common-ui';
+import { appDimensionValues } from 'core/styles/AppStyles';
 
-export const playerTopControlsStyles = (insets: any, isPortrait: boolean) => {
+export const playerTopControlsStyles = () => {
     return StyleSheet.create({
         rootContainer: {
             flex: 1,
             flexDirection: 'row',
             justifyContent: 'space-between',
+            width: '100%',
         },
         container: {
             flex: 1,
@@ -16,8 +27,8 @@ export const playerTopControlsStyles = (insets: any, isPortrait: boolean) => {
             flex: 1,
             flexDirection: 'row',
             backgroundColor: 'rgba(0,0,0,0.7)',
-            paddingHorizontal: padding.sm(true),
-            paddingTop: selectDeviceType({ Tablet: isPortrait ? padding.xxs(true) : padding.sm(true) }, 10),
+            paddingStart: dimentionsValues.xmd,
+            paddingTop: dimentionsValues.md,
         },
         topControlGroup: {
             alignSelf: 'stretch',
@@ -25,26 +36,55 @@ export const playerTopControlsStyles = (insets: any, isPortrait: boolean) => {
             justifyContent: 'space-between',
             flexDirection: 'row',
         },
+        topLeftControl: {
+            flexDirection: 'row',
+            width: '100%',
+            justifyContent: 'space-between',
+        },
         moreControlsIconContainer: {
-            width: 40,
-            height: 40,
-            justifyContent: 'center',
-            alignItems: 'center',
-            borderRadius: 20,
+            width: dimentionsValues.xxxxlg,
+            height: dimentionsValues.xxxxlg,
+        },
+        zoomIcon: {
+            width: dimentionsValues.xxxxlg,
+            height: dimentionsValues.xxxxlg,
+            marginStart: dimentionsValues.xxxxxs,
+        },
+        subTitleStyle: {
+            marginTop: dimentionsValues.xxxs,
+            fontSize: fonts.xxs,
+            fontFamily: fonts.primary,
+            fontWeight: '400',
+            color: colors.primary,
         },
         castIconContainer: {
-            width: 40,
-            height: 40,
+            width: dimentionsValues.xxxxlg,
+            height: dimentionsValues.xxxxlg,
             flexGrow: 1,
             tintColor: colors.primary,
-            marginLeft: 25,
+            marginLeft: dimentionsValues.lg,
+        },
+        lockOptionStyle: {
+            position: 'absolute',
+            right: 0,
+            top: 0,
+            marginEnd: dimentionsValues.md,
+            marginTop: dimentionsValues.md,
+            padding: appDimensionValues.xxxxxs,
         },
         activeCastIcon: {
-            width: 40,
-            height: 40,
+            width: dimentionsValues.xxxxlg,
+            height: dimentionsValues.xxxxlg,
             flexGrow: 1,
             tintColor: colors.brandTint,
-            marginLeft: 25,
+            marginLeft: dimentionsValues.lg,
+        },
+        ratingStyle: {
+            position: 'absolute',
+            left: 0,
+            top: 0,
+            //marginStart: dimentionsValues.xxxxlg,
+            marginTop: dimentionsValues.mlg,
         },
     });
 };
@@ -52,7 +92,7 @@ export const playerTopControlsStyles = (insets: any, isPortrait: boolean) => {
 export const playerCenterControlsStyles = () => {
     return StyleSheet.create({
         center: {
-            flex: 2,
+            flex: 1,
             alignItems: 'center',
             justifyContent: 'center',
             backgroundColor: 'rgba(0,0,0,0.7)',
@@ -63,7 +103,11 @@ export const playerCenterControlsStyles = () => {
             flexDirection: 'row',
         },
         icon: {
-            borderRadius: 50,
+            borderRadius: dimentionsValues.xxxxxlg,
+        },
+        playicon: {
+            paddingTop: dimentionsValues.xxxxs,
+            paddingHorizontal: dimentionsValues.xxxxs,
         },
     });
 };
@@ -74,33 +118,32 @@ export const playerBottomControlsStyles = (insets: any, isPortrait: boolean) => 
             alignItems: 'stretch',
             flex: 1,
             justifyContent: 'flex-end',
-            paddingBottom: selectDeviceType(
-                { Tablet: isPortrait ? padding.xxs(true) : padding.md(true) },
-                insets.bottom ? insets.bottom : 10,
-            ),
+            paddingBottom: dimentionsValues.sm,
             backgroundColor: 'rgba(0,0,0,0.7)',
-            paddingHorizontal: selectDeviceType({ Handset: 40 }, 50),
         },
         volumeContainer: {
             flexDirection: 'row',
             alignContent: 'center',
-            paddingBottom: selectDeviceType({ Handset: 15 }, 25),
+            paddingBottom: dimentionsValues.sm,
+            backgroundColor: 'red',
         },
         sliderContainer: {
             flexDirection: 'row',
-            alignItems: 'flex-start',
-            justifyContent: 'flex-start',
+            alignItems: 'center',
+            justifyContent: 'center',
+            marginBottom: dimentionsValues.xs,
+            paddingEnd: dimentionsValues.xmd,
+            paddingStart: dimentionsValues.xxxs,
         },
         sliderWrapper: {
             flex: 1,
-            height: 45,
-            paddingBottom: selectDeviceType({ Handset: 15 }, 30),
         },
         slider: {
             flexDirection: 'column',
             alignItems: 'center',
+            justifyContent: 'center',
             flex: 1,
-            height: 25,
+            height: dimentionsValues.lg,
         },
         volumeSlider: {
             flexDirection: 'column',
@@ -111,8 +154,26 @@ export const playerBottomControlsStyles = (insets: any, isPortrait: boolean) => 
         durationContainer: {
             flexDirection: 'row',
             alignItems: 'flex-start',
-            paddingTop: selectDeviceType({ Handset: 8 }, 0),
-            marginLeft: 8,
+            marginLeft: dimentionsValues.xxxs,
+        },
+        liveIconContainer: {
+            alignItems: 'center',
+            flexDirection: 'row',
+            marginLeft: dimentionsValues.xxxs,
+            paddingBottom: selectDeviceType(
+                { Tablet: isPortrait ? padding.xxs(true) : padding.md(true) },
+                insets.bottom ? insets.bottom : dimentionsValues.xxxs,
+            ),
+        },
+        liveIcon: {
+            color: 'red',
+            fontSize: fonts.xxlg,
+            textAlign: 'right',
+        },
+        liveTimerText: {
+            color: 'white',
+            ...appFontStyle.sublineText,
+            textAlign: 'right',
         },
         currentTime: {
             color: 'white',
@@ -123,99 +184,243 @@ export const playerBottomControlsStyles = (insets: any, isPortrait: boolean) => 
             textAlign: 'center',
         },
         iconContainer: {
-            width: 50,
-            height: 50,
+            width: dimentionsValues.xxxxxxlg,
+            height: dimentionsValues.xxxxxxlg,
             backgroundColor: 'transparent',
             alignItems: 'center',
         },
         icon: {
-            width: 40,
-            height: 40,
-            borderRadius: 20,
+            width: dimentionsValues.xxxxlg,
+            height: dimentionsValues.xxxxlg,
+            borderRadius: dimentionsValues.xmd,
             alignItems: 'center',
             justifyContent: 'center',
         },
         timerText: {
             backgroundColor: 'transparent',
             color: colors.primary,
+            ...appFontStyle.body3,
             paddingLeft: padding.xxs(true),
-            fontSize: fonts.xxs,
             textAlign: 'right',
         },
         titleContainer: {
             flexDirection: 'row',
             justifyContent: 'space-between',
             alignItems: 'flex-end',
-            paddingBottom: 15,
+            paddingBottom: dimentionsValues.xs,
         },
         titleText: {
             color: 'white',
-            fontSize: fonts.xxs,
-            fontWeight: '500',
+            ...appFontStyle.body3,
+        },
+        movieTitle: {
+            marginTop: dimentionsValues.xxxxxs,
         },
         captionText: {
             color: 'white',
             fontSize: fonts.xxs,
-            fontWeight: '500',
+            fontWeight: '600',
             textTransform: 'capitalize',
+        },
+        playerOptionsContainer: {
+            alignSelf: 'center',
+            justifyContent: 'center',
+            flexDirection: 'row',
+        },
+        playerOptionsTitle: {
+            marginStart: dimentionsValues.xxxs,
+            ...appFontStyle.sublineText,
+        },
+        playerOptions: {
+            flexDirection: 'row',
+            alignItems: 'center',
+            marginHorizontal: dimentionsValues.md,
+        },
+        brightnessIcon: {
+            zIndex: 10000,
+            marginBottom: dimentionsValues.xxxlg,
+            marginStart: dimentionsValues.xmd,
+            height: dimentionsValues.xxxxlg,
+            width: dimentionsValues.xxxxlg,
+            alignItems: 'center',
+            justifyContent: 'center',
+        },
+        brightnessControllerContainer: {
+            position: 'absolute',
+            marginStart: dimentionsValues.xs,
+            left: 0,
+            bottom: 0,
+            top: 0,
+            justifyContent: 'center',
         },
     });
 };
 
-export const trackSelectionStyles = (isPortrait: boolean) => {
+export const trackSelectionStyles = () => {
     return StyleSheet.create({
         rootContainer: {
-            flex: 1,
-            marginLeft: selectDeviceType({ Tablet: isPortrait ? '15%' : '25%' }, '25%'),
-            marginRight: selectDeviceType({ Tablet: isPortrait ? '15%' : '25%' }, '25%'),
+            flexDirection: 'column',
+            paddingVertical: dimentionsValues.lg,
+            paddingHorizontal: dimentionsValues.md,
             justifyContent: 'center',
+            borderRadius: dimentionsValues.xxxs,
         },
         backgroundOverlay: {
+            flex: 1,
+            position: 'absolute',
+            alignSelf: 'center',
+            top: 0,
+            bottom: 0,
             justifyContent: 'center',
-            height: selectDeviceType({ Tablet: isPortrait ? '30%' : '50%' }, '100%'),
+        },
+        closeIconStyle: {
+            alignSelf: 'flex-end',
+            marginBottom: dimentionsValues.xmd,
         },
         modalContainer: {
             marginHorizontal: padding.sm(true),
             minWidth: '60%',
-            borderRadius: 2,
-            elevation: 24,
+            borderRadius: dimentionsValues.xxxxxs,
+            elevation: dimentionsValues.lg,
             flexDirection: 'row',
             overflow: 'hidden',
         },
-        rowContainer: {
-            height: dimensions.fullHeight * 0.06,
-            flex: 1,
-            flexDirection: 'row',
-            justifyContent: 'space-between',
+        captionFormatContainer: {
+            ...appFlexStyles.flexRow,
             alignItems: 'center',
-            borderBottomColor: colors.borderLineColor,
-            borderBottomWidth: 1,
+            marginTop: dimentionsValues.sm,
+        },
+        captionFormatItem: {
+            paddingStart: dimentionsValues.lg,
+        },
+        subTitleOptionText: {
+            ...appFontStyle.body3,
+            color: colors.primary,
+        },
+        captionSampleTextStyle: {
+            position: 'absolute',
+            top: 0,
+            alignSelf: 'center',
+            marginTop: dimentionsValues.lg,
         },
         trackHeadingStyle: {
             color: colors.primary,
-            fontSize: selectDeviceType({ Tablet: fonts.xxlg }, fonts.xxlg),
+            fontSize: selectDeviceType({ Tablet: fonts.lg }, fonts.md),
             fontFamily: fonts.semibold,
-            paddingVertical: selectDeviceType({ Tablet: padding.xs(true) }, padding.xs(true)),
+            padding: selectDeviceType({ Tablet: padding.xs(true) }, padding.xs(true)),
+            paddingLeft: selectDeviceType({ Tablet: padding.sm(true) }, padding.xs(true)),
         },
         renderItemTextStyle: {
-            fontSize: selectDeviceType({ Tablet: fonts.sm }, fonts.sm),
-            color: colors.primary,
-            fontFamily: fonts.primary,
+            color: colors.greyText,
+            ...appFontStyle.body2,
+            paddingVertical: dimentionsValues.xxxs,
         },
-        renderItemTextEnabled: {
-            color: colors.primary,
+        selectedCaptionTextSizeStyle: {
+            color: colors.brandTintLight,
         },
-        renderItemTextDisabled: {
-            color: colors.captionMedium,
+        selectedCaptionFormatStyle: {
+            borderColor: colors.brandTintLight,
+            borderWidth: 1,
         },
-        close: {
-            position: 'absolute',
-            top: '7%',
-            right: '5%',
-            alignSelf: 'flex-end',
+        renderSelectedItemTextStyle: {
+            paddingHorizontal: dimentionsValues.xxxs,
+        },
+        renderSelectedItemContainerStyle: {
+            minWidth: selectDeviceType({ Handset: scale(100, 0) }, scale(120, 0)),
+        },
+        videoQualityPopupcontainer: {
+            flexDirection: 'column',
+            paddingBottom: dimentionsValues.xxs,
+            paddingHorizontal: dimentionsValues.md,
+            justifyContent: 'center',
+            borderRadius: dimentionsValues.xxxs,
+        },
+        videoQualityItem: {
+            paddingTop: 12,
+            flexDirection: 'row',
+            alignItems: 'center',
         },
     });
 };
+
+export const captionFormatStyle = StyleSheet.create({
+    captionFormat1: {
+        color: colors.primary,
+        ...appFontStyle.sublineText,
+        fontFamily: fonts.primary,
+        backgroundColor: colors.black,
+        paddingHorizontal: dimentionsValues.xxxs,
+        paddingVertical: selectDeviceType({ Handset: scale(6, 0) }, scale(8, 0)),
+        borderRadius: dimentionsValues.xxxxxs,
+    },
+    captionFormat2: {
+        color: colors.primary,
+        ...appFontStyle.sublineText,
+        fontFamily: fonts.primary,
+        backgroundColor: '#BCBDBE',
+        paddingHorizontal: dimentionsValues.xxxs,
+        paddingVertical: selectDeviceType({ Handset: scale(6, 0) }, scale(8, 0)),
+        borderRadius: dimentionsValues.xxxxxs,
+    },
+    captionFormat3: {
+        color: '#E3DB30',
+        ...appFontStyle.sublineText,
+        fontFamily: fonts.primary,
+        backgroundColor: colors.black,
+        paddingHorizontal: dimentionsValues.xxxs,
+        paddingVertical: selectDeviceType({ Handset: scale(6, 0) }, scale(8, 0)),
+        borderRadius: dimentionsValues.xxxxxs,
+    },
+    captionFormat4: {
+        color: colors.black,
+        ...appFontStyle.sublineText,
+        fontFamily: fonts.primary,
+        backgroundColor: colors.primary,
+        paddingHorizontal: dimentionsValues.xxxs,
+        paddingVertical: selectDeviceType({ Handset: scale(6, 0) }, scale(8, 0)),
+        borderRadius: dimentionsValues.xxxxxs,
+    },
+    captionFormat5: {
+        color: colors.black,
+        ...appFontStyle.sublineText,
+        fontFamily: fonts.primary,
+        backgroundColor: '#97989C',
+        paddingHorizontal: dimentionsValues.xxxs,
+        paddingVertical: selectDeviceType({ Handset: scale(6, 0) }, scale(8, 0)),
+        borderRadius: dimentionsValues.xxxxxs,
+    },
+});
+
+export const captionSizeStyle = StyleSheet.create({
+    captionSizeColor: {
+        color: colors.greyText,
+    },
+    captionSize1: {
+        ...appFontStyle.sublineText,
+        fontFamily: fonts.primary,
+        padding: dimentionsValues.xxxs,
+    },
+    captionSize2: {
+        ...appFontStyle.body3,
+        fontFamily: fonts.primary,
+        padding: dimentionsValues.xxxs,
+    },
+    captionSize3: {
+        ...appFontStyle.body2,
+        fontFamily: fonts.primary,
+        padding: dimentionsValues.xxxs,
+    },
+    captionSize4: {
+        ...appFontStyle.body1,
+        fontFamily: fonts.primary,
+        padding: dimentionsValues.xxxxs,
+    },
+    captionSize5: {
+        ...appFontStyle.body,
+        fontFamily: fonts.primary,
+        padding: dimentionsValues.xxxxs,
+    },
+});
 
 export const loadingIndicatorStyles = () => {
     return StyleSheet.create({

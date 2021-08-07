@@ -24,12 +24,12 @@ const scheduleHeight = largeScreen ? percentage(12, true) : percentage(22, true)
 
 const defaultEpgViewStyle = StyleSheet.create({
     rootContainerStyle: {
-        flex: 1,
+        // flex: 1,
         flexDirection: 'row',
         backgroundColor: colors.primary,
     },
     timeBarContainerStyle: {
-        flex: 1,
+        // flex: 1,
         flexDirection: 'row',
         height: 40,
         alignItems: 'flex-end',
@@ -40,11 +40,11 @@ const defaultEpgViewStyle = StyleSheet.create({
         borderBottomWidth: 1,
     },
     channelViewStyle: {
-        flex: 1,
+        // flexShrink: 1,
         alignItems: 'center',
         justifyContent: 'center',
         height: scheduleHeight,
-        borderColor: colors.backgroundInactiveSelected,
+        // borderColor: 'red',//colors.backgroundInactiveSelected,
         marginTop: 0,
         borderRightWidth: 1,
         borderTopWidth: 0,
@@ -52,10 +52,10 @@ const defaultEpgViewStyle = StyleSheet.create({
         borderBottomWidth: 1,
     },
     scheduleConatainerStyle: {
-        flex: 1,
+        // flex: 1,
     },
     scheduleViewStyle: {
-        flex: 4,
+        // flex: 4,
         flexDirection: 'column',
     },
     scheduleStyle: {
@@ -82,12 +82,13 @@ const defaultEpgViewStyle = StyleSheet.create({
         alignContent: 'flex-start',
         alignItems: 'flex-start',
         height: scheduleHeight,
+        color: 'white', //colors.primary,
         // padding: percentage(2, true),
         marginTop: 0,
         marginRight: 0,
         marginLeft: 0,
         marginBottom: 0,
-        borderColor: colors.backgroundInactiveSelected,
+        borderColor: '#0A0A0A', //colors.backgroundInactiveSelected,
         borderRightWidth: 1,
         borderTopWidth: 0,
         borderLeftWidth: 0,
@@ -95,6 +96,7 @@ const defaultEpgViewStyle = StyleSheet.create({
     },
     scheduleItemTextStyle: {
         ...typography.sectionHeader,
+        color: 'white', //colors.primary,
         alignContent: 'center',
         alignItems: 'center',
         paddingLeft: padding.xs(true),
@@ -103,7 +105,7 @@ const defaultEpgViewStyle = StyleSheet.create({
     },
     scheduleItemSubtitleTextStyle: {
         ...typography.caption1,
-        color: colors.secondary,
+        color: 'white', //colors.primary,
         alignContent: 'center',
         alignItems: 'center',
         paddingLeft: padding.xs(true),
@@ -114,30 +116,29 @@ const defaultEpgViewStyle = StyleSheet.create({
         justifyContent: 'center',
         width: largeScreen ? percentage(15, true) : percentage(20, true),
         height: largeScreen ? percentage(10, true) : percentage(22, true),
-        backgroundColor: colors.primary,
+        // backgroundColor: colors.primary,
     },
     channelImageStyle: {
         aspectRatio: 16 / 9,
-        marginLeft: padding.xs(true),
-        marginRight: padding.xs(true),
+        margin: 2,
     },
     timeBarItemStyle: {
         width: 100,
         fontSize: fonts.xxs,
-        color: colors.caption,
+        color: colors.brandTint,
     },
     progressStyle: {
         bottom: padding.md(),
         left: padding.xs(true),
         right: padding.xs(true),
         position: 'absolute',
-        transform: Platform.OS === 'android' ? [{ scaleX: 1.0 }, { scaleY: 0.5 }] : [],
+        transform: [{ scaleX: 1.0 }, { scaleY: 0.5 }],
     },
     nowTimelineIndicator: {
         left: -1,
         zIndex: 10,
         width: 1,
-        height: '100%',
+        height: 37,
         backgroundColor: colors.brandTint,
         position: 'absolute',
         top: 0,
@@ -297,7 +298,6 @@ export const EpgGuideView = (props: EpgGuideViewProps<ResourceVm>): JSX.Element 
         timeSlotData,
         channels,
         schedules,
-        channelTintColor,
         scheduleUnderlayColor,
         progressColor,
         progressBackgroundColor,
@@ -369,10 +369,11 @@ export const EpgGuideView = (props: EpgGuideViewProps<ResourceVm>): JSX.Element 
                 {item.colorLogo && (
                     <FastImage
                         key={item.id}
-                        tintColor={channelTintColor ? channelTintColor : colors.secondary}
-                        style={[defaultEpgViewStyle.channelImageStyle, epgGuideViewStyle.channelItemStyle]}
+                        //  tintColor={channelTintColor ? channelTintColor : colors.caption}
+                        // tintColor={'white'}
+                        style={[defaultEpgViewStyle.channelImageStyle]}
                         resizeMode={FastImage.resizeMode.contain}
-                        source={{ uri: `http://${item.colorLogo}` }}
+                        source={{ uri: `https://${item.colorLogo}` }}
                     />
                 )}
             </View>
@@ -429,7 +430,11 @@ export const EpgGuideView = (props: EpgGuideViewProps<ResourceVm>): JSX.Element 
                 <View style={tileStyle}>
                     <Text
                         numberOfLines={2}
-                        style={[defaultEpgViewStyle.scheduleItemTextStyle, epgGuideViewStyle.scheduleItemTextStyle]}>
+                        style={[
+                            defaultEpgViewStyle.scheduleItemTextStyle,
+                            epgGuideViewStyle.scheduleItemTextStyle,
+                            activeProgram ? {} : { opacity: 0.5 },
+                        ]}>
                         {item.name}
                     </Text>
                     <Text

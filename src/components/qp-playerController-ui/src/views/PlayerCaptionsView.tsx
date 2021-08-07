@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
 import {
-    StyleSheet,
     TouchableHighlight,
     View,
     Text,
@@ -11,11 +10,13 @@ import {
     StyleProp,
     ViewStyle,
 } from 'react-native';
-import { dimensions, padding, defaultFont, colors, fonts } from 'qp-common-ui';
+import { colors } from 'qp-common-ui';
 import { useDeviceOrientation } from 'qp-discovery-ui';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { TrackInfo } from 'screens/components/PlatformPlayer';
+import { TrackInfo } from 'features/player/presentation/components/template/PlatformPlayer';
+import { styles } from '../styles/PlayerCaptions.styles';
+import { TextStyles } from 'rn-qp-nxg-player';
 
 interface PlayerCaptionProps {
     /**
@@ -49,11 +50,11 @@ interface PlayerCaptionProps {
     /**
      * Function to enable the selected audio track
      */
-    onAudioOptionSelected: (selection: any) => void;
+    onAudioOptionSelected: (option: string, languageCode: string) => void;
     /**
      * Function to enable the selected text track
      */
-    onTextOptionSelected: (name: string, languageCode: string) => void;
+    onTextOptionSelected: (option: string, languageCode: string, textStyles?: TextStyles) => void;
     /**
      * State to enable/disable description
      */
@@ -134,6 +135,7 @@ export const PlayerCaptionsView = (props: PlayerCaptionProps): JSX.Element => {
     const [isCaptionFocussed, setIsCaptionFocussed] = useState(false);
     const [isQualityfocussed, setIsQualityfocussed] = useState(false);
     const [isPortrait, setisPortrait] = useState<boolean>(true);
+    const defaultCaptionStyles = styles(colors);
 
     useEffect(() => {
         const handleBackButtonPressAndroid = () => {
@@ -377,7 +379,7 @@ export const PlayerCaptionsView = (props: PlayerCaptionProps): JSX.Element => {
     /**
      * Button to display for the available set of subtitles and audio
      */
-    const renderButton = (isSubtitle: boolean, captionOptions: any, isActive = false) => {
+    const renderButton = (isSubtitle: boolean, captionOptions: string[], isActive = false) => {
         return captionOptions.map(displayText => (
             <TouchableHighlight
                 underlayColor={isAndroidTV ? selectionColor : ''}
@@ -410,16 +412,12 @@ export const PlayerCaptionsView = (props: PlayerCaptionProps): JSX.Element => {
      * @param isSubtitle Param to identify if the passed value is subtitle
      * @param trackName Name of the selected track
      */
-    const handleSelectedTrack = (isSubtitle: boolean, trackName: any): void => {
+    const handleSelectedTrack = (isSubtitle: boolean, trackName: string): void => {
         console.log(`selectTrack = ${isSubtitle}, ${trackName}`);
         if (isSubtitle) {
-            if (trackName === 'OFF') {
-                onTextOptionSelected(trackName, '');
-            } else {
-                onTextOptionSelected(trackName.displayName, trackName.languageCode);
-            }
+            onTextOptionSelected(trackName, '');
         } else {
-            onAudioOptionSelected(trackName);
+            onAudioOptionSelected(trackName, '');
         }
     };
 
@@ -443,153 +441,3 @@ export const PlayerCaptionsView = (props: PlayerCaptionProps): JSX.Element => {
         </Animated.View>
     );
 };
-
-const defaultCaptionStyles = StyleSheet.create({
-    rootContainer: {
-        position: 'absolute',
-    },
-    landscaperootContainer: {
-        flex: 1,
-        flexDirection: 'row-reverse',
-        width: '100%',
-        height: '100%',
-        position: 'absolute',
-    },
-    potraitControlsContainer: {
-        width: dimensions.fullWidth,
-        height: (dimensions.fullWidth * 9) / 16,
-    },
-    potraitControlsContainerBackground: {
-        width: dimensions.fullWidth,
-        height: (dimensions.fullWidth * 9) / 16,
-        backgroundColor: colors.secondary,
-        position: 'absolute',
-        opacity: 0.5,
-    },
-    landscapeControlsContainer: {
-        width: '100%',
-        height: '100%',
-        alignSelf: 'flex-end',
-    },
-    landscapeControlsContainerBackground: {
-        position: 'absolute',
-        width: '100%',
-        height: '100%',
-        alignSelf: 'flex-end',
-        backgroundColor: colors.secondary,
-        opacity: 0.5,
-    },
-    reducedLandscapeControlsContainer: {
-        width: '40%',
-        height: '100%',
-        alignSelf: 'flex-end',
-    },
-    selectionContainerStyle: {
-        height: dimensions.fullHeight - (dimensions.fullWidth * 9) / 16,
-        alignItems: 'flex-start',
-        backgroundColor: colors.primary,
-    },
-    landscapeSelectionContainer: {
-        flex: 1,
-        alignItems: 'center',
-        flexDirection: 'row',
-    },
-    selectionContainerWrapper: {
-        flexDirection: 'column',
-    },
-    landscapeSelectionContainerWrapper: {
-        flexDirection: 'row',
-    },
-    languageContainer: {
-        flex: 1,
-        marginTop: 10,
-    },
-    captionContainer: {
-        flex: 1,
-        marginTop: 10,
-    },
-    qualityContainer: {
-        flex: 1,
-        width: dimensions.fullWidth,
-        marginTop: 10,
-    },
-    iconContainer: {
-        alignItems: 'center',
-    },
-    closeContainer: {
-        alignItems: 'flex-end',
-        zIndex: 1,
-    },
-    centerIconsContainer: {
-        width: '100%',
-        alignItems: 'center',
-        justifyContent: 'center',
-        flexDirection: 'row',
-        height: '100%',
-        position: 'absolute',
-    },
-    centerIcons: {
-        width: '70%',
-        flexDirection: 'row',
-        justifyContent: 'space-around',
-    },
-    captionIcon: {
-        marginLeft: padding.lg(),
-    },
-    qualityIcon: {
-        marginRight: padding.lg(),
-    },
-    buttonTextContainer: {
-        flexDirection: 'row',
-        alignSelf: 'center',
-        marginBottom: 5,
-    },
-    buttonText: {
-        color: colors.primary,
-        fontFamily: defaultFont.bold,
-        alignSelf: 'center',
-    },
-    captionText: {
-        color: colors.primary,
-        fontFamily: defaultFont.bold,
-        alignSelf: 'center',
-        fontSize: fonts.xs,
-    },
-    headingText: {
-        color: colors.backgroundGrey,
-        fontFamily: defaultFont.bold,
-        alignSelf: 'center',
-        marginTop: padding.sm(),
-    },
-    tickStyle: {
-        marginRight: padding.sm(),
-    },
-    selectedButtonStyle: {
-        height: 45,
-        width: 100,
-        backgroundColor: colors.brandTint,
-        marginTop: padding.sm(),
-        alignSelf: 'center',
-        justifyContent: 'center',
-    },
-    unselectedButtonStyle: {
-        height: 45,
-        width: 150,
-        backgroundColor: colors.tertiary,
-        marginTop: padding.sm(),
-        alignSelf: 'center',
-        justifyContent: 'center',
-        opacity: 1,
-    },
-    itemSeparatorStyle: {
-        backgroundColor: colors.caption,
-        bottom: 0,
-        left: 0,
-        width: dimensions.fullWidth,
-        height: 1,
-        opacity: 0.1,
-    },
-    ScrollViewStyle: {
-        alignSelf: 'center',
-    },
-});

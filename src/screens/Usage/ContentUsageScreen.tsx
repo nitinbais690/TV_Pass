@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { useAppPreferencesState } from '../../utils/AppPreferencesContext';
 import AnimatedBar from './AnimatedBar';
@@ -6,23 +6,21 @@ import { useFetchContentUsage } from 'screens/hooks/useFetchContentUsage';
 import { useFetchHistoryList } from 'screens/hooks/useFetchHistoryList';
 import { appFonts } from '../../../AppStyles';
 import { useLocalization } from 'contexts/LocalizationContext';
-import BackgroundGradient from 'screens/components/BackgroundGradient';
+import BackgroundGradient from 'core/presentation/components/atoms/BackgroundGradient';
 import { selectDeviceType } from 'qp-common-ui';
 import HistoryListView from '../../components/qp-discovery-ui/src/views/HistoryListView';
-import { NAVIGATION_TYPE } from 'screens/Navigation/NavigationConstants';
 import { ResourceVm } from 'qp-discovery-ui';
-import { useNavigation } from '@react-navigation/native';
 import StarIcon from '../../../assets/images/star.svg';
 import CreditUsageEmptyState from 'screens/Usage/CreditUsageEmptyState';
 import HistoryEmptyState from 'screens/Usage/HistoryEmptyState';
 import RecommendedContent from 'screens/Usage/RecommendedContent';
 import SkeletonUsageDashboard from 'screens/components/loading/SkeletonUsageDashboard';
-import { ScreenOrigin, UsageScreenOrigin } from 'utils/ReportingUtils';
+import DetailPopup from 'features/details/presentation/components/template/DetailPopupScreen';
 
 const ContentUsageScreen = (): JSX.Element => {
     const prefs = useAppPreferencesState();
     let { appColors } = prefs.appTheme!(prefs);
-    const navigation = useNavigation();
+    const [detailModelResource, setDetailModelResource] = useState({});
 
     const style = StyleSheet.create({
         rootContainer: {
@@ -81,6 +79,12 @@ const ContentUsageScreen = (): JSX.Element => {
             flexDirection: 'row',
             alignItems: 'center',
         },
+        flex1: {
+            flex: 1,
+        },
+        paddingLeft0: {
+            paddingLeft: 0,
+        },
     });
 
     const DELAY = 100;
@@ -92,16 +96,18 @@ const ContentUsageScreen = (): JSX.Element => {
 
     const cardProps = {
         onResourcePress: (tappedResource: ResourceVm) => {
-            tappedResource.origin = ScreenOrigin.USAGE;
-            navigation.navigate(NAVIGATION_TYPE.CONTENT_DETAILS, {
+            setDetailModelResource({
                 resource: tappedResource,
                 title: tappedResource.name,
                 resourceId: tappedResource.id,
                 resourceType: tappedResource.type,
-                usageTabName: UsageScreenOrigin.ContenUsage,
             });
         },
     };
+    const onModelClosed = () => {
+        setDetailModelResource({});
+    };
+
     const creditSum = usageRecords.reduce((prev, next) => prev + next.value, 0);
     const starIconSize = selectDeviceType({ Tablet: 25 }, 17);
 
@@ -109,7 +115,7 @@ const ContentUsageScreen = (): JSX.Element => {
         <BackgroundGradient insetHeader={true} headerType={'HeaderTab'} insetTabBar={true}>
             {loading && <SkeletonUsageDashboard />}
             <ScrollView showsVerticalScrollIndicator={false}>
-                <View style={{ flex: 1 }}>
+                <View style={style.flex1}>
                     {usageRecords.length > 0 && (
                         <View style={style.rootContainer}>
                             <View style={style.creditsUsage}>
@@ -125,7 +131,7 @@ const ContentUsageScreen = (): JSX.Element => {
                                             <View style={style.divider} />
                                             <View style={style.barContainer}>
                                                 <View style={style.indexNumber}>
-                                                    <Text style={[style.genreText, { paddingLeft: 0 }]}>
+                                                    <Text style={[style.genreText, style.paddingLeft0]}>
                                                         {index === 0 && (
                                                             <StarIcon width={starIconSize} height={starIconSize} />
                                                         )}
@@ -164,6 +170,7 @@ const ContentUsageScreen = (): JSX.Element => {
                     {!loading && historyList.length === 0 && <HistoryEmptyState />}
                 </View>
             </ScrollView>
+            <DetailPopup onModelClosed={onModelClosed} data={detailModelResource} />
         </BackgroundGradient>
     );
 };

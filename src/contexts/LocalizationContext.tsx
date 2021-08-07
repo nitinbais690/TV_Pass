@@ -1,16 +1,19 @@
-import React, { createContext, useState, useContext, useEffect } from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, { createContext, useState, useContext, useEffect, useCallback } from 'react';
+import AsyncStorage from '@react-native-community/async-storage';
 import LocalizedStrings from 'react-native-localization';
 import * as RNLocalize from 'react-native-localize';
 import { useAppPreferencesState } from '../utils/AppPreferencesContext';
 import en from '../localization/en.json';
+import te from '../localization/te.json';
+import ta from '../localization/ta.json';
+import { getAppLanguage } from 'utils/UserPreferenceUtils';
+import { getLocalizedKey } from 'features/language-selection/utils';
 
 const DEFAULT_LANGUAGE = 'en';
 const SUBSTITUION_KEY = '%';
-const APP_LANGUAGE_KEY = 'appLanguage';
 const SERVER_LOCALIZATION_CACHE_PREFIX = 'localization.override.';
 
-const strings = new LocalizedStrings({ en });
+const strings = new LocalizedStrings({ en, te, ta });
 
 type StringKeys = { [key: string]: string };
 
@@ -27,15 +30,17 @@ export const LocalizationContext = createContext({
 export const LocalizationProvider = ({ children }: { children: React.ReactNode }) => {
     const { appConfig } = useAppPreferencesState();
     const [appLanguage, setAppLanguage] = useState(DEFAULT_LANGUAGE);
-
     const serverCacheKey = (language: string) => {
         return `${SERVER_LOCALIZATION_CACHE_PREFIX}_${language}`;
     };
 
+    const setStringLanguage = useCallback(() => {
+        strings.setLanguage(appLanguage);
+    }, [appLanguage]);
+    setStringLanguage();
+
     const setLanguage = (language: string) => {
-        strings.setLanguage(language);
         setAppLanguage(language);
-        AsyncStorage.setItem(APP_LANGUAGE_KEY, language);
     };
 
     /**
@@ -44,8 +49,9 @@ export const LocalizationProvider = ({ children }: { children: React.ReactNode }
      * @param serverStrings The key-value strings configured on the server
      */
     const updateLocalizationStrings = (language: string, serverStrings: StringKeys) => {
-        const content = Object.assign({}, (strings as any).getContent(), {
-            [language]: serverStrings,
+        const oldContent = (strings as any).getContent();
+        const content = Object.assign({}, oldContent, {
+            [language]: Object.assign(oldContent[language], serverStrings),
         });
         strings.setContent(content);
     };
@@ -57,8 +63,8 @@ export const LocalizationProvider = ({ children }: { children: React.ReactNode }
         console.debug('[LocalizationContext] Setup app lang');
 
         const initAppLanguage = async () => {
-            const currentLanguage = await AsyncStorage.getItem(APP_LANGUAGE_KEY);
-
+            let currentLanguage = await getAppLanguage();
+            currentLanguage = getLocalizedKey(currentLanguage);
             if (!currentLanguage) {
                 let localeCode = DEFAULT_LANGUAGE;
                 const supportedLocaleCodes = strings.getAvailableLanguages();
@@ -157,6 +163,7 @@ export const LocalizationProvider = ({ children }: { children: React.ReactNode }
          */
         const checkServerOverride = async (lang: string) => {
             console.debug(`[LocalizationContext] Fetch server config for lang: ${lang}`);
+
             const serverStrings = await fetchServerLocalizationStrings(lang);
             if (serverStrings) {
                 await saveServerLocalizationStrings(lang, serverStrings);
@@ -166,6 +173,8 @@ export const LocalizationProvider = ({ children }: { children: React.ReactNode }
 
         // Checks the server config for localization overrides,
         // caches and applies the overrides, if available
+
+        /// TODO: Need to uncomment the below line once server key issues solved. (below line will bring keys from server config)
         checkServerOverride(appLanguage);
     }, [appConfig, appLanguage]);
 

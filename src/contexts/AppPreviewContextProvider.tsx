@@ -22,9 +22,7 @@ export const AppPreviewContextProvider = ({ children }: { children: React.ReactN
 
     const toggleModal = () => {
         setModalVisible(!isModalVisible);
-        navigation.navigate(NAVIGATION_TYPE.AUTH_HOME, {
-            screen: NAVIGATION_TYPE.AUTH_SIGN_UP,
-        });
+        navigation.navigate(NAVIGATION_TYPE.AUTH_HOME);
     };
 
     /**

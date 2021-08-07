@@ -53,8 +53,6 @@ interface UserDataState {
     redeemedAssets: VODEntitlement[];
     bookmarks: BookmarkRecord[];
     reload: () => void;
-    settingValue: boolean;
-    updateSettingValue: (value: boolean) => void;
 }
 
 const initialState: UserDataState = {
@@ -64,8 +62,6 @@ const initialState: UserDataState = {
     redeemedAssets: [],
     bookmarks: [],
     reload: () => {},
-    settingValue: false,
-    updateSettingValue: () => {},
 };
 
 const UserDataContext: Context<UserDataState> = React.createContext({
@@ -102,19 +98,10 @@ const UserDataContextProvider = ({ children }: { children: React.ReactNode }) =>
                     error: true,
                     errorObject: action.value,
                 };
-            case 'SET_SETTING_VALUE':
-                return {
-                    ...prevState,
-                    settingValue: action.value,
-                };
             default:
                 return prevState;
         }
     }, initialState);
-
-    const updateSettingValues = useCallback(async (value: boolean) => {
-        dispatch({ type: 'SET_SETTING_VALUE', value: value });
-    }, []);
 
     /**
      * Fetch all bookmarks for the current user
@@ -144,6 +131,7 @@ const UserDataContextProvider = ({ children }: { children: React.ReactNode }) =>
     /**
      * Fetches all redeemed VOD assets for the current user
      */
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const fetchRedeemedAssets = useCallback(async (): Promise<VODEntitlement[]> => {
         const endpoint = EvergentEndpoints.GetVODEntitlements;
         const body = requestBody(endpoint, appConfig, { sortBy: 'serviceStartDate', sortOrder: 'descending' });
@@ -172,8 +160,9 @@ const UserDataContextProvider = ({ children }: { children: React.ReactNode }) =>
         // Fetch all bookmarks and redeemed assets
         let bookmarks: BookmarkRecord[] = [];
         let redeemedAssets: VODEntitlement[] = [];
+
         try {
-            [bookmarks, redeemedAssets] = await Promise.all([fetchBookmarks(), fetchRedeemedAssets()]);
+            [bookmarks /*redeemedAssets*/] = await Promise.all([fetchBookmarks() /*fetchRedeemedAssets()*/]);
 
             dispatch({ type: 'UPDATE_USER_DATA', bookmarks, redeemedAssets });
         } catch (e) {
@@ -184,7 +173,7 @@ const UserDataContextProvider = ({ children }: { children: React.ReactNode }) =>
             dispatch({ type: 'ERROR', value: e });
             return;
         }
-    }, [fetchBookmarks, fetchRedeemedAssets]);
+    }, [fetchBookmarks /*fetchRedeemedAssets*/]);
 
     useEffect(() => {
         isMounted.current = true;
@@ -200,11 +189,7 @@ const UserDataContextProvider = ({ children }: { children: React.ReactNode }) =>
         }
     }, [isPlatformConfigured, platformError, fetchUserData, credits]);
 
-    return (
-        <UserDataContext.Provider value={{ ...state, reload: fetchUserData, updateSettingValue: updateSettingValues }}>
-            {children}
-        </UserDataContext.Provider>
-    );
+    return <UserDataContext.Provider value={{ ...state, reload: fetchUserData }}>{children}</UserDataContext.Provider>;
 };
 
 export { UserDataContextProvider, UserDataContext };

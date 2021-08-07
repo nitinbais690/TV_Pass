@@ -1,8 +1,8 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { Platform, StyleSheet } from 'react-native';
+import { StyleSheet, LayoutAnimation } from 'react-native';
 import Modal from 'react-native-modal';
 import { useNavigation } from '@react-navigation/native';
-import { metaDataResourceAdapter } from 'qp-discovery-ui';
+import { useAppState } from 'utils/AppContextProvider';
 import { AppConfig, useAppPreferencesState } from 'utils/AppPreferencesContext';
 import { OnboardingContext } from 'contexts/OnboardingContext';
 import { useCredits } from 'utils/CreditsContextProvider';
@@ -12,9 +12,11 @@ import OnboardingCreditsButtonScreen from 'screens/Onboarding/OnboardingCreditsB
 import OnboardingSelectContentScreen from 'screens/Onboarding/OnboardingSelectContentScreen';
 import OnboardingRedeemContentScreen from 'screens/Onboarding/OnboardingRedeemContentScreen';
 import OnboardingRulesIntroScreen from 'screens/Onboarding/OnboardingRulesIntroScreen';
-import OnboardingHelpScreen from 'screens/Onboarding/OnboardingHelpScreen';
+import OnboardingReceiveCreditScreen from 'screens/Onboarding/OnboardingReceiveCreditScreen';
 import { NAVIGATION_TYPE } from 'screens/Navigation/NavigationConstants';
-import detailsMockData from '../configs/MovieSelectionMockData.json';
+import { useAnalytics } from 'utils/AnalyticsReporterContext';
+import { ErrorEvents } from 'utils/ReportingUtils';
+import DetailPopup from 'features/details/presentation/components/template/DetailPopupScreen';
 
 /**
  * OnboardingContextProvider manages onboarding functionalities and modal overlay
@@ -26,74 +28,31 @@ const screenTypes: any = {
     '3': 'onboardingSelectContent',
     '4': 'onboardingRedeemContent',
     '5': 'onboardingRulesIntro',
-    // '6': 'onboardingReceiveCredit',
-    '7': 'onboardingHelpScreen',
+    '6': 'onboardingReceiveCredit',
 };
 
-const ONBOARD_KEY = 'onboardStatus';
 const ONBOARD_COMPLETED_KEY = 'COMPLETED';
 
 export const OnboardingContextProvider = ({ children }: { children: React.ReactNode }) => {
     const [isModalVisible, setModalVisible] = useState(false);
+    const [detailModelResource, setDetailModelResource] = useState({});
     const [navigateTo, setNavigateTo] = useState('');
     const [initScreen, setInitScreen] = useState('');
-    const [onboardingResource, setOnboardingResource] = useState(undefined);
-    const [finishedOnboarding, setFinishedOnboarding] = useState(false);
+    const [serverOnboardStatus, setServerOnboardStatus] = useState<string | undefined>(undefined);
     const userAction = useAuth();
     const navigation = useNavigation();
-    const { setString, accountProfile } = userAction;
+    const { setString } = userAction;
+    const { signedUpInSession } = useAppState();
     const { appConfig } = useAppPreferencesState();
     const { fetchCredits } = useCredits();
+    const { recordErrorEvent } = useAnalytics();
 
     useEffect(() => {
-        // We should show onboarding flow if the account profile
-        // does not have any flags indicating `onboardStatus`
-        // We should show the onboarding in following cases:
-        // 1. User sign up and subscribed in current session
-        // 2. User completed subscription in current session
-        // 3. We should not show onboarding even if
-        // user skipped onboarding on the very first step
-        if (accountProfile) {
-            let onboardingAttribute;
-            const hasViewedOnboarding =
-                accountProfile.stringAttribute &&
-                accountProfile.stringAttribute.filter(
-                    attribute => attribute.attributeType.attributeName === ONBOARD_KEY,
-                ).length > 0;
-            if (
-                accountProfile.stringAttribute &&
-                accountProfile.stringAttribute.filter(
-                    attribute => attribute.attributeType.attributeName === ONBOARD_KEY,
-                ).length > 0
-            ) {
-                onboardingAttribute = accountProfile.stringAttribute.filter(
-                    attribute => attribute.attributeType.attributeName === ONBOARD_KEY,
-                );
-                setFinishedOnboarding(onboardingAttribute[0].value === ONBOARD_COMPLETED_KEY);
-            }
-            if (!hasViewedOnboarding) {
-                if (Platform.isTV) {
-                    navigation.navigate(NAVIGATION_TYPE.CREDITS_WALKTHROUGH);
-                } else {
-                    onboardNavigation('onboardingIntro');
-                }
-            }
+        if (signedUpInSession) {
+            onboardNavigation('onboardingIntro');
         }
         //eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
-
-    useEffect(() => {
-        let resource = onboardMetadata(appConfig);
-        if (!resource) {
-            // fallback to pre-defined resource
-            resource = {
-                ...metaDataResourceAdapter(detailsMockData as any),
-                layout: 'banner',
-                showFooter: false,
-            };
-        }
-        setOnboardingResource(resource as any);
-    }, [appConfig]);
+    }, [signedUpInSession]);
 
     useEffect(() => {
         if (navigateTo) {
@@ -105,6 +64,7 @@ export const OnboardingContextProvider = ({ children }: { children: React.ReactN
             } else {
                 handleSetString(keys[index]);
             }
+            screenTypes[index];
         }
         //eslint-disable-next-line react-hooks/exhaustive-deps
     }, [navigateTo]);
@@ -118,6 +78,19 @@ export const OnboardingContextProvider = ({ children }: { children: React.ReactN
         },
     });
 
+    const navigateToDetail = () => {
+        const resource = onboardMetadata(appConfig);
+        setDetailModelResource({
+            resource: resource,
+            resourceId: resource.id,
+            resourceType: resource.type,
+        });
+    };
+
+    const onModelClosed = () => {
+        setDetailModelResource({});
+    };
+
     const onboardToggleModal = (toggle = '') => {
         const toggled = toggle !== '' ? (toggle === 'true' ? true : false) : !isModalVisible;
         setModalVisible(toggled);
@@ -125,9 +98,8 @@ export const OnboardingContextProvider = ({ children }: { children: React.ReactN
 
     const onboardNavigation = useCallback(
         (sName = '') => {
-            //sName === 'onboardingCreditButton' && setModalVisible(false);
+            LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
             setModalVisible(true);
-            /*LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);*/
             if (sName === '') {
                 let onboardStatus = '1';
                 // if (serverOnboardStatus) {
@@ -136,19 +108,32 @@ export const OnboardingContextProvider = ({ children }: { children: React.ReactN
                 sName = screenTypes[onboardStatus];
             }
 
-            if (sName === NAVIGATION_TYPE.SETTINGS) {
+            if (sName === 'Settings') {
                 setInitScreen(sName);
             }
 
+            if (
+                [
+                    'onboardingIntro',
+                    'onboardingCreditButton',
+                    'onboardingSelectContent',
+                    'onboardingReceiveCredit',
+                ].includes(sName)
+            ) {
+                navigation.navigate(NAVIGATION_TYPE.BROWSE);
+            }
+            if (['onboardingRedeemContent', 'onboardingRulesIntro'].includes(sName)) {
+                navigateToDetail();
+            }
             setNavigateTo(sName);
         },
         //eslint-disable-next-line react-hooks/exhaustive-deps
-        [navigation],
+        [navigation, serverOnboardStatus],
     );
 
     const onboardSkip = () => {
         setModalVisible(false);
-        const thisRoute = initScreen === NAVIGATION_TYPE.SETTINGS ? NAVIGATION_TYPE.SETTINGS : NAVIGATION_TYPE.BROWSE;
+        const thisRoute = initScreen === 'Settings' ? NAVIGATION_TYPE.SETTINGS : NAVIGATION_TYPE.BROWSE;
         navigation.navigate(thisRoute);
     };
 
@@ -170,11 +155,8 @@ export const OnboardingContextProvider = ({ children }: { children: React.ReactN
             case 'onboardingRulesIntro':
                 thisScreen = <OnboardingRulesIntroScreen />;
                 break;
-            // case 'onboardingReceiveCredit':
-            //     thisScreen = <OnboardingReceiveCreditScreen />;
-            //     break;
-            case 'onboardingHelpScreen':
-                thisScreen = <OnboardingHelpScreen />;
+            case 'onboardingReceiveCredit':
+                thisScreen = <OnboardingReceiveCreditScreen />;
                 break;
         }
 
@@ -183,11 +165,13 @@ export const OnboardingContextProvider = ({ children }: { children: React.ReactN
 
     const handleSetString = (onboardStatus: string) => {
         setString({
-            attributeName: ONBOARD_KEY,
+            attributeName: 'onboardStatus',
             attributeValue: onboardStatus,
             objectTypeName: 'Account',
         })
             .then(() => {
+                setServerOnboardStatus(onboardStatus);
+
                 if (onboardStatus === ONBOARD_COMPLETED_KEY) {
                     fetchCredits();
                 }
@@ -198,24 +182,20 @@ export const OnboardingContextProvider = ({ children }: { children: React.ReactN
     };
 
     const onboardMetadata = (appConfig: AppConfig | undefined) => {
-        if (!(appConfig && appConfig.onboardingResourceNew)) {
-            return undefined;
+        if (!(appConfig && appConfig.onboardingResource)) {
+            return {};
         }
 
         try {
-            const resourceJsonString = global.Buffer.from(appConfig.onboardingResourceNew, 'base64').toString('ascii');
+            const resourceJsonString = global.Buffer.from(appConfig.onboardingResource, 'base64').toString('ascii');
             const resourceJson = JSON.parse(resourceJsonString);
-            return {
-                ...metaDataResourceAdapter(resourceJson),
-                layout: 'banner',
-                showFooter: false,
-            };
+            return resourceJson;
         } catch (e) {
+            recordErrorEvent(ErrorEvents.ONBOARD_RESOURCE_ERROR, { error: e });
             console.error('[Onboard Resource] Error parsing onboard meta-data: ', e);
         }
-        return undefined;
+        return {};
     };
-
     return (
         <OnboardingContext.Provider
             value={{
@@ -223,27 +203,19 @@ export const OnboardingContextProvider = ({ children }: { children: React.ReactN
                 onboardToggleModal,
                 onboardNavigation,
                 onboardSkip,
-                onboardingResource,
-                finishedOnboarding,
             }}>
             <>
                 {children}
                 <Modal
                     supportedOrientations={['portrait', 'portrait-upside-down', 'landscape-left', 'landscape-right']}
                     style={styles.modal}
-                    animationIn={'fadeIn'}
-                    backdropOpacity={1}
-                    hardwareAccelerated
-                    hideModalContentWhileAnimating
+                    backdropOpacity={navigateTo === 'onboardingIntro' ? 1 : 0.6}
                     isVisible={isModalVisible}
-                    useNativeDriver={true}
-                    onRequestClose={() => {
-                        if (navigateTo === NAVIGATION_TYPE.SETTINGS) {
-                            onboardSkip();
-                        }
-                    }}>
+                    useNativeDriver={true}>
                     {isModalVisible && OnboardScreen(navigateTo)}
                 </Modal>
+
+                <DetailPopup onModelClosed={onModelClosed} data={detailModelResource} />
             </>
         </OnboardingContext.Provider>
     );

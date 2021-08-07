@@ -1,8 +1,8 @@
 import React from 'react';
 import { Platform } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
-import SearchScreen from '../SearchScreen';
-import SearchScreenTV from '../../TV/SearchScreenTV';
+import SearchScreenTV from '../SearchScreenTV';
+import SearchScreen from 'features/search/presentation/screens/SearchScreen';
 
 const SearchStack = createStackNavigator();
 const SearchStackScreen = () => {
@@ -10,7 +10,7 @@ const SearchStackScreen = () => {
         <SearchStack.Navigator>
             <SearchStack.Screen
                 name="Search"
-                component={Platform.isTV && Platform.OS === 'android' ? SearchScreenTV : SearchScreen}
+                component={Platform.isTV ? SearchScreenTV : SearchScreen}
                 options={{
                     headerTitle: '',
                     headerTransparent: true,

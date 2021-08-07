@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { StyleSheet, Platform } from 'react-native';
 import { Button as RNEButton, ButtonProps as RNEButtonProps } from 'react-native-elements';
 import { useAppPreferencesState } from '../../utils/AppPreferencesContext';
-import { appFonts, tvPixelSizeForLayout } from '../../../AppStyles';
+import { appFonts } from '../../../AppStyles';
 
 export enum ButtonType {
     RegularButton,
@@ -11,89 +11,72 @@ export enum ButtonType {
 
 interface ButtonProps extends RNEButtonProps {
     buttonType?: ButtonType;
-    /**
-     * The color of the disabled button
-     */
-    disabledColor?: string;
-    isTV?: boolean;
-    heightTv?: number;
+    hasTVPreferredFocus?: boolean;
 }
 
 const Button = (props: ButtonProps) => {
+    const [focussed, setFocussed] = useState(false);
     const prefs = useAppPreferencesState();
     let { appColors } = prefs.appTheme!(prefs);
 
     const isOutline = props.type === 'outline';
     const isClear = props.type === 'clear';
 
-    const [isFocused, setIsFocused] = useState(false);
-
     const styles = StyleSheet.create({
         containerStyle: {
+            width: Platform.isTV ? '90%' : '100%',
+        },
+        buttonStyle: {
+            height: 50,
             width: '100%',
-            //Android expects backgroundColor in containerStyle button appears without borderRadius and has white background
-            //only when buttons are disabled and enabled
+            borderRadius: 25,
+            // TODO: refactor to simplify based on new design spec
             backgroundColor: isOutline
-                ? appColors.primary
+                ? 'appColors.primary'
                 : isClear
                 ? 'transparent'
                 : props.buttonType === ButtonType.CancelButton
                 ? appColors.primaryVariant1
                 : appColors.brandTint,
-        },
-        buttonStyle: {
-            height: props.heightTv || 50,
-            width: '100%',
-            borderRadius: Platform.isTV ? tvPixelSizeForLayout(400) : 25,
-            // TODO: refactor to simplify based on new design spec
-            backgroundColor:
-                isOutline && !props.isTV
-                    ? appColors.primary
-                    : isClear
-                    ? 'transparent'
-                    : props.buttonType === ButtonType.CancelButton
-                    ? appColors.primaryVariant1
-                    : props.isTV
-                    ? appColors.primaryVariant1
-                    : appColors.brandTint,
-            borderColor:
-                isOutline && !props.isTV
-                    ? appColors.brandTint
-                    : Platform.isTV && isFocused
-                    ? appColors.secondary
-                    : undefined,
-            borderWidth: isOutline && !props.isTV ? 1 : Platform.isTV && isFocused ? 2 : undefined,
+            borderColor: isOutline ? appColors.brandTint : undefined,
+            borderWidth: isOutline ? 1 : undefined,
+            elevation: 20,
         },
         titleStyle: {
             fontFamily: appFonts.primary,
-            fontSize: Platform.isTV ? tvPixelSizeForLayout(32) : appFonts.xs,
+            fontSize: appFonts.xs,
             fontWeight: '500',
-            color:
-                (isOutline && !props.isTV) || isClear
-                    ? appColors.brandTint
-                    : props.isTV
-                    ? appColors.secondary
-                    : appColors.secondary,
+            color: isOutline || isClear ? appColors.brandTint : appColors.secondary,
         },
         disabledStyle: {
-            backgroundColor: props.disabledColor ? props.disabledColor : appColors.primaryVariant1,
+            backgroundColor: appColors.brandTint,
         },
         disabledTitleStyle: {
-            color: appColors.caption,
+            color: appColors.secondary,
         },
     });
 
     return (
         <RNEButton
-            onFocus={() => setIsFocused(true)}
-            onBlur={() => setIsFocused(false)}
             containerStyle={styles.containerStyle}
-            buttonStyle={styles.buttonStyle}
+            buttonStyle={[
+                styles.buttonStyle,
+                Platform.isTV && !focussed ? { backgroundColor: appColors.primaryVariant3, elevation: 0 } : {},
+            ]}
             disabledStyle={styles.disabledStyle}
             disabledTitleStyle={styles.disabledTitleStyle}
             titleStyle={props.titleStyle || styles.titleStyle}
-            raised={props.raised || true}
+            //raised={props.raised || true}
             {...props}
+            onFocus={() => setFocussed(true)}
+            onBlur={() => setFocussed(false)}
+            hasTVPreferredFocus={props.hasTVPreferredFocus === false ? props.hasTVPreferredFocus : true}
+            onPress={e => {
+                if (props.onPress) {
+                    // see here for more details: https://github.com/facebook/react-native/issues/25979
+                    props.onPress(e);
+                }
+            }}
         />
     );
 };

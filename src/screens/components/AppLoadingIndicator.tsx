@@ -1,55 +1,14 @@
 import React from 'react';
-import { StyleProp, ViewStyle, View, PixelRatio, Platform } from 'react-native';
-import LottieView from 'lottie-react-native';
-import { selectDeviceType } from 'qp-common-ui';
-import { useAppPreferencesState } from 'utils/AppPreferencesContext';
-import { Button as RNEButton } from 'react-native-elements';
-import CloseIcon from '../../../assets/images/close.svg';
-import { useNavigation } from '@react-navigation/native';
+import { ActivityIndicator, StyleProp, ViewStyle } from 'react-native';
+import { useAppPreferencesState } from '../../utils/AppPreferencesContext';
 
 export type Size = 'small' | 'large';
 
-const AppLoadingIndicator = ({
-    style,
-    size = 'large',
-    isClearable = false,
-}: {
-    style?: StyleProp<ViewStyle>;
-    size?: Size;
-    isClearable?: boolean;
-}): JSX.Element => {
+const AppLoadingIndicator = ({ style, size = 'large' }: { style?: StyleProp<ViewStyle>; size?: Size }): JSX.Element => {
     const prefs = useAppPreferencesState();
-    let { appBaseStyles } = prefs.appTheme!(prefs);
-    const small = selectDeviceType({ Handset: 50 }, 70) * PixelRatio.get();
-    const large = selectDeviceType({ Handset: 100, Tv: 350 }, 140) * PixelRatio.get();
-    const sizePx = size === 'large' ? large : small;
-    const navigation = useNavigation();
+    let { appColors, appBaseStyles } = prefs.appTheme!(prefs);
 
-    return (
-        <View style={style ? style : appBaseStyles.loading}>
-            {isClearable && (
-                <View
-                    style={{
-                        position: 'absolute',
-                        top: '5%',
-                        right: '5%',
-                        alignSelf: 'flex-end',
-                    }}>
-                    <RNEButton icon={CloseIcon} type="clear" onPress={() => navigation.goBack()} />
-                </View>
-            )}
-            <LottieView
-                source={
-                    Platform.isTV
-                        ? require('../../../assets/animations/Struum_Tv_Loader.json')
-                        : require('../../../assets/animations/Struum_Loader.json')
-                }
-                autoPlay
-                autoSize={false}
-                style={{ width: sizePx, aspectRatio: 1 }}
-            />
-        </View>
-    );
+    return <ActivityIndicator color={appColors.brandTint} size="large" style={style ? style : appBaseStyles.loading} />;
 };
 
 export default AppLoadingIndicator;

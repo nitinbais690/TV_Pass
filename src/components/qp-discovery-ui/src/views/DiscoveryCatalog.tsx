@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useState } from 'react';
 import {
     FlatList,
     Text,
@@ -11,25 +11,24 @@ import {
     View,
     NativeSyntheticEvent,
     NativeScrollEvent,
-    Animated,
+    Dimensions,
     Platform,
 } from 'react-native';
+import Carousel, { Pagination } from 'react-native-snap-carousel';
 // Using react-navigation's FlatList since it offers Platform-native behavior like touch active tab to scroll to top.
 // import { FlatList } from 'react-navigation';
-import { colors, padding, typography } from 'qp-common-ui';
+import { colors, padding, scale, selectDeviceType, typography } from 'qp-common-ui';
 import { ContainerVm, ResourceVm } from '../models/ViewModels';
-import ResourceCarouselView from './ResourceCarouselView';
 import ResourceCardView, { ResourceCardViewBaseProps } from './ResourceCardView';
-import StorefrontCarouselTV from '../../../../TV/components/StorefrontCarouselTV';
-import { useLocalization } from 'contexts/LocalizationContext';
-import { appDimensions, tvPixelSizeForLayout } from '../../../../../AppStyles';
+import { scrollInterpolators, animatedStyles, carouselStyle } from '../utils/CarouselAnimation';
+import { isTablet } from 'core/styles/AppStyles';
 
 const defaultCatalogStyle = StyleSheet.create({
     sectionHeaderContainer: {},
     sectionHeader: {
         ...typography.sectionHeader,
         marginLeft: padding.xs(),
-        marginTop: padding.xs(),
+        marginTop: selectDeviceType({ Handset: scale(32, 0), Tv: scale(43, 0) }, scale(36, 0)),
         paddingBottom: padding.xs(),
         color: colors.tertiary,
     },
@@ -40,6 +39,10 @@ export interface DiscoveryCatalogProps {
      * The array of containers to render.
      */
     containers: ReadonlyArray<ContainerVm> | null;
+    /**
+     * Instance of container which having focus
+     */
+    focusedContainer?: ContainerVm;
     /**
      * The width of the card view
      */
@@ -78,10 +81,6 @@ export interface DiscoveryCatalogProps {
      */
     HorizontalListFooterComponent?: React.ComponentType<any> | React.ReactElement | null;
     /**
-     * Rendered view all card.
-     */
-    ViewAllComponent?: ((container: ContainerVm) => React.ReactElement) | null;
-    /**
      * Rendered at the very end of the list.
      */
     ListFooterComponent?: React.ComponentType<any> | React.ReactElement | null;
@@ -116,7 +115,7 @@ export interface DiscoveryCatalogProps {
      *     }
      *   });
      */
-    containerContentContainerStyle?: StyleProp<ViewStyle>;
+    containerContentContainerStyle?: ViewStyle;
     /**
      * How many containers rows to render in the initial batch. This should be enough to fill the screen but not much more.
      * Note these items will never be unmounted as part of the windowed rendering
@@ -172,30 +171,18 @@ export interface DiscoveryCatalogProps {
      * The viewOffset at which the carousel should be animated when orientation changes
      */
     viewScrollOffset?: number;
-
-    /**
-     *  set initial focus on coursel in tv
-     */
-    initialHasTVPreferredFocusOnCarousel?: boolean;
-    /**
-     *  set initial focus method on coursel in tv
-     */
-    onSetInitialFocus?: any;
-
-    route?: string;
 }
 
 const propsAreEqual = (prevProps: any, nextProps: any): boolean => {
     return (
         prevProps.item.id === nextProps.item.id &&
         prevProps.isPortrait === nextProps.isPortrait &&
+        prevProps.focusedContainer === nextProps.focusedContainer &&
         prevProps.item.lazyLoading === nextProps.item.lazyLoading &&
         prevProps.item.pageNumber === nextProps.item.pageNumber &&
         prevProps.item.resources.length === nextProps.item.resources.length &&
         prevProps.item.resources.map((r: ResourceVm) => r.id).join(',') ===
-            nextProps.item.resources.map((r: ResourceVm) => r.id).join(',') &&
-        prevProps.item.resources.map((r: ResourceVm) => r.completedPercent).join(',') ===
-            nextProps.item.resources.map((r: ResourceVm) => r.completedPercent).join(',')
+            nextProps.item.resources.map((r: ResourceVm) => r.id).join(',')
     );
 };
 
@@ -208,25 +195,18 @@ const ResourceListView = ({
     onEndReachedWithinContainer,
     onEndReachedThreshold,
     ListFooterComponent,
-    containerIndex,
-    myContentTvStyle,
-    ViewAllComponent,
-    route,
+    focusedContainer,
 }: {
     item: ContainerVm;
     cardProps?: ResourceCardViewBaseProps<ResourceVm>;
     renderResource?: ListRenderItem<ResourceVm>;
-    containerContentContainerStyle?: StyleProp<ViewStyle>;
+    containerContentContainerStyle?: ViewStyle;
     isPortrait?: boolean;
     onEndReachedWithinContainer?: ((container: ContainerVm, info: { distanceFromEnd: number }) => void) | null;
     onEndReachedThreshold?: number | null;
     ListFooterComponent?: React.ComponentType<any> | React.ReactElement | null;
-    containerIndex: number;
-    myContentTvStyle?: boolean;
-    ViewAllComponent?: ((container: ContainerVm) => React.ReactElement) | null;
-    route?: string;
+    focusedContainer?: ContainerVm;
 }): JSX.Element => {
-    let flatListRef = useRef<any>(undefined);
     const resourcesKeyExtractor = React.useCallback((item: ResourceVm, index: number) => `r-${index}-${item.id}`, []);
     const defaultRenderResource = React.useCallback(
         ({ item }: { item: ResourceVm }): JSX.Element => {
@@ -236,64 +216,61 @@ const ResourceListView = ({
         [isPortrait],
     );
 
-    const shiftScrollToFocusIndex = (index: number) => {
-        if (Platform.isTV && myContentTvStyle) {
-            flatListRef.current.scrollToIndex({ animated: true, index });
+    const getContentContainerPaddingLeft = () => {
+        if (containerContentContainerStyle && containerContentContainerStyle.paddingLeft) {
+            return containerContentContainerStyle.paddingLeft;
         }
+
+        return 0;
     };
 
     const getContentContainerPaddingRight = () => {
-        const screenWidth = appDimensions.fullWidth;
-        let cardPerScreen = screenWidth / tvPixelSizeForLayout(100);
-        return (cardPerScreen - 1) * tvPixelSizeForLayout(100);
+        if (containerItem && containerItem.cardWidth) {
+            const screenWidth = Dimensions.get('window').width;
+            let cardPerScreen = screenWidth / containerItem.cardWidth;
+            return (cardPerScreen - 1) * containerItem.cardWidth;
+        }
+        return 0;
     };
-
-    let RenderResource = Platform.isTV ? renderResource : undefined;
+    const styles = StyleSheet.create({
+        focusFrame: {
+            marginTop: scale(2.5, 0),
+            position: 'absolute',
+            top: 0,
+            left: getContentContainerPaddingLeft(),
+            width: cardProps.cardWidth ? cardProps.cardWidth : 0,
+            aspectRatio: cardProps.cardAspectRatio,
+            borderColor: 'white',
+            borderWidth: scale(2.5, 0),
+        },
+    });
 
     return (
-        <FlatList<ResourceVm>
-            keyExtractor={resourcesKeyExtractor}
-            horizontal={true}
-            numColumns={1}
-            showsHorizontalScrollIndicator={false}
-            data={containerItem.resources!}
-            ref={flatListRef}
-            renderItem={
-                RenderResource
-                    ? ({ item, index }) => {
-                          return (
-                              <RenderResource
-                                  shiftScrollToFocusIndex={shiftScrollToFocusIndex}
-                                  item={item}
-                                  index={index}
-                                  containerIndex={containerIndex}
-                              />
-                          );
-                      }
-                    : renderResource
-                    ? renderResource
-                    : defaultRenderResource
-            }
-            contentContainerStyle={
-                myContentTvStyle
-                    ? {
-                          paddingRight: getContentContainerPaddingRight(),
-                      }
-                    : containerContentContainerStyle
-            }
-            style={myContentTvStyle ? containerContentContainerStyle : undefined}
-            onEndReached={info => onEndReachedWithinContainer && onEndReachedWithinContainer(containerItem, info)}
-            onEndReachedThreshold={onEndReachedThreshold}
-            // ListFooterComponent={containerItem.lazyLoading ? ListFooterComponent : null}
-            ListFooterComponent={
-                // containerItem.viewAll && ViewAllComponent !== undefined
-                ViewAllComponent !== undefined && route !== 'My Content'
-                    ? ViewAllComponent(containerItem)
-                    : containerItem.lazyLoading
-                    ? ListFooterComponent
-                    : null
-            }
-        />
+        <View>
+            <FlatList<ResourceVm>
+                ref={c => {
+                    containerItem.containerListRef = c;
+                }}
+                keyExtractor={resourcesKeyExtractor}
+                horizontal={true}
+                numColumns={1}
+                showsHorizontalScrollIndicator={false}
+                data={containerItem.resources!}
+                renderItem={renderResource ? renderResource : defaultRenderResource}
+                contentContainerStyle={[
+                    { ...containerContentContainerStyle },
+                    Platform.isTV && { paddingRight: getContentContainerPaddingRight() },
+                ]}
+                onEndReached={info => onEndReachedWithinContainer && onEndReachedWithinContainer(containerItem, info)}
+                onEndReachedThreshold={onEndReachedThreshold}
+                ListFooterComponent={containerItem.lazyLoading ? ListFooterComponent : null}
+            />
+            {cardProps &&
+                cardProps.cardWidth &&
+                cardProps.cardAspectRatio &&
+                focusedContainer &&
+                focusedContainer.id === containerItem.id && <View style={styles.focusFrame} />}
+        </View>
     );
 };
 
@@ -301,16 +278,14 @@ const MemoizedResourceListView = React.memo(ResourceListView, propsAreEqual);
 
 export const DiscoveryCatalog = (props: DiscoveryCatalogProps): JSX.Element => {
     const {
-        route,
         containers,
-        carouselCardWidth,
+        focusedContainer,
         renderContainer,
         initialNumOfContainersToRender,
         showSectionHeader = true,
         sectionHeaderStyle,
         cardProps = {},
         renderResource,
-        bannerProps,
         contentContainerStyle,
         containerContentContainerStyle,
         onScroll,
@@ -320,13 +295,12 @@ export const DiscoveryCatalog = (props: DiscoveryCatalogProps): JSX.Element => {
         refreshControl,
         ListFooterComponent,
         HorizontalListFooterComponent,
-        ViewAllComponent,
         isPortrait,
-        initialHasTVPreferredFocusOnCarousel,
-        onSetInitialFocus,
     } = props;
 
     const containerKeyExtractor = React.useCallback((item: ContainerVm, index: number) => `c-${index}-${item.id}`, []);
+    const [activeIndexForEffectScroll, updateActiveIndexForEffectScroll] = useState<number>(0);
+    const [activeIndexForNormalScroll, updateActiveIndexForNormalScroll] = useState<number>(0);
     //const [, cardViewHeight] = cardViewDimensions(cardProps.cardStyle);
 
     // const [, cardViewHeight] = cardViewDimensions(cardProps.cardStyle);
@@ -338,7 +312,6 @@ export const DiscoveryCatalog = (props: DiscoveryCatalogProps): JSX.Element => {
     //     index,
     // });
 
-    const { strings } = useLocalization();
     const defaultRenderResource = React.useCallback(
         ({ item }: { item: ResourceVm }): JSX.Element => {
             return <ResourceCardView resource={item} isPortrait={isPortrait} {...cardProps} />;
@@ -347,93 +320,101 @@ export const DiscoveryCatalog = (props: DiscoveryCatalogProps): JSX.Element => {
         [isPortrait],
     );
 
-    const defaultRenderContainer = ({
-        item: containerItem,
-        index,
-    }: {
-        item: ContainerVm;
-        index: number;
-    }): JSX.Element => {
-        if (
-            containerItem.name === strings['my_content.recently_redeemed'] &&
-            //containerItem.resources &&
-            //containerItem.resources.length > 0 &&
-            Platform.isTV
-        ) {
-            // let latestRedmeedResources = containerItem.resources.filter(
-            //     resource => resource.watchedOffset && resource.watchedOffset === 0,
-            // );
+    const renderSectionHeader = (itemName: string) => {
+        return (
+            <View style={[defaultCatalogStyle.sectionHeaderContainer]}>
+                <Text testID={itemName} style={[defaultCatalogStyle.sectionHeader, sectionHeaderStyle]}>
+                    {itemName}
+                </Text>
+            </View>
+        );
+    };
+
+    const defaultRenderContainer = ({ item: containerItem }: { item: ContainerVm }): JSX.Element => {
+        //If Tablet and Type as aha_original need to use carousel
+        //TODO: Need to discuss with CMS team to update a carousel type for AHA-Original Tablet.
+        if (containerItem.layout === 'banner' && isOriginals(containerItem) && (isTablet || Platform.isTV)) {
+            containerItem.layout = 'carousel';
+        }
+
+        if (containerItem.layout === 'banner') {
+            let SLIDER_WIDTH = Dimensions.get('window').width;
+            let ITEM_WIDTH = Math.round(SLIDER_WIDTH * 0.75);
+            let ITEM_HORIZONTAL_MARGIN = Math.round(SLIDER_WIDTH * 0.02);
+            let ITEM_WIDTH_FIX = ITEM_WIDTH + ITEM_HORIZONTAL_MARGIN * 2;
             return (
-                <StorefrontCarouselTV
-                    //resources={latestRedmeedResources}
-                    resources={containerItem.resources!}
-                    initialHasTVPreferredFocus={initialHasTVPreferredFocusOnCarousel}
-                />
-            );
-        } else if (Platform.isTV && containerItem.layout === 'banner') {
-            return (
-                <StorefrontCarouselTV
-                    resources={containerItem.resources!}
-                    initialHasTVPreferredFocus={initialHasTVPreferredFocusOnCarousel}
-                    onSetInitialFocus={onSetInitialFocus}
-                />
-            );
-        } else if (containerItem.layout === 'banner') {
-            return (
-                <ResourceCarouselView
-                    resources={containerItem.resources!}
-                    carouselCardWidth={carouselCardWidth}
-                    isPortrait={isPortrait}
-                    {...bannerProps}
-                    cardAspectRatio={containerItem.aspectRatio}
-                    cardImageType={containerItem.imageType}
-                    renderResource={renderResource}
-                />
+                <React.Fragment key={containerItem.id}>
+                    {showSectionHeader && isOriginals(containerItem) && renderSectionHeader(containerItem.name)}
+                    <Carousel
+                        data={containerItem.resources!}
+                        renderItem={renderResource}
+                        sliderWidth={SLIDER_WIDTH}
+                        itemWidth={isOriginals(containerItem) ? ITEM_WIDTH_FIX : SLIDER_WIDTH}
+                        autoplay={isOriginals(containerItem) ? false : true}
+                        autoplayInterval={3000}
+                        layout={'default'}
+                        containerCustomStyle={isOriginals(containerItem) ? carouselStyle.containerStyle : null}
+                        contentContainerCustomStyle={
+                            isOriginals(containerItem) ? carouselStyle.containerCustomStyle : null
+                        }
+                        enableMomentum={isOriginals(containerItem) ? true : false}
+                        lockScrollWhileSnapping={true}
+                        inactiveSlideScale={1}
+                        inactiveSlideOpacity={1}
+                        scrollInterpolator={
+                            isOriginals(containerItem) ? scrollInterpolators.scrollInterpolatorPerspectiveEffect : null
+                        }
+                        slideInterpolatedStyle={
+                            isOriginals(containerItem) ? animatedStyles.animatedStylesPerspectiveEffect : null
+                        }
+                        useScrollView={true}
+                        slideStyle={isOriginals(containerItem) ? carouselStyle.sliderStyle : null}
+                        onSnapToItem={(index: number) =>
+                            isOriginals(containerItem)
+                                ? updateActiveIndexForEffectScroll(index)
+                                : updateActiveIndexForNormalScroll(index)
+                        }
+                    />
+                    <Pagination
+                        dotsLength={containerItem.resources!.length}
+                        activeDotIndex={
+                            isOriginals(containerItem)
+                                ? activeIndexForEffectScroll
+                                    ? activeIndexForEffectScroll
+                                    : 0
+                                : activeIndexForNormalScroll
+                                ? activeIndexForNormalScroll
+                                : 0
+                        }
+                        containerStyle={
+                            isOriginals(containerItem)
+                                ? carouselStyle.containerPaginationStyle
+                                : carouselStyle.containerPaginationStyleNormalEffet
+                        }
+                        dotStyle={carouselStyle.activePaginationDotStyle}
+                        inactiveDotStyle={carouselStyle.inactivePaginationDotStyle}
+                        inactiveDotScale={1}
+                    />
+                </React.Fragment>
             );
         } else {
             return (
                 <React.Fragment key={containerItem.id}>
-                    {showSectionHeader && route === 'My Content' && Platform.isTV ? (
-                        <View style={[defaultCatalogStyle.sectionHeaderContainer]}>
-                            <Text
-                                testID={containerItem.name}
-                                style={[defaultCatalogStyle.sectionHeader, sectionHeaderStyle]}>
-                                {containerItem.name}
-                            </Text>
-                        </View>
-                    ) : showSectionHeader && index !== 1 && Platform.isTV ? (
-                        <View style={[defaultCatalogStyle.sectionHeaderContainer]}>
-                            <Text
-                                testID={containerItem.name}
-                                style={[defaultCatalogStyle.sectionHeader, sectionHeaderStyle]}>
-                                {containerItem.name}
-                            </Text>
-                        </View>
-                    ) : (
-                        showSectionHeader &&
-                        !Platform.isTV && (
-                            <View style={[defaultCatalogStyle.sectionHeaderContainer]}>
-                                <Text
-                                    testID={containerItem.name}
-                                    style={[defaultCatalogStyle.sectionHeader, sectionHeaderStyle]}>
-                                    {containerItem.name}
-                                </Text>
-                            </View>
-                        )
-                    )}
+                    {showSectionHeader && renderSectionHeader(containerItem.name)}
                     <MemoizedResourceListView
                         item={containerItem}
-                        cardProps={cardProps}
+                        cardProps={{
+                            ...cardProps,
+                            cardWidth: containerItem.cardWidth,
+                            cardAspectRatio: containerItem.cardAspectRatio,
+                        }}
                         renderResource={renderResource ? renderResource : defaultRenderResource}
                         containerContentContainerStyle={containerContentContainerStyle}
-                        myContentTvStyle={(route === 'My Content' || route === 'Browse') && Platform.isTV}
                         isPortrait={isPortrait}
-                        containerIndex={index}
                         onEndReachedThreshold={onEndReachedThreshold}
                         onEndReachedWithinContainer={onEndReachedWithinContainer}
                         ListFooterComponent={HorizontalListFooterComponent}
-                        ViewAllComponent={ViewAllComponent}
-                        route={route}
+                        focusedContainer={focusedContainer}
                     />
                 </React.Fragment>
             );
@@ -441,7 +422,7 @@ export const DiscoveryCatalog = (props: DiscoveryCatalogProps): JSX.Element => {
     };
 
     return (
-        <Animated.FlatList<ContainerVm>
+        <FlatList<ContainerVm>
             data={containers}
             initialNumToRender={initialNumOfContainersToRender}
             keyExtractor={containerKeyExtractor}
@@ -457,3 +438,7 @@ export const DiscoveryCatalog = (props: DiscoveryCatalogProps): JSX.Element => {
         />
     );
 };
+
+function isOriginals(item: ContainerVm): boolean {
+    return item.containerType === 'aha_original';
+}

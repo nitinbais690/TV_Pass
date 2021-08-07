@@ -262,21 +262,24 @@ export const ResourceMetaInfoView = <T extends ResourceVm>(props: ResourceInfoVi
     const { resource, infoViewStyle = {} } = props;
 
     const genres =
-        (resource.contentGenre && resource.contentGenre.map((g: any) => g.toUpperCase()).join(' \u2022 ')) || null;
+        (resource &&
+            resource.contentGenre &&
+            resource.contentGenre.map((g: any) => g.toUpperCase()).join(' \u2022 ')) ||
+        null;
     const metaInfo = [];
-    if (resource.formattedRunningTime) {
+    if (resource && resource.formattedRunningTime) {
         metaInfo.push(resource.formattedRunningTime);
     }
-    if (resource.rating) {
+    if (resource && resource.rating) {
         metaInfo.push(resource.rating);
     }
-    if (resource.releaseYear) {
+    if (resource && resource.releaseYear) {
         metaInfo.push(resource.releaseYear);
     }
     if (genres) {
         metaInfo.push(genres);
     }
-    if (resource.subtitle) {
+    if (resource && resource.subtitle) {
         metaInfo.push(resource.subtitle);
     }
     const metaInfoString = metaInfo.join(' \u2022 ');

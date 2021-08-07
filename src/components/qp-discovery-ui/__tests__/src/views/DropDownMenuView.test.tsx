@@ -1,7 +1,9 @@
-jest.useFakeTimers();
 import React from 'react';
 import { render, fireEvent, getByLabelText } from '@testing-library/react-native';
 import { DropDownMenuView } from '../../../src/views/DropDownMenuView';
+
+jest.useFakeTimers();
+
 describe('EpgDropDownMenuView', () => {
     it('renders correctly with default styles', () => {
         const { container } = render(jsx());
@@ -33,7 +35,6 @@ describe('EpgDropDownMenuView', () => {
         return (
             <DropDownMenuView
                 tintColor={'#666666'}
-                maxHeight={392}
                 selectIndex={3}
                 //dropDownMenuStyle={true}
                 onMenuItemPress={pressHandler}
@@ -47,7 +48,6 @@ describe('EpgDropDownMenuView', () => {
                         '2020-May-15 - Fri',
                     ],
                 ]}
-                itemHeight={64}
             />
         );
     };

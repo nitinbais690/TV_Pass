@@ -6,11 +6,18 @@ export type ClientIdentifer =
     | 'catalog'
     | 'metadata'
     | 'ums'
+    | 'ovat'
+    | 'flOAuth2'
+    | 'flFlat'
     | 'geo'
     | 'checkRedeem'
     | 'usage'
     | 'history'
-    | 'recommendation';
+    | 'channel'
+    | 'epg'
+    | 'profile'
+    | 'favorite'
+    | 'searchHistory';
 export type ServiceConfig = { [id in ClientIdentifer]?: APIClient };
 
 export interface APIClient {

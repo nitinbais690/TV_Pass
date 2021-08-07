@@ -1,10 +1,19 @@
 import React, { useState } from 'react';
-import { ListRenderItem } from 'react-native';
+import { ListRenderItem, StyleSheet } from 'react-native';
 import { CarouselView, CarouselViewBaseProps } from './CarouselView';
 import ResourceCardView, { cardStyles } from './ResourceCardView';
 import { ResourceVm } from '../models/ViewModels';
 import { ResourceCardViewBaseProps } from './ResourceCardView';
-import { createStyles, dimensions, padding, colors, USE_ABSOLUTE_VALUE, typography, defaultFont } from 'qp-common-ui';
+import {
+    createStyles,
+    dimensions,
+    padding,
+    colors,
+    USE_ABSOLUTE_VALUE,
+    typography,
+    defaultFont,
+    dimentionsValues,
+} from 'qp-common-ui';
 import { Platform } from 'react-native';
 import { CarouselPageIndicator, IndicatorPageBaseProps } from './CarouselPageIndicator';
 
@@ -31,6 +40,16 @@ const defaultCarouselCardStyles = createStyles(cardStyles, {
         ...typography.title,
         fontFamily: defaultFont.bold,
         color: colors.primary,
+    },
+});
+
+const styles = StyleSheet.create({
+    carouselcontainer: {
+        flex: 1,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingTop: dimentionsValues.sm,
     },
 });
 
@@ -175,6 +194,7 @@ const ResourceCarouselView = ({
                     {...carousalIndicatorProps}
                     numberOfPages={resources.length}
                     activeIndexPage={activeIndex}
+                    containerStyle={styles.carouselcontainer}
                 />
             )}
         </>

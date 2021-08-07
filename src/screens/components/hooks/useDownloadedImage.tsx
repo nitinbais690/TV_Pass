@@ -1,3 +1,4 @@
+import RNFetchBlob from 'rn-fetch-blob';
 import { useState } from 'react';
 import { useEffect } from 'react';
 
@@ -15,7 +16,6 @@ import { useEffect } from 'react';
 
 export const useDownloadedImage = (imageURI: string, offlineID: string): string | undefined => {
     // const RNFetchBlob = NativeModules.RNFetchBlob
-    const RNFetchBlob = require('rn-fetch-blob');
     const [localPath, setLocalPath] = useState<string>();
     const filePath = RNFetchBlob.fs.dirs.CacheDir + '/' + offlineID + '.jpg';
     useEffect(() => {
@@ -44,6 +44,6 @@ export const useDownloadedImage = (imageURI: string, offlineID: string): string 
                 });
         }
         fetchImage();
-    }, [RNFetchBlob, filePath, imageURI, offlineID]);
+    }, [filePath, imageURI, offlineID]);
     return localPath;
 };

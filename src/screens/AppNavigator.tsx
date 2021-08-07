@@ -6,12 +6,14 @@ import { useAppPreferencesState } from 'utils/AppPreferencesContext';
 import { useAppState, AppNavigationState } from 'utils/AppContextProvider';
 import SplashScreen from './SplashScreen';
 import AuthStackScreen from './Navigation/AuthStackScreen';
+import ForceUpdateScreen from './Errors/ForceUpdateScreen';
 import RegionLockScreen from './Errors/RegionLockScreen';
-import OfflineScreen from './Errors/OfflineScreen';
 import AppBrowseStackScreen, { AppPreviewStackScreen } from './Navigation/AppBrowseStackScreen';
 import SubscriptionStackScreen from './Navigation/SubscriptionStackScreen';
+import OfflineStackScreen from './Navigation/OfflineStackScreen';
 import { AppEvents, condenseScreenTrackingData, RN_INTERACTION, ScreenTabs } from 'utils/ReportingUtils';
 import { useAnalytics } from 'utils/AnalyticsReporterContext';
+
 // Application Top-level Navigation Structure
 // ------------------------------------------
 //     ┌─────────┐
@@ -47,10 +49,12 @@ const RootStackScreen = () => {
                 return <RootStack.Screen name="Loading" component={SplashScreen} />;
             case 'PURCHASE_SUBSCRIPTION':
                 return <RootStack.Screen name="Subscription" component={SubscriptionStackScreen} />;
+            case 'FORCE_UPDATE':
+                return <RootStack.Screen name="ForceUpdate" component={ForceUpdateScreen} />;
             case 'REGION_LOCK':
                 return <RootStack.Screen name="RegionLock" component={RegionLockScreen} />;
             case 'OFFLINE':
-                return <RootStack.Screen name="Offline" component={OfflineScreen} />;
+                return <RootStack.Screen name="Offline" component={OfflineStackScreen} />;
             case 'PREVIEW_APP':
                 return <RootStack.Screen name="AppPreviewStackScreen" component={AppPreviewStackScreen} />;
             case 'AUTH':
@@ -103,63 +107,12 @@ export default () => {
         },
     };
 
-    const onRouteChange = async (from: string | null, to: string | null) => {
+    const onRouteChange = (from: string | null, to: string | null) => {
         console.debug(`[Navigation] from: (${from}) -> to: (${to})`);
-    };
-
-    const config = {
-        screens: {
-            AppBrowseStackScreen: {
-                screens: {
-                    AppTabsScreen: {
-                        screens: {
-                            Browse: 'browse/:tabIndex',
-                            'My Content': {
-                                screens: {
-                                    MyContent: 'mycontent/:type',
-                                },
-                            },
-                            Usage: 'usage',
-                            Settings: {
-                                initialRouteName: 'Settings',
-                                screens: {
-                                    Settings: 'settings',
-                                    Profile: 'settings/profile',
-                                    Preferences: 'settings/preferences',
-                                    ManageDevices: 'settings/manageDevices',
-                                    BillingPayments: 'settings/billingPayments',
-                                    Help: 'settings/help',
-                                    BrowseWebView: 'info/:type',
-                                },
-                            },
-                        },
-                    },
-                    Details: 'details/:resourceType/:resourceId',
-                    CollectionsGrid: 'collections/:title/:resourceId',
-                    Credits: 'credits',
-                    Search: {
-                        screens: {
-                            Search: 'search',
-                        },
-                    },
-                },
-            },
-        },
-    };
-
-    const linking = {
-        prefixes: [
-            'https://struum.com',
-            'https://tvp-web-ui.api.tvpass.firstlight.ai',
-            'https://tvp-web-ui.fl-tvpass.firstlight.ai',
-            'struum://app',
-        ],
-        config,
     };
 
     return (
         <NavigationContainer
-            linking={linking}
             theme={AppNavigationTheme}
             ref={navigationRef}
             onReady={() => {
@@ -193,9 +146,9 @@ export default () => {
             <>
                 {!Platform.isTV && (
                     <StatusBar
-                        barStyle={useDefaultStyle ? 'dark-content' : 'light-content'}
-                        translucent={Platform.OS === 'ios'}
-                        hidden={Platform.OS === 'android'}
+                        translucent
+                        backgroundColor={appColors.transparent}
+                        // hidden={Platform.OS === 'android'}
                     />
                 )}
                 <RootStackScreen />
