@@ -14,7 +14,7 @@ const useForm = (initialValues: setSTateType = {}, callback: Function, validate:
             callback();
         }
         // eslint-disable-next-line
-  }, [errors, isSubmitting]);
+  }, [errors]);
 
     const handleSubmit = useCallback(() => {
         setErrors(false);

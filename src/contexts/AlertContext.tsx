@@ -1,7 +1,9 @@
 import React, { createContext, useState, useContext } from 'react';
-import { AlertStatic, AlertButton, AlertOptions } from 'react-native';
+import { AlertStatic, AlertButton, StyleSheet, Platform, AlertOptions } from 'react-native';
 import Modal from 'react-native-modal';
 import AlertDialog, { AlertProps } from 'screens/components/Alert';
+import { RedeemButtonProps } from 'screens/components/RedeemButton';
+import { useDimensions } from '@react-native-community/hooks';
 
 interface AlertState {
     isModalVisible: boolean;
@@ -24,10 +26,26 @@ export const AlertContext = createContext<AlertState>({
 export const AlertContextProvider = ({ children }: { children: React.ReactNode }) => {
     const [isModalVisible, setModalVisible] = useState(false);
     const [alertProps, setAlertProps] = useState<AlertProps>();
+    const { width, height } = useDimensions().window;
+    const styles = StyleSheet.create({
+        container: {
+            width: width,
+            height: height,
+            margin: 0,
+            padding: 0,
+        },
+    });
 
     const Alert = {
-        alert: (title: string, message?: string, buttons?: AlertButton[], options?: AlertOptions) => {
-            setAlertProps({ title, message, buttons, options });
+        alert: (
+            title: string,
+            message?: string,
+            buttons?: AlertButton[],
+            options?: AlertOptions,
+            subTitle?: string,
+            type?: RedeemButtonProps,
+        ) => {
+            setAlertProps({ title, message, buttons, options, subTitle, type });
             setModalVisible(true);
         },
     };
@@ -55,9 +73,12 @@ export const AlertContextProvider = ({ children }: { children: React.ReactNode }
             <>
                 {children}
                 <Modal
+                    style={[Platform.isTV ? styles.container : undefined]}
                     onBackdropPress={onCancel}
                     isVisible={isModalVisible}
                     useNativeDriver={true}
+                    hardwareAccelerated
+                    hideModalContentWhileAnimating
                     supportedOrientations={['portrait', 'portrait-upside-down', 'landscape-left', 'landscape-right']}>
                     <>{alertProps && <AlertDialog {...alertProps} onClose={onClose} />}</>
                 </Modal>

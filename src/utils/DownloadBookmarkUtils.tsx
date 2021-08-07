@@ -3,7 +3,6 @@ import { getItem, setItem } from './UserPreferenceUtils';
 
 export const DEFAULT_DOWNLOAD_CONTENT_BOOKMARK = '0';
 export const DOWNLOAD_CONTENT_BOOKMARK = 'DOWNLOAD_CONTENT_BOOKMARK';
-export const DOWNLOAD_COMPLETE_LIST = 'DOWNLOAD_COMPLETE_LIST';
 
 export const getDownloadsBookmark = async (resourceId?: string) => {
     let downloadList;

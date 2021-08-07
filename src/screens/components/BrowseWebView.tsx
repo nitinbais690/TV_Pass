@@ -1,20 +1,28 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, ViewStyle, StyleProp } from 'react-native';
 import { useDimensions } from '@react-native-community/hooks';
 import { WebView } from 'react-native-webview';
 import AppLoadingIndicator from 'screens/components/AppLoadingIndicator';
 import BackgroundGradient from 'screens/components/BackgroundGradient';
 import { useAppPreferencesState } from 'utils/AppPreferencesContext';
-import { useAnalytics } from 'utils/AnalyticsReporterContext';
-import { AppEvents } from 'utils/ReportingUtils';
 
 const BrowseWebView = ({ route }: { route: any }) => {
     const prefs = useAppPreferencesState();
     const { appConfig } = prefs;
-    const { type }: { type: BROWSE_TYPE } = route.params;
+    const { type, style }: { type: BROWSE_TYPE; style: StyleProp<ViewStyle> } = route.params;
     const { width, height } = useDimensions().window;
-    const { recordEvent } = useAnalytics();
     const [url, setUrl] = useState('');
+
+    const defaultStyles = StyleSheet.create({
+        webViewStyle: {
+            width: width,
+            height: height,
+        },
+        background: {
+            backgroundColor: 'transparent',
+        },
+    });
+
     type BROWSE_TYPE = 'faq' | 'privacyPolicy' | 'termsCondition' | 'contentAvailability' | 'contact';
     interface UrlList {
         privacyPolicy: string;
@@ -27,9 +35,6 @@ const BrowseWebView = ({ route }: { route: any }) => {
     useEffect(() => {
         if (urlList[type]) {
             setUrl(urlList[type]);
-        }
-        if (type === 'termsCondition') {
-            recordEvent(AppEvents.TNC);
         }
         //eslint-disable-next-line react-hooks/exhaustive-deps
     }, [type]);
@@ -59,7 +64,7 @@ const BrowseWebView = ({ route }: { route: any }) => {
                     </BackgroundGradient>
                 )}
                 source={{ uri: url }}
-                style={{ width, height, backgroundColor: 'transparent' }}
+                style={[defaultStyles.background, style ? style : defaultStyles.webViewStyle]}
                 // Do not load any inline links
                 onShouldStartLoadWithRequest={req => url === req.url}
             />

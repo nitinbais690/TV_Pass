@@ -14,7 +14,7 @@ export const useContinueWatchingProgress = (bookmarkOffset?: number, runningTime
             setShowProgress(false);
             return;
         }
-        
+
         if (runningTime > 0 && bookmarkOffset > 0) {
             const percent = (bookmarkOffset / (runningTime * 1000)) * 100;
             setShowProgress(true);

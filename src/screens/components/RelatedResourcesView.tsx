@@ -1,5 +1,5 @@
-import React from 'react';
-import { ListRenderItem, Text, StyleSheet, FlatList, View } from 'react-native';
+import React, { useRef } from 'react';
+import { ListRenderItem, Text, StyleSheet, FlatList, View, Platform } from 'react-native';
 import { useDimensions } from '@react-native-community/hooks';
 import { Category, ResourceCardViewBaseProps, ResourceVm } from 'qp-discovery-ui';
 import { useAppPreferencesState } from 'utils/AppPreferencesContext';
@@ -33,17 +33,44 @@ export interface RelatedResourcesViewProps {
      */
     cardProps: ResourceCardViewBaseProps<ResourceVm>;
     /**
-     * Show empty card
+     * Styles for title
      */
-    cardType?: string;
+    relatedSectionHeader?: any;
     /**
-     * Track if reported
+     * Styles for list
      */
-    setIsReported?: any;
+    listStyle?: any;
+    /**
+     * down focus block on tv
+     */
+    blockFocusDown?: boolean;
+    /**
+     * right focus block on tv
+     */
+    blockFocusRight?: boolean;
+
+    /**
+     * left focus block on tv
+     */
+    blockFocusLeft?: boolean;
+
+    /**
+     * give some custom margin padding according to Tv details
+     */
+    isDetailsTvLayout?: boolean;
 }
 
 export const RelatedResourcesView = (props: RelatedResourcesViewProps): JSX.Element => {
-    const { resource, type, cardType = '', setIsReported } = props;
+    const {
+        resource,
+        type,
+        relatedSectionHeader,
+        listStyle,
+        blockFocusDown,
+        blockFocusLeft,
+        blockFocusRight,
+        isDetailsTvLayout,
+    } = props;
     const navigation = useNavigation();
     const { width, height } = useDimensions().window;
     const { strings, appLanguage } = useLocalization();
@@ -51,10 +78,11 @@ export const RelatedResourcesView = (props: RelatedResourcesViewProps): JSX.Elem
     const { appConfig, appTheme } = prefs;
     let { appBaseStyles, appPadding } = appTheme!(prefs);
     const query = relatedQuery(appConfig, type, resource, appLanguage);
+    let flatListRef = useRef<any>(undefined);
     const { resources, loading, error } = useRelatedResources(
         query,
         1,
-        25,
+        isDetailsTvLayout ? 30 : 25,
         type === RelatedType.RelatedTypeRecommended || type === RelatedType.RelatedTypeRecommendedFromService,
     );
 
@@ -108,25 +136,44 @@ export const RelatedResourcesView = (props: RelatedResourcesViewProps): JSX.Elem
     const cardsPreview = selectDeviceType<number>({ Tv: 6.2, Tablet: 4.2 }, 3.15);
 
     const renderResource = React.useCallback(
-        ({ item }: { item: ResourceVm }) => (
+        ({ item, index }: { item: ResourceVm; index: number }) => (
             <StorefrontCardView
                 resource={item}
                 isPortrait={height > width}
+                blockFocusDown={blockFocusDown}
+                blockFocusLeft={blockFocusLeft ? index === 0 : false}
+                blockFocusRight={blockFocusRight ? index === resources.length - 1 : false}
                 onResourcePress={onResourcePress}
                 fallbackAspectRatio={AspectRatio._16by9}
                 containerSize={containerSize}
                 cardsPreview={cardsPreview}
-                cardType={cardType || ''}
+                isDetailsTvLayout={isDetailsTvLayout}
+                shiftScrollToFocusIndex={
+                    Platform.isTV
+                        ? () => {
+                              flatListRef.current.scrollToIndex({ animated: true, index });
+                          }
+                        : undefined
+                }
             />
         ),
-        [height, width, onResourcePress, containerSize, cardsPreview, cardType],
+        [
+            height,
+            width,
+            blockFocusDown,
+            blockFocusLeft,
+            blockFocusRight,
+            resources.length,
+            onResourcePress,
+            containerSize,
+            cardsPreview,
+            isDetailsTvLayout,
+        ],
     );
 
     const onResourcePress = React.useCallback(
         (tappedResource: ResourceVm) => {
             tappedResource.containerName = title;
-            setIsReported(false);
-
             navigation.navigate(NAVIGATION_TYPE.CONTENT_DETAILS, {
                 resource: tappedResource,
                 title: tappedResource.name,
@@ -134,7 +181,7 @@ export const RelatedResourcesView = (props: RelatedResourcesViewProps): JSX.Elem
                 resourceType: tappedResource.type,
             });
         },
-        [navigation, setIsReported, title],
+        [navigation, title],
     );
 
     const resourcesKeyExtractor = React.useCallback((item: ResourceVm, index: number) => `r-${index}-${item.id}`, []);
@@ -142,31 +189,38 @@ export const RelatedResourcesView = (props: RelatedResourcesViewProps): JSX.Elem
     return (
         <View style={styles.container}>
             {loading && (
-                <SkeletonCatalogContainer
-                    aspectRatio={AspectRatio._16by9}
-                    showFooter
-                    showContainerLabel
-                    count={8}
-                    containerSize={containerSize}
-                    cardsPreview={cardsPreview}
-                />
+                <View style={[listStyle && listStyle]}>
+                    <SkeletonCatalogContainer
+                        aspectRatio={AspectRatio._16by9}
+                        showFooter
+                        showContainerLabel
+                        count={8}
+                        containerSize={containerSize}
+                        cardsPreview={cardsPreview}
+                    />
+                </View>
             )}
 
             {!loading && !error && resources.length > 0 && (
                 <>
-                    <Text style={appBaseStyles.sectionHeader}>{title}</Text>
-                    <FlatList<ResourceVm>
-                        testID={'resourceListView'}
-                        horizontal={true}
-                        numColumns={1}
-                        showsHorizontalScrollIndicator={false}
-                        showsVerticalScrollIndicator={false}
-                        data={resources}
-                        renderItem={renderResource}
-                        keyExtractor={resourcesKeyExtractor}
-                        removeClippedSubviews={false}
-                        contentContainerStyle={styles.listContainer}
-                    />
+                    <Text style={[relatedSectionHeader ? relatedSectionHeader : appBaseStyles.sectionHeader]}>
+                        {title}
+                    </Text>
+                    <View style={[listStyle ? listStyle : undefined]}>
+                        <FlatList<ResourceVm>
+                            testID={'resourceListView'}
+                            horizontal={true}
+                            numColumns={1}
+                            ref={flatListRef}
+                            showsHorizontalScrollIndicator={false}
+                            showsVerticalScrollIndicator={false}
+                            data={resources}
+                            renderItem={renderResource}
+                            keyExtractor={resourcesKeyExtractor}
+                            removeClippedSubviews={false}
+                            contentContainerStyle={[Platform.isTV ? undefined : styles.listContainer]}
+                        />
+                    </View>
                 </>
             )}
         </View>

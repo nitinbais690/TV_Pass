@@ -36,11 +36,10 @@ const ServicesUsageScreen = (): JSX.Element => {
         tagline: {
             color: appColors.secondary,
             fontFamily: appFonts.primary,
-            fontSize: appFonts.sm,
+            fontSize: appFonts.md,
         },
         creditsUsage: {
             alignContent: 'center',
-            flexWrap: 'wrap',
             flexDirection: 'row',
             borderRadius: 10,
             marginVertical: 20,

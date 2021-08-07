@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import {
     FlatList,
     Text,
@@ -12,6 +12,7 @@ import {
     NativeSyntheticEvent,
     NativeScrollEvent,
     Animated,
+    Platform,
 } from 'react-native';
 // Using react-navigation's FlatList since it offers Platform-native behavior like touch active tab to scroll to top.
 // import { FlatList } from 'react-navigation';
@@ -19,6 +20,9 @@ import { colors, padding, typography } from 'qp-common-ui';
 import { ContainerVm, ResourceVm } from '../models/ViewModels';
 import ResourceCarouselView from './ResourceCarouselView';
 import ResourceCardView, { ResourceCardViewBaseProps } from './ResourceCardView';
+import StorefrontCarouselTV from '../../../../TV/components/StorefrontCarouselTV';
+import { useLocalization } from 'contexts/LocalizationContext';
+import { appDimensions, tvPixelSizeForLayout } from '../../../../../AppStyles';
 
 const defaultCatalogStyle = StyleSheet.create({
     sectionHeaderContainer: {},
@@ -81,7 +85,6 @@ export interface DiscoveryCatalogProps {
      * Rendered at the very end of the list.
      */
     ListFooterComponent?: React.ComponentType<any> | React.ReactElement | null;
-
     /**
      * These styles will be applied to the scroll view content container which
      * wraps all of the child views. Example:
@@ -169,6 +172,17 @@ export interface DiscoveryCatalogProps {
      * The viewOffset at which the carousel should be animated when orientation changes
      */
     viewScrollOffset?: number;
+
+    /**
+     *  set initial focus on coursel in tv
+     */
+    initialHasTVPreferredFocusOnCarousel?: boolean;
+    /**
+     *  set initial focus method on coursel in tv
+     */
+    onSetInitialFocus?: any;
+
+    route?: string;
 }
 
 const propsAreEqual = (prevProps: any, nextProps: any): boolean => {
@@ -194,7 +208,10 @@ const ResourceListView = ({
     onEndReachedWithinContainer,
     onEndReachedThreshold,
     ListFooterComponent,
+    containerIndex,
+    myContentTvStyle,
     ViewAllComponent,
+    route,
 }: {
     item: ContainerVm;
     cardProps?: ResourceCardViewBaseProps<ResourceVm>;
@@ -204,8 +221,12 @@ const ResourceListView = ({
     onEndReachedWithinContainer?: ((container: ContainerVm, info: { distanceFromEnd: number }) => void) | null;
     onEndReachedThreshold?: number | null;
     ListFooterComponent?: React.ComponentType<any> | React.ReactElement | null;
+    containerIndex: number;
+    myContentTvStyle?: boolean;
     ViewAllComponent?: ((container: ContainerVm) => React.ReactElement) | null;
+    route?: string;
 }): JSX.Element => {
+    let flatListRef = useRef<any>(undefined);
     const resourcesKeyExtractor = React.useCallback((item: ResourceVm, index: number) => `r-${index}-${item.id}`, []);
     const defaultRenderResource = React.useCallback(
         ({ item }: { item: ResourceVm }): JSX.Element => {
@@ -215,19 +236,58 @@ const ResourceListView = ({
         [isPortrait],
     );
 
+    const shiftScrollToFocusIndex = (index: number) => {
+        if (Platform.isTV && myContentTvStyle) {
+            flatListRef.current.scrollToIndex({ animated: true, index });
+        }
+    };
+
+    const getContentContainerPaddingRight = () => {
+        const screenWidth = appDimensions.fullWidth;
+        let cardPerScreen = screenWidth / tvPixelSizeForLayout(100);
+        return (cardPerScreen - 1) * tvPixelSizeForLayout(100);
+    };
+
+    let RenderResource = Platform.isTV ? renderResource : undefined;
+
     return (
         <FlatList<ResourceVm>
             keyExtractor={resourcesKeyExtractor}
             horizontal={true}
             numColumns={1}
             showsHorizontalScrollIndicator={false}
-            data={containerItem.resources}
-            renderItem={renderResource ? renderResource : defaultRenderResource}
-            contentContainerStyle={containerContentContainerStyle}
+            data={containerItem.resources!}
+            ref={flatListRef}
+            renderItem={
+                RenderResource
+                    ? ({ item, index }) => {
+                          return (
+                              <RenderResource
+                                  shiftScrollToFocusIndex={shiftScrollToFocusIndex}
+                                  item={item}
+                                  index={index}
+                                  containerIndex={containerIndex}
+                              />
+                          );
+                      }
+                    : renderResource
+                    ? renderResource
+                    : defaultRenderResource
+            }
+            contentContainerStyle={
+                myContentTvStyle
+                    ? {
+                          paddingRight: getContentContainerPaddingRight(),
+                      }
+                    : containerContentContainerStyle
+            }
+            style={myContentTvStyle ? containerContentContainerStyle : undefined}
             onEndReached={info => onEndReachedWithinContainer && onEndReachedWithinContainer(containerItem, info)}
             onEndReachedThreshold={onEndReachedThreshold}
+            // ListFooterComponent={containerItem.lazyLoading ? ListFooterComponent : null}
             ListFooterComponent={
-                containerItem.viewAll && ViewAllComponent !== undefined
+                // containerItem.viewAll && ViewAllComponent !== undefined
+                ViewAllComponent !== undefined && route !== 'My Content'
                     ? ViewAllComponent(containerItem)
                     : containerItem.lazyLoading
                     ? ListFooterComponent
@@ -241,6 +301,7 @@ const MemoizedResourceListView = React.memo(ResourceListView, propsAreEqual);
 
 export const DiscoveryCatalog = (props: DiscoveryCatalogProps): JSX.Element => {
     const {
+        route,
         containers,
         carouselCardWidth,
         renderContainer,
@@ -261,10 +322,11 @@ export const DiscoveryCatalog = (props: DiscoveryCatalogProps): JSX.Element => {
         HorizontalListFooterComponent,
         ViewAllComponent,
         isPortrait,
+        initialHasTVPreferredFocusOnCarousel,
+        onSetInitialFocus,
     } = props;
 
     const containerKeyExtractor = React.useCallback((item: ContainerVm, index: number) => `c-${index}-${item.id}`, []);
-
     //const [, cardViewHeight] = cardViewDimensions(cardProps.cardStyle);
 
     // const [, cardViewHeight] = cardViewDimensions(cardProps.cardStyle);
@@ -276,6 +338,7 @@ export const DiscoveryCatalog = (props: DiscoveryCatalogProps): JSX.Element => {
     //     index,
     // });
 
+    const { strings } = useLocalization();
     const defaultRenderResource = React.useCallback(
         ({ item }: { item: ResourceVm }): JSX.Element => {
             return <ResourceCardView resource={item} isPortrait={isPortrait} {...cardProps} />;
@@ -284,8 +347,38 @@ export const DiscoveryCatalog = (props: DiscoveryCatalogProps): JSX.Element => {
         [isPortrait],
     );
 
-    const defaultRenderContainer = ({ item: containerItem }: { item: ContainerVm }): JSX.Element => {
-        if (containerItem.layout === 'banner') {
+    const defaultRenderContainer = ({
+        item: containerItem,
+        index,
+    }: {
+        item: ContainerVm;
+        index: number;
+    }): JSX.Element => {
+        if (
+            containerItem.name === strings['my_content.recently_redeemed'] &&
+            //containerItem.resources &&
+            //containerItem.resources.length > 0 &&
+            Platform.isTV
+        ) {
+            // let latestRedmeedResources = containerItem.resources.filter(
+            //     resource => resource.watchedOffset && resource.watchedOffset === 0,
+            // );
+            return (
+                <StorefrontCarouselTV
+                    //resources={latestRedmeedResources}
+                    resources={containerItem.resources!}
+                    initialHasTVPreferredFocus={initialHasTVPreferredFocusOnCarousel}
+                />
+            );
+        } else if (Platform.isTV && containerItem.layout === 'banner') {
+            return (
+                <StorefrontCarouselTV
+                    resources={containerItem.resources!}
+                    initialHasTVPreferredFocus={initialHasTVPreferredFocusOnCarousel}
+                    onSetInitialFocus={onSetInitialFocus}
+                />
+            );
+        } else if (containerItem.layout === 'banner') {
             return (
                 <ResourceCarouselView
                     resources={containerItem.resources!}
@@ -300,7 +393,7 @@ export const DiscoveryCatalog = (props: DiscoveryCatalogProps): JSX.Element => {
         } else {
             return (
                 <React.Fragment key={containerItem.id}>
-                    {showSectionHeader && (
+                    {showSectionHeader && route === 'My Content' && Platform.isTV ? (
                         <View style={[defaultCatalogStyle.sectionHeaderContainer]}>
                             <Text
                                 testID={containerItem.name}
@@ -308,17 +401,39 @@ export const DiscoveryCatalog = (props: DiscoveryCatalogProps): JSX.Element => {
                                 {containerItem.name}
                             </Text>
                         </View>
+                    ) : showSectionHeader && index !== 1 && Platform.isTV ? (
+                        <View style={[defaultCatalogStyle.sectionHeaderContainer]}>
+                            <Text
+                                testID={containerItem.name}
+                                style={[defaultCatalogStyle.sectionHeader, sectionHeaderStyle]}>
+                                {containerItem.name}
+                            </Text>
+                        </View>
+                    ) : (
+                        showSectionHeader &&
+                        !Platform.isTV && (
+                            <View style={[defaultCatalogStyle.sectionHeaderContainer]}>
+                                <Text
+                                    testID={containerItem.name}
+                                    style={[defaultCatalogStyle.sectionHeader, sectionHeaderStyle]}>
+                                    {containerItem.name}
+                                </Text>
+                            </View>
+                        )
                     )}
                     <MemoizedResourceListView
                         item={containerItem}
                         cardProps={cardProps}
                         renderResource={renderResource ? renderResource : defaultRenderResource}
                         containerContentContainerStyle={containerContentContainerStyle}
+                        myContentTvStyle={(route === 'My Content' || route === 'Browse') && Platform.isTV}
                         isPortrait={isPortrait}
+                        containerIndex={index}
                         onEndReachedThreshold={onEndReachedThreshold}
                         onEndReachedWithinContainer={onEndReachedWithinContainer}
                         ListFooterComponent={HorizontalListFooterComponent}
                         ViewAllComponent={ViewAllComponent}
+                        route={route}
                     />
                 </React.Fragment>
             );

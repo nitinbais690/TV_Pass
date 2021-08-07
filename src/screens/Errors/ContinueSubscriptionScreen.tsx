@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Platform } from 'react-native';
 import { useDimensions } from '@react-native-community/hooks';
 import { AspectRatio, ImageType, selectDeviceType } from 'qp-common-ui';
 import { ResizableImage } from 'qp-discovery-ui';
@@ -107,12 +107,14 @@ const ContinueSubscriptionScreen = ({ navigation }: { navigation: any }): JSX.El
     }, [navigation, product, transactionSuccess]);
 
     const openBrowser = async (title: string) => {
-        try {
-            navigation.navigate(NAVIGATION_TYPE.BROWSE_WEBVIEW, {
-                type: title,
-            });
-        } catch (error) {
-            console.log(`[InAppBrowser] Error loading url: ${title}`, error);
+        if (!Platform.isTV) {
+            try {
+                navigation.navigate(NAVIGATION_TYPE.BROWSE_WEBVIEW, {
+                    type: title,
+                });
+            } catch (error) {
+                console.log(`[InAppBrowser] Error loading url: ${title}`, error);
+            }
         }
     };
 
@@ -186,6 +188,7 @@ const ContinueSubscriptionScreen = ({ navigation }: { navigation: any }): JSX.El
                     <View style={style.buttonWrapper}>
                         <Text style={style.title}>{strings['continue_sub.complete_sub_text']}</Text>
                         <Button
+                            type={'solid'}
                             title={strings['continue_sub.continue_btn_label']}
                             onPress={() => {
                                 //Note: use push instead of navigation because in this scenario PurchaseSubscription screen

@@ -296,4 +296,3 @@ Jenkins Multi-branch Pipeline Job: [http://jenkins.quickplay.local/buildStatus/i
 #### Tips
 
 1. Include `[ci skip]` anywhere in the commit message on a feature branch to avoid a CI build. This is intended for skip wait time on a trivial commit (README updates, documentation change, or any non-code, non-configuration related changes), do not use it unwisely :). If this is useful, we could in the future consider a more robust solution as prescribed [here](https://circleci.com/blog/circleci-hacks-automate-the-decision-to-skip-builds-using-a-git-hook/).
-# TV_Pass

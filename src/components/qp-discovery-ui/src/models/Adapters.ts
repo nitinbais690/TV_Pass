@@ -128,8 +128,6 @@ export const containerAdapter = (
     originScreen?: string,
     collectionId?: string,
     collectionTitle?: string,
-    appNavigationState?: string,
-    storefrontContentLimit?: number,
 ): ContainerVm => {
     const containerVm: ContainerVm = {
         id: container.id,
@@ -151,26 +149,21 @@ export const containerAdapter = (
         get resources() {
             return (
                 (container.cd &&
-                    container.cd
-                        .filter((res, index) => {
-                            return index < storefrontContentLimit && res;
-                        })
-                        .map(res =>
-                            catalogResourceAdapter(
-                                res,
-                                this,
-                                storefrontId,
-                                tabId,
-                                tabName,
-                                originScreen,
-                                collectionId,
-                                collectionTitle,
-                            ),
-                        )) ||
+                    container.cd.map(res =>
+                        catalogResourceAdapter(
+                            res,
+                            this,
+                            storefrontId,
+                            tabId,
+                            tabName,
+                            originScreen,
+                            collectionId,
+                            collectionTitle,
+                        ),
+                    )) ||
                 []
             );
         },
-        viewAll: container.cd && container.cd.length > storefrontContentLimit ? true : false,
     };
     return containerVm;
 };

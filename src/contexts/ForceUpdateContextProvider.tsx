@@ -1,10 +1,9 @@
 import React, { useEffect, createContext, useContext, useState } from 'react';
-import { Linking } from 'react-native';
+import { Linking, Platform } from 'react-native';
 import BackgroundGradient from 'screens/components/BackgroundGradient';
 import { useLocalization } from 'contexts/LocalizationContext';
 import { useAlert } from 'contexts/AlertContext';
 import { useAppPreferencesState } from 'utils/AppPreferencesContext';
-import VersionCheck from 'react-native-version-check';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface AlertState {
@@ -37,32 +36,35 @@ export const ForceUpdateContextProvider = ({ children }: { children: React.React
         }
 
         setIsTriggerToStoreUrl(false);
-        const currentVersion = parseFloat(VersionCheck.getCurrentVersion());
-        // check gracefull update attempt so that use wont see the update screen if already skip it.
-        const gracefullUpdateVersionKey = (await AsyncStorage.getItem(GRACEFUL_UPDATE_VERSION_KEY)) || '';
+        if (!Platform.isTV) {
+            const { VersionCheck } = require('react-native-version-check');
+            const currentVersion = parseFloat(VersionCheck.getCurrentVersion());
+            // check gracefull update attempt so that use wont see the update screen if already skip it.
+            const gracefullUpdateVersionKey = (await AsyncStorage.getItem(GRACEFUL_UPDATE_VERSION_KEY)) || '';
 
-        VersionCheck.getLatestVersion().then(ver => {
-            if (appConfig.minSupportedVersion) {
-                // minSupportedVersion key will have value like "1.1_40". 1.1 is the version number and 40 is build number.
-                const latestVersion = parseFloat(ver);
-                const minSupportedVersionArr = appConfig.minSupportedVersion.split('_');
-                const minSupportedVersion = parseFloat(minSupportedVersionArr[0]);
+            VersionCheck.getLatestVersion().then(ver => {
+                if (appConfig.minSupportedVersion) {
+                    // minSupportedVersion key will have value like "1.1_40". 1.1 is the version number and 40 is build number.
+                    const latestVersion = parseFloat(ver);
+                    const minSupportedVersionArr = appConfig.minSupportedVersion.split('_');
+                    const minSupportedVersion = parseFloat(minSupportedVersionArr[0]);
 
-                // if Current version is less then minimum support should trigger forcefull update popup
-                if (currentVersion < minSupportedVersion) {
-                    setIsUpdatable(true);
-                    onForceUpdate();
-                } else if (
-                    currentVersion >= minSupportedVersion &&
-                    currentVersion < latestVersion &&
-                    gracefullUpdateVersionKey !== currentVersion.toString()
-                ) {
-                    AsyncStorage.setItem(GRACEFUL_UPDATE_VERSION_KEY, currentVersion.toString());
-                    setIsUpdatable(true);
-                    onGracefulUpdate();
+                    // if Current version is less then minimum support should trigger forcefull update popup
+                    if (currentVersion < minSupportedVersion) {
+                        setIsUpdatable(true);
+                        onForceUpdate();
+                    } else if (
+                        currentVersion >= minSupportedVersion &&
+                        currentVersion < latestVersion &&
+                        gracefullUpdateVersionKey !== currentVersion.toString()
+                    ) {
+                        AsyncStorage.setItem(GRACEFUL_UPDATE_VERSION_KEY, currentVersion.toString());
+                        setIsUpdatable(true);
+                        onGracefulUpdate();
+                    }
                 }
-            }
-        });
+            });
+        }
     };
 
     const onForceUpdate = () => {
@@ -76,13 +78,16 @@ export const ForceUpdateContextProvider = ({ children }: { children: React.React
 
     const handleOpenUrl = () => {
         setIsTriggerToStoreUrl(true);
-        VersionCheck.getStoreUrl()
-            .then(storeUrl => {
-                Linking.openURL(storeUrl);
-            })
-            .catch(() => {
-                Linking.openURL('itms-apps://itunes.apple.com/us/app/apple-store');
-            });
+        if (!Platform.isTV) {
+            const VersionCheck = require('react-native-version-check');
+            VersionCheck.getStoreUrl()
+                .then(storeUrl => {
+                    Linking.openURL(storeUrl);
+                })
+                .catch(() => {
+                    Linking.openURL('itms-apps://itunes.apple.com/us/app/apple-store');
+                });
+        }
     };
 
     const onGracefulUpdate = () => {

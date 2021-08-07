@@ -20,7 +20,7 @@ import { colors, fonts, padding, percentage, selectDeviceType } from 'qp-common-
 // import { BorderlessButton } from 'react-native-gesture-handler';
 // import CloseIcon from '../../assets/images/close.svg';
 import CheckImg from '../../assets/images/checkImg.svg';
-import { BlurView } from '@react-native-community/blur';
+import BlurComponent from 'screens/components/BlurComponent';
 
 const ITEM_HEIGHT = 64;
 const selectorHeight = Platform.isTV ? percentage(8, true) : percentage(14, true);
@@ -344,8 +344,9 @@ export const DropDownMenuView = (props: DropDownMenuViewProps): JSX.Element => {
         var currentTitles = data![state.activityIndex];
 
         return (
-            <Modal transparent={true} visible={modalVisible}>
-                <BlurView
+            <Modal hardwareAccelerated transparent={true} visible={modalVisible}>
+                <BlurComponent
+                    opacity={0.5}
                     style={StyleSheet.absoluteFillObject}
                     blurType="light"
                     blurAmount={3}

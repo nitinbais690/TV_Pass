@@ -5,7 +5,6 @@ import { useSafeArea } from 'react-native-safe-area-context';
 import DeviceInfo from 'react-native-device-info';
 import { TabView, TabBar as RNTabBar, Route, SceneRendererProps, NavigationState } from 'react-native-tab-view';
 import { useNavigation } from '@react-navigation/native';
-import { CastButton } from 'react-native-google-cast';
 
 import { useAppPreferencesState } from 'utils/AppPreferencesContext';
 import { useAppState } from 'utils/AppContextProvider';
@@ -18,11 +17,11 @@ import { CreditsButton } from 'screens/components/CreditsButton';
 import HeaderGradient from 'screens/components/HeaderGradient';
 import SearchIcon from '../../../assets/images/search.svg';
 import CloseIcon from '../../../assets/images/close.svg';
-import CreditsIcon from '../../../assets/images/brand_symbol.svg';
 import { appFonts, appPadding, appDimensions } from '../../../AppStyles';
 import { NAVIGATION_TYPE } from '../Navigation/NavigationConstants';
 import { selectDeviceType } from 'qp-common-ui';
 import { AppEvents } from 'utils/ReportingUtils';
+import CastButtonComponent from '../components/CastButtonComponent';
 
 // const ENABLE_TAB_SCROLL = false;
 const DEFAULT_CENTERED_TAB_WIDTH = 110;
@@ -67,14 +66,9 @@ const HeaderTitle = () => {
             right: 0,
             zIndex: 0,
         },
-        widthGap: {
-            marginRight: 7,
-        },
     });
     return (
         <View style={styles.headerTitleContainer}>
-            <CreditsIcon width={20} height={selectDeviceType({ Handset: 18 }, 28)} />
-            <View style={styles.widthGap} />
             <BrandLogo />
         </View>
     );
@@ -88,7 +82,7 @@ const HeaderTabBar = <T extends Route>(props: HeaderTabBarProps<T>): JSX.Element
     const { isCastSessionActive } = useCastContext();
     //Note: Below two lines are for analytics
     const { recordEvent, analyticsEvent } = props;
-    const [previousScreen, setPreviousScreen] = React.useState<String | undefined>();
+    const [previousScreen, setPreviousScreen] = React.useState<String | undefined>('');
     const prefs = useAppPreferencesState();
     let { appColors } = prefs.appTheme!(prefs);
     const [index, setIndex] = React.useState(props.initialTab || 0);
@@ -152,10 +146,9 @@ const HeaderTabBar = <T extends Route>(props: HeaderTabBarProps<T>): JSX.Element
             justifyContent: 'flex-start',
         },
         innerContainer: {
-            marginHorizontal: 22,
+            marginHorizontal: 30,
             alignItems: 'center',
             justifyContent: 'center',
-            flexDirection: 'row',
         },
     });
 
@@ -212,8 +205,6 @@ const HeaderTabBar = <T extends Route>(props: HeaderTabBarProps<T>): JSX.Element
         return (
             <View style={headerStyles.headerTitleContainerStyle}>
                 <View style={headerStyles.innerContainer}>
-                    <CreditsIcon width={20} height={selectDeviceType({ Handset: 18 }, 28)} />
-                    <View style={{ marginRight: 7 }} />
                     <BrandLogo />
                 </View>
                 {props.routes && props.routes.length > 1 && (
@@ -268,6 +259,13 @@ const HeaderTabBar = <T extends Route>(props: HeaderTabBarProps<T>): JSX.Element
     //     }).start();
     // }, [left]);
 
+    // const renderCastButton = React.useCallback(() => {
+    //     if (isCastSessionActive && !Platform.isTV) {
+    //         const { CastButton } = require('react-native-google-cast');
+    //         return <CastButton style={headerStyles.castIcon} />;
+    //     }
+    // }, [headerStyles.castIcon, isCastSessionActive]);
+
     const defaultRenderTabBar = React.useMemo(
         () => (
             tabBarProps: SceneRendererProps & {
@@ -284,17 +282,17 @@ const HeaderTabBar = <T extends Route>(props: HeaderTabBarProps<T>): JSX.Element
                             <BorderlessButton
                                 onPress={() => triggerAuthFlow()}
                                 style={{ paddingHorizontal: appPadding.sm(true) }}>
-                                <CloseIcon accessible accessibilityLabel={'Close'} />
+                                <CloseIcon />
                             </BorderlessButton>
                         )}
                     </View>
                     {isMobile ? <HeaderTitle /> : <HeaderTitleLarge tabBarProps={tabBarProps} />}
                     <View style={headerStyles.headerRightContainerStyle}>
-                        {isCastSessionActive && <CastButton style={headerStyles.castIcon} />}
+                        {isCastSessionActive && <CastButtonComponent style={headerStyles.castIcon} />}
                         <BorderlessButton
                             onPress={() => navigation.navigate(NAVIGATION_TYPE.SEARCH)}
                             style={{ paddingHorizontal: appPadding.sm(true) }}>
-                            <SearchIcon accessible accessibilityLabel={'Search'} />
+                            <SearchIcon />
                         </BorderlessButton>
                     </View>
                 </View>
@@ -326,13 +324,13 @@ const HeaderTabBar = <T extends Route>(props: HeaderTabBarProps<T>): JSX.Element
     useEffect(() => {
         if (recordEvent && analyticsEvent) {
             if (props.routes && props.routes[index]) {
-                if (props.routes[index].title && previousScreen) {
+                if (props.routes[index].title) {
                     recordEvent(analyticsEvent, {
                         current_screen: props.routes[index].title,
                         previous_screen: previousScreen,
                     });
+                    setPreviousScreen(props.routes[index].title);
                 }
-                setPreviousScreen(props.routes[index].title);
             }
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps

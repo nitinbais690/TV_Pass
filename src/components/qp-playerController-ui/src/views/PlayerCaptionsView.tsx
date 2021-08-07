@@ -49,11 +49,11 @@ interface PlayerCaptionProps {
     /**
      * Function to enable the selected audio track
      */
-    onAudioOptionSelected: (option: string, languageCode: string) => void;
+    onAudioOptionSelected: (selection: any) => void;
     /**
      * Function to enable the selected text track
      */
-    onTextOptionSelected: (option: string, languageCode: string) => void;
+    onTextOptionSelected: (name: string, languageCode: string) => void;
     /**
      * State to enable/disable description
      */
@@ -377,7 +377,7 @@ export const PlayerCaptionsView = (props: PlayerCaptionProps): JSX.Element => {
     /**
      * Button to display for the available set of subtitles and audio
      */
-    const renderButton = (isSubtitle: boolean, captionOptions: string[], isActive = false) => {
+    const renderButton = (isSubtitle: boolean, captionOptions: any, isActive = false) => {
         return captionOptions.map(displayText => (
             <TouchableHighlight
                 underlayColor={isAndroidTV ? selectionColor : ''}
@@ -410,10 +410,14 @@ export const PlayerCaptionsView = (props: PlayerCaptionProps): JSX.Element => {
      * @param isSubtitle Param to identify if the passed value is subtitle
      * @param trackName Name of the selected track
      */
-    const handleSelectedTrack = (isSubtitle: boolean, trackName: string): void => {
+    const handleSelectedTrack = (isSubtitle: boolean, trackName: any): void => {
         console.log(`selectTrack = ${isSubtitle}, ${trackName}`);
         if (isSubtitle) {
-            onTextOptionSelected(trackName);
+            if (trackName === 'OFF') {
+                onTextOptionSelected(trackName, '');
+            } else {
+                onTextOptionSelected(trackName.displayName, trackName.languageCode);
+            }
         } else {
             onAudioOptionSelected(trackName);
         }

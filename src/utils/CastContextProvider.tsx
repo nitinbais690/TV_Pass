@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useEffect, useReducer, Dispatch } from 'react';
-import GoogleCast, { CastDevice } from 'react-native-google-cast';
+import { Platform } from 'react-native';
+import { CastDevice } from 'react-native-google-cast';
 
 export interface CastMessage {
     messageName: MessageName;
@@ -56,52 +57,58 @@ export const castReducer = (castState: CastState, action: any): CastState => {
 export const CastContextProvider = ({ children }: { children: React.ReactNode }) => {
     const [state, dispatch] = useReducer(castReducer, initialState);
 
-    useEffect(() => {
-        console.debug('[CastContextProvider] setup cast listeners');
+    // useEffect(() => {
+    //     if (!Platform.isTV) {
+    //         const GoogleCast = require('react-native-google-cast');
+    //         console.debug('[CastContextProvider] setup cast listeners');
 
-        // Cast might have resumed while this context loads, so need this check
-        const autoDiscover = async () => {
-            const castState = await GoogleCast.getCastState();
-            console.debug('[GoogleCast] autoDisover state', castState);
-            if (castState === 'Connected') {
-                dispatch({
-                    type: 'SESSION_STARTED',
-                });
+    //         // Cast might have resumed while this context loads, so need this check
+    //         const autoDiscover = async () => {
+    //             const castState = await GoogleCast.getCastState();
+    //             console.debug('[GoogleCast] autoDisover state', castState);
+    //             if (castState === 'Connected') {
+    //                 dispatch({
+    //                     type: 'SESSION_STARTED',
+    //                 });
+    //             }
+    //         };
+
+    //         GoogleCast.EventEmitter.addListener(GoogleCast.SESSION_ENDED, () => {
+    //             console.debug('[CastContextProvider][GoogleCast] Session ended');
+    //             dispatch({
+    //                 type: 'SESSION_ENDED',
+    //             });
+    //         });
+
+    //         GoogleCast.EventEmitter.addListener(GoogleCast.SESSION_RESUMED, () => {
+    //             console.debug('[GoogleCast] Session resumed');
+    //             dispatch({
+    //                 type: 'SESSION_STARTED',
+    //             });
+    //         });
+
+    //         autoDiscover();
+
+    //         return () => {
+    //             GoogleCast.EventEmitter.removeAllListeners(GoogleCast.SESSION_ENDED);
+    //             GoogleCast.EventEmitter.removeAllListeners(GoogleCast.SESSION_RESUMED);
+    //         };
+    //     }
+
+    //     // eslint-disable-next-line react-hooks/exhaustive-deps
+    // }, []);
+
+    useEffect(() => {
+        if (!Platform.isTV) {
+            // const GoogleCast = require('react-native-google-cast');
+            // const fetchDeviceInfo = async () => {
+            //     const device = await GoogleCast.getCastDevice();
+            //     dispatch({ type: 'DEVICE_INFO', value: device });
+            // };
+
+            if (state.isCastSessionActive) {
+                // fetchDeviceInfo();
             }
-        };
-
-        GoogleCast.EventEmitter.addListener(GoogleCast.SESSION_ENDED, () => {
-            console.debug('[CastContextProvider][GoogleCast] Session ended');
-            dispatch({
-                type: 'SESSION_ENDED',
-            });
-        });
-
-        GoogleCast.EventEmitter.addListener(GoogleCast.SESSION_RESUMED, () => {
-            console.debug('[GoogleCast] Session resumed');
-            dispatch({
-                type: 'SESSION_STARTED',
-            });
-        });
-
-        autoDiscover();
-
-        return () => {
-            GoogleCast.EventEmitter.removeAllListeners(GoogleCast.SESSION_ENDED);
-            GoogleCast.EventEmitter.removeAllListeners(GoogleCast.SESSION_RESUMED);
-        };
-
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
-
-    useEffect(() => {
-        const fetchDeviceInfo = async () => {
-            const device = await GoogleCast.getCastDevice();
-            dispatch({ type: 'DEVICE_INFO', value: device });
-        };
-
-        if (state.isCastSessionActive) {
-            fetchDeviceInfo();
         }
 
         // eslint-disable-next-line react-hooks/exhaustive-deps

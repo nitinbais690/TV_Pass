@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleProp, ViewStyle, View, PixelRatio } from 'react-native';
+import { StyleProp, ViewStyle, View, PixelRatio, Platform } from 'react-native';
 import LottieView from 'lottie-react-native';
 import { selectDeviceType } from 'qp-common-ui';
 import { useAppPreferencesState } from 'utils/AppPreferencesContext';
@@ -21,7 +21,7 @@ const AppLoadingIndicator = ({
     const prefs = useAppPreferencesState();
     let { appBaseStyles } = prefs.appTheme!(prefs);
     const small = selectDeviceType({ Handset: 50 }, 70) * PixelRatio.get();
-    const large = selectDeviceType({ Handset: 100 }, 140) * PixelRatio.get();
+    const large = selectDeviceType({ Handset: 100, Tv: 350 }, 140) * PixelRatio.get();
     const sizePx = size === 'large' ? large : small;
     const navigation = useNavigation();
 
@@ -39,7 +39,11 @@ const AppLoadingIndicator = ({
                 </View>
             )}
             <LottieView
-                source={require('../../../assets/animations/Struum_Loader.json')}
+                source={
+                    Platform.isTV
+                        ? require('../../../assets/animations/Struum_Tv_Loader.json')
+                        : require('../../../assets/animations/Struum_Loader.json')
+                }
                 autoPlay
                 autoSize={false}
                 style={{ width: sizePx, aspectRatio: 1 }}

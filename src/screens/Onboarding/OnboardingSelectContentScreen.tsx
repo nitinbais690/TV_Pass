@@ -34,6 +34,7 @@ const OnboardingSelectContentScreen = (): JSX.Element => {
     const bottomTextFadeAnimValue = useRef(new Animated.Value(0.2)).current;
 
     useEffect(() => {
+        Orientation.lockToPortrait();
         const duration = 500;
         Animated.parallel([
             Animated.timing(bottomTextFadeAnimValue, {
@@ -64,8 +65,6 @@ const OnboardingSelectContentScreen = (): JSX.Element => {
         return () => {
             if (DeviceInfo.getDeviceType() === 'Tablet') {
                 Orientation.unlockAllOrientations();
-            } else {
-                Orientation.lockToPortrait();
             }
         };
     });
@@ -85,13 +84,7 @@ const OnboardingSelectContentScreen = (): JSX.Element => {
     const renderScene = () => {
         return (
             <Animated.View style={cStyles.vPlaceholderCont}>
-                <StorefrontCatalog
-                    loading={false}
-                    error={false}
-                    containers={containers}
-                    pageOffset={0}
-                    cardType="EmptyCard"
-                />
+                <StorefrontCatalog loading={false} error={false} containers={containers} pageOffset={0} />
             </Animated.View>
         );
     };
@@ -122,7 +115,6 @@ const OnboardingSelectContentScreen = (): JSX.Element => {
                         onResourcePress={() => {
                             onboardNavigation('onboardingRedeemContent');
                         }}
-                        cardType="EmptyCard"
                     />
                     <TouchableWithoutFeedback onPress={() => onboardNavigation('onboardingRedeemContent')}>
                         <Animated.View

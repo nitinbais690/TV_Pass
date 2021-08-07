@@ -1,6 +1,15 @@
 apply plugin: "com.android.application"
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'newrelic'
+project.ext.envConfigFiles = [
+        googlePlayDebug: ".env.staging",
+        amazonDebug: ".env.staging",
+        googlePlayRelease: ".env.staging",
+        amazonRelease: ".env.production",
+]
+apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"
 
 import com.android.build.OutputFile
 
@@ -20,7 +29,7 @@ import com.android.build.OutputFile
  *   // the entry file for bundle generation
  *   entryFile: "index.android.js",
  *
- *   // https://facebook.github.io/react-native/docs/performance#enable-the-ram-format
+ *   // https://reactnative.dev/docs/performance#enable-the-ram-format
  *   bundleCommand: "ram-bundle",
  *
  *   // whether to bundle JS and assets in debug mode
@@ -121,8 +130,8 @@ def jscFlavor = 'org.webkit:android-jsc:+'
  */
 def enableHermes = project.ext.react.get("enableHermes", false);
 
-def vCode = System.getenv("BUILD_NUMBER") ?: "12"
-def vName = System.getenv("BUILD_NAME") ?: "1.2.local"
+def vCode = System.getenv("BUILD_NUMBER") ?: "60"
+def vName = System.getenv("BUILD_NAME") ?: "struum 1.0"
 
 repositories {
     flatDir {
@@ -138,15 +147,27 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    flavorDimensions "appstore"
+    productFlavors{
+        googlePlay{
+            dimension "appstore"
+            missingDimensionStrategy "store", "play"
+        }
+        amazon{
+            dimension "appstore"
+            missingDimensionStrategy "store", "amazon"
+        }
+    }
 
     defaultConfig {
-        applicationId "com.quickplay.reactnative.tvpass"
+        applicationId "com.ontvpass.tvpass"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode Integer.parseInt(vCode)
         versionName vName
         multiDexEnabled true
-        
+        resValue "string", "build_config_package", "com.ontvpass.tvpass"
+        multiDexKeepProguard file("proguard.multidex.config")
     }
     splits {
         abi {
@@ -190,26 +211,23 @@ android {
         }
     }
 
-    packagingOptions {
-        pickFirst '**/armeabi-v7a/libc++_shared.so'
-        pickFirst '**/x86/libc++_shared.so'
-        pickFirst '**/arm64-v8a/libc++_shared.so'
-        pickFirst '**/x86_64/libc++_shared.so'
-        pickFirst '**/x86/libjsc.so'
-        pickFirst '**/armeabi-v7a/libjsc.so'
-    }
 }
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
+    implementation 'com.swrve.sdk.android:swrve-firebase:7.3.2'
+    implementation "com.newrelic.agent.android:android-agent:5.28.1"
+
 
     implementation "com.facebook.react:react-native:+"  // From node_modules
+    implementation project(':react-native-config')
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {
       exclude group:'com.facebook.fbjni'
     }
     debugImplementation("com.facebook.flipper:flipper-network-plugin:${FLIPPER_VERSION}") {
         exclude group:'com.facebook.flipper'
+        exclude group:'com.squareup.okhttp3', module:'okhttp'
     }
     debugImplementation("com.facebook.flipper:flipper-fresco-plugin:${FLIPPER_VERSION}") {
         exclude group:'com.facebook.flipper'
@@ -236,15 +254,25 @@ dependencies {
     kaptTest "com.squareup.moshi:moshi-kotlin-codegen:1.8.0"
 
     //okhttp3
-    implementation("com.squareup.okhttp3:okhttp:4.1.0")
-    implementation("com.squareup.okhttp3:logging-interceptor:4.1.0")
+    implementation "com.squareup.okhttp3:okhttp:4.2.1"
+    implementation "com.squareup.okhttp3:logging-interceptor:4.2.1"
+    implementation "com.squareup.okhttp3:okhttp-urlconnection:4.2.1"
 
     //ExoPlayer
-    implementation 'com.google.android.exoplayer:exoplayer-core:2.10.6'
-    implementation 'com.google.android.exoplayer:exoplayer-dash:2.10.6'
-    implementation 'com.google.android.exoplayer:exoplayer-ui:2.10.6'
-    implementation 'com.google.android.exoplayer:exoplayer-hls:2.10.6'
-    implementation 'com.google.android.exoplayer:exoplayer-smoothstreaming:2.10.6'
+    implementation 'com.google.android.exoplayer:exoplayer-core:2.12.2'
+    implementation 'com.google.android.exoplayer:exoplayer-ui:2.12.2'
+    implementation 'com.google.android.exoplayer:exoplayer-dash:2.12.2'
+    implementation 'com.google.android.exoplayer:exoplayer-hls:2.12.2'
+    implementation 'com.google.android.exoplayer:exoplayer-smoothstreaming:2.12.2'
+
+    //Cast SDK
+    implementation "com.google.android.gms:play-services-cast-framework:${safeExtGet('castFrameworkVersion', '+')}"
+    implementation project(':react-native-google-cast')
+    implementation 'androidx.localbroadcastmanager:localbroadcastmanager:1.0.0'
+}
+
+def safeExtGet(prop, fallback) {
+  rootProject.ext.has(prop) ? rootProject.ext.get(prop) : fallback
 }
 
 // Run this once to be able to run the application with BUCK

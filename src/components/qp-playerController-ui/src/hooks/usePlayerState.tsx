@@ -24,6 +24,7 @@ import {
     PlayerPictureInPictureListener,
 } from 'rn-qp-nxg-player';
 import { MutableRefObject, useRef, useReducer, useEffect } from 'react';
+import { Platform } from 'react-native';
 
 export interface PlaybackStateStatic {
     playerID: number;
@@ -210,12 +211,10 @@ export const usePlayerState = ({
     playerConfig,
     onError,
     playerPreference,
-    wOffset,
 }: {
     playerConfig: PlayerConfig;
     onError: (error: PlatformError) => void;
     playerPreference?: PlayerPreference;
-    wOffset: number;
 }): { player: Player | null; state: PlaybackStateStatic; reset: () => void } => {
     const playerRef: MutableRefObject<Player | null> = useRef(null);
     const [state, dispatch] = useReducer(pbStateReducer, initialState);
@@ -236,7 +235,7 @@ export const usePlayerState = ({
                 if (playerListener.current) {
                     player.removeListener(playerListener.current);
                 }
-                console.log(`didmount disposing player ${player.getNativeID()}`);
+                console.log(`disposing player ${player.getNativeID()}`);
                 await player.stop();
                 await player.dispose();
                 playerRef.current = null;
@@ -264,8 +263,8 @@ export const usePlayerState = ({
             console.log('initializing player...');
             const player = await createPlayer(playerConfig);
             playerRef.current = player;
-            if (playerPreference) {
-                player.setPlayerPreference({ ...playerPreference, initialPlaybackTime: wOffset ? wOffset / 1000 : 0 });
+            if (Platform.OS === 'ios' && playerPreference) {
+                player.setPlayerPreference(playerPreference);
             }
             player.play();
             //=== Add Listeners ===

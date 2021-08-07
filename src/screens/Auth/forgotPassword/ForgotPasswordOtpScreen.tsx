@@ -87,11 +87,9 @@ const ForgotPasswordOtpScreen = ({ route, navigation }: { route: any; navigation
                     </View>
                     <View style={formStyles.formGroup}>
                         <OTPInput
-                            onCodeChanged={code => {
-                                handleChange({ name: 'otpCode', value: code.replace(/\s/g, '') });
-                            }}
+                            onCodeChanged={code => handleChange({ name: 'otpCode', value: code })}
                             onCodeFilled={code => {
-                                handleChange({ name: 'otpCode', value: code.replace(/\s/g, '') });
+                                handleChange({ name: 'otpCode', value: code });
                             }}
                             error={errorMsg}
                         />

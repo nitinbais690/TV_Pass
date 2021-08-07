@@ -11,7 +11,6 @@ import { useFLPlatform } from 'platform/PlatformContextProvider';
 import { EvergentEndpoints, requestBody, isSuccess, responsePayload, errorCode } from 'utils/EvergentAPIUtil';
 import { PlatformResponse, isSuccess as isFLMSuccess, error as flmError } from 'utils/FirstlightAPIUtils';
 import { createError, Error } from 'utils/Error';
-import { Platform } from 'react-native';
 
 interface CheckRedeemData {
     token: string;
@@ -250,9 +249,6 @@ export const useTVODEntitlement = (contentId?: string): EntitlementResponse => {
             redeemRequestToken: redeemRequestToken,
             mode: 'redeem',
             productID: 'TVPASSNRHD',
-            orderAttributesInfo: {
-                deviceType: Platform.OS,
-            },
         });
         const headers = {
             Authorization: `Bearer ${accessTokenRef.current}`,

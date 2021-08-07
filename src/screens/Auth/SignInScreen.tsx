@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDimensions } from '@react-native-community/hooks';
 import { useAuth } from 'contexts/AuthContextProvider';
 import { useAppPreferencesState } from 'utils/AppPreferencesContext';
-import { Text, View, ScrollView } from 'react-native';
+import { Text, View, ScrollView, Platform } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { loginValidate } from 'helper/validateRules';
 import useForm from 'helper/useForm';
@@ -13,7 +13,7 @@ import { NAVIGATION_TYPE } from 'screens/Navigation/NavigationConstants';
 import { useLocalization } from 'contexts/LocalizationContext';
 import Button from 'screens/components/Button';
 import { useAnalytics } from 'utils/AnalyticsReporterContext';
-import { AppEvents, condenseErrorObject } from 'utils/ReportingUtils';
+import { AppEvents } from 'utils/ReportingUtils';
 import BackgroundGradient from 'screens/components/BackgroundGradient';
 import FloatingLabelInput, { InputType } from '../components/FloatingLabelInput';
 import ErrorMessageBox, { ErrorMessage } from 'screens/components/ErrorMessageBox';
@@ -27,6 +27,8 @@ const initialValues = {
 const SigninScreen = ({ navigation }: { navigation: any }): JSX.Element => {
     const { strings }: any = useLocalization();
     const prefs = useAppPreferencesState();
+    const inputRef1 = useRef();
+    const inputRef2 = useRef();
     let { appColors, appPadding } = prefs.appTheme!(prefs);
     const { values, handleSubmit, handleChange } = useForm(initialValues, handleSubmitCB, loginValidate);
     const [isSubmitLoading, setIsSubmitLoading] = useState(false);
@@ -60,24 +62,12 @@ const SigninScreen = ({ navigation }: { navigation: any }): JSX.Element => {
                 recordEvent(AppEvents.LOGIN);
             })
             .catch(err => {
-                // Check if device max limit exceeds, Dispaly alert to remove all registered devices
-                if (err === 'eV2143') {
-                    Alert.alert(
-                        strings['signin.deveice_max_limit_error_title'],
-                        strings['signin.deveice_max_limit_error_msg'],
-                        [
-                            {
-                                text: strings['signin.deveice_max_limit_button'],
-                                onPress: () => {},
-                            },
-                        ],
-                    );
-                } else if (err === 'eV2327') {
-                    // Check if there is no account exist with given email, display alert for signup
+                // Check if there is no account exist with given email, display alert for signup
+                if (err === 'eV2327') {
                     Alert.alert(strings['signin.email_error_title'], strings['signin.email_error_msg'], [
                         {
                             text: strings['signup.title'],
-                            onPress: () => navigation.push(NAVIGATION_TYPE.PLAN_INFO),
+                            onPress: () => navigation.push(NAVIGATION_TYPE.AUTH_SIGN_UP),
                         },
                         {
                             text: strings['signin.try_again'],
@@ -85,7 +75,6 @@ const SigninScreen = ({ navigation }: { navigation: any }): JSX.Element => {
                         },
                     ]);
                 }
-                recordEvent(AppEvents.ERROR, condenseErrorObject(err, AppEvents.SIGNIN_ERROR));
                 setSubmitError({
                     displayError: true,
                     message: strings['signin.error.' + err] || strings['global.error.message'],
@@ -98,6 +87,22 @@ const SigninScreen = ({ navigation }: { navigation: any }): JSX.Element => {
         return val.trim();
     };
 
+    useEffect(() => {
+        if (Platform.isTV) {
+            inputRef1.current.focus();
+        }
+    }, []);
+
+    const triggerFocus = () => {
+        if (Platform.isTV) {
+            if (!values.email || formErrors.email) {
+                inputRef1.current.focus();
+            } else if (values.email && !formErrors.email && !values.password) {
+                inputRef2.current.focus();
+            }
+        }
+    };
+
     return (
         <BackgroundGradient>
             <ScrollView contentContainerStyle={formStyles.container} scrollEnabled={false}>
@@ -107,31 +112,35 @@ const SigninScreen = ({ navigation }: { navigation: any }): JSX.Element => {
                             <Text style={styles.titleLabel}>{strings['signin.title']}</Text>
                         </View>
                         <FloatingLabelInput
+                            ref={inputRef1}
                             inputType={InputType.email}
                             label={strings['auth.email_placeholder']}
                             isValid={isEmail(values.email)}
                             value={values.email}
                             errorMessage={formErrors.email}
-                            onBlur={() =>
+                            onBlur={() => {
                                 setFormErrors({
                                     ...formErrors,
                                     email: !isEmail(trim(values.email)) ? strings['auth.enter_valid_email'] : '',
-                                })
-                            }
+                                });
+                                triggerFocus();
+                            }}
                             onChangeText={value => handleChange({ name: 'email', value: value.trim() })}
                         />
                         <View style={styles.subscribeLabel}>
                             <Text style={styles.subscribeLabelText}>{strings['signin.not_subscriber']}</Text>
-                            <TouchableOpacity onPress={() => navigation.push(NAVIGATION_TYPE.PLAN_INFO)}>
+                            <TouchableOpacity onPress={() => navigation.push(NAVIGATION_TYPE.AUTH_SIGN_UP)}>
                                 <Text style={styles.subscribeSignupLabelText}> {strings['signup.title_small']}</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
                     <View style={formStyles.formGroup}>
                         <FloatingLabelInput
+                            ref={inputRef2}
                             inputType={InputType.password}
                             label={strings['auth.password_placeholder']}
                             value={values.password}
+                            onBlur={() => triggerFocus()}
                             onChangeText={value => handleChange({ name: 'password', value: value })}
                         />
                     </View>

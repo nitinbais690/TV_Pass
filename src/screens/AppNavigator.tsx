@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import { StatusBar, Platform } from 'react-native';
-import { NavigationContainer, DefaultTheme, Theme } from '@react-navigation/native';
+import { NavigationContainer, NavigationContainerRef, DefaultTheme, Theme } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { useAppPreferencesState } from 'utils/AppPreferencesContext';
 import { useAppState, AppNavigationState } from 'utils/AppContextProvider';
@@ -12,7 +12,6 @@ import AppBrowseStackScreen, { AppPreviewStackScreen } from './Navigation/AppBro
 import SubscriptionStackScreen from './Navigation/SubscriptionStackScreen';
 import { AppEvents, condenseScreenTrackingData, RN_INTERACTION, ScreenTabs } from 'utils/ReportingUtils';
 import { useAnalytics } from 'utils/AnalyticsReporterContext';
-import { navigationRef } from 'utils/RootNavigation';
 // Application Top-level Navigation Structure
 // ------------------------------------------
 //     ┌─────────┐
@@ -86,7 +85,7 @@ export default () => {
     const { appTheme, useDefaultStyle } = prefs;
     let { appColors } = appTheme && appTheme(prefs);
     let routeNameRef = useRef<string | null>(null);
-    // let navigationRef = useRef<NavigationContainerRef | null>(null);
+    let navigationRef = useRef<NavigationContainerRef | null>(null);
     const { recordEvent } = useAnalytics();
 
     // Theming is managed via Standard React-Navigation APIs
@@ -115,7 +114,7 @@ export default () => {
                     AppTabsScreen: {
                         screens: {
                             Browse: 'browse/:tabIndex',
-                            'My Collection': {
+                            'My Content': {
                                 screens: {
                                     MyContent: 'mycontent/:type',
                                 },

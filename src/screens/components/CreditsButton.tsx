@@ -1,12 +1,12 @@
 import React, { useEffect, useRef } from 'react';
-import { AccessibilityProps, View, ActivityIndicator, StyleSheet, Animated, Easing } from 'react-native';
+import { AccessibilityProps, View, ActivityIndicator, StyleSheet, Animated, Easing, Platform } from 'react-native';
 import { BorderlessButton } from 'react-native-gesture-handler';
 import { useRoute } from '@react-navigation/native';
 import Ticker from 'react-native-ticker';
 import { useAppPreferencesState } from 'utils/AppPreferencesContext';
 import { useCredits } from 'utils/CreditsContextProvider';
 import { useOnboarding } from 'contexts/OnboardingContext';
-import { appFonts } from '../../../AppStyles';
+import { appFonts, tvPixelSizeForLayout } from '../../../AppStyles';
 import CreditsIcon from '../../../assets/images/credits.svg';
 import { useAppState } from 'utils/AppContextProvider';
 
@@ -45,15 +45,26 @@ export const CreditsUIButton = React.memo(
                 paddingHorizontal: 12,
                 height: 40,
             },
+            textWrapperTv: {
+                flex: 1,
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignContent: 'center',
+                backgroundColor: appColors.brandTint,
+                borderTopRightRadius: tvPixelSizeForLayout(110),
+                borderBottomRightRadius: tvPixelSizeForLayout(110),
+                paddingHorizontal: tvPixelSizeForLayout(23),
+                height: tvPixelSizeForLayout(80),
+            },
             pillWrapper: {
                 flexDirection: 'row',
                 justifyContent: 'center',
                 alignItems: 'center',
             },
-            tickerWrapper: { marginHorizontal: 5 },
+            tickerWrapper: { marginHorizontal: Platform.isTV ? tvPixelSizeForLayout(3) : 5 },
             tickerText: {
                 textAlign: 'center',
-                fontSize: appFonts.xs,
+                fontSize: Platform.isTV ? tvPixelSizeForLayout(28) : appFonts.xs,
                 color: appColors.secondary,
                 fontWeight: '500',
             },
@@ -62,12 +73,16 @@ export const CreditsUIButton = React.memo(
 
         return (
             <BorderlessButton onPress={onPress} style={styles.container} activeOpacity={0.8}>
-                <View style={styles.textWrapper}>
+                <View style={[Platform.isTV ? styles.textWrapperTv : styles.textWrapper]}>
                     {loading ? (
                         <ActivityIndicator style={styles.loading} />
                     ) : (
                         <View style={styles.pillWrapper}>
-                            <CreditsIcon />
+                            {Platform.isTV ? (
+                                <CreditsIcon width={tvPixelSizeForLayout(24)} height={tvPixelSizeForLayout(24)} />
+                            ) : (
+                                <CreditsIcon />
+                            )}
                             <View style={styles.tickerWrapper}>
                                 <Ticker textStyle={styles.tickerText}>{credits}</Ticker>
                             </View>

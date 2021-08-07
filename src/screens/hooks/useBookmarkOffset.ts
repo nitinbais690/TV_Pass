@@ -45,7 +45,12 @@ export const useBookmarkOffset = (resourceId: string) => {
                             return bookmarks[resourceId];
                         }
                     });
-                    if (isMounted.current && isOffsetUndefined(downloadBookmark && downloadBookmark[0][resourceId])) {
+                    if (
+                        isMounted.current &&
+                        isOffsetUndefined(
+                            downloadBookmark && downloadBookmark.length > 0 && downloadBookmark[0][resourceId],
+                        )
+                    ) {
                         setOffset(downloadBookmark[0][resourceId]);
                     } else {
                         setOffset(bookmarkOffset);

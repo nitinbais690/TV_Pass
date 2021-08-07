@@ -31,6 +31,7 @@ export const routeToPurchaseConfirmation = ({
     const duration = subscription.promotions && subscription.promotions[0].promotionDuration;
     const currencyCode = subscription.currencySymbol;
     const creditPoints = subscription.creditPoints;
+
     navigation.navigate(NAVIGATION_TYPE.PURCHASE_CONFIRMATION, {
         price: price,
         duration: duration,

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { StyleSheet } from 'react-native';
+import { Platform, StyleSheet } from 'react-native';
 import { Route, SceneRendererProps } from 'react-native-tab-view';
 import Animated from 'react-native-reanimated';
 import { useFetchRootContainerQuery, TabVm } from 'qp-discovery-ui';
@@ -15,12 +15,13 @@ import Button from './components/Button';
 import HeaderTabBar from './components/HeaderTabBar';
 import BackgroundGradient from './components/BackgroundGradient';
 import SkeletonCatalog, { SkeletonCatalogType } from './components/loading/SkeletonCatalog';
-import { AppEvents, Attributes, getPageEventFromPageNavigation, getPageIdsFromPageEvents } from 'utils/ReportingUtils';
+import { AppEvents } from 'utils/ReportingUtils';
 import { useAnalytics } from 'utils/AnalyticsReporterContext';
 import { TimerType, useTimer } from 'utils/TimerContext';
 import FooterGradient from './components/FooterGradient';
 import { selectDeviceType } from './../../src/components/qp-common-ui';
 import { useOnboarding } from 'contexts/OnboardingContext';
+import StorefrontScreenTV from '../TV/StorefrontScreenTV';
 
 const ERROR_KEY = 'error_tab_key';
 const SkeletonType: SkeletonCatalogType = 'Strorefront';
@@ -80,7 +81,7 @@ const Scene = ({ route, position, layout, index, length, storefrontId }: Props) 
 
     return (
         <Animated.View style={[SceneStyles.page, coverflowStyle]}>
-            <CatalogScreen storefrontId={storefrontId} tabId={route.key} tabName={route.title} index={index} />
+            <CatalogScreen storefrontId={storefrontId} tabId={route.key} tabName={route.title} />
         </Animated.View>
     );
 };
@@ -97,27 +98,13 @@ const StorefrontScreen = ({ route }: { route?: any }): JSX.Element => {
     const { recordEvent } = useAnalytics();
     const { onboardNavigation } = useOnboarding();
 
-    useEffect(() => {
-        let data: Attributes = {};
-
-        if (appNavigationState === 'PREVIEW_APP') {
-            let pageEvents = getPageEventFromPageNavigation('BrowseStackScreen');
-            data.pageID = getPageIdsFromPageEvents(pageEvents);
-            data.event = pageEvents;
-
-            recordEvent(pageEvents, data);
-        }
-
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
-
     type TabRoute = {
         data?: any;
     } & Route;
 
     const styles = StyleSheet.create({
         footerGradient: {
-            position: 'absolute',
+            position: Platform.isTV ? 'absolute' : 'relative',
             bottom: 0,
             left: 0,
             right: 0,
@@ -227,6 +214,10 @@ const StorefrontScreen = ({ route }: { route?: any }): JSX.Element => {
         return index;
     };
 
+    if (Platform.isTV) {
+        return <StorefrontScreenTV route={route} />;
+    }
+
     return (
         <BackgroundGradient>
             {/* Record event added for analytics */}
@@ -235,7 +226,7 @@ const StorefrontScreen = ({ route }: { route?: any }): JSX.Element => {
                 recordEvent={recordEvent}
                 routes={loading ? containerLoadingRoutes : routes}
                 renderScene={renderScene}
-                timingConfig={{ duration: 300 }}
+                timingConfig={{ duration: Platform.OS === 'android' ? 450 : 300 }}
                 initialTab={initialTab()}
             />
 
@@ -246,16 +237,10 @@ const StorefrontScreen = ({ route }: { route?: any }): JSX.Element => {
             {appNavigationState === 'PREVIEW_APP' && (
                 <FooterGradient style={styles.footerGradient}>
                     <Button
+                        type={'solid'}
                         containerStyle={styles.button}
                         title={strings['preview.sign_up_btn_label']}
-                        onPress={() => {
-                            let data: Attributes = {};
-                            let pageEvents = getPageEventFromPageNavigation('BrowseStackScreen');
-                            data.pageID = getPageIdsFromPageEvents(pageEvents);
-                            data.event = pageEvents;
-                            recordEvent(pageEvents, data);
-                            toggleModal();
-                        }}
+                        onPress={toggleModal}
                     />
                 </FooterGradient>
             )}

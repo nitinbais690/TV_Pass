@@ -14,6 +14,7 @@ exports[`ResizableImage avoid renders overridden style correctly 1`] = `
     source={
       Object {
         "cache": undefined,
+        "priority": undefined,
         "uri": "",
       }
     }
@@ -41,6 +42,7 @@ exports[`ResizableImage renders correctly when dimensions are passed in 1`] = `
     source={
       Object {
         "cache": undefined,
+        "priority": undefined,
         "uri": "?width=600",
       }
     }

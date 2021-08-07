@@ -1,0 +1,18 @@
+{
+  "images" : [
+    {
+      "filename" : "APP ICON - Apple - Home Screen - Layer 2@1x.png",
+      "idiom" : "tv",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "APP ICON - Apple - Home Screen - Layer 2@2x.png",
+      "idiom" : "tv",
+      "scale" : "2x"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

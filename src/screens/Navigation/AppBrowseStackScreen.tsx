@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Animated, StyleSheet, Linking } from 'react-native';
+import { Animated, StyleSheet, Linking, Platform } from 'react-native';
 import {
     createStackNavigator,
     StackCardStyleInterpolator,
@@ -7,7 +7,6 @@ import {
     StackCardInterpolationProps,
     StackCardInterpolatedStyle,
 } from '@react-navigation/stack';
-import { BlurView } from '@react-native-community/blur';
 import LinearGradient from 'react-native-linear-gradient';
 import {
     createBottomTabNavigator,
@@ -34,11 +33,15 @@ import ModalScreen from '../ModalScreen';
 import MyContentStackScreen from './MyContentStackScreen';
 import SettingsStackScreen from './SettingsStackScreen';
 import SearchStackScreen from './SearchStackScreen';
+import ChannelStackScreen from './ChannelStackScreen';
 import CreditsScreen from 'screens/CreditsScreen';
 import DetailsScreen from 'screens/DetailsScreen';
 import CollectionsDetailsScreen from 'screens/CollectionsDetailsScreen';
 import CollectionsGridScreen from 'screens/CollectionsGridScreen';
-import StorefrontViewallScreen from 'screens/StorefrontViewallScreen';
+import StorefrontViewallScreenTV from '../../TV/StorefrontViewallScreenTV';
+import CreditsWalkthroughTV from '../../TV/CreditsWalkthroughTV';
+import CreditsWalkthroughTVStep2 from '../../TV/CreditsWalkthroughTVStep2';
+import CreditsWalkthroughTVEnd from '../../TV/CreditsWalkthroughTVEnd';
 import { appFonts } from '../../../AppStyles';
 import TabIconBrowseOn from '../../../assets/images/tab_on_browse.svg';
 import TabIconMyContentOn from '../../../assets/images/tab_on_my_content.svg';
@@ -52,6 +55,9 @@ import AuthStackScreen from './AuthStackScreen';
 import { DownloadsContextProvider } from 'utils/DownloadsContextProvider';
 import { CancelSubscriptionContextProvider } from 'contexts/CancelSubscriptionContextProvider';
 import { useLinkTo } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import BlurComponent from 'screens/components/BlurComponent';
+import CreditsWalkthroughTVStep3 from '../../TV/CreditsWalkthroughTVStep3';
 
 const { multiply } = Animated;
 
@@ -111,7 +117,7 @@ const BlurTab = (props: BottomTabBarProps<BottomTabBarOptions>) => {
     const { appTheme } = prefs;
     let { appColors } = appTheme && appTheme(prefs);
     return (
-        <BlurView
+        <BlurComponent
             style={{
                 position: 'absolute',
                 bottom: 0,
@@ -124,9 +130,9 @@ const BlurTab = (props: BottomTabBarProps<BottomTabBarOptions>) => {
                 colors={[appColors.bottomNavGradientStart, appColors.bottomNavGradientEnd]}
                 style={StyleSheet.absoluteFillObject}
                 {...props}>
-                <BottomTabBar {...props} />
+                {!Platform.isTV && <BottomTabBar {...props} />}
             </LinearGradient>
-        </BlurView>
+        </BlurComponent>
     );
 };
 /**
@@ -171,6 +177,7 @@ const AppTabsScreen = () => {
                         ) : (
                             <TabIconBrowseOff width={props.size} height={props.size} fill={props.color} />
                         ),
+                    tabBarVisible: Platform.isTV ? false : true,
                 }}
             />
             <AppTabs.Screen
@@ -180,6 +187,7 @@ const AppTabsScreen = () => {
                     routeToDownloads: routeToDownloads,
                 }}
                 options={{
+                    tabBarVisible: Platform.isTV ? false : true,
                     tabBarIcon: props =>
                         props.focused ? (
                             <TabIconMyContentOn width={props.size} height={props.size} fill={props.color} />
@@ -210,8 +218,55 @@ const AppTabsScreen = () => {
                         ) : (
                             <TabIconSettingsOff width={props.size} height={props.size} fill={props.color} />
                         ),
+                    tabBarVisible: !Platform.isTV,
                 }}
             />
+            {/* {Platform.isTV && Platform.OS == 'ios' && (
+                <AppTabs.Screen
+                    name={'Search'}
+                    component={SearchStackScreen}
+                    options={{
+                        tabBarVisible: Platform.isTV ? false : true,
+                        tabBarIcon: props =>
+                            props.focused ? (
+                                <TabIconSettingsOn width={props.size} height={props.size} fill={props.color} />
+                            ) : (
+                                <TabIconSettingsOff width={props.size} height={props.size} fill={props.color} />
+                            ),
+                    }}
+                />
+            )} */}
+            {Platform.isTV && (
+                <AppTabs.Screen
+                    name={'Search'}
+                    component={SearchStackScreen}
+                    options={{
+                        tabBarVisible: Platform.isTV ? false : true,
+                        tabBarIcon: props =>
+                            props.focused ? (
+                                <TabIconSettingsOn width={props.size} height={props.size} fill={props.color} />
+                            ) : (
+                                <TabIconSettingsOff width={props.size} height={props.size} fill={props.color} />
+                            ),
+                    }}
+                />
+            )}
+
+            {
+                <AppTabs.Screen
+                    name={'Channel'}
+                    component={ChannelStackScreen}
+                    options={{
+                        tabBarVisible: Platform.isTV ? false : true,
+                        tabBarIcon: props =>
+                            props.focused ? (
+                                <TabIconSettingsOn width={props.size} height={props.size} fill={props.color} />
+                            ) : (
+                                <TabIconSettingsOff width={props.size} height={props.size} fill={props.color} />
+                            ),
+                    }}
+                />
+            }
         </AppTabs.Navigator>
     );
 };
@@ -244,6 +299,14 @@ const AppBrowseStackScreen = () => {
 
     useEffect(() => {
         // get notification deeplink url from AsyncStorage
+        const getDLink = async () => {
+            const linking = await AsyncStorage.getItem('deeplink');
+            if (linking) {
+                AsyncStorage.setItem('deeplink', '');
+                linkTo(linking.replace('struum://app', ''));
+            }
+        };
+        getDLink();
         handleInitState();
         //eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
@@ -273,11 +336,13 @@ const AppBrowseStackScreen = () => {
                                             }}
                                             mode="modal">
                                             <AppBrowseStack.Screen name="AppTabsScreen" component={AppTabsScreen} />
-                                            <AppBrowseStack.Screen
-                                                name="Search"
-                                                component={SearchStackScreen}
-                                                options={overlayScreenOptions}
-                                            />
+                                            {!Platform.isTV && (
+                                                <AppBrowseStack.Screen
+                                                    name="Search"
+                                                    component={SearchStackScreen}
+                                                    options={overlayScreenOptions}
+                                                />
+                                            )}
                                             <AppBrowseStack.Screen
                                                 name="Credits"
                                                 component={CreditsScreen}
@@ -304,8 +369,28 @@ const AppBrowseStackScreen = () => {
                                                 options={overlayScreenOptions}
                                             />
                                             <AppBrowseStack.Screen
-                                                name={NAVIGATION_TYPE.STOREFRONT_VIEWALL}
-                                                component={StorefrontViewallScreen}
+                                                name={NAVIGATION_TYPE.STOREFRONT_VIEWALL_TV}
+                                                component={StorefrontViewallScreenTV}
+                                                options={overlayScreenOptions}
+                                            />
+                                            <AppBrowseStack.Screen
+                                                name={NAVIGATION_TYPE.CREDITS_WALKTHROUGH}
+                                                component={CreditsWalkthroughTV}
+                                                options={overlayScreenOptions}
+                                            />
+                                            <AppBrowseStack.Screen
+                                                name={NAVIGATION_TYPE.CREDITS_WALKTHROUGH_STEP_2}
+                                                component={CreditsWalkthroughTVStep2}
+                                                options={overlayScreenOptions}
+                                            />
+                                            <AppBrowseStack.Screen
+                                                name={NAVIGATION_TYPE.CREDITS_WALKTHROUGH_STEP_3}
+                                                component={CreditsWalkthroughTVStep3}
+                                                options={overlayScreenOptions}
+                                            />
+                                            <AppBrowseStack.Screen
+                                                name={NAVIGATION_TYPE.CREDITS_WALKTHROUGH_END}
+                                                component={CreditsWalkthroughTVEnd}
                                                 options={overlayScreenOptions}
                                             />
                                             <AppBrowseStack.Screen
@@ -352,8 +437,14 @@ export const AppPreviewStackScreen = () => {
                     <AppPreviewStack.Screen
                         name="Search"
                         component={SearchStackScreen}
-                        options={overlayScreenOptions}
+                        //options={overlayScreenOptions}
                     />
+                    <AppPreviewStack.Screen
+                        name="Channel"
+                        component={ChannelStackScreen}
+                        //options={overlayScreenOptions}
+                    />
+
                     <AppPreviewStack.Screen
                         name={NAVIGATION_TYPE.COLLECTIONS}
                         component={CollectionsDetailsScreen}

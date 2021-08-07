@@ -16,10 +16,10 @@ import {
 } from 'rn-qp-nxg-player';
 import { ResourceVm } from 'qp-discovery-ui';
 import { AppConfig } from 'utils/AppPreferencesContext';
-import { name as appName } from '../../app.json';
-import { AccountProfile } from './EvergentAPIUtil';
+//import { name as appName } from '../../app.json';
+//import { AccountProfile } from './EvergentAPIUtil';
 import { getDownloadQuality } from 'utils/UserPreferenceUtils';
-import { default as newRelic } from 'rn-qp-nxg-newrelic';
+//import { default as newRelic } from 'rn-qp-nxg-newrelic';
 
 const DEFAULT_BOOKMARK_SYNC_INTERVAL_MS = 5000;
 const DEFAULT_BOOKMARK_DELETE_THRESHOLD = 0.95;
@@ -43,10 +43,11 @@ export const resourceToPlatformAsset: (resource: ResourceVm, deliveryType: Deliv
     return {
         mediaID: resource.id,
         mediaType: Platform.OS === 'android' ? 'DASH' : 'HLS',
-        catalogType: resource.type === 'movie' ? 'MOVIE' : resource.type === 'tvepisode' ? 'TVEPISODE' : 'SHORTVIDEO',
+        catalogType: resource.type,
         consumptionType: resource.type === 'channel' ? 'LIVE' : 'VOD',
         drmType: Platform.OS === 'android' ? 'WIDEVINE' : 'FAIRPLAY',
         deliveryType: deliveryType,
+        quality: 'LOW',
     };
 };
 
@@ -56,18 +57,18 @@ export const platformAssetToPlayerConfig: (
     tvodToken: string,
     liveStreamUrl: string, //fetching the livestream url from environment config
     appConfig?: AppConfig,
-    accountProfile?: AccountProfile,
-) => Promise<PlayerConfig> = async (
+) => //accountProfile?: AccountProfile,
+Promise<PlayerConfig> = async (
     platformAsset: PlatformAsset,
     resource: ResourceVm,
     tvodToken: string,
     liveStreamUrl: string,
     appConfig?: AppConfig,
-    accountProfile?: AccountProfile,
+    //accountProfile?: AccountProfile,
 ): Promise<PlayerConfig> => {
     console.log('authorizing playback...');
-    const appReleaseVersion = `${DeviceInfo.getVersion()}(${DeviceInfo.getBuildNumber()})`;
-    const sessionId: string = await newRelic.getSessionId();
+    // const appReleaseVersion = `${DeviceInfo.getVersion()}(${DeviceInfo.getBuildNumber()})`;
+    // const sessionId: string = await newRelic.getSessionId();
     //NOTE: using authorize playback for now.
     //Have to change to authorize download.
     if (platformAsset.consumptionType === 'VOD') {
@@ -94,11 +95,8 @@ export const platformAssetToPlayerConfig: (
                 type: Platform.OS === 'ios' ? 'iosmobile' : 'androidmobile',
             },
         };
+        const initialPlaybackTime = resource && resource.watchedOffset ? resource.watchedOffset / 1000 : 0;
 
-        const enableYoubora = appConfig && appConfig.youboraEnabled ? appConfig.youboraEnabled : true;
-        const youboraHttpSecure = appConfig && appConfig.youboraHttpSecure ? appConfig.youboraHttpSecure : true;
-        const youboraAutoDetectBackground =
-            appConfig && appConfig.youboraAutoDetectBackground ? appConfig.youboraAutoDetectBackground : true;
         return {
             mediaURL: authToken.contentURL,
             mediaType: authToken.mediaType,
@@ -110,28 +108,8 @@ export const platformAssetToPlayerConfig: (
             contentType: platformAsset.consumptionType,
             bookmarkConfig: bookmarkConfig,
             streamConcurrencyConfig: streamConcurrencyConfig,
-            enableYoubora: enableYoubora,
-            youboraLoggerLevel: appConfig && appConfig.youboraLoggerLevel,
-            youboraOptions: {
-                accountCode: appConfig && appConfig.youboraAccountCode,
-                enabled: enableYoubora,
-                httpSecure: youboraHttpSecure,
-                autoDetectBackground: youboraAutoDetectBackground,
-                appName: appName,
-                appReleaseVersion: appReleaseVersion,
-                userName: accountProfile && accountProfile.accountId,
-            },
-            youboraCustomDimensionsOptions: {
-                customDimension1: sessionId,
-            },
-            youboraMediaOptions: {
-                contentResource: authToken.contentURL,
-                contentTitle: resource.name,
-                program: resource.title,
-                contentDuration: resource.runningTime,
-                contentMetadata: {
-                    content_id: resource.id,
-                },
+            playbackProperties: {
+                initialStartTimeMillis: initialPlaybackTime * 1000,
             },
         };
     } else {

@@ -7,9 +7,8 @@ import { ResourceResponse } from 'qp-discovery-ui/src/models/Storefront.types';
 import { metaDataResourceAdapter, storefrontResourceAdapter } from 'qp-discovery-ui/src/models/Adapters';
 import { ScreenOrigin } from 'utils/ReportingUtils';
 import { queryString } from '../utils/URLBuilder';
-import { AuthorizationToken, PlatformAuthConfig, platformAuthorizer } from 'rn-qp-nxg-player';
-import { useAppPreferencesState } from 'utils/AppPreferencesContext';
-import decrypt from 'utils/SecurityUtil';
+import { AuthorizationToken } from 'rn-qp-nxg-player';
+import { useFLPlatform } from 'platform/PlatformContextProvider';
 
 export interface DiscoverySearchHookResponse {
     /**
@@ -72,24 +71,9 @@ export const useDiscoverySearch = (
     const { query } = useContext(ClientContext);
     const isMounted = useRef(true);
     const debouncedSearchTerm = useDebounce(searchTerm, debounceDelay);
-    const prefs = useAppPreferencesState();
-    const { appConfig } = prefs;
-
-    const platformAuthConfig: PlatformAuthConfig = {
-        clientID: appConfig && appConfig.clientID,
-        clientSecret: (appConfig && decrypt(appConfig.clientSecret)) || '',
-        xClientID: appConfig && appConfig.xClientId,
-        endpointURL: appConfig && appConfig.oAuthURL,
-    };
-
-    useEffect(() => {
-        async function configureQpNxgLib() {
-            if (!(await platformAuthorizer.isConfigured())) {
-                await platformAuthorizer.initWithConfig(platformAuthConfig);
-            }
-        }
-        configureQpNxgLib();
-    }, [platformAuthConfig]);
+    const { state: platformState } = useFLPlatform();
+    const { platformAuthorizer } = platformState;
+    const platformAuth = useRef(platformAuthorizer);
 
     const handleQuery = async (): Promise<void> => {
         if (!isMounted.current) {
@@ -170,7 +154,7 @@ export const useDiscoverySearch = (
             setLoading(false);
             return;
         }
-        const channelResourceUrl = searchUrl.includes('storefront'); // To differentiate storefront and data store network calls
+        const channelResourceUrl = searchUrl.includes('storefront');
         pageNumber.current++;
         if (channelResourceUrl) {
             handleChannelResourceQuery(searchUrl, pageNumber.current);
@@ -181,6 +165,7 @@ export const useDiscoverySearch = (
                 method: 'GET',
                 endpoint: `${searchUrl}${queryDelimiter}${queryParams}`,
             });
+
             const resource =
                 payload &&
                 payload.data &&
@@ -208,13 +193,13 @@ export const useDiscoverySearch = (
     };
 
     const handleChannelResourceQuery = async (url: string, pageNumber: number) => {
-        if (!platformAuthorizer) {
+        if (!platformAuth.current) {
             setLoading(false);
             return;
         }
         const queryParams = queryString({ pageNumber: pageNumber, pageSize: pageSize });
         const queryDelimiter = searchUrl.includes('?') ? '&' : '?';
-        const authToken: AuthorizationToken = await platformAuthorizer.ensureAuthorization();
+        const authToken: AuthorizationToken = await platformAuth.current.ensureAuthorization();
         const headers = {
             Authorization: `Bearer ${authToken.accessToken}`,
         };
@@ -263,7 +248,7 @@ export const useDiscoverySearch = (
             isMounted.current = false;
         };
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [debouncedSearchTerm, searchMode, searchUrl, platformAuthorizer]);
+    }, [debouncedSearchTerm, searchMode, searchUrl]);
 
     const loadMore = (): Promise<void> => {
         if (searchMode === 'recommended') {

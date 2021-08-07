@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useDimensions } from '@react-native-community/hooks';
-import { ScrollView, Text, View } from 'react-native';
+import { Platform, ScrollView, Text, View, useTVEventHandler } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { CheckBox } from 'react-native-elements';
 import { signupValidate } from 'helper/validateRules';
@@ -11,13 +11,7 @@ import { formStyle } from 'styles/Common.style';
 import PasswordStrengthMeter, { getPasswordScore, getPasswordError } from 'screens/components/PasswordStrengthMeter';
 import { useLocalization } from 'contexts/LocalizationContext';
 import Button from 'screens/components/Button';
-import {
-    ActionEvents,
-    Attributes,
-    condenseErrorObject,
-    getPageEventFromPageNavigation,
-    getPageIdsFromPageEvents,
-} from 'utils/ReportingUtils';
+import { AppEvents } from 'utils/ReportingUtils';
 import { useAnalytics } from 'utils/AnalyticsReporterContext';
 import BackgroundGradient from 'screens/components/BackgroundGradient';
 import CheckedIcon from '../../../assets/images/checked.svg';
@@ -27,6 +21,12 @@ import ErrorMessageBox, { ErrorMessage } from '../components/ErrorMessageBox';
 import { useAuth } from 'contexts/AuthContextProvider';
 import { useAppPreferencesState } from 'utils/AppPreferencesContext';
 import { NAVIGATION_TYPE } from 'screens/Navigation/NavigationConstants';
+import { authAction } from 'contexts/AuthContextProvider';
+import { ClientContext } from 'qp-discovery-ui';
+import { requestBody, isSuccess, errorCode, EvergentEndpoints } from 'utils/EvergentAPIUtil';
+import SignUpScreenStepOne_Plan from '../../TV/SignUpScreenStepOne_Plan';
+import SignUpScreenStepTwo_Email from '../../TV/SignUpScreenStepTwo_Email';
+import SignUpScreenStepThree_Password from '../../TV/SignUpScreenStepThree_Password';
 
 const initialValues = {
     email: '',
@@ -43,6 +43,8 @@ const SignUpScreen = (): JSX.Element => {
     const { values, handleSubmit, handleChange } = useForm(initialValues, handleSubmitCB, signupValidate);
     const { isEmail } = useFunction();
     const [isSubmitLoading, setIsSubmitLoading] = useState(false);
+    const [lastRemoteKeyEvent, setLastRemoteKeyEvent] = useState('');
+    const [tvSignUpStep, setTvSignUpStep] = useState(1);
     const [formErrors, setFormErrors] = useState({
         email: '',
         password: '',
@@ -55,22 +57,137 @@ const SignUpScreen = (): JSX.Element => {
     const { width, height } = useDimensions().window;
     const isPortrait = height > width;
     const userAction = useAuth();
-    const { signUp } = userAction;
-    const isError = formErrors.email ? (formErrors.password ? true : false) : false;
-    const deviceHeight = height;
-    const styles = defaultSignupStyle({ appColors, appPadding, isPortrait, isError, deviceHeight });
+    const { signUp, login } = userAction;
+    const { appConfig } = useAppPreferencesState();
+    const { query } = useContext(ClientContext);
+    const styles = defaultSignupStyle({ appColors, appPadding, isPortrait });
     const formStyles = formStyle({ appColors, appPadding, isPortrait });
-    const { recordEvent, recordErrorEvent } = useAnalytics();
+    const { recordEvent } = useAnalytics();
+    const createUserEndpoint = EvergentEndpoints.CreateUser;
 
-    useEffect(() => {
-        let data: Attributes = {};
-        let pageEvents = getPageEventFromPageNavigation(NAVIGATION_TYPE.AUTH_SIGN_UP);
-        data.pageID = getPageIdsFromPageEvents(pageEvents);
-        data.event = pageEvents;
-        recordEvent(pageEvents, data);
+    async function signUpEmail(withPassword: boolean) {
+        setIsSubmitLoading(true);
+        let obj = {
+            email: trim(values.email),
+            region: values.region,
+            accountAttributes: [
+                {
+                    type: 'String',
+                    attributeName: 'emailUpdates',
+                    value: 'No',
+                },
+            ],
+        };
 
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+        if (withPassword) {
+            obj = {
+                ...obj,
+                customerUsername: trim(values.email),
+                password: trim(values.password),
+                customerPassword: trim(values.password),
+                sendEmailUpdates: values.sendEmailUpdates,
+                signedUpInSession: true,
+            };
+        }
+        const body = requestBody(createUserEndpoint, appConfig, obj);
+        let action = authAction({
+            method: 'POST',
+            endpoint: createUserEndpoint,
+            body,
+        });
+        const { payload } = await query(action);
+        if (isSuccess(createUserEndpoint, payload)) {
+            return isSuccess(createUserEndpoint, payload);
+        } else {
+            throw errorCode(createUserEndpoint, payload);
+        }
+    }
+
+    async function handleEmailSubmit(withPassword: boolean) {
+        console.log('SIGNUP CALLED');
+        signUpEmail(withPassword)
+            .then(async () => {
+                if (Platform.isTV) {
+                    if (withPassword) {
+                        login({
+                            email: trim(values.email),
+                            password: trim(values.password),
+                            signedUpInSession: true,
+                            silentLogin: false,
+                        })
+                            .then(() => {
+                                //setTvSignUpStep(4);
+                                console.log('LOGIN SUCCESS');
+                                setIsSubmitLoading(false);
+                            })
+                            .catch(err => {
+                                setIsSubmitLoading(false);
+                                setSubmitError({
+                                    displayError: true,
+                                    message: strings['signup.error.' + err],
+                                });
+                            });
+                    } else {
+                        setIsSubmitLoading(false);
+                        setTvSignUpStep(3);
+                    }
+                }
+            })
+            .catch(err => {
+                setIsSubmitLoading(false);
+                let msg: string;
+                if (err) {
+                    msg = strings.formatString(strings['global.error_code'], err) as string;
+                }
+                setSubmitError({
+                    displayError: true,
+                    message: strings['signup.error.' + err] || strings['global.error.message'] + msg,
+                });
+            });
+    }
+
+    // async function userProfile({ firstName, dateOfBirth }: { firstName: string; dateOfBirth: string | null }) {
+    //     const body = requestBody(updateProfileEndpoint, appConfig, { firstName, dateOfBirth });
+
+    //     let action = authAction({
+    //         method: 'POST',
+    //         endpoint: updateProfileEndpoint,
+    //         body: body,
+    //         accessToken,
+    //     });
+    //     const { payload } = await query(action);
+    //     if (isSuccess(updateProfileEndpoint, payload)) {
+    //         return responsePayload(updateProfileEndpoint, payload);
+    //     } else {
+    //         throw errorCode(updateProfileEndpoint, payload);
+    //     }
+    // }
+
+    // async function signUpEmail() {
+    //     setIsSubmitLoading(true);
+    //     const body = requestBody(createUserEndpoint, appConfig, {
+    //         email: trim(values.email),
+    //         region: values.region,
+    //         accountAttributes: [
+    //             {
+    //                 type: 'String',
+    //                 attributeName: 'emailUpdates',
+    //                 value: 'No',
+    //             },
+    //         ],
+    //     });
+    //     let action = authAction({
+    //         method: 'POST',
+    //         endpoint: createUserEndpoint,
+    //         body,
+    //     });
+    //     const { payload } = await query(action);
+    //     if (isSuccess(createUserEndpoint, payload)) {
+    //         return isSuccess(createUserEndpoint, payload);
+    //     } else {
+    //         throw errorCode(createUserEndpoint, payload);
+    //     }
+    // }
 
     async function handleSubmitCB() {
         setIsSubmitLoading(true);
@@ -82,21 +199,13 @@ const SignUpScreen = (): JSX.Element => {
             signedUpInSession: true,
         })
             .then(() => {
-                let data: Attributes = {};
-                data.event = ActionEvents.ACTION_USER_SETUP_COMPLETE;
-                recordEvent(ActionEvents.ACTION_USER_SETUP_COMPLETE, data);
+                recordEvent(AppEvents.SIGN_UP);
             })
             .catch(err => {
                 let msg: string;
                 if (err) {
                     msg = strings.formatString(strings['global.error_code'], err) as string;
                 }
-
-                let data: Attributes = condenseErrorObject(err);
-                data.event = ActionEvents.ACTION_USER_SETUP_FAILED;
-
-                recordErrorEvent(ActionEvents.ACTION_USER_SETUP_FAILED, data);
-                // recordEvent(AppEvents.ERROR, condenseErrorObject(err, AppEvents.SIGNUP_ERROR));
                 setSubmitError({
                     displayError: true,
                     message: strings['signup.error.' + err] || strings['global.error.message'] + msg,
@@ -109,18 +218,61 @@ const SignUpScreen = (): JSX.Element => {
     const legalInfo = strings['signup.legal_info.prefix'];
 
     const openBrowser = (title: string) => {
-        try {
-            navigation.navigate(NAVIGATION_TYPE.BROWSE_WEBVIEW, {
-                type: title,
-            });
-        } catch (error) {
-            console.log(`[InAppBrowser] Error loading title: ${title}`, error);
+        if (!Platform.isTV) {
+            try {
+                navigation.navigate(NAVIGATION_TYPE.BROWSE_WEBVIEW, {
+                    type: title,
+                });
+            } catch (error) {
+                console.log(`[InAppBrowser] Error loading title: ${title}`, error);
+            }
         }
     };
 
     const trim = (val: string) => {
         return val.trim();
     };
+
+    const myTVEventHandler = (evt: { eventType: string }) => {
+        setLastRemoteKeyEvent(evt.eventType);
+    };
+
+    useTVEventHandler(myTVEventHandler);
+
+    if (Platform.isTV) {
+        switch (tvSignUpStep) {
+            case 1:
+                return <SignUpScreenStepOne_Plan openBrowser={openBrowser} setTvSignUpStep={setTvSignUpStep} />;
+            case 2:
+                return (
+                    <SignUpScreenStepTwo_Email
+                        values={values}
+                        handleChange={handleChange}
+                        setFormErrors={setFormErrors}
+                        formErrors={formErrors}
+                        submitError={submitError}
+                        isSubmitLoading={isSubmitLoading}
+                        handleSubmit={handleEmailSubmit}
+                        lastRemoteKeyEvent={lastRemoteKeyEvent}
+                    />
+                );
+            case 3:
+                return (
+                    <SignUpScreenStepThree_Password
+                        values={values}
+                        handleChange={handleChange}
+                        setFormErrors={setFormErrors}
+                        formErrors={formErrors}
+                        submitError={submitError}
+                        isSubmitLoading={isSubmitLoading}
+                        lastRemoteKeyEvent={lastRemoteKeyEvent}
+                        handleSubmit={handleEmailSubmit}
+                    />
+                );
+            default:
+                return <SignUpScreenStepOne_Plan navigation={navigation} setTvSignUpStep={setTvSignUpStep} />;
+        }
+    }
 
     return (
         <BackgroundGradient>
@@ -187,12 +339,7 @@ const SignUpScreen = (): JSX.Element => {
                                 isSubmitLoading
                             }
                             title={strings['signup.btn_label']}
-                            onPress={() => {
-                                let data: Attributes = {};
-                                data.event = ActionEvents.ACTION_USER_SETUP_INITIATED;
-                                recordEvent(ActionEvents.ACTION_USER_SETUP_INITIATED, data);
-                                handleSubmit();
-                            }}
+                            onPress={() => handleSubmit()}
                             disabledColor={appColors.primaryVariant5}
                             loading={isSubmitLoading}
                         />

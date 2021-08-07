@@ -17,7 +17,6 @@ export interface SkeletonCardProps {
     lastItemInRow?: boolean;
     containerSize?: { width: number; height: number };
     cardsPreview?: number;
-    viewAllAspectRatio?: number;
 }
 
 const SkeletonCard = (props: SkeletonCardProps) => {
@@ -39,16 +38,9 @@ const SkeletonCard = (props: SkeletonCardProps) => {
           );
     let footerHeight = 0;
     if (props.showFooter) {
-        footerHeight = props.viewAllAspectRatio
-            ? 0
-            : props.footerLabelsCount === 2
-            ? 90
-            : props.footerLabelsCount === 3
-            ? 100
-            : 43;
+        footerHeight = props.footerLabelsCount === 2 ? 90 : props.footerLabelsCount === 3 ? 100 : 43;
     }
-    const aspectRatio = props.viewAllAspectRatio ? props.viewAllAspectRatio : props.aspectRatio;
-    const cardH = cardW / aspectRatio + footerHeight;
+    const cardH = cardW / props.aspectRatio + footerHeight;
 
     const styles = StyleSheet.create({
         container: {
@@ -95,7 +87,7 @@ const SkeletonCard = (props: SkeletonCardProps) => {
                     <View style={[styles.pill, { right: 0, bottom: 0 }]} />
                 </View>
             )}
-            {props.showFooter && props.viewAllAspectRatio === undefined && (
+            {props.showFooter && (
                 <View style={styles.footer}>
                     <View style={[styles.pillContainer, { top: 30 }]}>
                         <View style={[styles.pill, { left: 0, bottom: 0 }]} />

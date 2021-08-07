@@ -90,7 +90,7 @@ describe('useFetchResourceQuery', () => {
         expect(result.current.loading).toEqual(false);
         expect(result.current.error).toEqual(true);
         expect(result.current.errorObject).toEqual(undefined);
-        expect(result.current.mainResource).toBeNull();
+        expect(result.current.mainResource).toEqual(undefined);
     });
 });
 

@@ -53,6 +53,8 @@ interface UserDataState {
     redeemedAssets: VODEntitlement[];
     bookmarks: BookmarkRecord[];
     reload: () => void;
+    settingValue: boolean;
+    updateSettingValue: (value: boolean) => void;
 }
 
 const initialState: UserDataState = {
@@ -62,6 +64,8 @@ const initialState: UserDataState = {
     redeemedAssets: [],
     bookmarks: [],
     reload: () => {},
+    settingValue: false,
+    updateSettingValue: () => {},
 };
 
 const UserDataContext: Context<UserDataState> = React.createContext({
@@ -98,10 +102,19 @@ const UserDataContextProvider = ({ children }: { children: React.ReactNode }) =>
                     error: true,
                     errorObject: action.value,
                 };
+            case 'SET_SETTING_VALUE':
+                return {
+                    ...prevState,
+                    settingValue: action.value,
+                };
             default:
                 return prevState;
         }
     }, initialState);
+
+    const updateSettingValues = useCallback(async (value: boolean) => {
+        dispatch({ type: 'SET_SETTING_VALUE', value: value });
+    }, []);
 
     /**
      * Fetch all bookmarks for the current user
@@ -112,7 +125,7 @@ const UserDataContextProvider = ({ children }: { children: React.ReactNode }) =>
             const fetchBookmarkPromise = bookmarkService.getBookmarks({
                 pageNumber: 1,
                 pageSize: totalBookmarks,
-                sortBy: 'timestamp',
+                sortBy: 'ut',
                 sortOrder: 'desc',
             });
             const bookmarks = await promiseWithTimeout<BookmarkRecord[]>(
@@ -153,8 +166,7 @@ const UserDataContextProvider = ({ children }: { children: React.ReactNode }) =>
             console.debug('[] fetchRedeemedAssets failed with error', errorCode(endpoint, payload));
             throw createError(errorCode(endpoint, payload));
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [accessToken, appConfig]);
+    }, [accessToken, appConfig, query]);
 
     const fetchUserData = useCallback(async () => {
         // Fetch all bookmarks and redeemed assets
@@ -188,7 +200,11 @@ const UserDataContextProvider = ({ children }: { children: React.ReactNode }) =>
         }
     }, [isPlatformConfigured, platformError, fetchUserData, credits]);
 
-    return <UserDataContext.Provider value={{ ...state, reload: fetchUserData }}>{children}</UserDataContext.Provider>;
+    return (
+        <UserDataContext.Provider value={{ ...state, reload: fetchUserData, updateSettingValue: updateSettingValues }}>
+            {children}
+        </UserDataContext.Provider>
+    );
 };
 
 export { UserDataContextProvider, UserDataContext };

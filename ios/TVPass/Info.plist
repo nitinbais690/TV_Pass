@@ -2,6 +2,19 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>image</key>
+	<string></string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>struum</string>
+			</array>
+			<key>CFBundleURLName</key>
+			<string>struum</string>
+		</dict>
+	</array>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
@@ -24,17 +37,6 @@
 	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
-	<key>CFBundleURLTypes</key>
-	<array>
-		<dict>
-			<key>CFBundleURLName</key>
-			<string>struum</string>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>struum</string>
-			</array>
-		</dict>
-	</array>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
@@ -65,8 +67,6 @@
 	<string>${PRODUCT_NAME} uses the local network to discover Cast-enabled devices on your WiFi network.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string></string>
-	<key>NSUserTrackingUsageDescription</key>
-	<string>Your data will be used by our ad partners to improve and personalize your ad experience</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>AntDesign.ttf</string>
@@ -116,5 +116,7 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>User Interface Style</key>
+	<string>Dark</string>
 </dict>
 </plist>

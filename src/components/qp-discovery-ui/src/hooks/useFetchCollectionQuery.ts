@@ -7,7 +7,6 @@ import { ClientContext } from 'react-fetching-library';
 import { ContainerHookResponse } from './ContainerHookResponse';
 import { queryString } from '../utils/URLBuilder';
 import { ScreenOrigin } from 'utils/ReportingUtils';
-import { useAppPreferencesState } from 'utils/AppPreferencesContext';
 
 interface State {
     hasMore: boolean;
@@ -56,8 +55,6 @@ export const useFetchCollectionQuery = (
     };
 
     const [state, setState] = useState<State>(initialState);
-    const { appConfig } = useAppPreferencesState();
-    const storefrontContentLimit = (appConfig && appConfig.storefrontContentLimit) || 10;
 
     const handleCollectionQuery = async (pageNumber: number): Promise<void> => {
         const action = fetchStorefrontCollections(collectionId, { pageNumber: pageNumber, pageSize: pageSize });
@@ -75,8 +72,6 @@ export const useFetchCollectionQuery = (
                         ScreenOrigin.COLLECTION,
                         collectionId,
                         collectionTitle,
-                        undefined,
-                        storefrontContentLimit,
                     );
                 })) ||
             [];
@@ -87,7 +82,7 @@ export const useFetchCollectionQuery = (
         const totalContainers = (payload && payload.header && payload.header.count) || 0;
         let hasMore = false;
         if (gridMode && containers && containers.length > 0) {
-            hasMore = containers[0].contentUrl !== undefined;
+            hasMore = containers[0].contentCount === 0;
         } else if (totalContainers) {
             hasMore = pageSize * pageNumber < totalContainers;
         }
@@ -183,7 +178,7 @@ export const useFetchCollectionQuery = (
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [collectionId, pageSize, isInternetReachable]);
 
-    const loadMore = async (pn: number): Promise<void> => handleQuery(pn);
+    const loadMore = (pn: number): Promise<void> => handleQuery(pn);
     const reload = (): Promise<void> => handleQuery(1);
 
     return {

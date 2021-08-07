@@ -20,7 +20,6 @@ import {
     setSendPushNotifications,
     DEFAULT_STREAM_QUALITY,
     DEFAULT_DOWNLOAD_QUALITY,
-    setItem,
 } from 'utils/UserPreferenceUtils';
 import { AppEvents, condensePreferanceData } from 'utils/ReportingUtils';
 import { useAnalytics } from 'utils/AnalyticsReporterContext';
@@ -29,8 +28,6 @@ import { useDownloads } from 'platform/hooks/useDownloads';
 import Button from 'screens/components/Button';
 import BackgroundGradient from 'screens/components/BackgroundGradient';
 import { useDownloadsContext, PreferenceUpdates } from 'utils/DownloadsContextProvider';
-import { useAlert } from 'contexts/AlertContext';
-import { DOWNLOAD_COMPLETE_LIST } from 'utils/DownloadBookmarkUtils';
 
 export const PreferencesScreen = ({ navigation }: { navigation: any }): JSX.Element => {
     const actionSheetRef = useRef<ActionSheet>(null);
@@ -51,7 +48,6 @@ export const PreferencesScreen = ({ navigation }: { navigation: any }): JSX.Elem
     const { swrveUserUpdate } = useSwrve();
     const { downloads } = useDownloads(downloadManager);
     const { downloadOverWifiOnly, streamOverCellular: streamOverCellular, updatePreference } = useDownloadsContext();
-    const { Alert } = useAlert();
 
     const qualityPlaybackValues = [
         {
@@ -151,30 +147,11 @@ export const PreferencesScreen = ({ navigation }: { navigation: any }): JSX.Elem
                 const downloads = await downloadManager.getAllDownloads();
                 const purgePromises = downloads.map(download => downloadManager.purgeDownload(download.id));
                 await Promise.all(purgePromises);
-                await clearDownloadsFromAStorage();
             } catch (e) {
                 console.debug('[clearAllDownloads] Error purging downloads', e);
             }
             setPurging(false);
         }
-    };
-
-    const clearDownloadsFromAStorage = async () => {
-        await setItem(DOWNLOAD_COMPLETE_LIST, '');
-    };
-
-    const clearAllDownloadsConfirmation = () => {
-        Alert.alert(strings['preference.alert_title'], strings['preference.alert_message'], [
-            {
-                text: strings['preference.alert_confirm'],
-                onPress: () => clearAllDownloads(),
-            },
-            {
-                text: strings['preference.alert_cancel'],
-                onPress: () => {},
-                style: 'cancel',
-            },
-        ]);
     };
 
     return (
@@ -225,8 +202,8 @@ export const PreferencesScreen = ({ navigation }: { navigation: any }): JSX.Elem
                     <View style={settStyle.toggle}>
                         <Switch
                             ios_backgroundColor={appColors.primary}
-                            style={[settStyle.margin_toggle, { transform: [{ scaleX: 0.9 }, { scaleY: 0.9 }] }]}
-                            thumbColor={streamOverCellular ? appColors.secondary : appColors.captionLight}
+                            style={[settStyle.margin_toggle]}
+                            thumbColor={streamOverCellular ? appColors.secondary : appColors.tertiary}
                             trackColor={{ true: appColors.brandTint, false: appColors.primary }}
                             onValueChange={value => {
                                 setStreamOverCellular(value);
@@ -281,7 +258,7 @@ export const PreferencesScreen = ({ navigation }: { navigation: any }): JSX.Elem
                     <View style={settStyle.toggle}>
                         <Switch
                             ios_backgroundColor={appColors.primary}
-                            style={[settStyle.margin_toggle, { transform: [{ scaleX: 0.9 }, { scaleY: 0.9 }] }]}
+                            style={[settStyle.margin_toggle]}
                             thumbColor={downloadOverCellular ? appColors.secondary : appColors.captionLight}
                             trackColor={{ true: appColors.brandTint, false: appColors.primaryVariant4 }}
                             onValueChange={value => {
@@ -298,7 +275,7 @@ export const PreferencesScreen = ({ navigation }: { navigation: any }): JSX.Elem
                                     }),
                                 );
                             }}
-                            value={downloadOverCellular}
+                            value={downloadOverWifiOnly}
                         />
                     </View>
                 </View>
@@ -324,8 +301,7 @@ export const PreferencesScreen = ({ navigation }: { navigation: any }): JSX.Elem
                     destructiveButtonIndex={1}
                     onPress={index => {
                         if (index > 0) {
-                            clearAllDownloadsConfirmation();
-                            // clearAllDownloads();
+                            clearAllDownloads();
                         }
                     }}
                 />
@@ -339,7 +315,7 @@ export const PreferencesScreen = ({ navigation }: { navigation: any }): JSX.Elem
                     <View style={settStyle.toggle}>
                         <Switch
                             ios_backgroundColor={appColors.primary}
-                            style={[settStyle.margin_toggle, { transform: [{ scaleX: 0.9 }, { scaleY: 0.9 }] }]}
+                            style={[settStyle.margin_toggle]}
                             thumbColor={sendPushNotification ? appColors.secondary : appColors.captionLight}
                             trackColor={{ true: appColors.brandTint, false: appColors.caption }}
                             onValueChange={value => {

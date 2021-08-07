@@ -26,7 +26,7 @@ export const ManageDevices = () => {
     const { strings } = useLocalization();
     const isPortrait = height > width;
     const settStyle = settingStyle({ appColors, isPortrait });
-    const { accessToken, logout } = useAuth();
+    const { accessToken } = useAuth();
     const GetAccountDevicesEndpoint = EvergentEndpoints.GetAccountDevices;
     const RemoveDevicesEndpoint = EvergentEndpoints.RemoveDevices;
     const [loading, setLoading] = useState(false);
@@ -34,7 +34,7 @@ export const ManageDevices = () => {
     const [error, setError] = useState(false);
     const { appConfig } = useAppPreferencesState();
     const { query } = useContext(ClientContext);
-    const [activeDevices, setActiveDevices] = useState([]);
+    const [manageDevice, setManageDevice] = useState([]);
     const { recordEvent } = useAnalytics();
 
     useEffect(() => {
@@ -54,15 +54,18 @@ export const ManageDevices = () => {
         const { payload } = await query(action);
         setLoading(false);
         if (isSuccess(GetAccountDevicesEndpoint, payload)) {
-            let resData = payload.GetAccountDevicesResponseMessage.AccountDeviceDetails;
-            resData = resData.filter((data: any) => {
-                return data.status === 'Active';
-            });
-            setActiveDevices(resData);
+            const data = payload.GetAccountDevicesResponseMessage.AccountDeviceDetails;
+            setManageDevice(data);
         } else {
             setError(true);
         }
     }
+
+    const activeDevices =
+        manageDevice &&
+        manageDevice.filter((data: any) => {
+            return data.status === 'Active';
+        });
 
     async function manageDevicesRemove() {
         setIsSubmitLoading(true);
@@ -76,11 +79,12 @@ export const ManageDevices = () => {
         });
 
         const { payload } = await query(action);
+
         setIsSubmitLoading(false);
 
         if (isSuccess(RemoveDevicesEndpoint, payload)) {
+            manageDevicesListing();
             recordEvent(AppEvents.REMOVE_DEVICE);
-            await logout();
         } else {
             Alert.alert(
                 strings['global.general_error_msg'],
@@ -94,40 +98,6 @@ export const ManageDevices = () => {
             );
         }
     }
-
-    const devicesRemoveConfirmation = () => {
-        Alert.alert(strings['manageDevices.alert_title'], strings['manageDevices.alert_message'], [
-            {
-                text: strings['manageDevices.alert_confirm'],
-                onPress: () => manageDevicesRemove(),
-            },
-            {
-                text: strings['manageDevices.alert_cancel'],
-                onPress: () => {},
-                style: 'cancel',
-            },
-        ]);
-    };
-    const removeDevice = async (serialNo: string) => {
-        const body = requestBody(RemoveDevicesEndpoint, appConfig, {
-            isExemptCurrentDevice: false,
-            deviceDetails: [{ serialNo }],
-        });
-        let action = authAction({
-            method: 'POST',
-            body: body,
-            endpoint: RemoveDevicesEndpoint,
-            accessToken,
-        });
-        const { payload } = await query(action);
-        if (isSuccess(RemoveDevicesEndpoint, payload)) {
-            const filteredData = activeDevices.filter(item => item.serialNo !== serialNo);
-            setActiveDevices(filteredData);
-            if (filteredData.length === 0) {
-                await logout();
-            }
-        }
-    };
 
     return (
         <BackgroundGradient insetTabBar={true}>
@@ -143,30 +113,14 @@ export const ManageDevices = () => {
                     <View style={settStyle.mainContainer_mh}>
                         {activeDevices &&
                             activeDevices.map((devices, i) => (
-                                <View
-                                    key={i}
-                                    style={[
-                                        settStyle.borderBottom,
-                                        settStyle.manageContainer,
-                                        { flexDirection: 'row', justifyContent: 'space-between' },
-                                    ]}>
-                                    <View style={{ justifyContent: 'center', alignItems: 'flex-start' }}>
-                                        <Text style={[settStyle.text_manageD]}>{devices.deviceName}</Text>
-                                        <Text style={[settStyle.text_manage_light]}>
-                                            {strings.formatString(
-                                                strings['manageDevices.Added'],
-                                                moment(devices.startDate).format('LL'),
-                                            )}
-                                        </Text>
-                                    </View>
-                                    <View style={{ justifyContent: 'center', alignItems: 'flex-end', marginRight: 10 }}>
-                                        {/* <RNEButton icon={CloseIcon} titleStyle={{ }} type="clear" onPress={() => removeDevice(devices.serialNo)} /> */}
-                                        <Text
-                                            style={[settStyle.text_manageD, { color: appColors.brandTint }]}
-                                            onPress={() => removeDevice(devices.serialNo)}>
-                                            {'Remove'}
-                                        </Text>
-                                    </View>
+                                <View key={i} style={[settStyle.borderBottom, settStyle.manageContainer]}>
+                                    <Text style={[settStyle.text_manageD]}>{devices.deviceName}</Text>
+                                    <Text style={[settStyle.text_manage_light]}>
+                                        {strings.formatString(
+                                            strings['manageDevices.Added'],
+                                            moment(devices.startDate).format('LL'),
+                                        )}
+                                    </Text>
                                 </View>
                             ))}
                         <View style={[settStyle.row_between, settStyle.borderBottom, settStyle.containerHeight]}>
@@ -176,9 +130,9 @@ export const ManageDevices = () => {
                             <View style={settStyle.removeButtonContainer}>
                                 <Button
                                     buttonStyle={settStyle.removeButton}
-                                    disabled={isSubmitLoading || (activeDevices && activeDevices.length <= 1)}
+                                    disabled={isSubmitLoading || (activeDevices && activeDevices.length === 1)}
                                     title={strings['manageDevices.clear']}
-                                    onPress={devicesRemoveConfirmation}
+                                    onPress={manageDevicesRemove}
                                     loading={isSubmitLoading}
                                 />
                             </View>

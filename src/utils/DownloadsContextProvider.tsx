@@ -1,21 +1,14 @@
 import { NetInfoStateType } from '@react-native-community/netinfo';
 import { useNetworkStatus } from 'contexts/NetworkContextProvider';
 import { useDownloads } from 'platform/hooks/useDownloads';
-import React, { useCallback, useContext, useEffect, useReducer } from 'react';
+import React, { useCallback, useContext, useEffect, useReducer, useRef } from 'react';
 import { Download, downloadManager } from 'rn-qp-nxg-player';
 import { useInterval } from 'screens/hooks/usePlayerAnalytics';
 import { useAnalytics } from './AnalyticsReporterContext';
 import { useAppPreferencesState } from './AppPreferencesContext';
-import {
-    DOWNLOAD_CONTENT_BOOKMARK,
-    getDownloadsBookmark,
-    isOffsetUndefined,
-    DOWNLOAD_COMPLETE_LIST,
-} from './DownloadBookmarkUtils';
+import { DOWNLOAD_CONTENT_BOOKMARK, getDownloadsBookmark, isOffsetUndefined } from './DownloadBookmarkUtils';
 import { AppEvents, condenseDownloadData } from './ReportingUtils';
-import { canDownloadOverCellular, canStreamOverCellular, setItem, getItem } from './UserPreferenceUtils';
-import PushNotification from 'react-native-push-notification';
-import { useLocalization } from 'contexts/LocalizationContext';
+import { canDownloadOverCellular, canStreamOverCellular, setItem } from './UserPreferenceUtils';
 
 /**
  * DownloadsContextProvider manages the deletion of expired and Stale items. It also handles the download actions according to
@@ -72,14 +65,19 @@ const DownloadsContextProvider = ({ children }: { children: React.ReactNode }) =
     const { type, isInternetReachable } = useNetworkStatus();
     const isOffline = isInternetReachable === false;
     const { appConfig } = useAppPreferencesState();
-    const { recordEvent, downloadTracker, downloadTrackUpdate } = useAnalytics();
     const DEFAULT_PROGRESS_REPORT_INTERVAL_MS = 10 * 1000; // 10 secs
+    const { recordEvent } = useAnalytics();
     const progressRecordInterval =
         appConfig && appConfig.playbackReportingIntervalMs
             ? appConfig.playbackReportingIntervalMs
             : DEFAULT_PROGRESS_REPORT_INTERVAL_MS;
-    const { strings } = useLocalization();
-
+    const completedDownloads = useRef(
+        downloads.map(downlaod => {
+            if (downlaod.state === 'COMPLETED') {
+                return downlaod.id;
+            }
+        }),
+    ).current;
     useEffect(() => {
         const init = async () => {
             const streamOverCellular = await canStreamOverCellular();
@@ -104,9 +102,6 @@ const DownloadsContextProvider = ({ children }: { children: React.ReactNode }) =
 
     const recordPlaybackProgress = useCallback(() => {
         downloads.forEach(downloadItem => {
-            if (downloadItem.state !== downloadTracker[downloadItem.id]) {
-                downloadTrackUpdate(downloadItem);
-            }
             if (downloadItem.state === 'DOWNLOADING') {
                 recordEvent(
                     AppEvents.DOWNLOAD_INPROGRESS,
@@ -125,68 +120,26 @@ const DownloadsContextProvider = ({ children }: { children: React.ReactNode }) =
                 case 'PAUSED':
                     // NOTE: Only for scenario where device goes offline
                     recordEvent(AppEvents.DOWNLOAD_PAUSED, condenseDownloadData(JSON.parse(downloadItem.metadata)));
-                    downloadTrackUpdate(downloadItem);
                     break;
                 case 'QUEUED':
-                    if (downloadItem.state !== downloadTracker[downloadItem.id]) {
-                        recordEvent(AppEvents.DOWNLOAD_PAUSED, condenseDownloadData(JSON.parse(downloadItem.metadata)));
-                        downloadTrackUpdate(downloadItem);
-                    }
+                    recordEvent(AppEvents.DOWNLOAD_PAUSED, condenseDownloadData(JSON.parse(downloadItem.metadata)));
                     break;
                 case 'COMPLETED':
-                    if (downloadItem.state !== downloadTracker[downloadItem.id]) {
-                        //check to prevent reporting DOWNLOAD_COMPLETED on startup when there are downloaded content
-                        if (downloadTracker[downloadItem.id] !== undefined) {
-                            recordEvent(
-                                AppEvents.DOWNLOAD_COMPLETED,
-                                condenseDownloadData(JSON.parse(downloadItem.metadata)),
-                            );
-                        }
-                        downloadTrackUpdate(downloadItem);
+                    if (!completedDownloads.includes(downloadItem.id)) {
+                        recordEvent(
+                            AppEvents.DOWNLOAD_COMPLETED,
+                            condenseDownloadData(JSON.parse(downloadItem.metadata)),
+                        );
+                        completedDownloads.push(downloadItem.id);
                     }
-                    sendLocalPush(downloadItem.id, JSON.parse(downloadItem.metadata));
                     break;
                 case 'FAILED':
                     recordEvent(AppEvents.DOWNLOAD_STOPPED, condenseDownloadData(JSON.parse(downloadItem.metadata)));
-                    downloadTrackUpdate(downloadItem);
                     break;
             }
         });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [downloads]);
-
-    /**
-     * check doanloded items in async storage
-     * send push only if download Id not exist in AStorage
-     */
-    const sendLocalPush = async (dId: string, dItem: any) => {
-        let downloadedList = await getItem(DOWNLOAD_COMPLETE_LIST, '');
-        let sendPush = false;
-        if (downloadedList) {
-            downloadedList = JSON.parse(downloadedList);
-            if (downloadedList !== undefined && downloadedList.length > 0) {
-                const dItemExist = downloadedList.filter((item: { [key: string]: string }) => item.id === dId);
-                if (dItemExist.length === 0) {
-                    sendPush = true;
-                    let newObj = { id: dId };
-                    downloadedList.push(newObj);
-                    await setItem(DOWNLOAD_COMPLETE_LIST, JSON.stringify(downloadedList));
-                }
-            }
-        } else {
-            sendPush = true;
-            downloadedList = [{ id: dId }];
-            await setItem(DOWNLOAD_COMPLETE_LIST, JSON.stringify(downloadedList));
-        }
-        if (sendPush) {
-            PushNotification.localNotification({
-                message: dItem.name + ' ' + strings['localpush.message'],
-                userInfo: { pushType: 'local' },
-                soundName: 'struum_alert.aiff',
-            });
-        }
-    };
-
     const removeExpiredAndStaleDownloads = async (downloads: Download[]) => {
         const deletePromises = downloads
             .map(downloadItem => {

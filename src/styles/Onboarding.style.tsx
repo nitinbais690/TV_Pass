@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Platform } from 'react-native';
 import { appFonts } from '../../AppStyles';
 import { AspectRatio, padding, selectDeviceType } from 'qp-common-ui';
 import { useHeaderTabBarHeight } from 'screens/components/HeaderTabBar';
@@ -92,11 +92,12 @@ export const onboardingStyle = ({ appColors, appPadding, insets, isPortrait, wid
         cardBorderHighlight: {
             borderRadius: 22,
             borderWidth: 2,
+            paddingBottom: Platform.OS === 'android' ? 215 : 0,
             position: 'absolute',
-            left: 5,
-            right: 5,
+            left: Platform.OS === 'android' ? 3 : 5,
+            right: Platform.OS === 'android' ? 3 : 5,
             bottom: 0,
-            top: 20,
+            top: Platform.OS === 'android' ? 19 : 20,
             zIndex: 9,
         },
         middleCont: {
@@ -113,18 +114,18 @@ export const onboardingStyle = ({ appColors, appPadding, insets, isPortrait, wid
             alignItems: 'center',
             justifyContent: 'center',
             width: '100%',
-            zIndex: 99,
+            zIndex: 9,
             flex: 1,
             // height: '20%',
         },
         bottomWrapper: {
             backgroundColor: appColors.primaryVariant1,
-            paddingTop: 30,
+            paddingTop: 20,
             paddingBottom: insets.bottom ? insets.bottom : 10,
             width: '100%',
             // padding: selectDeviceType({ Tablet: appPadding.xs() }, appPadding.sm()),
             paddingHorizontal: selectDeviceType({ Tablet: '15%' }, appPadding.sm()),
-            height: selectDeviceType({ Tablet: 284 }, 266),
+            // height: '100%',
         },
         bottomContentInfo: {
             flexDirection: 'row',
@@ -136,16 +137,18 @@ export const onboardingStyle = ({ appColors, appPadding, insets, isPortrait, wid
             color: appColors.secondary,
             fontFamily: appFonts.primary,
             fontSize: appFonts.lg,
-            fontWeight: '600',
         },
         bottomContentInfoWCText: {
             color: appColors.brandTint,
         },
         bottomBtnSmt: {
-            marginVertical: 10,
+            marginVertical: 20,
+            justifyContent: selectDeviceType({ Tablet: isPortrait ? 'space-evenly' : 'center' }, 'space-evenly'),
         },
         bottomBtnSkip: {
             // marginBottom: insets.bottom + 10,
+            alignSelf: selectDeviceType({ Tablet: 'auto' }, 'stretch'),
+            marginBottom: 8,
         },
         bottomBtnSkipText: {
             color: appColors.caption,
@@ -354,14 +357,18 @@ export const onboardingSpet1Style = ({ appColors, appPadding, insets }: any) => 
         },
         step1Container: {
             flex: 1,
-            justifyContent: 'center',
-            paddingHorizontal: appPadding.sm(),
+            paddingHorizontal: appPadding.sm(true),
             backgroundColor: appColors.primary,
+            height: '100%',
+            position: 'absolute',
+            justifyContent: selectDeviceType({ Tablet: 'center' }, 'space-evenly'),
+            paddingTop: selectDeviceType({ Tablet: 0 }, appPadding.sm(true)),
         },
         step1Wrapper: {
-            flex: 1,
-            justifyContent: selectDeviceType({ Tablet: 'space-around' }, 'space-between'),
-            paddingHorizontal: selectDeviceType({ Tablet: '25%' }, appPadding.xxs()),
+            justifyContent: selectDeviceType({ Tablet: 'space-around' }, 'space-evenly'),
+            paddingTop: selectDeviceType({ Tablet: '10%' }, '5%'),
+            paddingBottom: '10%',
+            marginHorizontal: selectDeviceType({ Tablet: appPadding.lg(true) }, appPadding.sm(true)),
         },
         getStarted: {
             textAlign: 'left',
@@ -385,8 +392,7 @@ export const onboardingSpet1Style = ({ appColors, appPadding, insets }: any) => 
             flexWrap: 'wrap',
             flexDirection: 'row',
             alignItems: 'center',
-            justifyContent: 'center',
-            marginTop: selectDeviceType({ Tablet: appPadding.md() }, appPadding.md()),
+            marginTop: selectDeviceType({ Tablet: appPadding.md() }, appPadding.sm()),
         },
         credits: {},
         creditsText: {
@@ -395,6 +401,8 @@ export const onboardingSpet1Style = ({ appColors, appPadding, insets }: any) => 
             fontSize: appFonts.lg,
         },
         tickerWrapper: {
+            marginLeft: appPadding.md(),
+            marginTop: appPadding.xxl(),
             flexDirection: 'row',
             alignItems: 'center',
             zIndex: 2,
@@ -404,29 +412,28 @@ export const onboardingSpet1Style = ({ appColors, appPadding, insets }: any) => 
             zIndex: 2,
         },
         lottieContainer: {
-            width: selectDeviceType({ Tablet: 360 }, 320),
+            width: 725,
             backgroundColor: 'transparent',
             position: 'absolute',
-            // left: -65,
-            // top: -36,
+            left: Platform.OS === 'android' ? -95 : -65,
+            top: Platform.OS === 'android' ? -50 : -36,
         },
         lottieContainerExit: {
-            width: selectDeviceType({ Tablet: 360 }, 320),
+            width: 725,
             backgroundColor: 'transparent',
             position: 'absolute',
-            // left: -65,
-            // top: -36,
+            left: Platform.OS === 'android' ? -95 : -65,
+            top: Platform.OS === 'android' ? -50 : -36,
         },
         tickerText: {
             textAlign: 'center',
-            fontSize: 70,
+            fontSize: 80,
             color: appColors.secondary,
             fontFamily: appFonts.primary,
             zIndex: 2,
         },
         step1BottomContainer: {
-            marginTop: selectDeviceType({ Tablet: 0 }, appPadding.md()),
-            bottom: appPadding.sm(),
+            marginTop: selectDeviceType({ Tablet: 0 }, appPadding.lg()),
         },
         creditInfo: {
             flexDirection: 'row',
@@ -437,18 +444,6 @@ export const onboardingSpet1Style = ({ appColors, appPadding, insets }: any) => 
             color: appColors.secondary,
             fontFamily: appFonts.primary,
             fontSize: appFonts.lg,
-        },
-        creditShadowOpacity: {
-            shadowColor: appColors.brandTint,
-            // shadowColor: "red",
-            shadowOffset: {
-                width: 0,
-                height: 0,
-            },
-            shadowRadius: 80,
-            elevation: 80,
-            zIndex: 10,
-            shadowOpacity: 1,
         },
         freeCreditInfo: {
             flexDirection: 'row',
@@ -567,8 +562,6 @@ export const onboardingStep7Style = ({ appColors, appPadding, insets }: any) => 
             alignSelf: 'center',
             paddingTop: insets.top + 20,
             zIndex: 1,
-            justifyContent: 'center',
-            alignItems: 'center',
         },
         step7Wrapper: {
             flex: 1,
@@ -580,15 +573,8 @@ export const onboardingStep7Style = ({ appColors, appPadding, insets }: any) => 
             marginTop: selectDeviceType({ Tablet: 0 }, appPadding.md()),
         },
         step7BottomContainer: {
-            paddingHorizontal: selectDeviceType({ Tablet: '15%' }, appPadding.sm()),
-            bottom: selectDeviceType({ Tablet: appPadding.md() }, appPadding.md()),
+            paddingHorizontal: selectDeviceType({ Tablet: '25%' }, appPadding.sm()),
             marginVertical: selectDeviceType({ Tablet: 0 }, appPadding.md()),
-        },
-        step7QuestionsContainer: {
-            color: appColors.secondary,
-            fontFamily: appFonts.primary,
-            fontSize: appFonts.lg,
-            fontWeight: '600',
         },
         completedInfo: {
             flexDirection: 'row',
@@ -597,12 +583,6 @@ export const onboardingStep7Style = ({ appColors, appPadding, insets }: any) => 
         },
         completedText: {
             color: appColors.secondary,
-            fontFamily: appFonts.primary,
-            fontSize: appFonts.xxlg,
-            fontWeight: '600',
-        },
-        completedBrandNameText: {
-            color: appColors.brandTint,
             fontFamily: appFonts.primary,
             fontSize: appFonts.xxlg,
         },
@@ -642,7 +622,6 @@ export const onboardingStep7Style = ({ appColors, appPadding, insets }: any) => 
             width: '100%',
             height: '100%',
             zIndex: 2,
-            paddingHorizontal: selectDeviceType({ Tablet: '15%' }, '5%'),
         },
     });
 };

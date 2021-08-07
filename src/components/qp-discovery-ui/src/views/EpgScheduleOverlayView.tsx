@@ -167,6 +167,7 @@ export const EpgScheduleOverlayView = <T extends ResourceVm>(props: EpgOverlaySt
                 animationType={'slide'}
                 transparent={true}
                 visible={true}
+                hardwareAccelerated
                 onRequestClose={() => {
                     onBackPress();
                 }}>

@@ -123,8 +123,7 @@ export const usePlayerAnalytics = (
                 stopTimer(TimerType.PlayerLoad);
                 //Note: isPaused check as player behavior has PLAYBACK_STARTED and PLAYBACK_RESUMED triggering consecutively
                 if (!isPaused) {
-                    !isStarted &&
-                        reportPlaybackEvent(AppEvents.PLAYBACK_STARTED, undefined, elapsedTime.playerLoadTime);
+                    reportPlaybackEvent(AppEvents.PLAYBACK_STARTED, undefined, elapsedTime.playerLoadTime);
                     setIsStarted(true);
                 } else {
                     reportPlaybackEvent(AppEvents.PLAYBACK_RESUMED, undefined, elapsedTime.playerLoadTime);

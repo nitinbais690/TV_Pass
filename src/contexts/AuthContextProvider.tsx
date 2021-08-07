@@ -14,7 +14,6 @@ import {
     AccountProfile,
 } from 'utils/EvergentAPIUtil';
 import { getItem, setItem } from 'utils/UserPreferenceUtils';
-import KochavaTracker from 'react-native-kochava-tracker';
 
 type USER_TYPE = 'INIT' | 'NOT_LOGGED_IN' | 'LOGGED_IN' | 'SUBSCRIBED';
 
@@ -318,18 +317,6 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
         } catch (e) {
             console.error('[AuthContext] Error fetching account profile', e);
         }
-        if (signedUpInSession && accountProfile) {
-            //First set an identity link for this user
-            var identityLinkMapObject: any = {};
-            identityLinkMapObject['Subscriber ID'] = accountProfile.accountId;
-            KochavaTracker.setIdentityLink(identityLinkMapObject);
-
-            //Sending custom event for sign up with accountId
-            var eventMapObject: any = {};
-            eventMapObject.user_id = accountProfile.accountId;
-            KochavaTracker.sendEventMapObject('SignUp', eventMapObject);
-        }
-
         dispatch({
             name: 'LOG_IN',
             value: accessToken,
@@ -512,7 +499,7 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
                     accountAttributes: [
                         {
                             type: 'String',
-                            attributeName: 'Enable push notifications',
+                            attributeName: 'emailUpdates',
                             value: sendEmailUpdates ? 'Yes' : 'No',
                         },
                     ],

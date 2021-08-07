@@ -4,7 +4,6 @@ export interface TabVm {
     id: string;
     localizedName?: { [key: string]: string };
     name: string;
-    origin?: string;
 }
 
 export type ResourceType =
@@ -13,13 +12,14 @@ export type ResourceType =
     | 'urn:resource:catalog:tvepisodes'
     | 'urn:resource:live:linearlivechannel';
 
-export type CardLayout = 'carousel' | 'banner' | 'promotional' | 'grid';
+export type CardLayout = 'carousel' | 'banner';
 export type CardSize = 'regular' | 'large' | 'xlarge';
 export type CardStyle = 'regular' | 'rounded';
 export type ContainerType = 'Collection';
 export type CollectionLayoutType = 'banner' | 'carousel' | 'grid';
 
 export interface ContainerVm {
+    viewAll: boolean;
     id: string;
     type?: string;
     name: string;
@@ -40,15 +40,12 @@ export interface ContainerVm {
     lazyLoading?: boolean;
     pageNumber?: number;
     maxResources?: number;
-    viewAll?: boolean;
-    showPlayerIcon?: boolean;
-    containerTypeName?: string;
 }
 
 export interface ResourceVm {
-    id: string;
-    key: string;
-    name: string;
+    id?: string;
+    key?: string;
+    name?: string;
 
     title?: string;
     subtitle?: string;
@@ -148,8 +145,6 @@ export interface ResourceVm {
     origin?: string;
     showFooter?: boolean;
     showFooterTitles?: boolean;
-    showPlayerIcon?: boolean;
-    containerTypeName?: string;
 }
 
 //TODO:To include Schedules when EPG is available

@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Animated, ListRenderItemInfo, StyleSheet, Text, TouchableHighlight, View } from 'react-native';
 import { SwipeListView, SwipeRow } from 'react-native-swipe-list-view';
-import { BlurView } from '@react-native-community/blur';
 import { useDimensions } from '@react-native-community/hooks';
 import { useAppPreferencesState } from 'utils/AppPreferencesContext';
 import { useLocalization } from 'contexts/LocalizationContext';
@@ -24,6 +23,7 @@ import { AppEvents, condenseDownloadData } from 'utils/ReportingUtils';
 import { useAnalytics } from 'utils/AnalyticsReporterContext';
 import { useDownloadsContext } from 'utils/DownloadsContextProvider';
 import { getDownloadsBookmark } from 'utils/DownloadBookmarkUtils';
+import BlurComponent from 'screens/components/BlurComponent';
 
 export type DownloadWithMetadata = ResourceVm & Download;
 
@@ -157,7 +157,7 @@ const DownloadList = ({ downloads }: DownloadListProps): JSX.Element => {
         rowSwipeAnimatedValues[data.id] = new Animated.Value(0);
     });
     listData.sort((a: DownloadWithMetadata, b: DownloadWithMetadata): number => {
-        return a.episodeNumber < b.episodeNumber! ? -1 : a.episodeNumber! > b.episodeNumber ? 1 : 0;
+        return a.episodeNumber! < b.episodeNumber! ? -1 : a.episodeNumber! > b.episodeNumber! ? 1 : 0;
     });
 
     const config = useConfig();
@@ -303,7 +303,7 @@ const DownloadList = ({ downloads }: DownloadListProps): JSX.Element => {
             metaInfo.push(genreString);
         }
         if (item.providerName) {
-            metaInfo.push(item.network);
+            metaInfo.push(item.providerName);
         }
         const metaInfoString = metaInfo.join(' \u2022 ');
         const default_thumbnail = require('../../../assets/images/default_thumbnail.png');
@@ -380,14 +380,14 @@ const DownloadList = ({ downloads }: DownloadListProps): JSX.Element => {
                                     fallbackSource={default_thumbnail}
                                 />
                                 {originalItem && originalItem.state !== 'COMPLETED' && (
-                                    <BlurView
+                                    <BlurComponent
                                         style={{
                                             ...StyleSheet.absoluteFillObject,
                                             alignItems: 'center',
                                             justifyContent: 'center',
                                         }}>
                                         <DownloadButton fetchingAuthorization={false} download={originalItem} />
-                                    </BlurView>
+                                    </BlurComponent>
                                 )}
                             </View>
                             <View style={styles.textContainer}>

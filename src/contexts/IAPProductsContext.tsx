@@ -35,7 +35,7 @@ const IAPProductsContextProvider = ({ children }: { children: React.ReactNode })
     const { appConfig } = useAppPreferencesState();
     const { accessToken } = useAuth();
     const { query } = useContext(ClientContext);
-    const { getProducts } = useIAPState();
+    const { getProducts, initState } = useIAPState();
 
     const [state, dispatch] = React.useReducer((prevState, action) => {
         switch (action.type) {
@@ -95,13 +95,12 @@ const IAPProductsContextProvider = ({ children }: { children: React.ReactNode })
                 dispatch({ type: 'ERROR', value: e });
             }
         };
-
-        if (state.topups.length <= 0) {
+        if (state.topups.length <= 0 && initState === 'Ready') {
             fetchProducts();
         }
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [accessToken]);
+    }, [accessToken, initState]);
 
     return <IAPProductsContext.Provider value={{ ...state }}>{children}</IAPProductsContext.Provider>;
 };

@@ -3,21 +3,23 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* TVPassTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* TVPassTests.m */; };
+		0A913C8926B181BC000885F9 /* libreact-native-video-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A913C8826B181BC000885F9 /* libreact-native-video-tvOS.a */; };
+		0E71E28FAED28B2A3A80958F /* libPods-TVPass-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D596F890BBBAC46BF27FC86F /* libPods-TVPass-tvOS.a */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		1FD84EEEA49C488D973EA918 /* Inter-Medium-slnt=0.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 17BCD00787AE4AD3B795A946 /* Inter-Medium-slnt=0.ttf */; };
+		293B607C567282042E8188F8 /* libPods-TVPass-TVPassTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EC533D37280F2153BFF7E6F6 /* libPods-TVPass-TVPassTests.a */; };
 		2D02E4BC1E0B4A80006451C7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2DCD954D1E0B4F2C00145EB5 /* TVPassTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* TVPassTests.m */; };
 		6A3D012A22E99237007CDBD6 /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A3D012722E99237007CDBD6 /* JavaScriptCore.framework */; };
-		6A3D017822E994ED007CDBD6 /* libPods-TVPass-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A3D017722E994ED007CDBD6 /* libPods-TVPass-tvOS.a */; };
 		6A8BC32325937B0B0035AB2C /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6A8BC32125937B0B0035AB2C /* Launch Screen.storyboard */; };
 		6ABA2AAD251DBBCD00731C50 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ABA2AAC251DBBCD00731C50 /* StoreKit.framework */; };
 		705735292541449300F34B73 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 705735282541449300F34B73 /* SystemConfiguration.framework */; };
@@ -25,16 +27,30 @@
 		7057352D254144B900F34B73 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 7057352C254144B900F34B73 /* libc++.tbd */; };
 		70573531254144C500F34B73 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 70573530254144C500F34B73 /* libz.tbd */; };
 		7217BDC10CFD4BD6BBEFE3F9 /* Inter-Regular-slnt=0.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6C1B023C17C44F8E8514F7B9 /* Inter-Regular-slnt=0.ttf */; };
-		AA12044F25DBF685007D316A /* libPods-TVPass.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 05AB714697A195F4A4E74BA8 /* libPods-TVPass.a */; };
+		AA5AD00825F67C98004018BB /* Inter-Bold-slnt=0.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AEF9D91DB93F4ED3AD8F298F /* Inter-Bold-slnt=0.ttf */; };
+		AA5AD00925F67C98004018BB /* Inter-Light-slnt=0.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9D825545EA3047BDB00755CD /* Inter-Light-slnt=0.ttf */; };
+		AA5AD00A25F67C98004018BB /* Inter-Medium-slnt=0.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 17BCD00787AE4AD3B795A946 /* Inter-Medium-slnt=0.ttf */; };
+		AA5AD00B25F67C98004018BB /* Inter-Regular-slnt=0.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6C1B023C17C44F8E8514F7B9 /* Inter-Regular-slnt=0.ttf */; };
+		AA5AD00C25F67C98004018BB /* Inter-SemiBold-slnt=0.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9536B8A3C54D4B1B98D739B6 /* Inter-SemiBold-slnt=0.ttf */; };
+		AA5AD01225F67CD6004018BB /* AppCenter-Config.plist in Resources */ = {isa = PBXBuildFile; fileRef = FE71856023574F0900902AAC /* AppCenter-Config.plist */; };
+		AA5DAE4326393DCE002DA603 /* TVPassSearchResultsViewcontroller.m in Sources */ = {isa = PBXBuildFile; fileRef = AA5DAE3926393DCE002DA603 /* TVPassSearchResultsViewcontroller.m */; };
+		AA5DAE4426393DCE002DA603 /* TVPassSearchResultsViewcontroller.m in Sources */ = {isa = PBXBuildFile; fileRef = AA5DAE3926393DCE002DA603 /* TVPassSearchResultsViewcontroller.m */; };
+		AA5DAE4526393DCE002DA603 /* TVPassSearchComponentManager.m in Sources */ = {isa = PBXBuildFile; fileRef = AA5DAE3E26393DCE002DA603 /* TVPassSearchComponentManager.m */; };
+		AA5DAE4626393DCE002DA603 /* TVPassSearchComponentManager.m in Sources */ = {isa = PBXBuildFile; fileRef = AA5DAE3E26393DCE002DA603 /* TVPassSearchComponentManager.m */; };
+		AA5DAE4726393DCE002DA603 /* TVPassSearchComponent.m in Sources */ = {isa = PBXBuildFile; fileRef = AA5DAE3F26393DCE002DA603 /* TVPassSearchComponent.m */; };
+		AA5DAE4826393DCE002DA603 /* TVPassSearchComponent.m in Sources */ = {isa = PBXBuildFile; fileRef = AA5DAE3F26393DCE002DA603 /* TVPassSearchComponent.m */; };
+		AA84551726B8780200FCC471 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA84551626B8780200FCC471 /* StoreKit.framework */; };
+		AA8F5C492611E65500AA425A /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = AA8F5C482611E65500AA425A /* libz.tbd */; };
+		AA8F5C4C2611E67000AA425A /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = AA8F5C4A2611E66400AA425A /* libc++.tbd */; };
+		AA8F5E802611EC1200AA425A /* NewRelic.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 70B52A132539A58A003E2418 /* NewRelic.xcframework */; };
+		AA8F5E892611F1D000AA425A /* libreact-native-newrelic-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AA8F5E882611F1D000AA425A /* libreact-native-newrelic-tvOS.a */; };
+		AAE8A2D626B2A47D008CBF20 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAE8A2D526B2A47D008CBF20 /* StoreKit.framework */; };
 		B93B980529F143B18CB6866D /* Inter-SemiBold-slnt=0.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9536B8A3C54D4B1B98D739B6 /* Inter-SemiBold-slnt=0.ttf */; };
-		CB3B78A52C494BF21C1EAD34 /* libPods-TVPass-tvOS-TVPass-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 96C9993201297676B2DC0654 /* libPods-TVPass-tvOS-TVPass-tvOSTests.a */; };
+		CB0455D19507E3EFFB819B4A /* libPods-TVPass.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 60A194712FB663B3ECA5FE58 /* libPods-TVPass.a */; };
+		D765611449CB191721C3CD1F /* libPods-TVPass-tvOS-TVPass-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 91E8F218006E7B868A4FB919 /* libPods-TVPass-tvOS-TVPass-tvOSTests.a */; };
 		D776D29DD8804AB99CA91A9F /* Inter-Light-slnt=0.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9D825545EA3047BDB00755CD /* Inter-Light-slnt=0.ttf */; };
-		D81A317B0DF237DC41701AAD /* libPods-TVPass-TVPassTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F42B4D24C35D2B2966778659 /* libPods-TVPass-TVPassTests.a */; };
-		E7375CA626566EBF008035E0 /* struum_alert.aiff in Resources */ = {isa = PBXBuildFile; fileRef = E7375CA526566EBF008035E0 /* struum_alert.aiff */; };
-		E737615E2664C944008035E0 /* Struum_Intro_Sound_Long.wav in Resources */ = {isa = PBXBuildFile; fileRef = E737615D2664C944008035E0 /* Struum_Intro_Sound_Long.wav */; };
 		ED297163215061F000B7C4FE /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED297162215061F000B7C4FE /* JavaScriptCore.framework */; };
 		F7D4587D768748D497E9145D /* Inter-Bold-slnt=0.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AEF9D91DB93F4ED3AD8F298F /* Inter-Bold-slnt=0.ttf */; };
-		FE1ECF3C264BD4DB000C383E /* AppTrackingTransparency.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE1ECF3B264BD4DB000C383E /* AppTrackingTransparency.framework */; };
 		FE2DE5552358480C006E9548 /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE817CDE2358399B003442D5 /* AppCenter.framework */; };
 		FE2DE5562358481A006E9548 /* AppCenterReactNativeShared.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE817CE9235839C3003442D5 /* AppCenterReactNativeShared.framework */; };
 		FE71856123574F0900902AAC /* AppCenter-Config.plist in Resources */ = {isa = PBXBuildFile; fileRef = FE71856023574F0900902AAC /* AppCenter-Config.plist */; };
@@ -51,6 +67,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 13B07F861A680F5B00A75B9A;
 			remoteInfo = TVPass;
+		};
+		0ABA29D726B1655900876487 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8126D4C125F2468D927AAF85 /* RNSoundPlayer.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RNSoundPlayer;
 		};
 		2D02E4911E0B4A5D006451C7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -99,10 +122,8 @@
 		00E356EE1AD99517003FC87E /* TVPassTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TVPassTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* TVPassTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TVPassTests.m; sourceTree = "<group>"; };
-		047F2061FDB00A04FE22F52A /* Pods-TVPass-TVPassTests.debug (staging).xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TVPass-TVPassTests.debug (staging).xcconfig"; path = "Target Support Files/Pods-TVPass-TVPassTests/Pods-TVPass-TVPassTests.debug (staging).xcconfig"; sourceTree = "<group>"; };
-		05AB714697A195F4A4E74BA8 /* libPods-TVPass.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TVPass.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		05D21A85451650185649F7F6 /* Pods-TVPass-tvOS-TVPass-tvOSTests.debug (staging).xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TVPass-tvOS-TVPass-tvOSTests.debug (staging).xcconfig"; path = "Target Support Files/Pods-TVPass-tvOS-TVPass-tvOSTests/Pods-TVPass-tvOS-TVPass-tvOSTests.debug (staging).xcconfig"; sourceTree = "<group>"; };
-		0C804C5170C6A8867876CA04 /* Pods-TVPass-TVPassTests.release (staging).xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TVPass-TVPassTests.release (staging).xcconfig"; path = "Target Support Files/Pods-TVPass-TVPassTests/Pods-TVPass-TVPassTests.release (staging).xcconfig"; sourceTree = "<group>"; };
+		058CBBCE0F77E8C05333368F /* Pods-TVPass-tvOS-TVPass-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TVPass-tvOS-TVPass-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-TVPass-tvOS-TVPass-tvOSTests/Pods-TVPass-tvOS-TVPass-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
+		0A913C8826B181BC000885F9 /* libreact-native-video-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = "libreact-native-video-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07F961A680F5B00A75B9A /* TVPass.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TVPass.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = TVPass/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = TVPass/AppDelegate.m; sourceTree = "<group>"; };
@@ -110,26 +131,19 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = TVPass/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = TVPass/main.m; sourceTree = "<group>"; };
 		17BCD00787AE4AD3B795A946 /* Inter-Medium-slnt=0.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Inter-Medium-slnt=0.ttf"; path = "../assets/fonts/Inter-Medium-slnt=0.ttf"; sourceTree = "<group>"; };
-		199A4CA7CBB202A4BC7CB8D0 /* libPods-TVPass-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TVPass-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		2011CFBBE2276CB4E6917961 /* Pods-TVPassTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TVPassTests.debug.xcconfig"; path = "Target Support Files/Pods-TVPassTests/Pods-TVPassTests.debug.xcconfig"; sourceTree = "<group>"; };
-		2200588F8A15F2F079D9AA45 /* Pods-TVPass-tvOS-TVPass-tvOSTests.release (staging).xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TVPass-tvOS-TVPass-tvOSTests.release (staging).xcconfig"; path = "Target Support Files/Pods-TVPass-tvOS-TVPass-tvOSTests/Pods-TVPass-tvOS-TVPass-tvOSTests.release (staging).xcconfig"; sourceTree = "<group>"; };
-		22CD3003B3784C2A2059A374 /* Pods-TVPass-TVPassTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TVPass-TVPassTests.release.xcconfig"; path = "Target Support Files/Pods-TVPass-TVPassTests/Pods-TVPass-TVPassTests.release.xcconfig"; sourceTree = "<group>"; };
-		23F4FC4C0ADD859544CC4B55 /* Pods-TVPass-tvOS-TVPass-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TVPass-tvOS-TVPass-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-TVPass-tvOS-TVPass-tvOSTests/Pods-TVPass-tvOS-TVPass-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
-		29A99AF5AB1DBC39E390A583 /* Pods-TVPass-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TVPass-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-TVPass-tvOS/Pods-TVPass-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
 		2D02E47B1E0B4A5D006451C7 /* TVPass-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "TVPass-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* TVPass-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "TVPass-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D16E6891FA4F8E400B85C8A /* libReact.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libReact.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		351BAF0DDFAA476F86EC9A17 /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
-		3B806C77E192B70443424208 /* Pods-TVPass.debug (staging).xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TVPass.debug (staging).xcconfig"; path = "Target Support Files/Pods-TVPass/Pods-TVPass.debug (staging).xcconfig"; sourceTree = "<group>"; };
-		478EEDDA0B308823D6BC8F0D /* Pods-TVPass.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TVPass.release.xcconfig"; path = "Target Support Files/Pods-TVPass/Pods-TVPass.release.xcconfig"; sourceTree = "<group>"; };
+		3D56412AD2B14A3229401885 /* Pods-TVPass-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TVPass-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-TVPass-tvOS/Pods-TVPass-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
+		421E0ECD096D55EBF50F11E3 /* Pods-TVPass-tvOS.debug (staging).xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TVPass-tvOS.debug (staging).xcconfig"; path = "Target Support Files/Pods-TVPass-tvOS/Pods-TVPass-tvOS.debug (staging).xcconfig"; sourceTree = "<group>"; };
+		46510246CA79FAF99A19935A /* Pods-TVPass.release (staging).xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TVPass.release (staging).xcconfig"; path = "Target Support Files/Pods-TVPass/Pods-TVPass.release (staging).xcconfig"; sourceTree = "<group>"; };
 		47EA0D6F45584E0E9CC8A79A /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
-		5151AB366A7FA39176665795 /* Pods-TVPass-tvOS.debug (staging).xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TVPass-tvOS.debug (staging).xcconfig"; path = "Target Support Files/Pods-TVPass-tvOS/Pods-TVPass-tvOS.debug (staging).xcconfig"; sourceTree = "<group>"; };
+		4EE148E40A86F6A1F73397E7 /* Pods-TVPass-tvOS.release (staging).xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TVPass-tvOS.release (staging).xcconfig"; path = "Target Support Files/Pods-TVPass-tvOS/Pods-TVPass-tvOS.release (staging).xcconfig"; sourceTree = "<group>"; };
 		532950C60B1347E7818DBDC8 /* FontAwesome5_Brands.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Brands.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Brands.ttf"; sourceTree = "<group>"; };
+		60A194712FB663B3ECA5FE58 /* libPods-TVPass.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TVPass.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		65DCC9C20F4849F0918F3285 /* Fontisto.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Fontisto.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Fontisto.ttf"; sourceTree = "<group>"; };
 		6A3D012722E99237007CDBD6 /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.4.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
-		6A3D017322E99339007CDBD6 /* libPods-TVPass-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = "libPods-TVPass-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		6A3D017522E994C3007CDBD6 /* libPods-TVPass-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = "libPods-TVPass-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		6A3D017722E994ED007CDBD6 /* libPods-TVPass-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = "libPods-TVPass-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6A8555FE8D064DA782A341DA /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialCommunityIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf"; sourceTree = "<group>"; };
 		6A8A77A622E72AA300BD3CD4 /* TVPass.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = TVPass.entitlements; path = TVPass/TVPass.entitlements; sourceTree = "<group>"; };
 		6A8BC32225937B0B0035AB2C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = "TVPass/Base.lproj/Launch Screen.storyboard"; sourceTree = "<group>"; };
@@ -143,37 +157,53 @@
 		70573530254144C500F34B73 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		70B522F025399636003E2418 /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
 		70B52A132539A58A003E2418 /* NewRelic.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = NewRelic.xcframework; path = Pods/NewRelicAgent/NewRelicAgent/NewRelic.xcframework; sourceTree = "<group>"; };
+		70F0096CA30BD3FC8DD49245 /* Pods-TVPass.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TVPass.debug.xcconfig"; path = "Target Support Files/Pods-TVPass/Pods-TVPass.debug.xcconfig"; sourceTree = "<group>"; };
+		73DF9D41772188F912EA6669 /* Pods-TVPass-tvOS-TVPass-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TVPass-tvOS-TVPass-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-TVPass-tvOS-TVPass-tvOSTests/Pods-TVPass-tvOS-TVPass-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
 		7A4EFDC247E84E519776E56C /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
-		7CA0D674CBF1C785E8154A01 /* Pods-TVPass.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TVPass.debug.xcconfig"; path = "Target Support Files/Pods-TVPass/Pods-TVPass.debug.xcconfig"; sourceTree = "<group>"; };
-		7EC9CF19FF6BF94D35DFF7BF /* Pods-TVPass-TVPassTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TVPass-TVPassTests.debug.xcconfig"; path = "Target Support Files/Pods-TVPass-TVPassTests/Pods-TVPass-TVPassTests.debug.xcconfig"; sourceTree = "<group>"; };
+		8126D4C125F2468D927AAF85 /* RNSoundPlayer.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNSoundPlayer.xcodeproj; path = "../node_modules/react-native-sound-player/ios/RNSoundPlayer.xcodeproj"; sourceTree = "<group>"; };
 		8AD22E8AF68147AAB80824B5 /* Feather.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Feather.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Feather.ttf"; sourceTree = "<group>"; };
-		8BF2BA18A8959CBD0D5BD546 /* Pods-TVPass-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TVPass-tvOS.release.xcconfig"; path = "Target Support Files/Pods-TVPass-tvOS/Pods-TVPass-tvOS.release.xcconfig"; sourceTree = "<group>"; };
 		8F1D01DDA3B1403B876E527F /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
+		91E8F218006E7B868A4FB919 /* libPods-TVPass-tvOS-TVPass-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TVPass-tvOS-TVPass-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9536B8A3C54D4B1B98D739B6 /* Inter-SemiBold-slnt=0.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Inter-SemiBold-slnt=0.ttf"; path = "../assets/fonts/Inter-SemiBold-slnt=0.ttf"; sourceTree = "<group>"; };
-		966AF916620363A3EDC7714C /* Pods-TVPass.release (staging).xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TVPass.release (staging).xcconfig"; path = "Target Support Files/Pods-TVPass/Pods-TVPass.release (staging).xcconfig"; sourceTree = "<group>"; };
-		96C9993201297676B2DC0654 /* libPods-TVPass-tvOS-TVPass-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TVPass-tvOS-TVPass-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AFB765820D04DE7B7E8A948 /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
+		9BB18D3C67FDC953F8B7DE41 /* Pods-TVPass-TVPassTests.debug (staging).xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TVPass-TVPassTests.debug (staging).xcconfig"; path = "Target Support Files/Pods-TVPass-TVPassTests/Pods-TVPass-TVPassTests.debug (staging).xcconfig"; sourceTree = "<group>"; };
 		9D825545EA3047BDB00755CD /* Inter-Light-slnt=0.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Inter-Light-slnt=0.ttf"; path = "../assets/fonts/Inter-Light-slnt=0.ttf"; sourceTree = "<group>"; };
-		A445034777310D074DEA71F4 /* Pods-TVPass-tvOS.release (staging).xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TVPass-tvOS.release (staging).xcconfig"; path = "Target Support Files/Pods-TVPass-tvOS/Pods-TVPass-tvOS.release (staging).xcconfig"; sourceTree = "<group>"; };
+		9D957BCAE63FFCE125808FAF /* Pods-TVPass.debug (staging).xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TVPass.debug (staging).xcconfig"; path = "Target Support Files/Pods-TVPass/Pods-TVPass.debug (staging).xcconfig"; sourceTree = "<group>"; };
+		AA19CFF22629871A00A26EF9 /* librn-qp-nxg-player-iOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = "librn-qp-nxg-player-iOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		AA25A33525F11AA6000E75EB /* libReactNativeLocalization.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libReactNativeLocalization.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		AA5DAE3926393DCE002DA603 /* TVPassSearchResultsViewcontroller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TVPassSearchResultsViewcontroller.m; path = searchTVOS/TVPassSearchResultsViewcontroller.m; sourceTree = "<group>"; };
+		AA5DAE3A26393DCE002DA603 /* TVPassSearchComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TVPassSearchComponent.h; path = searchTVOS/TVPassSearchComponent.h; sourceTree = "<group>"; };
+		AA5DAE3B26393DCE002DA603 /* TVPassSearchComponentManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TVPassSearchComponentManager.h; path = searchTVOS/TVPassSearchComponentManager.h; sourceTree = "<group>"; };
+		AA5DAE3E26393DCE002DA603 /* TVPassSearchComponentManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TVPassSearchComponentManager.m; path = searchTVOS/TVPassSearchComponentManager.m; sourceTree = "<group>"; };
+		AA5DAE3F26393DCE002DA603 /* TVPassSearchComponent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TVPassSearchComponent.m; path = searchTVOS/TVPassSearchComponent.m; sourceTree = "<group>"; };
+		AA5DAE4026393DCE002DA603 /* TVPassSearchResultsViewcontroller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TVPassSearchResultsViewcontroller.h; path = searchTVOS/TVPassSearchResultsViewcontroller.h; sourceTree = "<group>"; };
+		AA84551626B8780200FCC471 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS14.3.sdk/System/Library/Frameworks/StoreKit.framework; sourceTree = DEVELOPER_DIR; };
+		AA8F5C422611E56800AA425A /* FLFoundation.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = FLFoundation.xcframework; path = "../node_modules/rn-qp-nxg-player/ios/Frameworks/Release/FLFoundation.xcframework"; sourceTree = "<group>"; };
+		AA8F5C482611E65500AA425A /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS14.3.sdk/usr/lib/libz.tbd; sourceTree = DEVELOPER_DIR; };
+		AA8F5C4A2611E66400AA425A /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS14.3.sdk/usr/lib/libc++.tbd"; sourceTree = DEVELOPER_DIR; };
+		AA8F5E842611ECFF00AA425A /* librn-qp-nxg-player-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = "librn-qp-nxg-player-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		AA8F5E882611F1D000AA425A /* libreact-native-newrelic-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = "libreact-native-newrelic-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		AAE8A2D526B2A47D008CBF20 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS14.3.sdk/System/Library/Frameworks/StoreKit.framework; sourceTree = DEVELOPER_DIR; };
 		AEF9D91DB93F4ED3AD8F298F /* Inter-Bold-slnt=0.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Inter-Bold-slnt=0.ttf"; path = "../assets/fonts/Inter-Bold-slnt=0.ttf"; sourceTree = "<group>"; };
+		AFBE74D7641D1C90561F9ABB /* Pods-TVPass-tvOS-TVPass-tvOSTests.release (staging).xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TVPass-tvOS-TVPass-tvOSTests.release (staging).xcconfig"; path = "Target Support Files/Pods-TVPass-tvOS-TVPass-tvOSTests/Pods-TVPass-tvOS-TVPass-tvOSTests.release (staging).xcconfig"; sourceTree = "<group>"; };
+		BE54EDD07F9A4A65974C8561 /* Pods-TVPass-TVPassTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TVPass-TVPassTests.release.xcconfig"; path = "Target Support Files/Pods-TVPass-TVPassTests/Pods-TVPass-TVPassTests.release.xcconfig"; sourceTree = "<group>"; };
 		BE7A65C24666430BA6C47831 /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = SimpleLineIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; };
-		C9F36B6197F03BB604663113 /* Pods-TVPass-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TVPass-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-TVPass-tvOSTests/Pods-TVPass-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
-		CA2CFABAE4EFB3EA3723456E /* Pods-TVPass-tvOS-TVPass-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TVPass-tvOS-TVPass-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-TVPass-tvOS-TVPass-tvOSTests/Pods-TVPass-tvOS-TVPass-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
+		C579986CCA70CF719E768D0C /* Pods-TVPass-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TVPass-tvOS.release.xcconfig"; path = "Target Support Files/Pods-TVPass-tvOS/Pods-TVPass-tvOS.release.xcconfig"; sourceTree = "<group>"; };
+		CF5499BC01C846A7BBF4C28E /* libRNSoundPlayer.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNSoundPlayer.a; sourceTree = "<group>"; };
 		D506917D9274404A9B5A7D09 /* Foundation.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Foundation.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Foundation.ttf"; sourceTree = "<group>"; };
+		D596F890BBBAC46BF27FC86F /* libPods-TVPass-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TVPass-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA9441EE124E4F748411604C /* Octicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Octicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
 		DE47BAD379C548D98C7676FA /* FontAwesome5_Solid.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Solid.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Solid.ttf"; sourceTree = "<group>"; };
-		E714501DFB7215626BFF40BB /* Pods-TVPass-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TVPass-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-TVPass-tvOSTests/Pods-TVPass-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
-		E7375CA526566EBF008035E0 /* struum_alert.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; name = struum_alert.aiff; path = assets/sounds/struum_alert.aiff; sourceTree = "<group>"; };
-		E737615D2664C944008035E0 /* Struum_Intro_Sound_Long.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = Struum_Intro_Sound_Long.wav; path = assets/sounds/Struum_Intro_Sound_Long.wav; sourceTree = "<group>"; };
+		E44777F299B396D3A91EA307 /* Pods-TVPass-tvOS-TVPass-tvOSTests.debug (staging).xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TVPass-tvOS-TVPass-tvOSTests.debug (staging).xcconfig"; path = "Target Support Files/Pods-TVPass-tvOS-TVPass-tvOSTests/Pods-TVPass-tvOS-TVPass-tvOSTests.debug (staging).xcconfig"; sourceTree = "<group>"; };
+		E503FD2544C6B39406C6DB17 /* Pods-TVPass-TVPassTests.release (staging).xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TVPass-TVPassTests.release (staging).xcconfig"; path = "Target Support Files/Pods-TVPass-TVPassTests/Pods-TVPass-TVPassTests.release (staging).xcconfig"; sourceTree = "<group>"; };
 		E7D3799F25668C17006FD0BD /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
 		E7D379A125668C17006FD0BD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		ECBCD26A280F22C43FD63E25 /* Pods-TVPassTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TVPassTests.release.xcconfig"; path = "Target Support Files/Pods-TVPassTests/Pods-TVPassTests.release.xcconfig"; sourceTree = "<group>"; };
+		E8B69872A1BCA52BCF3BA51A /* Pods-TVPass.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TVPass.release.xcconfig"; path = "Target Support Files/Pods-TVPass/Pods-TVPass.release.xcconfig"; sourceTree = "<group>"; };
+		EBD464E1F768AAA090FA2E3C /* Pods-TVPass-TVPassTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TVPass-TVPassTests.debug.xcconfig"; path = "Target Support Files/Pods-TVPass-TVPassTests/Pods-TVPass-TVPassTests.debug.xcconfig"; sourceTree = "<group>"; };
+		EC533D37280F2153BFF7E6F6 /* libPods-TVPass-TVPassTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TVPass-TVPassTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		F3D1BDDDE0D342BFB07AD480 /* FontAwesome5_Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Regular.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Regular.ttf"; sourceTree = "<group>"; };
-		F42B4D24C35D2B2966778659 /* libPods-TVPass-TVPassTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TVPass-TVPassTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F7BEBA7ACD38455A816CE322 /* AntDesign.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = AntDesign.ttf; path = "../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf"; sourceTree = "<group>"; };
-		FE1ECF3B264BD4DB000C383E /* AppTrackingTransparency.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppTrackingTransparency.framework; path = System/Library/Frameworks/AppTrackingTransparency.framework; sourceTree = SDKROOT; };
-		FE70D50A265517F200316696 /* Struum_PNSFX_Final.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Struum_PNSFX_Final.mp3; sourceTree = "<group>"; };
 		FE71856023574F0900902AAC /* AppCenter-Config.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "AppCenter-Config.plist"; sourceTree = "<group>"; };
 		FE817CDE2358399B003442D5 /* AppCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppCenter.framework; path = "Pods/AppCenter/AppCenter-SDK-Apple/iOS/AppCenter.framework"; sourceTree = "<group>"; };
 		FE817CE12358399B003442D5 /* AppCenterAnalytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppCenterAnalytics.framework; path = "Pods/AppCenter/AppCenter-SDK-Apple/iOS/AppCenterAnalytics.framework"; sourceTree = "<group>"; };
@@ -191,7 +221,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D81A317B0DF237DC41701AAD /* libPods-TVPass-TVPassTests.a in Frameworks */,
+				293B607C567282042E8188F8 /* libPods-TVPass-TVPassTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -199,16 +229,15 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AA12044F25DBF685007D316A /* libPods-TVPass.a in Frameworks */,
 				70573531254144C500F34B73 /* libz.tbd in Frameworks */,
 				7057352D254144B900F34B73 /* libc++.tbd in Frameworks */,
 				7057352B254144AC00F34B73 /* CoreTelephony.framework in Frameworks */,
 				705735292541449300F34B73 /* SystemConfiguration.framework in Frameworks */,
-				FE1ECF3C264BD4DB000C383E /* AppTrackingTransparency.framework in Frameworks */,
 				FE2DE5562358481A006E9548 /* AppCenterReactNativeShared.framework in Frameworks */,
 				FE2DE5552358480C006E9548 /* AppCenter.framework in Frameworks */,
 				6ABA2AAD251DBBCD00731C50 /* StoreKit.framework in Frameworks */,
 				ED297163215061F000B7C4FE /* JavaScriptCore.framework in Frameworks */,
+				CB0455D19507E3EFFB819B4A /* libPods-TVPass.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -216,8 +245,15 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0A913C8926B181BC000885F9 /* libreact-native-video-tvOS.a in Frameworks */,
+				AA8F5E892611F1D000AA425A /* libreact-native-newrelic-tvOS.a in Frameworks */,
+				AAE8A2D626B2A47D008CBF20 /* StoreKit.framework in Frameworks */,
+				AA8F5E802611EC1200AA425A /* NewRelic.xcframework in Frameworks */,
+				AA84551726B8780200FCC471 /* StoreKit.framework in Frameworks */,
+				AA8F5C4C2611E67000AA425A /* libc++.tbd in Frameworks */,
+				AA8F5C492611E65500AA425A /* libz.tbd in Frameworks */,
 				6A3D012A22E99237007CDBD6 /* JavaScriptCore.framework in Frameworks */,
-				6A3D017822E994ED007CDBD6 /* libPods-TVPass-tvOS.a in Frameworks */,
+				0E71E28FAED28B2A3A80958F /* libPods-TVPass-tvOS.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -225,7 +261,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CB3B78A52C494BF21C1EAD34 /* libPods-TVPass-tvOS-TVPass-tvOSTests.a in Frameworks */,
+				D765611449CB191721C3CD1F /* libPods-TVPass-tvOS-TVPass-tvOSTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -249,10 +285,18 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		0ABA29D426B1655900876487 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				0ABA29D826B1655900876487 /* libRNSoundPlayer.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		13B07FAE1A68108700A75B9A /* TVPass */ = {
 			isa = PBXGroup;
 			children = (
-				FE70D509265517F200316696 /* sounds */,
+				AA5DACE32638897E002DA603 /* searchTVOS */,
 				6A8A77A622E72AA300BD3CD4 /* TVPass.entitlements */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
@@ -269,7 +313,14 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				FE1ECF3B264BD4DB000C383E /* AppTrackingTransparency.framework */,
+				AA84551626B8780200FCC471 /* StoreKit.framework */,
+				AA19CFF22629871A00A26EF9 /* librn-qp-nxg-player-iOS.a */,
+				AA8F5E882611F1D000AA425A /* libreact-native-newrelic-tvOS.a */,
+				AA8F5E842611ECFF00AA425A /* librn-qp-nxg-player-tvOS.a */,
+				AA8F5C4A2611E66400AA425A /* libc++.tbd */,
+				AA8F5C482611E65500AA425A /* libz.tbd */,
+				AA8F5C422611E56800AA425A /* FLFoundation.xcframework */,
+				AA25A33525F11AA6000E75EB /* libReactNativeLocalization.a */,
 				70573530254144C500F34B73 /* libz.tbd */,
 				7057352C254144B900F34B73 /* libc++.tbd */,
 				7057352A254144AC00F34B73 /* CoreTelephony.framework */,
@@ -278,16 +329,13 @@
 				6ABA2AAC251DBBCD00731C50 /* StoreKit.framework */,
 				FEC69789243712F00009F9CC /* librn-qp-nxg-player-iOS.a */,
 				FEF7C36F2357582F00F57A63 /* libappcenter.a */,
-				6A3D017722E994ED007CDBD6 /* libPods-TVPass-tvOS.a */,
-				6A3D017522E994C3007CDBD6 /* libPods-TVPass-tvOS.a */,
-				6A3D017322E99339007CDBD6 /* libPods-TVPass-tvOS.a */,
 				6A3D012722E99237007CDBD6 /* JavaScriptCore.framework */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				2D16E6891FA4F8E400B85C8A /* libReact.a */,
-				05AB714697A195F4A4E74BA8 /* libPods-TVPass.a */,
-				199A4CA7CBB202A4BC7CB8D0 /* libPods-TVPass-tvOS.a */,
-				F42B4D24C35D2B2966778659 /* libPods-TVPass-TVPassTests.a */,
-				96C9993201297676B2DC0654 /* libPods-TVPass-tvOS-TVPass-tvOSTests.a */,
+				60A194712FB663B3ECA5FE58 /* libPods-TVPass.a */,
+				EC533D37280F2153BFF7E6F6 /* libPods-TVPass-TVPassTests.a */,
+				D596F890BBBAC46BF27FC86F /* libPods-TVPass-tvOS.a */,
+				91E8F218006E7B868A4FB919 /* libPods-TVPass-tvOS-TVPass-tvOSTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -323,6 +371,9 @@
 		6A064CCD2298FF4F00576454 /* Recovered References */ = {
 			isa = PBXGroup;
 			children = (
+				CF5499BC01C846A7BBF4C28E /* libRNSoundPlayer.a */,
+				0A913C8826B181BC000885F9 /* libreact-native-video-tvOS.a */,
+				AAE8A2D526B2A47D008CBF20 /* StoreKit.framework */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -330,6 +381,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				8126D4C125F2468D927AAF85 /* RNSoundPlayer.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -337,8 +389,6 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				E737615D2664C944008035E0 /* Struum_Intro_Sound_Long.wav */,
-				E7375CA526566EBF008035E0 /* struum_alert.aiff */,
 				6AABF8592567D53900634396 /* Config.xcconfig */,
 				70B522F025399636003E2418 /* PrefixHeader.pch */,
 				FEF542E524B47A4F00C67E17 /* TVPass-tvOS */,
@@ -374,6 +424,19 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		AA5DACE32638897E002DA603 /* searchTVOS */ = {
+			isa = PBXGroup;
+			children = (
+				AA5DAE3A26393DCE002DA603 /* TVPassSearchComponent.h */,
+				AA5DAE3F26393DCE002DA603 /* TVPassSearchComponent.m */,
+				AA5DAE3B26393DCE002DA603 /* TVPassSearchComponentManager.h */,
+				AA5DAE3E26393DCE002DA603 /* TVPassSearchComponentManager.m */,
+				AA5DAE4026393DCE002DA603 /* TVPassSearchResultsViewcontroller.h */,
+				AA5DAE3926393DCE002DA603 /* TVPassSearchResultsViewcontroller.m */,
+			);
+			name = searchTVOS;
+			sourceTree = "<group>";
+		};
 		E7D3799E25668C17006FD0BD /* Rich Media Push */ = {
 			isa = PBXGroup;
 			children = (
@@ -386,37 +449,24 @@
 		F9352A548A011234CDBBE772 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				7CA0D674CBF1C785E8154A01 /* Pods-TVPass.debug.xcconfig */,
-				478EEDDA0B308823D6BC8F0D /* Pods-TVPass.release.xcconfig */,
-				29A99AF5AB1DBC39E390A583 /* Pods-TVPass-tvOS.debug.xcconfig */,
-				8BF2BA18A8959CBD0D5BD546 /* Pods-TVPass-tvOS.release.xcconfig */,
-				E714501DFB7215626BFF40BB /* Pods-TVPass-tvOSTests.debug.xcconfig */,
-				C9F36B6197F03BB604663113 /* Pods-TVPass-tvOSTests.release.xcconfig */,
-				2011CFBBE2276CB4E6917961 /* Pods-TVPassTests.debug.xcconfig */,
-				ECBCD26A280F22C43FD63E25 /* Pods-TVPassTests.release.xcconfig */,
-				7EC9CF19FF6BF94D35DFF7BF /* Pods-TVPass-TVPassTests.debug.xcconfig */,
-				22CD3003B3784C2A2059A374 /* Pods-TVPass-TVPassTests.release.xcconfig */,
-				CA2CFABAE4EFB3EA3723456E /* Pods-TVPass-tvOS-TVPass-tvOSTests.debug.xcconfig */,
-				23F4FC4C0ADD859544CC4B55 /* Pods-TVPass-tvOS-TVPass-tvOSTests.release.xcconfig */,
-				3B806C77E192B70443424208 /* Pods-TVPass.debug (staging).xcconfig */,
-				966AF916620363A3EDC7714C /* Pods-TVPass.release (staging).xcconfig */,
-				047F2061FDB00A04FE22F52A /* Pods-TVPass-TVPassTests.debug (staging).xcconfig */,
-				0C804C5170C6A8867876CA04 /* Pods-TVPass-TVPassTests.release (staging).xcconfig */,
-				5151AB366A7FA39176665795 /* Pods-TVPass-tvOS.debug (staging).xcconfig */,
-				A445034777310D074DEA71F4 /* Pods-TVPass-tvOS.release (staging).xcconfig */,
-				05D21A85451650185649F7F6 /* Pods-TVPass-tvOS-TVPass-tvOSTests.debug (staging).xcconfig */,
-				2200588F8A15F2F079D9AA45 /* Pods-TVPass-tvOS-TVPass-tvOSTests.release (staging).xcconfig */,
+				70F0096CA30BD3FC8DD49245 /* Pods-TVPass.debug.xcconfig */,
+				9D957BCAE63FFCE125808FAF /* Pods-TVPass.debug (staging).xcconfig */,
+				E8B69872A1BCA52BCF3BA51A /* Pods-TVPass.release.xcconfig */,
+				46510246CA79FAF99A19935A /* Pods-TVPass.release (staging).xcconfig */,
+				EBD464E1F768AAA090FA2E3C /* Pods-TVPass-TVPassTests.debug.xcconfig */,
+				9BB18D3C67FDC953F8B7DE41 /* Pods-TVPass-TVPassTests.debug (staging).xcconfig */,
+				BE54EDD07F9A4A65974C8561 /* Pods-TVPass-TVPassTests.release.xcconfig */,
+				E503FD2544C6B39406C6DB17 /* Pods-TVPass-TVPassTests.release (staging).xcconfig */,
+				3D56412AD2B14A3229401885 /* Pods-TVPass-tvOS.debug.xcconfig */,
+				421E0ECD096D55EBF50F11E3 /* Pods-TVPass-tvOS.debug (staging).xcconfig */,
+				C579986CCA70CF719E768D0C /* Pods-TVPass-tvOS.release.xcconfig */,
+				4EE148E40A86F6A1F73397E7 /* Pods-TVPass-tvOS.release (staging).xcconfig */,
+				058CBBCE0F77E8C05333368F /* Pods-TVPass-tvOS-TVPass-tvOSTests.debug.xcconfig */,
+				E44777F299B396D3A91EA307 /* Pods-TVPass-tvOS-TVPass-tvOSTests.debug (staging).xcconfig */,
+				73DF9D41772188F912EA6669 /* Pods-TVPass-tvOS-TVPass-tvOSTests.release.xcconfig */,
+				AFBE74D7641D1C90561F9ABB /* Pods-TVPass-tvOS-TVPass-tvOSTests.release (staging).xcconfig */,
 			);
 			path = Pods;
-			sourceTree = "<group>";
-		};
-		FE70D509265517F200316696 /* sounds */ = {
-			isa = PBXGroup;
-			children = (
-				FE70D50A265517F200316696 /* Struum_PNSFX_Final.mp3 */,
-			);
-			name = sounds;
-			path = TVPass/sounds;
 			sourceTree = "<group>";
 		};
 		FEF542E324B47A4F00C67E17 /* TVPass-tvOSTests */ = {
@@ -442,12 +492,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "TVPassTests" */;
 			buildPhases = (
-				3A817FAEEA7884D91172DF61 /* [CP] Check Pods Manifest.lock */,
+				1BEBB39A29415522533CA1DE /* [CP] Check Pods Manifest.lock */,
+				8692222237EDF57D20737987 /* ShellScript */,
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
-				9459A3BFC38091E121DD9D29 /* [CP] Embed Pods Frameworks */,
-				7019187F706AA1938DAF9A43 /* [CP] Copy Pods Resources */,
+				43BB6B4DF38801691CEA3539 /* [CP] Embed Pods Frameworks */,
+				6805A15858D45E1F633E910A /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -463,17 +514,18 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "TVPass" */;
 			buildPhases = (
-				BD91AB1A71EFE6DC379B2667 /* [CP] Check Pods Manifest.lock */,
+				57910C33E125B311673B789B /* [CP] Check Pods Manifest.lock */,
+				89B5D15A81854DCC4E72D2E9 /* ShellScript */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				3281C1272FD297D8C05C6ECB /* [CP] Copy Pods Resources */,
 				6AAEB3A623C70BD000FCA58B /* Post Build Finalization */,
 				6A41F2FD23C81495004547B2 /* Embed Frameworks */,
-				7F23DA714058A537AC7CFC2E /* [CP] Embed Pods Frameworks */,
 				7057349D2541404D00F34B73 /* ShellScript */,
 				E7D379A525668C17006FD0BD /* Embed App Extensions */,
+				44284EBD3C8C1FE2513F9CFC /* [CP] Embed Pods Frameworks */,
+				ECC2B6A9AB77BDFC959902CE /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -488,14 +540,16 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2D02E4BA1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "TVPass-tvOS" */;
 			buildPhases = (
-				449696361B5BB3B7E7FEAF93 /* [CP] Check Pods Manifest.lock */,
+				44B788121004A6BAC8677C9F /* [CP] Check Pods Manifest.lock */,
 				2D02E4771E0B4A5D006451C7 /* Sources */,
 				2D02E4781E0B4A5D006451C7 /* Frameworks */,
 				2D02E4791E0B4A5D006451C7 /* Resources */,
 				2D02E4CB1E0B4B27006451C7 /* Bundle React Native Code And Images */,
 				FEF1BCD322D5CBC200050C38 /* Embed Frameworks */,
-				DF3CAF4D6E88872C4986F50A /* [CP] Copy Pods Resources */,
-				9A60811B10F883D2249F7A60 /* [CP] Embed Pods Frameworks */,
+				AA8F5C472611E5FB00AA425A /* Post Build Finalization */,
+				AA8F5CD92611E6C100AA425A /* ShellScript */,
+				98C904227D4EDBBE454A736F /* [CP] Embed Pods Frameworks */,
+				445E6EB4FB6115D066D4087C /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -510,12 +564,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2D02E4BB1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "TVPass-tvOSTests" */;
 			buildPhases = (
-				A28AC112130977DB2494244E /* [CP] Check Pods Manifest.lock */,
+				97DAE9719B825BC3D4277D98 /* [CP] Check Pods Manifest.lock */,
 				2D02E48C1E0B4A5D006451C7 /* Sources */,
 				2D02E48D1E0B4A5D006451C7 /* Frameworks */,
 				2D02E48E1E0B4A5D006451C7 /* Resources */,
-				ABE1BC8BCA56CA5011C039BB /* [CP] Copy Pods Resources */,
-				94CD04DD3AC055C4B37E560E /* [CP] Embed Pods Frameworks */,
+				0E505FCD66F58EB6EB4DAC3F /* [CP] Embed Pods Frameworks */,
+				906A55CA1F4C29FEE8E24F51 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -579,12 +633,9 @@
 					};
 					2D02E47A1E0B4A5D006451C7 = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = D945Z56QCC;
-						ProvisioningStyle = Automatic;
 					};
 					2D02E48F1E0B4A5D006451C7 = {
 						CreatedOnToolsVersion = 8.2.1;
-						ProvisioningStyle = Automatic;
 						TestTargetID = 2D02E47A1E0B4A5D006451C7;
 					};
 				};
@@ -600,6 +651,12 @@
 			mainGroup = 83CBB9F61A601CBA00E9B192;
 			productRefGroup = 83CBBA001A601CBA00E9B192 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 0ABA29D426B1655900876487 /* Products */;
+					ProjectRef = 8126D4C125F2468D927AAF85 /* RNSoundPlayer.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				13B07F861A680F5B00A75B9A /* TVPass */,
@@ -609,6 +666,16 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		0ABA29D826B1655900876487 /* libRNSoundPlayer.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNSoundPlayer.a;
+			remoteRef = 0ABA29D726B1655900876487 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		00E356EC1AD99517003FC87E /* Resources */ = {
@@ -627,11 +694,9 @@
 				6A8BC32325937B0B0035AB2C /* Launch Screen.storyboard in Resources */,
 				F7D4587D768748D497E9145D /* Inter-Bold-slnt=0.ttf in Resources */,
 				D776D29DD8804AB99CA91A9F /* Inter-Light-slnt=0.ttf in Resources */,
-				E7375CA626566EBF008035E0 /* struum_alert.aiff in Resources */,
 				1FD84EEEA49C488D973EA918 /* Inter-Medium-slnt=0.ttf in Resources */,
 				7217BDC10CFD4BD6BBEFE3F9 /* Inter-Regular-slnt=0.ttf in Resources */,
 				B93B980529F143B18CB6866D /* Inter-SemiBold-slnt=0.ttf in Resources */,
-				E737615E2664C944008035E0 /* Struum_Intro_Sound_Long.wav in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -639,6 +704,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA5AD01225F67CD6004018BB /* AppCenter-Config.plist in Resources */,
+				AA5AD00825F67C98004018BB /* Inter-Bold-slnt=0.ttf in Resources */,
+				AA5AD00925F67C98004018BB /* Inter-Light-slnt=0.ttf in Resources */,
+				AA5AD00A25F67C98004018BB /* Inter-Medium-slnt=0.ttf in Resources */,
+				AA5AD00B25F67C98004018BB /* Inter-Regular-slnt=0.ttf in Resources */,
+				AA5AD00C25F67C98004018BB /* Inter-SemiBold-slnt=0.ttf in Resources */,
 				2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -667,272 +738,7 @@
 			shellPath = /bin/sh;
 			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
 		};
-		2D02E4CB1E0B4B27006451C7 /* Bundle React Native Code And Images */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Bundle React Native Code And Images";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
-		};
-		3281C1272FD297D8C05C6ECB /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-TVPass/Pods-TVPass-resources.sh",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Entypo.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Feather.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Brands.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Regular.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Solid.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Fontisto.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Foundation.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Octicons.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Zocial.ttf",
-				"${PODS_CONFIGURATION_BUILD_DIR}/SwrveConversationSDK/SwrveConversationSDK.bundle",
-				"${PODS_ROOT}/google-cast-sdk-no-bluetooth/GoogleCastSDK-ios-4.6.1_static/GoogleCast.framework/GoogleCastCoreResources.bundle",
-				"${PODS_ROOT}/google-cast-sdk-no-bluetooth/GoogleCastSDK-ios-4.6.1_static/GoogleCast.framework/GoogleCastUIResources.bundle",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AntDesign.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Entypo.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/EvilIcons.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Feather.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome5_Brands.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome5_Regular.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome5_Solid.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Fontisto.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Foundation.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Ionicons.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MaterialCommunityIcons.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MaterialIcons.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Octicons.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/SimpleLineIcons.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Zocial.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/SwrveConversationSDK.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleCastCoreResources.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleCastUIResources.bundle",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-TVPass/Pods-TVPass-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		3A817FAEEA7884D91172DF61 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-TVPass-TVPassTests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		449696361B5BB3B7E7FEAF93 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-TVPass-tvOS-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		6AAEB3A623C70BD000FCA58B /* Post Build Finalization */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "Post Build Finalization";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "#chmod 755 \"${VSTB_ROOT_PATH}/VSTB.framework/Scripts/PostBuild.sh\"\n#\"${VSTB_ROOT_PATH}/VSTB.framework/Scripts/PostBuild.sh\"\n#exit $?\n";
-		};
-		7019187F706AA1938DAF9A43 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-TVPass-TVPassTests/Pods-TVPass-TVPassTests-resources.sh",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Entypo.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Feather.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Brands.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Regular.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Solid.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Fontisto.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Foundation.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Octicons.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Zocial.ttf",
-				"${PODS_CONFIGURATION_BUILD_DIR}/SwrveConversationSDK/SwrveConversationSDK.bundle",
-				"${PODS_ROOT}/google-cast-sdk-no-bluetooth/GoogleCastSDK-ios-4.6.1_static/GoogleCast.framework/GoogleCastCoreResources.bundle",
-				"${PODS_ROOT}/google-cast-sdk-no-bluetooth/GoogleCastSDK-ios-4.6.1_static/GoogleCast.framework/GoogleCastUIResources.bundle",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AntDesign.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Entypo.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/EvilIcons.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Feather.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome5_Brands.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome5_Regular.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome5_Solid.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Fontisto.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Foundation.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Ionicons.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MaterialCommunityIcons.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MaterialIcons.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Octicons.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/SimpleLineIcons.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Zocial.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/SwrveConversationSDK.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleCastCoreResources.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleCastUIResources.bundle",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-TVPass-TVPassTests/Pods-TVPass-TVPassTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		7057349D2541404D00F34B73 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 8;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 1;
-			shellPath = /bin/sh;
-			shellScript = "SCRIPT=`/usr/bin/find \"${SRCROOT}\" -name newrelic_postbuild.sh | head -n 1`\n\n/bin/sh \"${SCRIPT}\" \"${NEWRELIC_API_TOKEN}\"\n";
-		};
-		7F23DA714058A537AC7CFC2E /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 12;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-TVPass/Pods-TVPass-frameworks.sh",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/NewRelic/NewRelic.framework/NewRelic",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/OpenSSL/OpenSSL.framework/OpenSSL",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/FLPlayer/FLPlayer.framework/FLPlayer",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/FLPlayerInterface/FLPlayerInterface.framework/FLPlayerInterface",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/FLFoundation/FLFoundation.framework/FLFoundation",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/FLPlatformCore/FLPlatformCore.framework/FLPlatformCore",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/FLContentAuthorizer/FLContentAuthorizer.framework/FLContentAuthorizer",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/FLStreamConcurrency/FLStreamConcurrency.framework/FLStreamConcurrency",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/FLBookmarks/FLBookmarks.framework/FLBookmarks",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/FLPlatformPlayer/FLPlatformPlayer.framework/FLPlatformPlayer",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NewRelic.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/OpenSSL.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FLPlayer.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FLPlayerInterface.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FLFoundation.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FLPlatformCore.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FLContentAuthorizer.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FLStreamConcurrency.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FLBookmarks.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FLPlatformPlayer.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-TVPass/Pods-TVPass-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		9459A3BFC38091E121DD9D29 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-TVPass-TVPassTests/Pods-TVPass-TVPassTests-frameworks.sh",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/NewRelic/NewRelic.framework/NewRelic",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/OpenSSL/OpenSSL.framework/OpenSSL",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/FLPlayer/FLPlayer.framework/FLPlayer",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/FLPlayerInterface/FLPlayerInterface.framework/FLPlayerInterface",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/FLFoundation/FLFoundation.framework/FLFoundation",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/FLPlatformCore/FLPlatformCore.framework/FLPlatformCore",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/FLContentAuthorizer/FLContentAuthorizer.framework/FLContentAuthorizer",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/FLStreamConcurrency/FLStreamConcurrency.framework/FLStreamConcurrency",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/FLBookmarks/FLBookmarks.framework/FLBookmarks",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/FLPlatformPlayer/FLPlatformPlayer.framework/FLPlatformPlayer",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NewRelic.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/OpenSSL.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FLPlayer.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FLPlayerInterface.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FLFoundation.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FLPlatformCore.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FLContentAuthorizer.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FLStreamConcurrency.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FLBookmarks.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FLPlatformPlayer.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-TVPass-TVPassTests/Pods-TVPass-TVPassTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		94CD04DD3AC055C4B37E560E /* [CP] Embed Pods Frameworks */ = {
+		0E505FCD66F58EB6EB4DAC3F /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -966,7 +772,442 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-TVPass-tvOS-TVPass-tvOSTests/Pods-TVPass-tvOS-TVPass-tvOSTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		9A60811B10F883D2249F7A60 /* [CP] Embed Pods Frameworks */ = {
+		1BEBB39A29415522533CA1DE /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-TVPass-TVPassTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		2D02E4CB1E0B4B27006451C7 /* Bundle React Native Code And Images */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Bundle React Native Code And Images";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
+		};
+		43BB6B4DF38801691CEA3539 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-TVPass-TVPassTests/Pods-TVPass-TVPassTests-frameworks.sh",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/NewRelic/NewRelic.framework/NewRelic",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/FLPlayer/FLPlayer.framework/FLPlayer",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/FLPlayerInterface/FLPlayerInterface.framework/FLPlayerInterface",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/FLFoundation/FLFoundation.framework/FLFoundation",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/FLPlatformCore/FLPlatformCore.framework/FLPlatformCore",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/FLContentAuthorizer/FLContentAuthorizer.framework/FLContentAuthorizer",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/FLStreamConcurrency/FLStreamConcurrency.framework/FLStreamConcurrency",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/FLBookmarks/FLBookmarks.framework/FLBookmarks",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/FLPlatformPlayer/FLPlatformPlayer.framework/FLPlatformPlayer",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NewRelic.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FLPlayer.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FLPlayerInterface.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FLFoundation.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FLPlatformCore.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FLContentAuthorizer.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FLStreamConcurrency.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FLBookmarks.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FLPlatformPlayer.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-TVPass-TVPassTests/Pods-TVPass-TVPassTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		44284EBD3C8C1FE2513F9CFC /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-TVPass/Pods-TVPass-frameworks.sh",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/NewRelic/NewRelic.framework/NewRelic",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/FLPlayer/FLPlayer.framework/FLPlayer",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/FLPlayerInterface/FLPlayerInterface.framework/FLPlayerInterface",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/FLFoundation/FLFoundation.framework/FLFoundation",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/FLPlatformCore/FLPlatformCore.framework/FLPlatformCore",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/FLContentAuthorizer/FLContentAuthorizer.framework/FLContentAuthorizer",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/FLStreamConcurrency/FLStreamConcurrency.framework/FLStreamConcurrency",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/FLBookmarks/FLBookmarks.framework/FLBookmarks",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/FLPlatformPlayer/FLPlatformPlayer.framework/FLPlatformPlayer",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NewRelic.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FLPlayer.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FLPlayerInterface.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FLFoundation.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FLPlatformCore.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FLContentAuthorizer.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FLStreamConcurrency.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FLBookmarks.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FLPlatformPlayer.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-TVPass/Pods-TVPass-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		445E6EB4FB6115D066D4087C /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-TVPass-tvOS/Pods-TVPass-tvOS-resources.sh",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Entypo.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Feather.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Brands.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Regular.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Solid.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Fontisto.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Foundation.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Octicons.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Zocial.ttf",
+				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core.common/AccessibilityResources.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/SwrveConversationSDK-tvOS/SwrveConversationSDK.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AntDesign.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Entypo.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/EvilIcons.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Feather.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome5_Brands.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome5_Regular.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome5_Solid.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Fontisto.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Foundation.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Ionicons.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MaterialCommunityIcons.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MaterialIcons.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Octicons.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/SimpleLineIcons.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Zocial.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AccessibilityResources.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/SwrveConversationSDK.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-TVPass-tvOS/Pods-TVPass-tvOS-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		44B788121004A6BAC8677C9F /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-TVPass-tvOS-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		57910C33E125B311673B789B /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-TVPass-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		6805A15858D45E1F633E910A /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-TVPass-TVPassTests/Pods-TVPass-TVPassTests-resources.sh",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Entypo.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Feather.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Brands.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Regular.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Solid.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Fontisto.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Foundation.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Octicons.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Zocial.ttf",
+				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core.common-RCTActionSheetHeaders/AccessibilityResources.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/SwrveConversationSDK-iOS/SwrveConversationSDK.bundle",
+				"${PODS_ROOT}/google-cast-sdk-no-bluetooth/GoogleCastSDK-ios-4.6.1_static/GoogleCast.framework/GoogleCastCoreResources.bundle",
+				"${PODS_ROOT}/google-cast-sdk-no-bluetooth/GoogleCastSDK-ios-4.6.1_static/GoogleCast.framework/GoogleCastUIResources.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AntDesign.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Entypo.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/EvilIcons.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Feather.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome5_Brands.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome5_Regular.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome5_Solid.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Fontisto.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Foundation.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Ionicons.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MaterialCommunityIcons.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MaterialIcons.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Octicons.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/SimpleLineIcons.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Zocial.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AccessibilityResources.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/SwrveConversationSDK.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleCastCoreResources.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleCastUIResources.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-TVPass-TVPassTests/Pods-TVPass-TVPassTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		6AAEB3A623C70BD000FCA58B /* Post Build Finalization */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Post Build Finalization";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "#chmod 755 \"${VSTB_ROOT_PATH}/VSTB.framework/Scripts/PostBuild.sh\"\n#\"${VSTB_ROOT_PATH}/VSTB.framework/Scripts/PostBuild.sh\"\n#exit $?\n";
+		};
+		7057349D2541404D00F34B73 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 8;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+			shellPath = /bin/sh;
+			shellScript = "SCRIPT=`/usr/bin/find \"${SRCROOT}\" -name newrelic_postbuild.sh | head -n 1`\n\n/bin/sh \"${SCRIPT}\" \"${NEWRELIC_API_TOKEN}\"\n";
+		};
+		8692222237EDF57D20737987 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-TVPass/Pods-TVPass-frameworks.sh",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/NewRelic/NewRelic.framework/NewRelic",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/FLPlayer/FLPlayer.framework/FLPlayer",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/FLPlayerInterface/FLPlayerInterface.framework/FLPlayerInterface",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/FLFoundation/FLFoundation.framework/FLFoundation",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/FLPlatformCore/FLPlatformCore.framework/FLPlatformCore",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/FLContentAuthorizer/FLContentAuthorizer.framework/FLContentAuthorizer",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/FLStreamConcurrency/FLStreamConcurrency.framework/FLStreamConcurrency",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/FLBookmarks/FLBookmarks.framework/FLBookmarks",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/FLPlatformPlayer/FLPlatformPlayer.framework/FLPlatformPlayer",
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NewRelic.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FLPlayer.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FLPlayerInterface.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FLFoundation.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FLPlatformCore.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FLContentAuthorizer.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FLStreamConcurrency.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FLBookmarks.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FLPlatformPlayer.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		89B5D15A81854DCC4E72D2E9 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-TVPass-TVPassTests/Pods-TVPass-TVPassTests-frameworks.sh",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/NewRelic/NewRelic.framework/NewRelic",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/FLPlayer/FLPlayer.framework/FLPlayer",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/FLPlayerInterface/FLPlayerInterface.framework/FLPlayerInterface",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/FLFoundation/FLFoundation.framework/FLFoundation",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/FLPlatformCore/FLPlatformCore.framework/FLPlatformCore",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/FLContentAuthorizer/FLContentAuthorizer.framework/FLContentAuthorizer",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/FLStreamConcurrency/FLStreamConcurrency.framework/FLStreamConcurrency",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/FLBookmarks/FLBookmarks.framework/FLBookmarks",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/FLPlatformPlayer/FLPlatformPlayer.framework/FLPlatformPlayer",
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NewRelic.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FLPlayer.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FLPlayerInterface.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FLFoundation.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FLPlatformCore.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FLContentAuthorizer.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FLStreamConcurrency.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FLBookmarks.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FLPlatformPlayer.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		906A55CA1F4C29FEE8E24F51 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-TVPass-tvOS-TVPass-tvOSTests/Pods-TVPass-tvOS-TVPass-tvOSTests-resources.sh",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Entypo.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Feather.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Brands.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Regular.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Solid.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Fontisto.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Foundation.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Octicons.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Zocial.ttf",
+				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core.common/AccessibilityResources.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/SwrveConversationSDK-tvOS/SwrveConversationSDK.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AntDesign.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Entypo.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/EvilIcons.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Feather.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome5_Brands.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome5_Regular.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome5_Solid.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Fontisto.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Foundation.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Ionicons.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MaterialCommunityIcons.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MaterialIcons.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Octicons.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/SimpleLineIcons.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Zocial.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AccessibilityResources.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/SwrveConversationSDK.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-TVPass-tvOS-TVPass-tvOSTests/Pods-TVPass-tvOS-TVPass-tvOSTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		97DAE9719B825BC3D4277D98 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-TVPass-tvOS-TVPass-tvOSTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		98C904227D4EDBBE454A736F /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1000,31 +1241,48 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-TVPass-tvOS/Pods-TVPass-tvOS-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		A28AC112130977DB2494244E /* [CP] Check Pods Manifest.lock */ = {
+		AA8F5C472611E5FB00AA425A /* Post Build Finalization */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
+			inputFileListPaths = (
 			);
-			name = "[CP] Check Pods Manifest.lock";
+			inputPaths = (
+			);
+			name = "Post Build Finalization";
+			outputFileListPaths = (
+			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-TVPass-tvOS-TVPass-tvOSTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
+			shellScript = "#chmod 755 \"${VSTB_ROOT_PATH}/VSTB.framework/Scripts/PostBuild.sh\"\n#\"${VSTB_ROOT_PATH}/VSTB.framework/Scripts/PostBuild.sh\"\n#exit $?\n";
 		};
-		ABE1BC8BCA56CA5011C039BB /* [CP] Copy Pods Resources */ = {
+		AA8F5CD92611E6C100AA425A /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 8;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nSCRIPT=`/usr/bin/find \"${SRCROOT}\" -name newrelic_postbuild.sh | head -n 1`\n\n/bin/sh \"${SCRIPT}\" \"${NEWRELIC_API_TOKEN}\"\n";
+		};
+		ECC2B6A9AB77BDFC959902CE /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-TVPass-tvOS-TVPass-tvOSTests/Pods-TVPass-tvOS-TVPass-tvOSTests-resources.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-TVPass/Pods-TVPass-resources.sh",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Entypo.ttf",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf",
@@ -1041,6 +1299,10 @@
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Octicons.ttf",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Zocial.ttf",
+				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core.common-RCTActionSheetHeaders/AccessibilityResources.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/SwrveConversationSDK-iOS/SwrveConversationSDK.bundle",
+				"${PODS_ROOT}/google-cast-sdk-no-bluetooth/GoogleCastSDK-ios-4.6.1_static/GoogleCast.framework/GoogleCastCoreResources.bundle",
+				"${PODS_ROOT}/google-cast-sdk-no-bluetooth/GoogleCastSDK-ios-4.6.1_static/GoogleCast.framework/GoogleCastUIResources.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
@@ -1060,76 +1322,14 @@
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Octicons.ttf",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/SimpleLineIcons.ttf",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Zocial.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AccessibilityResources.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/SwrveConversationSDK.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleCastCoreResources.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleCastUIResources.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-TVPass-tvOS-TVPass-tvOSTests/Pods-TVPass-tvOS-TVPass-tvOSTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		BD91AB1A71EFE6DC379B2667 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-TVPass-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		DF3CAF4D6E88872C4986F50A /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-TVPass-tvOS/Pods-TVPass-tvOS-resources.sh",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Entypo.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Feather.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Brands.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Regular.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Solid.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Fontisto.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Foundation.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Octicons.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Zocial.ttf",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AntDesign.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Entypo.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/EvilIcons.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Feather.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome5_Brands.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome5_Regular.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome5_Solid.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Fontisto.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Foundation.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Ionicons.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MaterialCommunityIcons.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MaterialIcons.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Octicons.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/SimpleLineIcons.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Zocial.ttf",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-TVPass-tvOS/Pods-TVPass-tvOS-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-TVPass/Pods-TVPass-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -1148,8 +1348,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA5DAE4726393DCE002DA603 /* TVPassSearchComponent.m in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				FEA587592436FE75000A9BA7 /* Sample.swift in Sources */,
+				AA5DAE4326393DCE002DA603 /* TVPassSearchResultsViewcontroller.m in Sources */,
+				AA5DAE4526393DCE002DA603 /* TVPassSearchComponentManager.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1158,8 +1361,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA5DAE4826393DCE002DA603 /* TVPassSearchComponent.m in Sources */,
 				2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */,
 				FEF542E124B4786A00C67E17 /* Sample.swift in Sources */,
+				AA5DAE4426393DCE002DA603 /* TVPassSearchResultsViewcontroller.m in Sources */,
+				AA5DAE4626393DCE002DA603 /* TVPassSearchComponentManager.m in Sources */,
 				2D02E4BC1E0B4A80006451C7 /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1202,13 +1408,14 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7EC9CF19FF6BF94D35DFF7BF /* Pods-TVPass-TVPassTests.debug.xcconfig */;
+			baseConfigurationReference = EBD464E1F768AAA090FA2E3C /* Pods-TVPass-TVPassTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 476623M8CV;
+				ENABLE_BITCODE = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -1217,11 +1424,20 @@
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-vstb-player/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-screens/ios",
+					"$(SRCROOT)/../node_modules/react-native-sound-player/ios",
 				);
 				INFOPLIST_FILE = TVPassTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks /usr/lib/swift";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+					/usr/lib/swift,
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -1237,7 +1453,7 @@
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 22CD3003B3784C2A2059A374 /* Pods-TVPass-TVPassTests.release.xcconfig */;
+			baseConfigurationReference = BE54EDD07F9A4A65974C8561 /* Pods-TVPass-TVPassTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -1245,15 +1461,25 @@
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
 				DEVELOPMENT_TEAM = 97243GD77A;
+				ENABLE_BITCODE = NO;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-vstb-player/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-screens/ios",
+					"$(SRCROOT)/../node_modules/react-native-sound-player/ios",
 				);
 				INFOPLIST_FILE = TVPassTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks /usr/lib/swift";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+					/usr/lib/swift,
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -1269,14 +1495,14 @@
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7CA0D674CBF1C785E8154A01 /* Pods-TVPass.debug.xcconfig */;
+			baseConfigurationReference = 70F0096CA30BD3FC8DD49245 /* Pods-TVPass.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = TVPass/TVPass.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 88;
+				CURRENT_PROJECT_VERSION = 58;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = D945Z56QCC;
 				ENABLE_BITCODE = NO;
@@ -1294,10 +1520,15 @@
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-vstb-player/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-screens/ios",
+					"$(SRCROOT)/../node_modules/react-native-sound-player/ios",
 				);
 				INFOPLIST_FILE = TVPass/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks /usr/lib/swift";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					/usr/lib/swift,
+				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/BVLinearGradient-iOS\"",
@@ -1371,14 +1602,14 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 478EEDDA0B308823D6BC8F0D /* Pods-TVPass.release.xcconfig */;
+			baseConfigurationReference = E8B69872A1BCA52BCF3BA51A /* Pods-TVPass.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = TVPass/TVPass.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 88;
+				CURRENT_PROJECT_VERSION = 58;
 				DEVELOPMENT_TEAM = D945Z56QCC;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
@@ -1397,10 +1628,15 @@
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-vstb-player/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-screens/ios",
+					"$(SRCROOT)/../node_modules/react-native-sound-player/ios",
 				);
 				INFOPLIST_FILE = TVPass/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks /usr/lib/swift";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					/usr/lib/swift,
+				);
 				MARKETING_VERSION = 1.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -1418,17 +1654,20 @@
 		};
 		2D02E4971E0B4A5E006451C7 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 29A99AF5AB1DBC39E390A583 /* Pods-TVPass-tvOS.debug.xcconfig */;
+			baseConfigurationReference = 3D56412AD2B14A3229401885 /* Pods-TVPass-tvOS.debug.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = "Brand Assets";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcontvOS;
 				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ENABLE_CODE_COVERAGE = NO;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 15;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = D945Z56QCC;
+				ENABLE_BITCODE = YES;
 				ENABLE_TESTABILITY = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -1436,75 +1675,88 @@
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-vstb-player/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-screens/ios",
+					"$(SRCROOT)/../node_modules/react-native-sound-player/ios",
 				);
 				INFOPLIST_FILE = "TVPass-tvOS/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
+				MARKETING_VERSION = 1.0;
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.quickplay.reactnative.TVPass-tvOS";
+				PRODUCT_BUNDLE_IDENTIFIER = com.ontvpass.tvpass;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = appletvos;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 3;
-				TVOS_DEPLOYMENT_TARGET = 10.0;
+				TVOS_DEPLOYMENT_TARGET = 11.0;
 			};
 			name = Debug;
 		};
 		2D02E4981E0B4A5E006451C7 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8BF2BA18A8959CBD0D5BD546 /* Pods-TVPass-tvOS.release.xcconfig */;
+			baseConfigurationReference = C579986CCA70CF719E768D0C /* Pods-TVPass-tvOS.release.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = "Brand Assets";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcontvOS;
 				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ENABLE_CODE_COVERAGE = NO;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 15;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = 476623M8CV;
+				DEVELOPMENT_TEAM = D945Z56QCC;
+				ENABLE_BITCODE = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_NO_COMMON_BLOCKS = YES;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-vstb-player/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-screens/ios",
+					"$(SRCROOT)/../node_modules/react-native-sound-player/ios",
 				);
 				INFOPLIST_FILE = "TVPass-tvOS/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
+				MARKETING_VERSION = 1.0;
+				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.quickplay.reactnative.TVPass-tvOS";
+				PRODUCT_BUNDLE_IDENTIFIER = com.ontvpass.tvpass;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "tvOS-B2BReactNativeShowcaseAppAdHocProfile";
+				PROVISIONING_PROFILE_SPECIFIER = TVPassTvOSAppstoreProfile;
 				SDKROOT = appletvos;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 3;
-				TVOS_DEPLOYMENT_TARGET = 10.0;
+				TVOS_DEPLOYMENT_TARGET = 11.0;
 			};
 			name = Release;
 		};
 		2D02E4991E0B4A5E006451C7 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = CA2CFABAE4EFB3EA3723456E /* Pods-TVPass-tvOS-TVPass-tvOSTests.debug.xcconfig */;
+			baseConfigurationReference = 058CBBCE0F77E8C05333368F /* Pods-TVPass-tvOS-TVPass-tvOSTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -1512,17 +1764,30 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CODE_SIGN_IDENTITY = "Apple Distribution";
+				CODE_SIGN_STYLE = Manual;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_BITCODE = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-vstb-player/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-screens/ios",
+					"$(SRCROOT)/../node_modules/react-native-sound-player/ios",
 				);
 				INFOPLIST_FILE = "TVPass-tvOS/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+				);
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -1530,6 +1795,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.TVPass-tvOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = appletvos;
 				SWIFT_VERSION = 5.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TVPass-tvOS.app/TVPass-tvOS";
@@ -1539,7 +1805,7 @@
 		};
 		2D02E49A1E0B4A5E006451C7 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 23F4FC4C0ADD859544CC4B55 /* Pods-TVPass-tvOS-TVPass-tvOSTests.release.xcconfig */;
+			baseConfigurationReference = 73DF9D41772188F912EA6669 /* Pods-TVPass-tvOS-TVPass-tvOSTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -1547,17 +1813,30 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CODE_SIGN_IDENTITY = "Apple Distribution";
+				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = "";
+				ENABLE_BITCODE = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-vstb-player/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-screens/ios",
+					"$(SRCROOT)/../node_modules/react-native-sound-player/ios",
 				);
 				INFOPLIST_FILE = "TVPass-tvOS/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+				);
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -1565,6 +1844,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.TVPass-tvOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = appletvos;
 				SWIFT_VERSION = 5.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TVPass-tvOS.app/TVPass-tvOS";
@@ -1602,6 +1882,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
+				ENABLE_BITCODE = NO;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -1621,14 +1902,14 @@
 		};
 		6AAB012725682A7900634396 /* Release (Staging) */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 966AF916620363A3EDC7714C /* Pods-TVPass.release (staging).xcconfig */;
+			baseConfigurationReference = 46510246CA79FAF99A19935A /* Pods-TVPass.release (staging).xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon.beta;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = TVPass/TVPass.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 88;
+				CURRENT_PROJECT_VERSION = 58;
 				DEVELOPMENT_TEAM = D945Z56QCC;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
@@ -1647,10 +1928,15 @@
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-vstb-player/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-screens/ios",
+					"$(SRCROOT)/../node_modules/react-native-sound-player/ios",
 				);
 				INFOPLIST_FILE = TVPass/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks /usr/lib/swift";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					/usr/lib/swift,
+				);
 				MARKETING_VERSION = 1.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -1668,7 +1954,7 @@
 		};
 		6AAB012825682A7900634396 /* Release (Staging) */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0C804C5170C6A8867876CA04 /* Pods-TVPass-TVPassTests.release (staging).xcconfig */;
+			baseConfigurationReference = E503FD2544C6B39406C6DB17 /* Pods-TVPass-TVPassTests.release (staging).xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -1676,15 +1962,25 @@
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
 				DEVELOPMENT_TEAM = 97243GD77A;
+				ENABLE_BITCODE = NO;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-vstb-player/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-screens/ios",
+					"$(SRCROOT)/../node_modules/react-native-sound-player/ios",
 				);
 				INFOPLIST_FILE = TVPassTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks /usr/lib/swift";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+					/usr/lib/swift,
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -1700,50 +1996,58 @@
 		};
 		6AAB012925682A7900634396 /* Release (Staging) */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A445034777310D074DEA71F4 /* Pods-TVPass-tvOS.release (staging).xcconfig */;
+			baseConfigurationReference = 4EE148E40A86F6A1F73397E7 /* Pods-TVPass-tvOS.release (staging).xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = "Brand Assets";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcontvOS;
 				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ENABLE_CODE_COVERAGE = NO;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 15;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = 476623M8CV;
+				DEVELOPMENT_TEAM = D945Z56QCC;
+				ENABLE_BITCODE = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_NO_COMMON_BLOCKS = YES;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-vstb-player/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-screens/ios",
+					"$(SRCROOT)/../node_modules/react-native-sound-player/ios",
 				);
 				INFOPLIST_FILE = "TVPass-tvOS/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
+				MARKETING_VERSION = 1.0;
+				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.quickplay.reactnative.TVPass-tvOS";
+				PRODUCT_BUNDLE_IDENTIFIER = com.ontvpass.tvpass.beta;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "tvOS-B2BReactNativeShowcaseAppAdHocProfile";
+				PROVISIONING_PROFILE_SPECIFIER = TVPassTvOSAppstoreProfileBeta;
 				SDKROOT = appletvos;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 3;
-				TVOS_DEPLOYMENT_TARGET = 10.0;
+				TVOS_DEPLOYMENT_TARGET = 11.0;
 			};
 			name = "Release (Staging)";
 		};
 		6AAB012A25682A7900634396 /* Release (Staging) */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2200588F8A15F2F079D9AA45 /* Pods-TVPass-tvOS-TVPass-tvOSTests.release (staging).xcconfig */;
+			baseConfigurationReference = AFBE74D7641D1C90561F9ABB /* Pods-TVPass-tvOS-TVPass-tvOSTests.release (staging).xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -1751,17 +2055,30 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CODE_SIGN_IDENTITY = "Apple Distribution";
+				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = "";
+				ENABLE_BITCODE = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-vstb-player/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-screens/ios",
+					"$(SRCROOT)/../node_modules/react-native-sound-player/ios",
 				);
 				INFOPLIST_FILE = "TVPass-tvOS/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+				);
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -1769,6 +2086,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.TVPass-tvOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = appletvos;
 				SWIFT_VERSION = 5.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TVPass-tvOS.app/TVPass-tvOS";
@@ -1806,6 +2124,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -1832,16 +2151,16 @@
 		};
 		6AABFD5D2568193300634396 /* Debug (Staging) */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3B806C77E192B70443424208 /* Pods-TVPass.debug (staging).xcconfig */;
+			baseConfigurationReference = 9D957BCAE63FFCE125808FAF /* Pods-TVPass.debug (staging).xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon.beta;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = TVPass/TVPass.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 88;
+				CURRENT_PROJECT_VERSION = 58;
 				DEAD_CODE_STRIPPING = NO;
-				DEVELOPMENT_TEAM = D945Z56QCC;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1857,10 +2176,15 @@
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-vstb-player/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-screens/ios",
+					"$(SRCROOT)/../node_modules/react-native-sound-player/ios",
 				);
 				INFOPLIST_FILE = TVPass/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks /usr/lib/swift";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					/usr/lib/swift,
+				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/BVLinearGradient-iOS\"",
@@ -1934,13 +2258,14 @@
 		};
 		6AABFD5E2568193300634396 /* Debug (Staging) */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 047F2061FDB00A04FE22F52A /* Pods-TVPass-TVPassTests.debug (staging).xcconfig */;
+			baseConfigurationReference = 9BB18D3C67FDC953F8B7DE41 /* Pods-TVPass-TVPassTests.debug (staging).xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 476623M8CV;
+				ENABLE_BITCODE = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -1949,11 +2274,20 @@
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-vstb-player/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-screens/ios",
+					"$(SRCROOT)/../node_modules/react-native-sound-player/ios",
 				);
 				INFOPLIST_FILE = TVPassTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks /usr/lib/swift";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+					/usr/lib/swift,
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -1969,17 +2303,20 @@
 		};
 		6AABFD5F2568193300634396 /* Debug (Staging) */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5151AB366A7FA39176665795 /* Pods-TVPass-tvOS.debug (staging).xcconfig */;
+			baseConfigurationReference = 421E0ECD096D55EBF50F11E3 /* Pods-TVPass-tvOS.debug (staging).xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = "Brand Assets";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcontvOS;
 				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ENABLE_CODE_COVERAGE = NO;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 15;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = D945Z56QCC;
+				ENABLE_BITCODE = YES;
 				ENABLE_TESTABILITY = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -1987,32 +2324,37 @@
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-vstb-player/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-screens/ios",
+					"$(SRCROOT)/../node_modules/react-native-sound-player/ios",
 				);
 				INFOPLIST_FILE = "TVPass-tvOS/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
+				MARKETING_VERSION = 1.0;
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.quickplay.reactnative.TVPass-tvOS";
+				PRODUCT_BUNDLE_IDENTIFIER = com.ontvpass.tvpass.beta;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = appletvos;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 3;
-				TVOS_DEPLOYMENT_TARGET = 10.0;
+				TVOS_DEPLOYMENT_TARGET = 11.0;
 			};
 			name = "Debug (Staging)";
 		};
 		6AABFD602568193300634396 /* Debug (Staging) */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 05D21A85451650185649F7F6 /* Pods-TVPass-tvOS-TVPass-tvOSTests.debug (staging).xcconfig */;
+			baseConfigurationReference = E44777F299B396D3A91EA307 /* Pods-TVPass-tvOS-TVPass-tvOSTests.debug (staging).xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -2020,17 +2362,30 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CODE_SIGN_IDENTITY = "Apple Distribution";
+				CODE_SIGN_STYLE = Manual;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_BITCODE = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-vstb-player/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-screens/ios",
+					"$(SRCROOT)/../node_modules/react-native-sound-player/ios",
 				);
 				INFOPLIST_FILE = "TVPass-tvOS/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+				);
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -2038,6 +2393,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.TVPass-tvOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = appletvos;
 				SWIFT_VERSION = 5.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TVPass-tvOS.app/TVPass-tvOS";
@@ -2075,6 +2431,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -2129,6 +2486,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
+				ENABLE_BITCODE = NO;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;

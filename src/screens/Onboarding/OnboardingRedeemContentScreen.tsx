@@ -38,6 +38,7 @@ const OnboardingRedeemContentScreen = (): JSX.Element => {
     };
 
     useEffect(() => {
+        Orientation.lockToPortrait();
         Animated.timing(fadeInAnimValue, {
             toValue: 1,
             duration: 500,
@@ -50,8 +51,6 @@ const OnboardingRedeemContentScreen = (): JSX.Element => {
         return () => {
             if (DeviceInfo.getDeviceType() === 'Tablet') {
                 Orientation.unlockAllOrientations();
-            } else {
-                Orientation.lockToPortrait();
             }
         };
     });
@@ -89,7 +88,6 @@ const OnboardingRedeemContentScreen = (): JSX.Element => {
                             redeemError: false,
                             redeem: async () => {},
                         }}
-                        cardType="EmptyCard"
                     />
                 </Animated.View>
                 <View style={cStyles.bottomContainer}>
@@ -104,6 +102,7 @@ const OnboardingRedeemContentScreen = (): JSX.Element => {
                                     style={[cStyles.bottomContentInfoText, cStyles.bottomContentInfoWCText]}>
                                     {strings['onboard.step4_select_middle']}
                                 </Text>
+                                {strings['onboard.step4_select_suffix']}
                             </Text>
                         </Animated.View>
                     </View>

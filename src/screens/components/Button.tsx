@@ -1,8 +1,8 @@
-import React from 'react';
-import { StyleSheet } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, Platform } from 'react-native';
 import { Button as RNEButton, ButtonProps as RNEButtonProps } from 'react-native-elements';
 import { useAppPreferencesState } from '../../utils/AppPreferencesContext';
-import { appFonts } from '../../../AppStyles';
+import { appFonts, tvPixelSizeForLayout } from '../../../AppStyles';
 
 export enum ButtonType {
     RegularButton,
@@ -15,6 +15,8 @@ interface ButtonProps extends RNEButtonProps {
      * The color of the disabled button
      */
     disabledColor?: string;
+    isTV?: boolean;
+    heightTv?: number;
 }
 
 const Button = (props: ButtonProps) => {
@@ -23,17 +25,14 @@ const Button = (props: ButtonProps) => {
 
     const isOutline = props.type === 'outline';
     const isClear = props.type === 'clear';
-    const isSolid = props.type === 'solid';
+
+    const [isFocused, setIsFocused] = useState(false);
 
     const styles = StyleSheet.create({
         containerStyle: {
             width: '100%',
-        },
-        buttonStyle: {
-            height: 50,
-            width: '100%',
-            borderRadius: 25,
-            // TODO: refactor to simplify based on new design spec
+            //Android expects backgroundColor in containerStyle button appears without borderRadius and has white background
+            //only when buttons are disabled and enabled
             backgroundColor: isOutline
                 ? appColors.primary
                 : isClear
@@ -41,14 +40,40 @@ const Button = (props: ButtonProps) => {
                 : props.buttonType === ButtonType.CancelButton
                 ? appColors.primaryVariant1
                 : appColors.brandTint,
-            borderColor: isOutline ? appColors.brandTint : undefined,
-            borderWidth: isOutline ? 1 : undefined,
+        },
+        buttonStyle: {
+            height: props.heightTv || 50,
+            width: '100%',
+            borderRadius: Platform.isTV ? tvPixelSizeForLayout(400) : 25,
+            // TODO: refactor to simplify based on new design spec
+            backgroundColor:
+                isOutline && !props.isTV
+                    ? appColors.primary
+                    : isClear
+                    ? 'transparent'
+                    : props.buttonType === ButtonType.CancelButton
+                    ? appColors.primaryVariant1
+                    : props.isTV
+                    ? appColors.primaryVariant1
+                    : appColors.brandTint,
+            borderColor:
+                isOutline && !props.isTV
+                    ? appColors.brandTint
+                    : Platform.isTV && isFocused
+                    ? appColors.secondary
+                    : undefined,
+            borderWidth: isOutline && !props.isTV ? 1 : Platform.isTV && isFocused ? 2 : undefined,
         },
         titleStyle: {
             fontFamily: appFonts.primary,
-            fontSize: appFonts.xs,
+            fontSize: Platform.isTV ? tvPixelSizeForLayout(32) : appFonts.xs,
             fontWeight: '500',
-            color: isOutline || isClear ? appColors.brandTint : isSolid ? appColors.tertiary : appColors.secondary,
+            color:
+                (isOutline && !props.isTV) || isClear
+                    ? appColors.brandTint
+                    : props.isTV
+                    ? appColors.secondary
+                    : appColors.secondary,
         },
         disabledStyle: {
             backgroundColor: props.disabledColor ? props.disabledColor : appColors.primaryVariant1,
@@ -60,6 +85,8 @@ const Button = (props: ButtonProps) => {
 
     return (
         <RNEButton
+            onFocus={() => setIsFocused(true)}
+            onBlur={() => setIsFocused(false)}
             containerStyle={styles.containerStyle}
             buttonStyle={styles.buttonStyle}
             disabledStyle={styles.disabledStyle}

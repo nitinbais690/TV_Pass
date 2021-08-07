@@ -109,15 +109,39 @@ const CardFooter = ({ resource }: { resource: ResourceVm }) => {
         },
     });
 
-    let minsLeft;
+    let hrsLeft, minsLeft;
     if (resource.completedPercent !== undefined && resource.runningTime) {
         const timeleft = Math.ceil(
             (resource.runningTime - resource.runningTime * (resource.completedPercent / 100)) / 60,
         );
+
         if (timeleft <= 1) {
             minsLeft = strings['my_content.continue_watching_min_left'];
-        } else {
+        } else if (timeleft < 60) {
+            hrsLeft = strings['my_content.continue_watching_0hr_left'];
             minsLeft = strings.formatString(strings['my_content.continue_watching_mins_left'], timeleft) as string;
+        } else {
+            if (timeleft >= 60) {
+                hrsLeft = strings['my_content.continue_watching_1hr_left'];
+                minsLeft = strings.formatString(
+                    strings['my_content.continue_watching_mins_left'],
+                    timeleft - 60,
+                ) as string;
+            }
+            if (timeleft >= 120) {
+                hrsLeft = strings['my_content.continue_watching_2hr_left'];
+                minsLeft = strings.formatString(
+                    strings['my_content.continue_watching_mins_left'],
+                    timeleft - 120,
+                ) as string;
+            }
+            if (timeleft >= 180) {
+                hrsLeft = strings['my_content.continue_watching_3hr_left'];
+                minsLeft = strings.formatString(
+                    strings['my_content.continue_watching_mins_left'],
+                    timeleft - 180,
+                ) as string;
+            }
         }
     }
 
@@ -130,13 +154,11 @@ const CardFooter = ({ resource }: { resource: ResourceVm }) => {
                     </View>
                 )}
                 <View style={styles.pillContainer}>
-                    {!resource.expiresIn && (
+                    {!resource.expiresIn && !!resource.credits && (
                         <Pill>
                             <View style={styles.pillWrapper}>
                                 <CreditsIcon width={12} height={12} />
-                                {resource.type !== Category.TVSeries && !!resource.credits && (
-                                    <Text style={styles.pillText}>{resource.credits}</Text>
-                                )}
+                                <Text style={styles.pillText}>{resource.credits}</Text>
                             </View>
                         </Pill>
                     )}
@@ -162,11 +184,19 @@ const CardFooter = ({ resource }: { resource: ResourceVm }) => {
                             <Text numberOfLines={1} style={styles.subtitle}>
                                 {resource.subtitle}
                             </Text>
-                            {minsLeft && <Text style={styles.caption}>{minsLeft}</Text>}
+                            {minsLeft && (
+                                <Text style={styles.caption}>
+                                    {hrsLeft} : {minsLeft}
+                                </Text>
+                            )}
                         </>
                     ) : (
                         <>
-                            {minsLeft && <Text style={styles.caption}>{minsLeft}</Text>}
+                            {minsLeft && (
+                                <Text style={styles.caption}>
+                                    {hrsLeft} : {minsLeft}
+                                </Text>
+                            )}
                             <Text style={styles.caption} />
                         </>
                     )}

@@ -1,3 +1,5 @@
+# Enabled after this is merged: https://github.com/facebook/react-native/pull/29599
+# require_relative '../node_modules/react-native/scripts/react_native_pods'
 require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
 
 project 'TVPass', 'Debug (Staging)' => :debug, 'Release (Staging)' => :release, 'Debug' => :debug, 'Release' => :release
@@ -25,7 +27,7 @@ def shared_pods
     pod 'React-jsi', :path => '../node_modules/react-native/ReactCommon/jsi'
     pod 'React-jsiexecutor', :path => '../node_modules/react-native/ReactCommon/jsiexecutor'
     pod 'React-jsinspector', :path => '../node_modules/react-native/ReactCommon/jsinspector'
-    pod 'ReactCommon/callinvoker', :path => "../node_modules/react-native/ReactCommon"
+    pod 'React-callinvoker', :path => "../node_modules/react-native/ReactCommon/callinvoker"
     pod 'ReactCommon/turbomodule/core', :path => "../node_modules/react-native/ReactCommon"
     pod 'Yoga', :path => '../node_modules/react-native/ReactCommon/yoga', :modular_headers => true
 
@@ -35,10 +37,13 @@ def shared_pods
   end
 
 def shared_dependencies
+  pod 'RCTSystemSetting', :path => '../node_modules/react-native-system-setting'
     pod 'BVLinearGradient', :path => '../node_modules/react-native-linear-gradient'
     pod 'RNDeviceInfo', :path => '../node_modules/react-native-device-info'
     pod 'RNFastImage', :path => '../node_modules/react-native-fast-image'
-    pod 'RNGestureHandler', :path => '../node_modules/react-native-gesture-handler'
+#    pod 'RNGestureHandler', :path => '../node_modules/react-native-gesture-handler'
+    pod 'RNGestureHandler', :podspec => '../node_modules/react-native-gesture-handler/RNGestureHandler.podspec'
+    pod 'react-native-splash-screen', :path => '../node_modules/react-native-splash-screen'
     pod 'RNReanimated', :path => '../node_modules/react-native-reanimated'
     pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
     pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-async-storage/async-storage'
@@ -47,17 +52,26 @@ def shared_dependencies
     pod 'react-native-netinfo', :path => '../node_modules/@react-native-community/netinfo'
     pod 'react-native-safe-area-context', :path => '../node_modules/react-native-safe-area-context'
     pod 'RNIap', :path => '../node_modules/react-native-iap'
-    pod 'react-native-newrelic', :path => '../node_modules/rn-qp-nxg-newrelic'  
     pod 'react-native-config', :path => '../node_modules/react-native-config'
-    pod 'react-native-blur', :path => '../node_modules/@react-native-community/blur'
+    pod 'RNScreens', :path => '../node_modules/react-native-screens'
+    pod 'RNLocalize', :path => '../node_modules/react-native-localize'
+    pod 'ReactNativeLocalization', :path => '../node_modules/react-native-localization'
+    pod 'react-native-orientation-locker', :path => '../node_modules/react-native-orientation-locker'
     pod 'RNCMaskedView', :path => '../node_modules/@react-native-community/masked-view'
+    pod 'lottie-react-native', :path => '../node_modules/lottie-react-native'
+    pod 'react-native-video', :path => '../node_modules/react-native-video'
+    pod 'react-native-newrelic', :path => '../node_modules/rn-qp-nxg-newrelic'
+    pod 'rn-qp-nxg-player', :path => '../node_modules/rn-qp-nxg-player'
+    pod 'SRSRadialGradient', :path => '../node_modules/react-native-radial-gradient/ios'
     pod 'NewRelicAgent'
+    pod 'react-native-swrve-plugin', :path => '../node_modules/react-native-swrve-plugin'
+
 end
 
 def add_flipper_pods!(versions = {})
-  versions['Flipper'] ||= '~> 0.37.0'
+  versions['Flipper'] ||= '~> 0.54.0'
   versions['DoubleConversion'] ||= '1.1.7'
-  versions['Flipper-Folly'] ||= '~> 2.3.0'
+  versions['Flipper-Folly'] ||= '~> 2.1'
   versions['Flipper-Glog'] ||= '0.3.6'
   versions['Flipper-PeerTalk'] ||= '~> 0.0.4'
   versions['Flipper-RSocket'] ||= '~> 1.0'
@@ -111,41 +125,32 @@ target 'TVPass' do
     platform :ios, '11.0'
 
     # Pods for TVPass
+    # config = use_native_modules!
+    # use_react_native!(:path => config["reactNativePath"])
+
     shared_pods
     shared_dependencies
     #Including 'use_modular_headers!' for Youbora frameworks
     use_modular_headers!
     
-    pod 'RCTSystemSetting', :path => '../node_modules/react-native-system-setting'      
     pod 'React-RCTActionSheet', :path => '../node_modules/react-native/Libraries/ActionSheetIOS'
     pod 'react-native-slider', :path => '../node_modules/@react-native-community/slider'
-    pod 'react-native-splash-screen', :path => '../node_modules/react-native-splash-screen'
     pod 'appcenter-core', :path => '../node_modules/appcenter/ios'
     pod 'appcenter-analytics', :path => '../node_modules/appcenter-analytics/ios'
     pod 'appcenter-crashes', :path => '../node_modules/appcenter-crashes/ios'
-    pod 'react-native-orientation-locker', :path => '../node_modules/react-native-orientation-locker'
     pod 'rn-fetch-blob', :path => '../node_modules/rn-fetch-blob'
     pod 'react-native-safe-area-context', :path => '../node_modules/react-native-safe-area-context'
-    pod 'rn-qp-nxg-player', :path => '../node_modules/rn-qp-nxg-player'
-    pod 'RNScreens', :path => '../node_modules/react-native-screens'
     pod 'react-native-segmented-control', :path => '../node_modules/@react-native-community/segmented-control'
-    pod 'ReactNativeLocalization', :path => '../node_modules/react-native-localization'
-    pod 'RNLocalize', :path => '../node_modules/react-native-localize'
-    
-    pod 'RNDateTimePicker', :path => '../node_modules/@react-native-community/datetimepicker'
-    pod 'react-native-swrve-plugin', :path => '../node_modules/react-native-swrve-plugin'
     pod 'react-native-google-cast/NoBluetooth', path: '../node_modules/react-native-google-cast/ios/'
+    pod 'RNDateTimePicker', :path => '../node_modules/@react-native-community/datetimepicker'
     pod 'react-native-home-indicator', path: '../node_modules/react-native-home-indicator'
     pod 'RNInAppBrowser', :path => '../node_modules/react-native-inappbrowser-reborn'
-    pod 'lottie-react-native', :path => '../node_modules/lottie-react-native'
     pod 'react-native-webview', :path => '../node_modules/react-native-webview'
-    pod 'SRSRadialGradient', :path => '../node_modules/react-native-radial-gradient/ios'
+    pod 'react-native-blur', :path => '../node_modules/@react-native-community/blur'
+
     pod 'react-native-version-check', :path => '../node_modules/react-native-version-check'
 
     pod 'react-native-month-year-picker', :path => '../node_modules/react-native-month-year-picker'
-    pod 'react-native-kochava-tracker', :path => '../node_modules/react-native-kochava-tracker'
-    pod 'RNSound', :path => '../node_modules/react-native-sound'
-    pod 'RNCPushNotificationIOS', :path => '../node_modules/@react-native-community/push-notification-ios'
 
     target 'TVPassTests' do
         inherit! :complete
@@ -154,9 +159,13 @@ target 'TVPass' do
 
     # Skipping for now since the auto-detection ruby script breaks when a native module doesn't support tvOS
     # use_native_modules!
-	add_flipper_pods!
+    # use_flipper!(configurations: ['Debug', 'Debug (Staging)'])
+
+    # Removing Flipper because of this: https://github.com/react-native-community/upgrade-support/issues/79
+    # add_flipper_pods!
+    
   	post_install do |installer|
-    flipper_post_install(installer)
+    # flipper_post_install(installer)
     cleanUpDeploymentTargets(installer)
   end
 end
@@ -168,7 +177,6 @@ target 'TVPass-tvOS' do
     shared_dependencies
     use_modular_headers!
     
-    pod 'rn-qp-nxg-player', :path => '../node_modules/rn-qp-nxg-player'
     target 'TVPass-tvOSTests' do
     inherit! :complete
     # Pods for testing

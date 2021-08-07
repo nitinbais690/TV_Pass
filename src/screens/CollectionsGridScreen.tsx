@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { StyleSheet, ActivityIndicator, RefreshControl, Animated, View } from 'react-native';
+import React, { useEffect, useRef } from 'react';
+import { StyleSheet, ActivityIndicator, RefreshControl, Animated, View, Platform, TVMenuControl } from 'react-native';
 import { useDimensions } from '@react-native-community/hooks';
 import { useSafeArea } from 'react-native-safe-area-context';
 import DeviceInfo from 'react-native-device-info';
@@ -11,13 +11,14 @@ import { NAVIGATION_TYPE } from './Navigation/NavigationConstants';
 import CardOverlay from './components/CardOverlay';
 import CardFooter from './components/CardFooter';
 import ModalOverlay from './components/ModalOverlay';
-import CollectionHeaderLogo from 'screens/components/CollectionHeaderLogo';
+import CollectionHeaderLogo, { imageAspectRatio } from 'screens/components/CollectionHeaderLogo';
 import AppErrorComponent from 'utils/AppErrorComponent';
 import { useAnalytics } from 'utils/AnalyticsReporterContext';
 import { appFonts } from '../../AppStyles';
 import { modalHeaderHeight } from 'screens/components/ModalOverlay';
 import SkeletonGrid from 'screens/components/loading/SkeletonGrid';
 import { AppEvents, condenseErrorObject, ErrorEvents, getContentDetailsAttributes } from 'utils/ReportingUtils';
+import GradientBackground from '../../assets/images/backgroundRadianGradient.svg';
 
 export const CollectionsGridScreen = ({ route, navigation }: { route: any; navigation: any }): JSX.Element => {
     const { resource, title, resourceId } = route.params;
@@ -25,7 +26,6 @@ export const CollectionsGridScreen = ({ route, navigation }: { route: any; navig
     const { width: w, height: h } = useDimensions().window;
     const insets = useSafeArea();
     const { recordEvent, recordErrorEvent } = useAnalytics();
-    const [pageLoading, setPageLoading] = useState(false);
 
     const { loading, error, errorObject, resources, loadMore, hasMore, reload, pageOffset } = useFetchCollectionQuery(
         resourceId,
@@ -49,13 +49,20 @@ export const CollectionsGridScreen = ({ route, navigation }: { route: any; navig
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [error]);
 
+    useEffect(() => {
+        TVMenuControl.enableTVMenuKey();
+        return () => {
+            TVMenuControl.disableTVMenuKey();
+        };
+    }, []);
+
     const prefs = useAppPreferencesState();
     const { appTheme } = prefs;
     let { appColors, appDimensions, appPadding } = appTheme!(prefs);
 
     const isPortrait = h > w;
 
-    const cardsPerRow = selectDeviceType({ Handset: 2 }, 3);
+    const cardsPerRow = selectDeviceType({ Handset: 2, Tv: 5 }, 3);
     const customPadding = 10;
     const listPadding = appPadding.sm(true) - customPadding / 2;
     const cellPadding = cardsPerRow * customPadding;
@@ -65,7 +72,7 @@ export const CollectionsGridScreen = ({ route, navigation }: { route: any; navig
     const fallbackAspectRatio = AspectRatio._16by9;
 
     const defaultRenderResource = React.useCallback(
-        ({ item }: { item: ResourceVm }): JSX.Element => {
+        ({ item, index }: { item: ResourceVm; index: number }): JSX.Element => {
             const aspectRatio = item.aspectRatio || fallbackAspectRatio;
 
             const cardStyle = StyleSheet.create({
@@ -145,12 +152,15 @@ export const CollectionsGridScreen = ({ route, navigation }: { route: any; navig
                 underlayColor: 'black',
                 activeOpacity: 0.5,
             };
-
             return (
                 <ResourceCardView
                     isPortrait={isPortrait}
                     resource={item}
-                    hideGradient={true}
+                    hasTVPreferredFocus={index === 0}
+                    blockFocusUp={index < cardsPerRow - 1 ? true : false}
+                    blockFocusRight={index !== 0 && index % cardsPerRow === cardsPerRow - 1 ? true : false}
+                    blockFocusLeft={index === 0 ? true : index % cardsPerRow === 0}
+                    blockFocusDown={resources && resources.length - cardsPerRow < index ? true : false}
                     {...cardProps}
                     cardStyle={cardStyle}
                     cardImageType={item.imageType}
@@ -171,6 +181,7 @@ export const CollectionsGridScreen = ({ route, navigation }: { route: any; navig
             appColors.caption,
             appDimensions.cardRadius,
             isPortrait,
+            resources,
             navigation,
         ],
     );
@@ -195,24 +206,71 @@ export const CollectionsGridScreen = ({ route, navigation }: { route: any; navig
         [appColors.tertiary, appColors.backgroundInactive],
     );
 
-    const onEndReached = React.useCallback(async () => {
-        setPageLoading(true);
+    const onEndReached = React.useCallback(() => {
         if (hasMore && loadMore) {
-            await loadMore(pageOffset);
+            loadMore(pageOffset);
         }
-        setPageLoading(false);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [hasMore, pageOffset]);
 
-    const headerTitle = React.useCallback(() => <CollectionHeaderLogo id={resourceId} />, [resourceId]);
-    // const hasHeaderLogo = resource && resource.ia && resource.ia.includes(imageAspectRatio);
     const containerStyles = StyleSheet.create({
         container: {
             paddingHorizontal: listPadding,
             paddingBottom: listPadding,
             paddingTop: listPadding / 2 + modalHeaderHeight(insets),
         },
+        listContainer: {
+            position: 'absolute',
+            zIndex: -1,
+            height: appDimensions.fullHeight,
+            width: appDimensions.fullWidth,
+        },
+        headerLogoStyle: {
+            height: 50,
+            width: 50,
+        },
+        // emptyListContainer: {
+        //     height: appDimensions.fullHeight / 2,
+        //     justifyContent: 'center',
+        //     alignItems: 'center',
+        // },
+        // emptyTextStyle: {
+        //     color: appColors.primary,
+        //     fontSize: appFonts.md,
+        // },
+        listheaderTvStyle: {
+            padding: appPadding.md(true),
+        },
+        gradientBackgroundStyle: {
+            position: 'absolute',
+            height: appDimensions.fullHeight,
+            width: appDimensions.fullWidth,
+            zIndex: -10,
+        },
     });
+
+    // const defaultRenderEmptyList = React.useCallback(() => {
+    //     return (
+    //         <View style={containerStyles.emptyListContainer}>
+    //             <Text style={containerStyles.emptyTextStyle}>{""}</Text>
+    //         </View>
+    //     );
+    // }, []);
+
+    const defaultRenderHeaderTv = React.useCallback(() => {
+        return <View style={containerStyles.listheaderTvStyle} />;
+    }, [containerStyles.listheaderTvStyle]);
+
+    const headerTitle = React.useCallback(
+        () => (
+            <View style={[Platform.isTV && containerStyles.headerLogoStyle]}>
+                <CollectionHeaderLogo id={resourceId} />
+            </View>
+        ),
+        [containerStyles.headerLogoStyle, resourceId],
+    );
+    const hasHeaderLogo = resource && resource.ia && resource.ia.includes(imageAspectRatio);
+
     const scrollY = useRef(new Animated.Value(0)).current;
     const isHandset = DeviceInfo.getDeviceType() === 'Handset';
 
@@ -221,48 +279,58 @@ export const CollectionsGridScreen = ({ route, navigation }: { route: any; navig
             scrollY={scrollY}
             isCollapsable={true}
             headerTransparent={true}
-            headerTitle={resourceId ? headerTitle : title ? title : ' '}>
+            hideBackgroundGradient={true}
+            isHideCrossIcon={true}
+            headerTitle={hasHeaderLogo ? headerTitle : title ? title : ''}>
             {/* <Animated.View style={animationStyle}> */}
-            <View style={{ width: w - 2 * mh, paddingVertical: isHandset ? appPadding.xl() : appPadding.md() }} />
-            {loading && (
-                <SkeletonGrid
-                    count={30}
-                    aspectRatio={AspectRatio._16by9}
-                    cardWidth={width / cardsPerRow}
-                    containerStyle={[containerStyles.container]}
-                />
-            )}
+            <View style={containerStyles.gradientBackgroundStyle}>
+                <GradientBackground height={'100%'} width={'100%'} />
+            </View>
 
-            {resources && (
-                <Animated.FlatList<ResourceVm>
-                    accessibilityLabel={'Collection'}
-                    keyExtractor={listItem => listItem.id || ''}
-                    horizontal={false}
-                    numColumns={cardsPerRow}
-                    key={isPortrait ? 'p' : 'l'}
-                    showsHorizontalScrollIndicator={false}
-                    data={resources}
-                    onScroll={Animated.event(
-                        [
-                            {
-                                nativeEvent: {
-                                    contentOffset: {
-                                        y: scrollY,
+            {!Platform.isTV && <View style={{ paddingVertical: isHandset ? appPadding.xl() : appPadding.md() }} />}
+            <View style={[Platform.isTV && containerStyles.listContainer]}>
+                {loading && (
+                    <SkeletonGrid
+                        count={30}
+                        aspectRatio={AspectRatio._16by9}
+                        cardWidth={width / cardsPerRow}
+                        containerStyle={[containerStyles.container]}
+                    />
+                )}
+
+                {resources && (
+                    <Animated.FlatList<ResourceVm>
+                        accessibilityLabel={'Collection'}
+                        keyExtractor={listItem => listItem.id || ''}
+                        horizontal={false}
+                        numColumns={cardsPerRow}
+                        key={isPortrait ? 'p' : 'l'}
+                        showsHorizontalScrollIndicator={false}
+                        data={resources}
+                        // ListEmptyComponent={defaultRenderEmptyList}
+                        ListHeaderComponent={Platform.isTV ? defaultRenderHeaderTv : null}
+                        onScroll={Animated.event(
+                            [
+                                {
+                                    nativeEvent: {
+                                        contentOffset: {
+                                            y: scrollY,
+                                        },
                                     },
                                 },
-                            },
-                        ],
-                        { useNativeDriver: true },
-                    )}
-                    scrollEventThrottle={1}
-                    renderItem={defaultRenderResource}
-                    onEndReached={onEndReached}
-                    refreshControl={refreshControl}
-                    onEndReachedThreshold={0.8}
-                    ListFooterComponent={pageLoading ? LoadingComponent : undefined}
-                    contentContainerStyle={containerStyles.container}
-                />
-            )}
+                            ],
+                            { useNativeDriver: true },
+                        )}
+                        scrollEventThrottle={1}
+                        renderItem={defaultRenderResource}
+                        onEndReached={onEndReached}
+                        refreshControl={refreshControl}
+                        onEndReachedThreshold={0.8}
+                        ListFooterComponent={hasMore ? LoadingComponent : undefined}
+                        contentContainerStyle={containerStyles.container}
+                    />
+                )}
+            </View>
             {/* </Animated.View> */}
             {/* Error State */}
             {error && resources && resources.length === 0 && <AppErrorComponent reload={reload} />}

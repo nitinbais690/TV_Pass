@@ -1,6 +1,6 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Platform } from 'react-native';
 import { selectDeviceType } from 'qp-common-ui';
-import { appFonts, appPadding } from '../../AppStyles';
+import { appFonts, appPadding, tvPixelSizeForLayout } from '../../AppStyles';
 
 export const settingStyle = ({ appColors, isPortrait }: { appColors: any; isPortrait?: boolean }) => {
     return StyleSheet.create({
@@ -26,7 +26,10 @@ export const settingStyle = ({ appColors, isPortrait }: { appColors: any; isPort
         margin_v: {
             marginVertical: appPadding.sm(true),
         },
-        margin_toggle: {},
+        margin_toggle: {
+            transform:
+                Platform.OS === 'android' ? [{ scaleX: 1.4 }, { scaleY: 1.4 }] : [{ scaleX: 0.9 }, { scaleY: 0.9 }],
+        },
         row: {
             flexDirection: 'row',
             justifyContent: 'space-between',
@@ -97,11 +100,6 @@ export const settingStyle = ({ appColors, isPortrait }: { appColors: any; isPort
             borderBottomWidth: StyleSheet.hairlineWidth,
             marginVertical: appPadding.md(true),
         },
-        top_Underline_sm: {
-            borderBottomColor: appColors.border,
-            borderBottomWidth: StyleSheet.hairlineWidth,
-            marginVertical: appPadding.sm(true),
-        },
         toggle: {
             marginRight: 20,
         },
@@ -136,31 +134,31 @@ export const settingStyle = ({ appColors, isPortrait }: { appColors: any; isPort
         image: {
             alignItems: 'center',
             justifyContent: 'center',
-            backgroundColor: appColors.primaryVariant1,
+            backgroundColor: Platform.isTV ? appColors.iconBackgroundTv : appColors.primaryVariant1,
             flex: 0.3,
             aspectRatio: 1,
             borderRadius: 100,
             borderWidth: StyleSheet.hairlineWidth,
         },
         image_banner: {
-            marginLeft: 20,
+            marginLeft: Platform.isTV ? 0 : 20,
             justifyContent: 'center',
             flex: 0.7,
         },
         profile_header: {
-            flexDirection: 'row',
-            marginTop: appPadding.xs(true),
-            alignItems: 'center',
+            flexDirection: Platform.isTV ? 'column' : 'row',
+            marginTop: Platform.isTV ? tvPixelSizeForLayout(0) : appPadding.xs(true),
+            alignItems: Platform.isTV ? 'flex-start' : 'center',
             justifyContent: 'flex-start',
         },
         center: {
             textAlign: 'center',
-            color: appColors.secondary,
-            fontSize: appFonts.xxxlg,
+            color: Platform.isTV ? appColors.primary : appColors.secondary,
+            fontSize: Platform.isTV ? tvPixelSizeForLayout(45) : appFonts.xxxlg,
             fontFamily: appFonts.medium,
         },
         formSpacing: {
-            marginBottom: 40,
+            marginBottom: Platform.isTV ? tvPixelSizeForLayout(40) : 40,
         },
 
         //Main Page

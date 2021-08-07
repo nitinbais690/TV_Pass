@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { StyleSheet } from 'react-native';
+import { Platform, StyleSheet } from 'react-native';
 import Modal from 'react-native-modal';
 import { useNavigation } from '@react-navigation/native';
 import { metaDataResourceAdapter } from 'qp-discovery-ui';
@@ -15,8 +15,6 @@ import OnboardingRulesIntroScreen from 'screens/Onboarding/OnboardingRulesIntroS
 import OnboardingHelpScreen from 'screens/Onboarding/OnboardingHelpScreen';
 import { NAVIGATION_TYPE } from 'screens/Navigation/NavigationConstants';
 import detailsMockData from '../configs/MovieSelectionMockData.json';
-import { useAnalytics } from 'utils/AnalyticsReporterContext';
-import { AppEvents } from 'utils/ReportingUtils';
 
 /**
  * OnboardingContextProvider manages onboarding functionalities and modal overlay
@@ -46,7 +44,6 @@ export const OnboardingContextProvider = ({ children }: { children: React.ReactN
     const { setString, accountProfile } = userAction;
     const { appConfig } = useAppPreferencesState();
     const { fetchCredits } = useCredits();
-    const { recordEvent } = useAnalytics();
 
     useEffect(() => {
         // We should show onboarding flow if the account profile
@@ -75,7 +72,11 @@ export const OnboardingContextProvider = ({ children }: { children: React.ReactN
                 setFinishedOnboarding(onboardingAttribute[0].value === ONBOARD_COMPLETED_KEY);
             }
             if (!hasViewedOnboarding) {
-                onboardNavigation('onboardingIntro');
+                if (Platform.isTV) {
+                    navigation.navigate(NAVIGATION_TYPE.CREDITS_WALKTHROUGH);
+                } else {
+                    onboardNavigation('onboardingIntro');
+                }
             }
         }
         //eslint-disable-next-line react-hooks/exhaustive-deps
@@ -188,7 +189,6 @@ export const OnboardingContextProvider = ({ children }: { children: React.ReactN
         })
             .then(() => {
                 if (onboardStatus === ONBOARD_COMPLETED_KEY) {
-                    recordEvent(AppEvents.INTRO_WALKTHROUGH_COMPLETED, {}, true);
                     fetchCredits();
                 }
             })
@@ -233,8 +233,15 @@ export const OnboardingContextProvider = ({ children }: { children: React.ReactN
                     style={styles.modal}
                     animationIn={'fadeIn'}
                     backdropOpacity={1}
+                    hardwareAccelerated
+                    hideModalContentWhileAnimating
                     isVisible={isModalVisible}
-                    useNativeDriver={true}>
+                    useNativeDriver={true}
+                    onRequestClose={() => {
+                        if (navigateTo === NAVIGATION_TYPE.SETTINGS) {
+                            onboardSkip();
+                        }
+                    }}>
                     {isModalVisible && OnboardScreen(navigateTo)}
                 </Modal>
             </>

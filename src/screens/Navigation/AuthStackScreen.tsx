@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableOpacity, View, Text } from 'react-native';
+import { Platform, TouchableOpacity, View, Text } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
 import { BorderlessButton } from 'react-native-gesture-handler';
@@ -9,7 +9,7 @@ import { useAppPreferencesState } from 'utils/AppPreferencesContext';
 import AuthHomeScreen from '../Auth/AuthHomeScreen';
 import SignInScreen from '../Auth/SignInScreen';
 import SignUpScreen from '../Auth/SignUpScreen';
-import PlanInfoScreen from '../Auth/PlanInfoScreen';
+import LoginScreenTV from '../../TV/LoginTV';
 import ForgotPasswordScreen from '../Auth/forgotPassword/ForgotPasswordScreen';
 import ForgotPasswordOtpScreen from '../Auth/forgotPassword/ForgotPasswordOtpScreen';
 import ForgotPasswordResetScreen from '../Auth/forgotPassword/ForgotPasswordResetScreen';
@@ -21,10 +21,6 @@ import { BrandLogo } from 'screens/components/BrandLogo';
 import { NAVIGATION_TYPE } from '../Navigation/NavigationConstants';
 import CloseIcon from '../../../assets/images/close.svg';
 import { appPadding } from '../../../AppStyles';
-import { selectDeviceType } from 'components/qp-common-ui';
-import CreditsIcon from '../../../assets/images/brand_symbol.svg';
-import { ActionEvents, Attributes } from 'utils/ReportingUtils';
-import { useAnalytics } from 'utils/AnalyticsReporterContext';
 
 const AuthStack = createStackNavigator();
 
@@ -35,17 +31,10 @@ export const LogInButton = (): JSX.Element => {
     const { appTheme } = prefs;
     let { appColors } = appTheme && appTheme(prefs);
     const formStyles = authHomeStyle({ appColors });
-    const { recordEvent } = useAnalytics();
 
     return (
         <View style={formStyles.help}>
-            <TouchableOpacity
-                onPress={() => {
-                    let data: Attributes = {};
-                    data.event = ActionEvents.ACTION_LOGIN;
-                    recordEvent(ActionEvents.ACTION_LOGIN, data);
-                    navigation.navigate(NAVIGATION_TYPE.AUTH_SIGN_IN);
-                }}>
+            <TouchableOpacity onPress={() => navigation.navigate(NAVIGATION_TYPE.AUTH_SIGN_IN)}>
                 <Text style={formStyles.mainText}>{strings['main.login']}</Text>
             </TouchableOpacity>
         </View>
@@ -69,35 +58,48 @@ const AuthStackScreen = () => {
             <AuthStack.Screen
                 name="AuthHome"
                 options={{
+                    headerShown: !Platform.isTV,
                     title: '',
-                    headerTitle: () => (
-                        <View style={{ flexDirection: 'row' }}>
-                            <CreditsIcon width={20} height={selectDeviceType({ Handset: 18 }, 28)} />
-                            <View style={{ marginRight: 7 }} />
-                            <BrandLogo />
-                        </View>
-                    ),
+                    headerTitle: () => <BrandLogo />,
                     headerTransparent: false,
-                    // headerLeft: () => <LogInButton />,
+                    headerLeft: () => <LogInButton />,
                     headerRightContainerStyle: {
                         marginHorizontal: appPadding.sm(true),
                         marginBottom: 8,
                     },
                     headerRight: () => {
-                        return appNavigationState === 'PREVIEW_APP' ? (
-                            <BorderlessButton onPress={() => navigation.goBack()}>
-                                <CloseIcon accessible accessibilityLabel={'Close'} />
-                            </BorderlessButton>
-                        ) : (
-                            <LogInButton />
+                        return (
+                            appNavigationState === 'PREVIEW_APP' && (
+                                <BorderlessButton onPress={() => navigation.goBack()}>
+                                    <CloseIcon />
+                                </BorderlessButton>
+                            )
                         );
+                        // : (
+                        //     <LogInButton />
+                        // );
                     },
                 }}
                 component={AuthHomeScreen}
             />
             <AuthStack.Screen name="SignIn" options={authStackScreenOptions()} component={SignInScreen} />
-            <AuthStack.Screen name="SignUp" options={authStackScreenOptions()} component={SignUpScreen} />
-            <AuthStack.Screen name="PlanInfo" options={authStackScreenOptions()} component={PlanInfoScreen} />
+            <AuthStack.Screen name="LoginTV" options={{ headerShown: !Platform.isTV }} component={LoginScreenTV} />
+            <AuthStack.Screen
+                name="SignUp"
+                options={{
+                    headerShown: !Platform.isTV,
+                    headerTransparent: true,
+                    headerTitle: () => <BrandLogo />,
+                    headerStyle: {
+                        shadowColor: 'transparent',
+                        shadowOffset: { height: 0, width: 0 },
+                        borderBottomWidth: 0,
+                        shadowOpacity: 0,
+                        borderBottomColor: 'transparent',
+                    },
+                }}
+                component={SignUpScreen}
+            />
             <AuthStack.Screen
                 name="ForgotPassword"
                 options={{ title: strings['header.reset_pwd'] }}

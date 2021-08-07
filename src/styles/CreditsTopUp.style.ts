@@ -1,6 +1,6 @@
-import { StyleSheet } from 'react-native';
-import { selectDeviceType } from 'qp-common-ui';
-import { appDimensions, appFonts, appPadding } from '../../AppStyles';
+import { StyleSheet, Platform } from 'react-native';
+import { selectDeviceType, AspectRatio } from 'qp-common-ui';
+import { appDimensions, appFonts, appPadding, tvPixelSizeForLayout } from '../../AppStyles';
 import DeviceInfo from 'react-native-device-info';
 
 export const creditsTopUpPageStyles = ({ appColors, insets }: any) => {
@@ -23,8 +23,22 @@ export const creditsTopUpPageStyles = ({ appColors, insets }: any) => {
             height: 120,
             borderRadius: 72,
         },
+        creditsContainerTV: {
+            justifyContent: 'center',
+            alignItems: 'center',
+            flexDirection: 'row',
+            borderBottomWidth: StyleSheet.hairlineWidth,
+            borderColor: appColors.border,
+            backgroundColor: appColors.brandTint,
+            width: tvPixelSizeForLayout(300),
+            marginTop: tvPixelSizeForLayout(30),
+            height: tvPixelSizeForLayout(80),
+            borderTopRightRadius: tvPixelSizeForLayout(110),
+            borderBottomRightRadius: tvPixelSizeForLayout(110),
+            position: 'absolute',
+        },
         creditsIconSpacing: {
-            marginRight: 10,
+            marginRight: Platform.isTV ? tvPixelSizeForLayout(20) : 10,
         },
         creditsModalContainer: {
             marginTop: selectDeviceType({ Handset: DeviceInfo.hasNotch() ? 30 : 5 }, 0),
@@ -40,15 +54,28 @@ export const creditsTopUpPageStyles = ({ appColors, insets }: any) => {
         },
         creditsCopyLabel: {
             fontFamily: appFonts.primary,
-            fontSize: appFonts.xxs,
+            fontSize: Platform.isTV ? tvPixelSizeForLayout(20) : appFonts.xxs,
             color: appColors.caption,
             alignSelf: 'center',
-            marginTop: 10,
+            marginTop: Platform.isTV ? tvPixelSizeForLayout(20) : 10,
+            width: Platform.isTV ? '45%' : undefined,
+            textAlign: Platform.isTV ? 'center' : undefined,
             marginLeft: 10,
+        },
+        creditsRedeemLabelTv: {
+            fontFamily: appFonts.primary,
+            fontSize: tvPixelSizeForLayout(32),
+            fontWeight: '500',
+            color: appColors.secondary,
+            alignSelf: 'center',
+            marginTop: tvPixelSizeForLayout(70),
+            marginLeft: 10,
+            width: '45%',
+            textAlign: 'center',
         },
         credits: {
             fontFamily: appFonts.primary,
-            fontSize: appFonts.headline,
+            fontSize: Platform.isTV ? tvPixelSizeForLayout(28) : appFonts.headline,
             color: appColors.secondary,
             fontWeight: '500',
         },
@@ -78,6 +105,34 @@ export const creditsTopUpPageStyles = ({ appColors, insets }: any) => {
             shadowRadius: 150,
             shadowOffset: { width: 200, height: 200 },
         },
+        creditsHeadingTv: {
+            fontFamily: appFonts.primary,
+            fontSize: Platform.isTV ? tvPixelSizeForLayout(75) : appFonts.headline,
+            fontWeight: '600',
+            color: appColors.secondary,
+            textAlign: 'center',
+            position: 'absolute',
+            top: tvPixelSizeForLayout(120),
+            alignSelf: 'center',
+        },
+        buttonContainerTv: {
+            alignSelf: 'center',
+            marginTop: tvPixelSizeForLayout(50),
+            width: tvPixelSizeForLayout(600), //452
+        },
+        bottomContainerTv: {
+            position: 'absolute',
+            bottom: tvPixelSizeForLayout(80),
+            width: '100%',
+        },
+        containerFullHeight: {
+            height: '100%',
+        },
+        scrollviewStyleTv: {
+            paddingTop: tvPixelSizeForLayout(220),
+            height: '100%',
+            paddingHorizontal: tvPixelSizeForLayout(138),
+        },
     });
 };
 
@@ -94,6 +149,27 @@ export const topUpProductStyle = ({ appColors }: any) => {
             borderRadius: appDimensions.cardRadius,
             overflow: 'hidden',
         },
+        containerTv: {
+            flexDirection: 'row',
+            backgroundColor: appColors.primaryVariant6,
+            marginHorizontal: tvPixelSizeForLayout(10),
+            borderRadius: appDimensions.cardRadius,
+            overflow: 'hidden',
+            width: tvPixelSizeForLayout(522),
+            height: '100%',
+        },
+        focusContainerTv: {
+            borderWidth: tvPixelSizeForLayout(4),
+            borderColor: appColors.secondary,
+        },
+        onPressedStyle: {
+            zIndex: 20,
+            transform: [{ scale: 1.2 }],
+        },
+        onBlurStyle: {
+            zIndex: 30,
+            transform: [{ scale: 1 }],
+        },
         logoContainer: {
             flex: 0.4,
             justifyContent: 'center',
@@ -104,6 +180,7 @@ export const topUpProductStyle = ({ appColors }: any) => {
             justifyContent: 'center',
             alignItems: 'center',
             overflow: 'hidden',
+            paddingHorizontal: Platform.isTV ? 80 : undefined,
         },
         creditScoreWrapper: {
             ...StyleSheet.absoluteFillObject,
@@ -121,34 +198,35 @@ export const topUpProductStyle = ({ appColors }: any) => {
             justifyContent: 'center',
             flex: 0.6,
             marginLeft: 10,
+            alignContent: Platform.isTV ? 'center' : undefined,
         },
         title: {
             color: appColors.secondary,
             fontFamily: appFonts.primary,
-            fontSize: appFonts.xxlg,
+            fontSize: Platform.isTV ? tvPixelSizeForLayout(45) : appFonts.xxlg,
             fontWeight: '600',
             textAlign: 'center',
         },
         description: {
             color: appColors.secondary,
             fontFamily: appFonts.primary,
-            fontSize: appFonts.xs,
+            fontSize: Platform.isTV ? tvPixelSizeForLayout(32) : appFonts.xs,
             fontWeight: '500',
             textAlign: 'center',
-            marginVertical: 5,
+            marginVertical: Platform.isTV ? tvPixelSizeForLayout(5) : 5,
         },
         caption: {
-            color: appColors.caption,
+            color: Platform.isTV ? appColors.tertiary : appColors.caption,
             fontFamily: appFonts.primary,
-            fontSize: appFonts.xxs,
-            alignSelf: 'center',
-            paddingLeft: 10,
+            fontSize: Platform.isTV ? tvPixelSizeForLayout(24) : appFonts.xxs,
+            alignSelf: !Platform.isTV ? 'center' : undefined,
+            paddingLeft: !Platform.isTV ? 10 : undefined,
         },
         glow: {
             position: 'absolute',
             width: 400,
             aspectRatio: 1,
-            top: -300,
+            bottom: Platform.isTV ? 0 : -300,
             left: -400,
             backgroundColor: appColors.brandTint,
             borderRadius: 200,
@@ -162,5 +240,42 @@ export const topUpProductStyle = ({ appColors }: any) => {
             alignItems: 'center',
             justifyContent: 'center',
         },
+        containerShadowTv: {
+            shadowColor: appColors.brandTint,
+            shadowOpacity: 1,
+            shadowOffset: {
+                width: 0,
+                height: 0,
+            },
+            shadowRadius: 25,
+            elevation: 0,
+            zIndex: 10,
+        },
+        containerPressShadowTv: {
+            shadowColor: appColors.brandTint,
+            shadowOpacity: 1,
+            shadowOffset: {
+                width: 0,
+                height: 0,
+            },
+            shadowRadius: 120,
+            elevation: 50,
+            borderRadius: 120,
+        },
+        creditCardView: {
+            backgroundColor: 'transparent',
+            position: 'relative',
+            paddingVertical: tvPixelSizeForLayout(50),
+            height: tvPixelSizeForLayout(400),
+            marginTop: tvPixelSizeForLayout(60),
+        },
+        backgroundImageStyle: {
+            height: '100%',
+            aspectRatio: AspectRatio._16by9,
+        },
+        creditsLoadingStyle: {
+            height: 50,
+        },
+        descriptionContainer: { flex: 1, flexDirection: 'row' },
     });
 };

@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useEffect } from 'react';
-import SwrveSDK from 'react-native-swrve-plugin';
+import { Linking } from 'react-native';
 import { useAuth } from 'contexts/AuthContextProvider';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 export const SWRVE_KEY = {
     opt_out_push: 'swrve.opt_out.push',
 };
@@ -37,11 +37,19 @@ export const SwrveContextProvider = ({ children }: { children: React.ReactNode }
     }, [accountProfile]);
 
     useEffect(() => {
+        // if (!Platform.isTV) {
+        const SwrveSDK = require('react-native-swrve-plugin');
         SwrveSDK.setListeners(
             /** Swrve listeners arg **/ null,
             { pushListener: onPushMessage, silentPushListener: onSilentPushMessage },
             /** in-app listeners arg **/ null,
         );
+        // }
+
+        Linking.addEventListener('url', event => {
+            AsyncStorage.setItem('deeplink', event.url);
+        });
+
         //eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -57,8 +65,11 @@ export const SwrveContextProvider = ({ children }: { children: React.ReactNode }
         () => ({
             swrveIdentify: async (userId: string) => {
                 try {
+                    // if (!Platform.isTV) {
+                    const SwrveSDK = require('react-native-swrve-plugin');
                     let ident = await SwrveSDK.identify(userId);
                     console.log(`Identify successful - ident ${ident}`);
+                    // }
                 } catch (e) {
                     console.log('Identify failed', e);
                 }
@@ -66,9 +77,11 @@ export const SwrveContextProvider = ({ children }: { children: React.ReactNode }
 
             swrveEvent: async (eventName: string, payload?: any) => {
                 try {
+                    // if (!Platform.isTV) {
+                    const SwrveSDK = require('react-native-swrve-plugin');
                     SwrveSDK.event(eventName, payload || {});
-
                     console.log(`Swrve event successful - ${eventName}`);
+                    // }
                 } catch (e) {
                     console.log(`Swrve event failed - ${eventName}`, e);
                 }
@@ -76,8 +89,11 @@ export const SwrveContextProvider = ({ children }: { children: React.ReactNode }
 
             swrveUserUpdate: async (userObj: any) => {
                 try {
+                    // if (!Platform.isTV) {
+                    const SwrveSDK = require('react-native-swrve-plugin');
                     SwrveSDK.userUpdate(userObj);
                     console.log('Swrve userupdate successful');
+                    // }
                 } catch (e) {
                     console.log('Swrve userupdate failed', e);
                 }

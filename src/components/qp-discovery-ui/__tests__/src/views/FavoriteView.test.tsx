@@ -1,3 +1,4 @@
+jest.useFakeTimers();
 import React from 'react';
 import { ClientContextProvider, createAPIClient } from '../../../index';
 import FavoriteView from '../../../src/views/FavoriteView';

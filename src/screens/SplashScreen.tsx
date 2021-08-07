@@ -1,34 +1,24 @@
 import React, { useEffect, useRef } from 'react';
-import { View, StyleSheet, Platform, Animated, LayoutAnimation } from 'react-native';
-import RNSplashScreen from 'react-native-splash-screen';
-import LottieView from 'lottie-react-native';
+import { View, StyleSheet, Animated, LayoutAnimation, Platform } from 'react-native';
 import { useLocalization } from 'contexts/LocalizationContext';
 import { useAlert } from 'contexts/AlertContext';
 import { useAppPreferencesState } from 'utils/AppPreferencesContext';
 import { useAnalytics } from 'utils/AnalyticsReporterContext';
-import {
-    Attributes,
-    condenseErrorObject,
-    ErrorEvents,
-    getPageEventFromPageNavigation,
-    getPageIdsFromPageEvents,
-} from 'utils/ReportingUtils';
+import { condenseErrorObject, ErrorEvents } from 'utils/ReportingUtils';
 import { TimerType, useTimer } from 'utils/TimerContext';
 import { useAppState } from 'utils/AppContextProvider';
 import BackgroundGradient from 'screens/components/BackgroundGradient';
-import Sound from 'react-native-sound';
-import { NAVIGATION_TYPE } from './Navigation/NavigationConstants';
+import SplashScreenm from 'react-native-splash-screen';
+import Video from 'react-native-video';
 
 const SplashScreen = (): JSX.Element => {
     const { splashLoaded } = useAppState();
     const { Alert } = useAlert();
-    const { recordEvent } = useAnalytics();
     const { strings } = useLocalization();
     const prefs = useAppPreferencesState();
     const { error, retry, appConfig } = prefs;
     const { recordErrorEvent } = useAnalytics();
     const { stopTimer } = useTimer();
-
     const opacity = useRef(new Animated.Value(0)).current;
     const backgroundOpacity = opacity.interpolate({
         inputRange: [0, 1],
@@ -36,17 +26,11 @@ const SplashScreen = (): JSX.Element => {
     });
 
     useEffect(() => {
-        if (!(Platform.OS === 'ios' && Platform.isTVOS)) {
-            RNSplashScreen.hide();
-        }
-
-        let data: Attributes = {};
-
-        let pageEvents = getPageEventFromPageNavigation(NAVIGATION_TYPE.LOADING);
-        data.pageID = getPageIdsFromPageEvents(pageEvents);
-        data.event = pageEvents;
-
-        recordEvent(pageEvents, data);
+        // const RNSplashScreen = require('react-native-splash-screen');
+        SplashScreenm.hide();
+        //if (Platform.OS === 'ios' && Platform.isTVOS) {
+        // splashLoaded();
+        //}
 
         Animated.timing(opacity, {
             delay: 2000,
@@ -54,11 +38,6 @@ const SplashScreen = (): JSX.Element => {
             duration: 3000,
             useNativeDriver: true,
         }).start();
-
-        if (appConfig) {
-            handleSound();
-        }
-
         return () => {
             stopTimer(TimerType.Splash);
         };
@@ -81,9 +60,12 @@ const SplashScreen = (): JSX.Element => {
             width: '100%',
             aspectRatio: 1.488,
         },
+        videoStyle: {
+            height: 1,
+            width: 1,
+        },
         loading: { justifyContent: 'center', position: 'absolute', top: '8%' },
     });
-
     useEffect(() => {
         if (error) {
             recordErrorEvent(ErrorEvents.SPLASH_ERROR, condenseErrorObject(error));
@@ -99,23 +81,34 @@ const SplashScreen = (): JSX.Element => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [error, retry, strings]);
 
-    const handleSound = () => {
-        Sound.setCategory('Playback');
-        var whoosh = new Sound('Struum_Intro_Sound_Long.wav', Sound.MAIN_BUNDLE, error => {
-            if (error) {
-                console.log('failed to load the sound', error);
-                return;
-            }
-            // Play the sound with an onEnd callback
-            whoosh.play(success => {
-                if (success) {
-                    console.log('successfully finished playing');
-                } else {
-                    console.log('playback failed due to audio decoding errors');
-                }
-            });
-        });
-        whoosh.release();
+    const renderSplash = () => {
+        const LottieView = require('lottie-react-native');
+        return (
+            <LottieView
+                source={require('../../assets/animations/Struum_LogoBuild.json')}
+                autoPlay
+                loop={false}
+                onAnimationFinish={() => {
+                    LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
+                    splashLoaded();
+                }}
+            />
+        );
+    };
+
+    const renderAudio = () => {
+        return (
+            <Video
+                source={require('../../assets/audio/struum_intro_tv.mp3')} // Can be a URL or a local file.
+                audioOnly={true}
+                repeat={false}
+                shouldPlay={true}
+                onError={e => {
+                    console.log('splash intro sound error ' + e);
+                }} // Callback when video cannot be loaded
+                style={style.videoStyle}
+            />
+        );
     };
 
     return (
@@ -123,20 +116,9 @@ const SplashScreen = (): JSX.Element => {
             <Animated.View style={[StyleSheet.absoluteFillObject, { opacity: backgroundOpacity }]}>
                 <BackgroundGradient style={[style.container]} insetHeader={false} />
             </Animated.View>
-            {appConfig && (
-                <LottieView
-                    source={require('../../assets/animations/logoAnimations/Struum_LogoBuild.json')}
-                    autoPlay
-                    loop={false}
-                    imageAssetsFolder={'logoAnimations'}
-                    onAnimationFinish={() => {
-                        LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
-                        splashLoaded();
-                    }}
-                />
-            )}
+            {appConfig && renderSplash()}
+            {appConfig && Platform.isTV && renderAudio()}
         </View>
     );
 };
-
 export default React.memo(SplashScreen, () => true);

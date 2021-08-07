@@ -1,4 +1,4 @@
-import React, { useState, useContext, useMemo } from 'react';
+import React, { useState, useContext } from 'react';
 import Config from 'react-native-config';
 import { selectDeviceType } from 'qp-common-ui';
 import { useFetchAppConfig, FetchOptions } from '../configs/hooks/useFetchAppConfig';
@@ -51,13 +51,9 @@ const AppPreferencesContext = React.createContext<AppPreferencesContextProps>(ap
  */
 export const AppPreferencesProvider = ({ children }: AppPreferenceProviderProps) => {
     const [prefs, updatePreferences] = useState<AppPreferences>(appPreferences);
+    console.log('>>>>> URL', Config.CONFIG_API_ENDPOINT, Config.ENVIRONMENT);
 
-    console.log('>>>>> URL', Config.CONFIG_API_ENDPOINT);
-
-    const fetchOptions: FetchOptions = useMemo(() => {
-        return { queryParams: { device: 'mobile' } };
-    }, []);
-
+    const fetchOptions: FetchOptions = { queryParams: { device: 'mobile' } };
     const { loading, configData, error, retry } = useFetchAppConfig(Config.CONFIG_API_ENDPOINT, fetchOptions);
 
     const toggleTheme = () => {

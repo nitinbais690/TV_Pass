@@ -2,16 +2,8 @@ import { default as newRelic } from 'rn-qp-nxg-newrelic';
 import React, { useContext, useEffect, useReducer, useRef, useState } from 'react';
 import { useAuth } from 'contexts/AuthContextProvider';
 import { ResourceVm } from 'qp-discovery-ui';
-import { Download, PlayerConfig } from 'rn-qp-nxg-player';
-import {
-    ActionEvents,
-    AppEvents,
-    Attributes,
-    PageEvents,
-    removeUndefined,
-    RN_INTERACTION,
-    TABLE,
-} from './ReportingUtils';
+import { PlayerConfig } from 'rn-qp-nxg-player';
+import { AppEvents, Attributes, removeUndefined, RN_INTERACTION, TABLE } from './ReportingUtils';
 import { AppState } from 'react-native';
 import { getStreamQuality } from './UserPreferenceUtils';
 import DeviceInfo from 'react-native-device-info';
@@ -19,26 +11,18 @@ import { useSwrve } from 'contexts/SwrveContextProvider';
 
 interface State {
     connectionBandwidthSpeed?: number;
-    downloadTracker?: any;
 }
 interface Action {
     type: string;
     connectionBandwidthSpeed?: number;
-    downloadItem: Download;
 }
-//NOTE: DownloadTracker added to stop the re-reporting of Download events to NR in the scenario of multiple concurrent downloads
+
 const initialState: State = {
     connectionBandwidthSpeed: undefined,
-    downloadTracker: {},
 };
 
 const AnalyticsReducer = (state: State, action: Action): any => {
     switch (action.type) {
-        case 'DOWNLOAD_TRACK_UPDATE':
-            state.downloadTracker[action.downloadItem.id] = action.downloadItem.state;
-            return {
-                ...state,
-            };
         default:
             return {
                 ...state,
@@ -48,14 +32,9 @@ const AnalyticsReducer = (state: State, action: Action): any => {
 
 const AnalyticsContext = React.createContext({
     ...initialState,
-    recordEvent: async (
-        _: AppEvents | RN_INTERACTION | ActionEvents | PageEvents,
-        _attributes?: any,
-        _isSwrveEvent?: boolean,
-    ) => {},
+    recordEvent: async (_: AppEvents | RN_INTERACTION, _attributes?: any, _isSwrveEvent?: boolean) => {},
     condensePlayerData: async (_playerConfig?: PlayerConfig, _resource?: ResourceVm, _attributes?: any) => {},
     recordErrorEvent: async (_: string, _attributes?: any) => {},
-    downloadTrackUpdate: async (_: Download) => {},
 });
 
 type AnalyticsContextProviderChildren = { children: React.ReactNode };
@@ -68,7 +47,6 @@ const AnalyticsContextProvider = ({ children }: AnalyticsContextProviderChildren
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [appStateVisible, setAppStateVisible] = useState(appState.current);
     const { swrveEvent } = useSwrve();
-    const reportingDeviceID = DeviceInfo.getUniqueId();
 
     useEffect(() => {
         AppState.addEventListener('change', _handleAppStateChange);
@@ -82,23 +60,17 @@ const AnalyticsContextProvider = ({ children }: AnalyticsContextProviderChildren
         if (appState.current.match(/inactive|background/) && nextAppState === 'active') {
             recordEvent(AppEvents.APP_FOREGROUND);
         } else if (nextAppState === 'inactive' || nextAppState === 'background') {
-            recordEvent(ActionEvents.ACTION_APP_BACKGROUND);
+            recordEvent(AppEvents.APP_BACKGROUND);
         }
         appState.current = nextAppState;
         setAppStateVisible(appState.current);
     };
 
-    const recordEvent = async (
-        event: AppEvents | RN_INTERACTION | ActionEvents | PageEvents,
-        attributes?: any,
-        isSwrveEvent?: boolean,
-    ) => {
-        const condenseData =
-            event === ActionEvents.ACTION_USER_SETUP_COMPLETE ? {} : removeUndefined(await condenseUserData());
+    const recordEvent = async (event: AppEvents | RN_INTERACTION, attributes?: any, isSwrveEvent?: boolean) => {
+        const condenseData = event === AppEvents.SIGN_UP ? {} : removeUndefined(await condenseUserData());
         let attribute = attributes ? removeUndefined(attributes) : {};
         const table = event === RN_INTERACTION.RECORD_INTERACTION ? TABLE.INTERACTION : TABLE.TVPASS;
         //table = Screen_Tracking / TvPass
-
         newRelic.report(table, {
             name: event,
             ...condenseData,
@@ -111,8 +83,8 @@ const AnalyticsContextProvider = ({ children }: AnalyticsContextProviderChildren
     };
 
     const recordErrorEvent = async (event: string, attributes?: any) => {
-        const condenseData = condenseUserData ? await condenseUserData() : {};
-        let attribute = attributes ? attributes : {};
+        const condenseData = condenseUserData ? removeUndefined(await condenseUserData()) : {};
+        let attribute = attributes ? removeUndefined(attributes) : {};
         //table = DevLogs
         newRelic.report(TABLE.ERROR, {
             event: event,
@@ -120,14 +92,6 @@ const AnalyticsContextProvider = ({ children }: AnalyticsContextProviderChildren
             ...attribute,
         });
     };
-
-    const downloadTrackUpdate = (download: Download) => {
-        dispatch({
-            type: 'DOWNLOAD_TRACK_UPDATE',
-            downloadItem: download,
-        });
-    };
-
     const fetchQuality = async () => {
         try {
             const prefQuality = await getStreamQuality();
@@ -148,7 +112,7 @@ const AnalyticsContextProvider = ({ children }: AnalyticsContextProviderChildren
                 userDataAttributes.userID = accountProfile.accountId;
             }
             if (accountProfile.withinGracePeriod !== undefined) {
-                userDataAttributes.isGracePeriod = accountProfile.withinGracePeriod;
+                userDataAttributes.withinGracePeriod = accountProfile.withinGracePeriod;
             }
             if (accountProfile.isUserFreeTrial) {
                 userDataAttributes.isFreeTrial = accountProfile.isUserFreeTrial === 'N' ? false : true;
@@ -162,15 +126,12 @@ const AnalyticsContextProvider = ({ children }: AnalyticsContextProviderChildren
             if (accountProfile.addonSubscriptionRecurring) {
                 userDataAttributes.addonSubscriptionRecurring = accountProfile.addonSubscriptionRecurring;
             }
-            if (accountProfile.subscriptionStatus) {
-                userDataAttributes.subscriptionStatus = accountProfile.subscriptionStatus;
-            }
         }
         if (prefQuality) {
             userDataAttributes.prefPlaybackQuality = prefQuality;
         }
         userDataAttributes.silentLogin = silentLogin;
-        userDataAttributes.deviceID = reportingDeviceID;
+        userDataAttributes.deviceID = DeviceInfo.getUniqueId();
 
         return userDataAttributes;
     };
@@ -182,7 +143,6 @@ const AnalyticsContextProvider = ({ children }: AnalyticsContextProviderChildren
                     ...state,
                     recordEvent: recordEvent,
                     recordErrorEvent: recordErrorEvent,
-                    downloadTrackUpdate: downloadTrackUpdate,
                 }}>
                 {children}
             </AnalyticsContext.Provider>

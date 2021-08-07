@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, StatusBar, InteractionManager } from 'react-native';
+import { View, StyleSheet, StatusBar, InteractionManager, Platform, Modal, TouchableOpacity } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
 import { useDeviceOrientation } from '@react-native-community/hooks';
 import Orientation from 'react-native-orientation-locker';
 import DeviceInfo from 'react-native-device-info';
 import { typography } from 'qp-common-ui';
 import { ResourceVm } from 'qp-discovery-ui';
-import { deviceInformation, PlatformError, PlatformErrorCategory } from 'rn-qp-nxg-player';
+import { PlatformError, PlatformErrorCategory } from 'rn-qp-nxg-player';
 import { useAppPreferencesState } from 'utils/AppPreferencesContext';
 import { useAlert } from 'contexts/AlertContext';
 import { AppEvents, condenseErrorData, condensePlayerData } from 'utils/ReportingUtils';
@@ -20,9 +20,9 @@ import Button from './components/Button';
 import CloseIcon from '../../assets/images/close.svg';
 import { Button as RNEButton } from 'react-native-elements';
 import { TimerType, useTimer } from 'utils/TimerContext';
-import { useDownloadsContext } from 'utils/DownloadsContextProvider';
 import { useNetworkStatus } from 'contexts/NetworkContextProvider';
 import { NetInfoStateType } from '@react-native-community/netinfo';
+import { useDownloadsContext } from 'utils/DownloadsContextProvider';
 
 const useOrientationLocker = () => {
     const { portrait } = useDeviceOrientation();
@@ -32,12 +32,6 @@ const useOrientationLocker = () => {
         if (DeviceInfo.getDeviceType() === 'Handset') {
             Orientation.lockToLandscape();
         }
-
-        return () => {
-            if (DeviceInfo.getDeviceType() === 'Handset') {
-                Orientation.lockToPortrait();
-            }
-        };
     }, []);
 
     useEffect(() => {
@@ -58,10 +52,9 @@ const PlayerScreen = ({ route, navigation }: { route: any; navigation: any }): J
     const { strings } = useLocalization();
     const prefs = useAppPreferencesState();
     let { playerViewStyle, appColors } = prefs.appTheme!(prefs);
-    const [isStartPlay, setIsStartPlay] = useState(true);
-    const [playerState, setPlayerState] = useState(false);
-    const [isAirplayDeviceConnected, setIsAirplayDeviceConnected] = useState(false);
+    const [isStartPlay, setIsStartPlay] = useState(false);
     const { startTimer } = useTimer();
+    const { streamOverCellular: canStreamOverCellularState } = useDownloadsContext();
 
     const playerScreenStyles = StyleSheet.create({
         container: {
@@ -168,6 +161,17 @@ const PlayerScreen = ({ route, navigation }: { route: any; navigation: any }): J
             paddingHorizontal: '25%',
             justifyContent: 'center',
         },
+        confirmationWrapperTV: {
+            justifyContent: 'center',
+            alignSelf: 'center',
+            flex: 1,
+            marginTop: -100,
+        },
+        confButtonTV: {
+            margin: 5,
+            alignSelf: 'center',
+            width: '30%',
+        },
         confButton: {
             margin: 5,
         },
@@ -177,10 +181,25 @@ const PlayerScreen = ({ route, navigation }: { route: any; navigation: any }): J
             right: '5%',
             alignSelf: 'flex-end',
         },
+        closeTV: {
+            width: 70,
+            height: 70,
+            margin: 30,
+            alignSelf: 'flex-end',
+        },
+        buttonViewsTV: {
+            height: 80,
+            flexDirection: 'row',
+            alignSelf: 'center',
+            paddingHorizontal: '25%',
+        },
+        modalViewTV: {
+            flex: 1,
+            flexDirection: 'column',
+        },
     });
 
     const { recordEvent } = useAnalytics();
-    const { streamOverCellular: canStreamOverCellularState } = useDownloadsContext();
     const { type } = useNetworkStatus();
 
     const onEnterFullScreen = () => {
@@ -226,6 +245,7 @@ const PlayerScreen = ({ route, navigation }: { route: any; navigation: any }): J
                 msg = strings.formatString(strings['global.error_code'], errorCode) as string;
             }
         }
+
         if (canStreamOverCellularState === false && type === NetInfoStateType.cellular) {
             Alert.alert(
                 strings['playback.error.wifi_only'],
@@ -255,63 +275,28 @@ const PlayerScreen = ({ route, navigation }: { route: any; navigation: any }): J
             ]);
         }
     };
+
     const resource: ResourceVm | null | undefined = playerProps.resource;
 
-    var { config: playerConfig, tvodToken } = usePlayerConfig({
+    let { config: playerConfig, tvodToken } = usePlayerConfig({
         ...playerProps,
         onError,
         appConfig,
-        playerState,
     });
 
-    const isDownloadCompleted =
-        playerProps.platformDownload && playerProps.platformDownload.state === 'COMPLETED' ? true : false;
-    async function checkAirplayConnection() {
-        const isAirplayRouteConnected = await deviceInformation.isAirplayRouteConnected();
-        isAirplayRouteConnected ? setIsAirplayDeviceConnected(true) : setIsAirplayDeviceConnected(false);
-    }
-
     useEffect(() => {
-        checkAirplayConnection();
-    }, []);
-
-    useEffect(() => {
-        if (isDownloadCompleted && isAirplayDeviceConnected) {
-            Alert.alert(strings['download.error.airplay_playback'], undefined, [
-                {
-                    text: strings['global.okay'],
-                    onPress: () => {
-                        if (navigation.canGoBack()) {
-                            navigation.goBack();
-                        }
-                    },
-                },
-            ]);
-        }
-
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isDownloadCompleted && isAirplayDeviceConnected]);
-
-    useEffect(() => {
-        if (resource.watchedOffset === undefined) {
-            resource.watchedOffset = 0;
-        }
         if (resource.watchedOffset) {
             if (resource.watchedOffset === 0) {
                 setIsStartPlay(true);
-                setPlayerState(true);
             } else {
                 setIsStartPlay(false);
             }
-        } else {
-            setIsStartPlay(true);
-            setPlayerState(true);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [resource]);
 
     useEffect(() => {
-        if (resource && (isStartPlay || resource.watchedOffset === 0)) {
+        if (resource && isStartPlay) {
             startTimer(TimerType.PlayerLoad);
             recordEvent(AppEvents.PLAYBACK_START, condensePlayerData(resource, playerConfig), true);
         }
@@ -321,45 +306,79 @@ const PlayerScreen = ({ route, navigation }: { route: any; navigation: any }): J
     useOrientationLocker();
 
     const handleWatchedOffset = (playType: string) => {
-        setPlayerState(true);
         resource.watchedOffset = playType === 'resume' ? resource.watchedOffset : 0;
+        if (Platform.OS === 'android' && playerConfig && playerConfig.playbackProperties) {
+            playerConfig.playbackProperties.initialStartTimeMillis = resource.watchedOffset;
+        }
         setIsStartPlay(true);
     };
 
     const ConfirmationOverlay = () => {
+        if (Platform.isTV) {
+            return <ConfirmationTVOverlay />;
+        } else {
+            return (
+                <View style={playerScreenStyles.confirmationContainer}>
+                    <View style={playerScreenStyles.close}>
+                        <RNEButton icon={CloseIcon} titleStyle={{}} type="clear" onPress={() => navigation.goBack()} />
+                    </View>
+                    <View style={playerScreenStyles.confirmationWrapper}>
+                        <Button
+                            title={strings['playback.resume']}
+                            onPress={() => handleWatchedOffset('resume')}
+                            containerStyle={playerScreenStyles.confButton}
+                        />
+                        <Button
+                            title={strings['playback.startover']}
+                            onPress={() => handleWatchedOffset('startover')}
+                            containerStyle={playerScreenStyles.confButton}
+                        />
+                    </View>
+                </View>
+            );
+        }
+    };
+
+    const ConfirmationTVOverlay = () => {
+        const modalVisible = resource.watchedOffset && resource.watchedOffset > 0 && !isStartPlay;
         return (
-            <View style={playerScreenStyles.confirmationContainer}>
-                <View style={playerScreenStyles.close}>
-                    <RNEButton icon={CloseIcon} titleStyle={{}} type="clear" onPress={() => navigation.goBack()} />
+            <Modal
+                style={[StyleSheet.absoluteFillObject]}
+                hardwareAccelerated
+                transparent={true}
+                visible={modalVisible}>
+                <View style={playerScreenStyles.modalViewTV}>
+                    <TouchableOpacity style={playerScreenStyles.closeTV} onPress={() => navigation.goBack()}>
+                        <CloseIcon />
+                    </TouchableOpacity>
+                    <View style={playerScreenStyles.confirmationWrapperTV}>
+                        <View style={playerScreenStyles.buttonViewsTV}>
+                            <Button
+                                title={strings['playback.resume']}
+                                onPress={() => handleWatchedOffset('resume')}
+                                containerStyle={playerScreenStyles.confButtonTV}
+                            />
+                            <Button
+                                title={strings['playback.startover']}
+                                onPress={() => handleWatchedOffset('startover')}
+                                containerStyle={playerScreenStyles.confButtonTV}
+                            />
+                        </View>
+                    </View>
                 </View>
-                <View style={playerScreenStyles.confirmationWrapper}>
-                    <Button
-                        title={strings['playback.resume']}
-                        onPress={() => handleWatchedOffset('resume')}
-                        containerStyle={playerScreenStyles.confButton}
-                    />
-                    <Button
-                        title={strings['playback.startover']}
-                        onPress={() => handleWatchedOffset('startover')}
-                        containerStyle={playerScreenStyles.confButton}
-                    />
-                </View>
-            </View>
+            </Modal>
         );
     };
 
     return (
         <>
-            {resource.watchedOffset &&
-            resource.watchedOffset > 0 &&
-            !isStartPlay &&
-            !(isDownloadCompleted && isAirplayDeviceConnected) ? (
+            {resource.watchedOffset && resource.watchedOffset > 0 && !isStartPlay && !Platform.isTV ? (
                 <ConfirmationOverlay />
             ) : (
                 <View style={[playerScreenStyles.container]}>
-                    <StatusBar hidden={true} />
+                    {!Platform.isTV && <StatusBar hidden={true} />}
                     {!playerConfig && <AppLoadingIndicator isClearable={true} />}
-                    {playerConfig && !(isDownloadCompleted && isAirplayDeviceConnected) && (
+                    {playerConfig && (
                         <View style={[playerViewStyle.rootContainer, { flex: 1 }]} accessibilityLabel={'Player Screen'}>
                             <PlatformPlayer
                                 playerScreenStyles={playerScreenStyles}
@@ -368,7 +387,6 @@ const PlayerScreen = ({ route, navigation }: { route: any; navigation: any }): J
                                 onEnterFullScreen={onEnterFullScreen}
                                 onExitFullScreen={onExitFullScreen}
                                 onError={onError}
-                                isAirplayRouteConnected={isAirplayDeviceConnected}
                                 setshowDescription={() => {}}
                                 resource={resource}
                                 tvodToken={tvodToken}

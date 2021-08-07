@@ -66,6 +66,7 @@ exports[`CollectionCardView avoid re-renders correctly 1`] = `
         source={
           Object {
             "cache": "web",
+            "priority": "high",
             "uri": "",
           }
         }
@@ -209,6 +210,7 @@ exports[`CollectionCardView avoid re-renders correctly 2`] = `
         source={
           Object {
             "cache": "web",
+            "priority": "high",
             "uri": "",
           }
         }
@@ -352,6 +354,7 @@ exports[`CollectionCardView renders correctly with default styles 1`] = `
         source={
           Object {
             "cache": "web",
+            "priority": "high",
             "uri": "",
           }
         }
@@ -495,6 +498,7 @@ exports[`renders with the correct aspect ratio image renders correctly 1/1 aspec
         source={
           Object {
             "cache": "web",
+            "priority": "high",
             "uri": "",
           }
         }
@@ -638,6 +642,7 @@ exports[`renders with the correct aspect ratio image renders correctly 2/3 aspec
         source={
           Object {
             "cache": "web",
+            "priority": "high",
             "uri": "",
           }
         }
@@ -781,6 +786,7 @@ exports[`renders with the correct aspect ratio image renders correctly 16/9 aspe
         source={
           Object {
             "cache": "web",
+            "priority": "high",
             "uri": "",
           }
         }
@@ -1031,6 +1037,7 @@ exports[`renders with the correct aspect ratio image renders fallback image for 
         source={
           Object {
             "cache": "web",
+            "priority": "high",
             "uri": "",
           }
         }

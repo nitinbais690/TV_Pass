@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Platform } from 'react-native';
 import { useDimensions } from '@react-native-community/hooks';
 import { useAppPreferencesState } from '../../utils/AppPreferencesContext';
 import { settingStyle } from '../../styles/Settings.Style';
@@ -20,12 +20,14 @@ export const BillingPaymentsScreen = ({ navigation }: { navigation: any }) => {
     const { accountProfile } = userAction;
 
     const openBrowser = async (type: string) => {
-        try {
-            navigation.navigate(NAVIGATION_TYPE.BROWSE_WEBVIEW, {
-                type: type,
-            });
-        } catch (error) {
-            console.log(`[InAppBrowser] Error loading url: ${type}`, error);
+        if (!Platform.isTV) {
+            try {
+                navigation.navigate(NAVIGATION_TYPE.BROWSE_WEBVIEW, {
+                    type: type,
+                });
+            } catch (error) {
+                console.log(`[InAppBrowser] Error loading url: ${type}`, error);
+            }
         }
     };
 
@@ -47,8 +49,6 @@ export const BillingPaymentsScreen = ({ navigation }: { navigation: any }) => {
                 </View>
                 <View style={settStyle.top_Underline} />
                 <Text style={[settStyle.subText, settStyle.margin_h]}>{strings['billing.apple']}</Text>
-                <View style={settStyle.top_Underline_sm} />
-                <Text style={[settStyle.subText, settStyle.margin_h]}>{strings['billing.iap']}</Text>
                 <View style={settStyle.row_center}>
                     <Text
                         style={[settStyle.mainText, settStyle.margin_h, settStyle.margin_v]}

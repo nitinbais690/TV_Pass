@@ -1,0 +1,70 @@
+diff --git a/node_modules/react-native-swrve-plugin/ios/SwrvePlugin.m b/node_modules/react-native-swrve-plugin/ios/SwrvePlugin.m
+index 44b2edc..f09d3a4 100644
+--- a/node_modules/react-native-swrve-plugin/ios/SwrvePlugin.m
++++ b/node_modules/react-native-swrve-plugin/ios/SwrvePlugin.m
+@@ -31,10 +31,11 @@ + (void)initWithAppID:(int)appId apiKey:(NSString*)apiKey config:(SwrveConfig*)c
+     if (config == nil) {
+         config = [SwrveConfig new];
+     }
+-    
++#if TARGET_OS_IOS
+     if (config.pushEnabled) {
+         config.pushResponseDelegate = SwrvePluginPushHandler.sharedInstance;
+     }
++#endif
+ 
+     // Set the resource listener callback
+     config.resourcesUpdatedCallback = ^() {
+@@ -89,6 +90,7 @@ + (void)installAction:(NSURL *)url {
+     [SwrveSDK installAction:url];
+ }
+ 
++#if TARGET_OS_IOS
+ + (BOOL)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo withBackgroundCompletionHandler:(void (^)(UIBackgroundFetchResult, NSDictionary *))completionHandler API_AVAILABLE(ios(7.0))
+ {
+     NSLog(@"SwrvePlugin - didReceiveRemoteNotification %@", userInfo);
+@@ -109,6 +111,7 @@ + (BOOL)application:(UIApplication *)application didReceiveRemoteNotification:(N
+    }
+     return handled;
+ }
++#endif
+ 
+ + (void) sendPluginVersion {
+     if ([SwrveSDK started]) {
+diff --git a/node_modules/react-native-swrve-plugin/ios/SwrvePluginPushHandler.m b/node_modules/react-native-swrve-plugin/ios/SwrvePluginPushHandler.m
+index ddf470f..7bf553c 100644
+--- a/node_modules/react-native-swrve-plugin/ios/SwrvePluginPushHandler.m
++++ b/node_modules/react-native-swrve-plugin/ios/SwrvePluginPushHandler.m
+@@ -42,7 +42,7 @@ - (void)resetStateForTesting
+     self.shouldBufferEvents = YES;
+ }
+ 
+-
++#if TARGET_OS_IOS
+ - (void) didReceiveNotificationResponse:(UNNotificationResponse *)response
+                   withCompletionHandler:(void (^)(void))completionHandler  API_AVAILABLE(ios(10.0))
+ {
+@@ -57,6 +57,7 @@ - (void) didReceiveNotificationResponse:(UNNotificationResponse *)response
+         completionHandler();
+     }
+ }
++#endif
+ 
+ /// Separate the logic from the callback method as it's not straightforward to create UNNotificationResponse for testing
+ - (void) handleNotificationUserInfo:(NSDictionary*)userInfo
+diff --git a/node_modules/react-native-swrve-plugin/react-native-swrve-plugin.podspec b/node_modules/react-native-swrve-plugin/react-native-swrve-plugin.podspec
+index f220513..c996d84 100644
+--- a/node_modules/react-native-swrve-plugin/react-native-swrve-plugin.podspec
++++ b/node_modules/react-native-swrve-plugin/react-native-swrve-plugin.podspec
+@@ -14,7 +14,10 @@ Pod::Spec.new do |s|
+   s.source_files = "ios/**/*.{h,m,swift}"
+   s.public_header_files = "ios/**/*.h"
+ 
+-  s.platforms    = { :ios => "9.0" }
++  s.platforms    =  { :ios => "7.0", :tvos => "9.0" }
++  s.ios.deployment_target = '7.0'
++  s.tvos.deployment_target = '9.0'
++  
+   s.requires_arc = true
+   
+   s.dependency "React-Core"

@@ -94,6 +94,8 @@ export const FreeTrialNotificationContextProvider = ({ children }: { children: R
                 <Modal
                     isVisible={isModalVisible}
                     useNativeDriver={true}
+                    hardwareAccelerated
+                    hideModalContentWhileAnimating
                     supportedOrientations={['portrait', 'portrait-upside-down', 'landscape-left', 'landscape-right']}>
                     <FreeTrialModalContext trialEnd={trialEnded} onPress={acknowledgeNotification} />
                 </Modal>

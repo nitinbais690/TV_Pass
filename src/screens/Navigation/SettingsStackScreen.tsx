@@ -11,6 +11,8 @@ import { useLocalization } from 'contexts/LocalizationContext';
 import { NAVIGATION_TYPE } from './NavigationConstants';
 import BrowseWebView from 'screens/components/BrowseWebView';
 import HelpScreen from 'screens/HelpScreen';
+import { Platform } from 'react-native';
+import SettingsTVScreen from 'screens/SettingsTvScreen';
 
 const SettingsStack = createStackNavigator();
 const SettingsStackScreen = () => {
@@ -24,8 +26,13 @@ const SettingsStackScreen = () => {
                     backgroundColor: 'transparent',
                 },
                 headerTransparent: true,
+                headerTitleAlign: 'center',
             }}>
-            <SettingsStack.Screen name={NAVIGATION_TYPE.SETTINGS} component={SettingsScreen} />
+            <SettingsStack.Screen
+                name={NAVIGATION_TYPE.SETTINGS}
+                component={Platform.isTV ? SettingsTVScreen : SettingsScreen}
+                options={{ headerShown: !Platform.isTV }}
+            />
             <SettingsStack.Screen
                 name={NAVIGATION_TYPE.PROFILE}
                 component={ProfileScreen}

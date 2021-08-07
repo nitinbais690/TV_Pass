@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, View, StyleSheet } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import { ResourceVm, ResizableImage, Category } from 'qp-discovery-ui';
+import { ResourceVm, ResizableImage } from 'qp-discovery-ui';
 import { useAppPreferencesState } from 'utils/AppPreferencesContext';
 import { appFonts } from '../../../AppStyles';
 import { Pill } from './Pill';
@@ -81,7 +81,7 @@ const CardOverlay = ({ resource }: { resource: ResourceVm }) => {
             backgroundColor: 'transparent',
             position: 'absolute',
             top: 0,
-            bottom: -1,
+            bottom: 0,
             left: 0,
             right: 0,
             borderRadius: 0,
@@ -131,13 +131,11 @@ const CardOverlay = ({ resource }: { resource: ResourceVm }) => {
                                 <Text style={[styles.pillText, styles.pillTextPadding]}>{resource.expiresIn}</Text>
                             </View>
                         )}
-                        {!resource.expiresIn && (
+                        {!resource.expiresIn && !!resource.credits && (
                             <Pill>
                                 <View style={styles.pillWrapper}>
                                     <CreditsIcon width={12} height={12} />
-                                    {resource.type !== Category.TVSeries && !!resource.credits && (
-                                        <Text style={styles.pillText}>{resource.credits}</Text>
-                                    )}
+                                    <Text style={styles.pillText}>{resource.credits}</Text>
                                 </View>
                             </Pill>
                         )}
@@ -159,12 +157,9 @@ const CardOverlay = ({ resource }: { resource: ResourceVm }) => {
                     <View style={styles.progressContainer}>
                         <View style={[styles.progress, { width: `${resource.completedPercent}%` }]} />
                     </View>
-                    {(resource.showPlayerIcon === undefined ||
-                        (resource.showPlayerIcon !== undefined && resource.showPlayerIcon)) && (
-                        <View style={styles.resumeIcon}>
-                            <ResumeIcon />
-                        </View>
-                    )}
+                    <View style={styles.resumeIcon}>
+                        <ResumeIcon />
+                    </View>
                 </>
             )}
         </View>

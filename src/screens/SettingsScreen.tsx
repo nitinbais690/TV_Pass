@@ -168,13 +168,15 @@ const SettingsScreen = ({ navigation }: { navigation: any }): JSX.Element => {
     const { logout } = useAuth();
 
     const openBrowser = async (type: BROWSE_TYPE) => {
-        try {
-            navigation.push(NAVIGATION_TYPE.BROWSE_WEBVIEW, {
-                type: type,
-            });
-        } catch (error) {
-            recordErrorEvent(ErrorEvents.BROWSE_ERROR, { error: error });
-            console.log(`[InAppBrowser] Error loading type: ${type}`, error);
+        if (!Platform.isTV) {
+            try {
+                navigation.push(NAVIGATION_TYPE.BROWSE_WEBVIEW, {
+                    type: type,
+                });
+            } catch (error) {
+                recordErrorEvent(ErrorEvents.BROWSE_ERROR, { error: error });
+                console.log(`[InAppBrowser] Error loading type: ${type}`, error);
+            }
         }
     };
 

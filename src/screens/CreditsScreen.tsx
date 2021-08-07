@@ -1,5 +1,16 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { View, Text, Animated, InteractionManager, StyleSheet, LayoutAnimation, Easing } from 'react-native';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
+import {
+    View,
+    Text,
+    Animated,
+    InteractionManager,
+    StyleSheet,
+    LayoutAnimation,
+    Easing,
+    Platform,
+    TouchableHighlight,
+    findNodeHandle,
+} from 'react-native';
 import { useSafeArea } from 'react-native-safe-area-context';
 import Orientation from 'react-native-orientation-locker';
 import DeviceInfo from 'react-native-device-info';
@@ -23,6 +34,9 @@ import ModalOverlay from './components/ModalOverlay';
 import CreditsIcon from '../../assets/images/credits_large.svg';
 import CloseIcon from '../../assets/images/close.svg';
 import { creditsTopUpPageStyles, topUpProductStyle } from '../styles/CreditsTopUp.style';
+import { tvPixelSizeForLayout } from '../../AppStyles';
+import FocusButton from './components/FocusButton';
+import NodeHandle from '../utils/NodeHandle';
 
 const TopUpProduct = ({
     product,
@@ -30,12 +44,22 @@ const TopUpProduct = ({
     onPress,
     purchaseInProgress,
     purchasingProduct,
+    isFocusedFlag,
+    onFocus,
+    blockFocusLeft,
+    blockFocusRight,
+    nextFocusDown,
 }: {
     product: ProductsResponseMessage;
     index: number;
     onPress?(): void;
     purchaseInProgress?: boolean;
     purchasingProduct?: boolean;
+    isFocusedFlag?: boolean;
+    onFocus?(): void;
+    blockFocusLeft?: boolean;
+    blockFocusRight?: boolean;
+    nextFocusDown: any;
 }) => {
     const prefs = useAppPreferencesState();
     let { appColors } = prefs.appTheme!(prefs);
@@ -61,7 +85,94 @@ const TopUpProduct = ({
         LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     }, [purchasingProduct]);
 
-    return (
+    const [isPressed, setIsPressed] = useState<boolean>(false);
+
+    const touchableHighlightRef = useRef(null);
+    const onRef = useCallback(ref => {
+        if (ref) {
+            touchableHighlightRef.current = ref;
+        }
+    }, []);
+
+    return Platform.isTV ? (
+        <TouchableHighlight
+            ref={onRef}
+            hasTVPreferredFocus={index === 0}
+            style={[
+                productsStyle.creditCardView,
+                isFocusedFlag ? productsStyle.containerShadowTv : undefined,
+                isPressed && isFocusedFlag ? productsStyle.containerPressShadowTv : undefined,
+            ]}
+            nextFocusLeft={blockFocusLeft ? findNodeHandle(touchableHighlightRef.current) : null}
+            nextFocusRight={blockFocusRight ? findNodeHandle(touchableHighlightRef.current) : null}
+            nextFocusDown={nextFocusDown}
+            nextFocusUp={findNodeHandle(touchableHighlightRef.current)}
+            onPress={() => {
+                onPress();
+                setIsPressed(true);
+            }}
+            underlayColor={'transparent'}
+            onFocus={() => {
+                onFocus();
+                setIsPressed(!!isFocusedFlag);
+            }}
+            onBlur={() => {
+                isPressed && setIsPressed(isFocusedFlag);
+            }}
+            disabled={purchaseInProgress}>
+            <Animated.View
+                style={[
+                    productsStyle.containerTv,
+                    purchaseInProgress && !purchasingProduct ? { opacity: animatedValue } : {},
+                    !isPressed && isFocusedFlag ? productsStyle.focusContainerTv : undefined,
+                    isPressed && isFocusedFlag ? productsStyle.onPressedStyle : productsStyle.onBlurStyle,
+                ]}>
+                <View style={StyleSheet.absoluteFill}>
+                    {imageUrl && (
+                        <ResizableImage
+                            isPortrait={isPortrait}
+                            style={productsStyle.backgroundImageStyle}
+                            keyId={product.displayName}
+                            imageType={ImageType.Poster}
+                            aspectRatioKey={AspectRatio._16by9}
+                            source={{ uri: imageUrl }}
+                        />
+                    )}
+                </View>
+                <LinearGradient
+                    useAngle={true}
+                    angle={90}
+                    colors={[appColors.primaryEnd, appColors.primaryVariant6]}
+                    style={[StyleSheet.absoluteFill]}
+                />
+                <LinearGradient
+                    useAngle={true}
+                    angle={45}
+                    colors={[appColors.brandTint, 'transparent', 'transparent']}
+                    locations={[0, 0.7, 0.8]}
+                    style={[StyleSheet.absoluteFill, { opacity: index * 0.7 }]}
+                />
+                <View style={productsStyle.logoContainer}>
+                    <View style={productsStyle.logo}>
+                        <CreditsIcon width={tvPixelSizeForLayout(96)} height={tvPixelSizeForLayout(96)} />
+                    </View>
+                </View>
+                <View style={productsStyle.detailsContainer}>
+                    <Text style={productsStyle.title}>
+                        {strings.formatString(strings['credits.product.title'], product.creditPoints)}
+                    </Text>
+                    <Text style={productsStyle.description}>{product.currencySymbol + product.retailPrice}</Text>
+                    <Text style={productsStyle.caption}>{strings['credits.product.caption']}</Text>
+                </View>
+
+                {purchasingProduct && (
+                    <Animated.View style={productsStyle.loadingWrapper}>
+                        <CreditLoading color={appColors.brandTint} style={productsStyle.creditsLoadingStyle} />
+                    </Animated.View>
+                )}
+            </Animated.View>
+        </TouchableHighlight>
+    ) : (
         <BorderlessButton onPress={onPress} enabled={!purchaseInProgress}>
             <Animated.View
                 style={[
@@ -72,7 +183,7 @@ const TopUpProduct = ({
                     {imageUrl && (
                         <ResizableImage
                             isPortrait={isPortrait}
-                            style={{ height: '100%', aspectRatio: AspectRatio._16by9 }}
+                            style={productsStyle.backgroundImageStyle}
                             keyId={product.displayName}
                             imageType={ImageType.Poster}
                             aspectRatioKey={AspectRatio._16by9}
@@ -96,14 +207,14 @@ const TopUpProduct = ({
                     <Text style={productsStyle.title}>
                         {strings.formatString(strings['credits.product.title'], product.creditPoints)}
                     </Text>
-                    <View style={{ flex: 1, flexDirection: 'row' }}>
+                    <View style={productsStyle.descriptionContainer}>
                         <Text style={productsStyle.description}>{product.currencySymbol + product.retailPrice}</Text>
                         <Text style={productsStyle.caption}>{strings['credits.product.caption']}</Text>
                     </View>
                 </View>
                 {purchasingProduct && (
                     <Animated.View style={productsStyle.loadingWrapper}>
-                        <CreditLoading color={appColors.brandTint} style={{ height: 50 }} />
+                        <CreditLoading color={appColors.brandTint} style={productsStyle.creditsLoadingStyle} />
                     </Animated.View>
                 )}
             </Animated.View>
@@ -265,49 +376,148 @@ const CreditsScreen = ({ navigation }: { navigation: any }): JSX.Element => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [transactionSuccess, errorObject]);
 
+    const [isFocussed, setIsFocussed] = useState<boolean>(false);
+    // const [isPressed, setIsPressed] = useState<boolean>(false);
+    const [selectedProduct, setSelectedProduct] = useState<ProductsResponseMessage>();
+
+    const bottomBtnRef = React.useRef(null);
+    const bottomFocusHandle = NodeHandle(bottomBtnRef);
+
     return (
-        <ModalOverlay hideHeader narrow={selectDeviceType({ Tablet: true }, false)} hideBackgroundGradient>
-            <Animated.View style={[style.glow, glowAnimationStyle]} />
-            <View style={style.creditsModalContainer}>
-                <Animated.Text style={[style.creditsLabel, { opacity: creditLabelOpacity.current }]}>
-                    {strings['credits.available']}
-                </Animated.Text>
-                <Animated.View style={[style.creditsContainer, creditPillAnimationStyle]}>
-                    <View style={style.creditsIconSpacing}>
-                        <CreditsIcon />
-                    </View>
-                    <Ticker textStyle={style.credits}>{credits}</Ticker>
-                </Animated.View>
-                <Animated.Text style={[style.creditsLabel, { opacity: addCreditsLabelOpacity.current }]}>
-                    {strings['credits.add.label']}
-                </Animated.Text>
+        <ModalOverlay hideHeader narrow={selectDeviceType({ Tablet: true }, false)}>
+            {Platform.isTV ? (
                 <>
-                    {/* Products listing */}
-                    {products && products.length > 0 && (
-                        <Animated.ScrollView style={[topupsAnimationStyle]}>
-                            {products.map((topupProduct, i) => (
-                                <TopUpProduct
-                                    key={topupProduct.displayOrder}
-                                    index={i}
-                                    product={topupProduct}
-                                    purchaseInProgress={purchaseInProgress}
-                                    purchasingProduct={purchaseInProgress && selectedIndex === i}
-                                    onPress={() => {
-                                        setSelectedIndex(i);
-                                        purchaseProduct(topupProduct);
-                                    }}
-                                />
-                            ))}
+                    <View style={{ flex: 1 }}>
+                        <Animated.View style={[style.creditsContainerTV, creditPillAnimationStyle]}>
+                            <View style={style.creditsIconSpacing}>
+                                <CreditsIcon width={tvPixelSizeForLayout(42)} height={tvPixelSizeForLayout(42)} />
+                            </View>
+                            <Ticker textStyle={style.credits}>{credits}</Ticker>
+                        </Animated.View>
+                        <Text style={[style.creditsHeadingTv]}>Add Credits</Text>
+
+                        <View style={style.containerFullHeight}>
+                            {/* Products listing */}
+                            {products && products.length > 0 && (
+                                <Animated.ScrollView
+                                    style={[topupsAnimationStyle, style.scrollviewStyleTv]}
+                                    horizontal={true}>
+                                    {products.map((topupProduct, i) => (
+                                        <TopUpProduct
+                                            key={topupProduct.displayOrder}
+                                            index={i}
+                                            product={topupProduct}
+                                            purchaseInProgress={purchaseInProgress}
+                                            purchasingProduct={purchaseInProgress && selectedIndex === i}
+                                            onPress={() => {
+                                                setSelectedIndex(i);
+                                                setSelectedProduct(topupProduct);
+                                                setIsFocussed(true);
+                                            }}
+                                            onFocus={() => {
+                                                setSelectedIndex(i);
+                                            }}
+                                            isFocusedFlag={selectedIndex === i}
+                                            blockFocusLeft={i === 0}
+                                            blockFocusRight={i === products.length - 1}
+                                            nextFocusDown={bottomFocusHandle}
+                                        />
+                                    ))}
+                                </Animated.ScrollView>
+                            )}
+                        </View>
+                        <View style={style.bottomContainerTv}>
+                            {selectedProduct ? (
+                                <Text style={[style.creditsRedeemLabelTv]}>
+                                    {strings.formatString(
+                                        strings['credits.redeem.textTv'],
+                                        selectedProduct.currencySymbol + selectedProduct.retailPrice,
+                                        selectedProduct.creditPoints,
+                                    )}
+                                </Text>
+                            ) : (
+                                <Text style={[style.creditsRedeemLabelTv]}>{strings['credits.redeem.text']}</Text>
+                            )}
+                            <View style={[style.buttonContainerTv]}>
+                                {isFocussed ? (
+                                    <FocusButton
+                                        focusRef={bottomBtnRef}
+                                        hasTVPreferredFocus={true}
+                                        title={strings['credits.confirmTv']}
+                                        onPress={() => {
+                                            purchaseProduct(selectedProduct);
+                                        }}
+                                        onFocus={() => {
+                                            // setIsPressed(false);
+                                        }}
+                                        onBlur={() => {
+                                            setIsFocussed(false);
+                                            setSelectedProduct(null);
+                                        }}
+                                        blockFocusDown={true}
+                                        blockFocusLeft={true}
+                                        blockFocusRight={true}
+                                    />
+                                ) : (
+                                    <FocusButton
+                                        focusRef={bottomBtnRef}
+                                        title={strings['credits.backTv']}
+                                        onPress={() => navigation.pop()}
+                                        blockFocusDown={true}
+                                        blockFocusLeft={true}
+                                        blockFocusRight={true}
+                                    />
+                                )}
+                            </View>
                             <Text style={[style.creditsCopyLabel]}>{strings['credits.copy.text']}</Text>
-                        </Animated.ScrollView>
-                    )}
+                        </View>
+                    </View>
                 </>
-            </View>
-            <Animated.View style={[style.close, { opacity: closeButtonOpacity.current }]}>
-                <BorderlessButton onPress={() => navigation.pop()}>
-                    <CloseIcon accessible accessibilityLabel={'Close'} />
-                </BorderlessButton>
-            </Animated.View>
+            ) : (
+                <>
+                    <Animated.View style={[style.glow, glowAnimationStyle]} />
+                    <View style={style.creditsModalContainer}>
+                        <Animated.Text style={[style.creditsLabel, { opacity: creditLabelOpacity.current }]}>
+                            {strings['credits.available']}
+                        </Animated.Text>
+                        <Animated.View style={[style.creditsContainer, creditPillAnimationStyle]}>
+                            <View style={style.creditsIconSpacing}>
+                                <CreditsIcon />
+                            </View>
+                            <Ticker textStyle={style.credits}>{credits}</Ticker>
+                        </Animated.View>
+                        <Animated.Text style={[style.creditsLabel, { opacity: addCreditsLabelOpacity.current }]}>
+                            {strings['credits.add.label']}
+                        </Animated.Text>
+                        <>
+                            {/* Products listing */}
+                            {products && products.length > 0 && (
+                                <Animated.ScrollView style={[topupsAnimationStyle]}>
+                                    {products.map((topupProduct, i) => (
+                                        <TopUpProduct
+                                            key={topupProduct.displayOrder}
+                                            index={i}
+                                            product={topupProduct}
+                                            purchaseInProgress={purchaseInProgress}
+                                            purchasingProduct={purchaseInProgress && selectedIndex === i}
+                                            onPress={() => {
+                                                setSelectedIndex(i);
+                                                purchaseProduct(topupProduct);
+                                            }}
+                                        />
+                                    ))}
+                                    <Text style={[style.creditsCopyLabel]}>{strings['credits.copy.text']}</Text>
+                                </Animated.ScrollView>
+                            )}
+                        </>
+                    </View>
+                    <Animated.View style={[style.close, { opacity: closeButtonOpacity.current }]}>
+                        <BorderlessButton onPress={() => navigation.pop()}>
+                            <CloseIcon />
+                        </BorderlessButton>
+                    </Animated.View>
+                </>
+            )}
         </ModalOverlay>
     );
 };

@@ -19,6 +19,7 @@ import { VODEntitlement, useUserData } from 'contexts/UserDataContextProvider';
 import { ScreenOrigin } from 'utils/ReportingUtils';
 import { useAuth } from 'contexts/AuthContextProvider';
 import { getRedeemExpiringIn } from 'utils/RedeemedUtils';
+import { Platform } from 'react-native';
 
 interface State {
     hasMore: boolean;
@@ -95,7 +96,9 @@ export const useFetchRedeemed = () => {
     const [continueWatchingAssets, setContinueWatchingAssets] = useState<VODEntitlement[]>([]);
     const [redeemedAssetsMap, setRedeemedAssetsMap] = useState<{ [key: string]: VODEntitlement }>({});
 
-    const MAX_RECENTLY_REDEEMED_ITEMS = (appConfig && appConfig['mycontent.maxRecentlyRedeemed']) || 15;
+    const MAX_RECENTLY_REDEEMED_ITEMS = Platform.isTV
+        ? 5
+        : (appConfig && appConfig['mycontent.maxRecentlyRedeemed']) || 15;
     const MAX_YOUR_CONTENT_ITEMS = (appConfig && appConfig['mycontent.maxYourContent']) || 30;
     const EXPIRING_SOON_DAYS_THRESHOLD = (appConfig && appConfig['mycontent.expiringSoonThresholdDays']) || 5;
     const RESOURCES_PAGE_SIZE = (appConfig && appConfig['mycontent.pagingPageSize']) || 5;
@@ -152,14 +155,25 @@ export const useFetchRedeemed = () => {
                         const asset = (assets ? assets : continueWatchingAssets).find(a => a.serviceID === content.id);
                         const completedPercentVal = completedPercent(asset, content.rt);
 
-                        return (
-                            containerTypeName === undefined ||
-                            containerTypeName === '' ||
-                            (containerTypeName === 'continueWatching' &&
-                                completedPercentVal &&
-                                completedPercentVal < 98 &&
-                                completedPercentVal > 1)
-                        );
+                        if (Platform.isTV) {
+                            return (
+                                containerTypeName === undefined ||
+                                containerTypeName === '' ||
+                                (containerTypeName === 'continueWatching' &&
+                                    completedPercentVal &&
+                                    completedPercentVal < 95 &&
+                                    completedPercentVal > 30)
+                            );
+                        } else {
+                            return (
+                                containerTypeName === undefined ||
+                                containerTypeName === '' ||
+                                (containerTypeName === 'continueWatching' &&
+                                    completedPercentVal &&
+                                    completedPercentVal < 98 &&
+                                    completedPercentVal > 1)
+                            );
+                        }
                     })
                     .map(content => {
                         const asset = (assets ? assets : continueWatchingAssets).find(a => a.serviceID === content.id);
@@ -319,7 +333,7 @@ export const useFetchRedeemed = () => {
                 name: strings['my_content.recently_redeemed'],
                 id: '0',
                 maxResources: MAX_RECENTLY_REDEEMED_ITEMS,
-                showContainer: showRecentlyRedeemed,
+                showContainer: Platform.isTV ? true : showRecentlyRedeemed,
                 showFooterTitle: true,
             }),
             containerForAssets({
@@ -344,7 +358,7 @@ export const useFetchRedeemed = () => {
             }),
             containerForAssets({
                 assets: redeemedMovies,
-                name: strings['my_content.redeemed_movies'],
+                name: Platform.isTV ? strings['my_content.redeemed_movies_tv'] : strings['my_content.redeemed_movies'],
                 id: '3',
                 maxResources: MAX_YOUR_CONTENT_ITEMS,
                 continueWatching: true,
@@ -352,7 +366,7 @@ export const useFetchRedeemed = () => {
             }),
             containerForAssets({
                 assets: redeemedShows,
-                name: strings['my_content.redeemed_shows'],
+                name: Platform.isTV ? strings['my_content.redeemed_tv_episodes'] : strings['my_content.redeemed_shows'],
                 id: '4',
                 maxResources: MAX_YOUR_CONTENT_ITEMS,
                 continueWatching: true,

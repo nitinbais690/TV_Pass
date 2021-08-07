@@ -9,7 +9,7 @@ import { useLocalization } from 'contexts/LocalizationContext';
 import { useAlert } from 'contexts/AlertContext';
 import Button from 'screens/components/Button';
 import { NAVIGATION_TYPE } from 'screens/Navigation/NavigationConstants';
-import PasswordStrengthMeter, { getPasswordError, getPasswordScore } from 'screens/components/PasswordStrengthMeter';
+import PasswordStrengthMeter, { getPasswordScore } from 'screens/components/PasswordStrengthMeter';
 import useFP from 'utils/useFP';
 import BackgroundGradient from 'screens/components/BackgroundGradient';
 import FloatingLabelInput, { InputType } from '../../components/FloatingLabelInput';
@@ -33,9 +33,6 @@ const ForgotPasswordResetScreen = ({ route, navigation }: { route: any; navigati
     );
     const [isSubmitLoading, setIsSubmitLoading] = useState(false);
     const isSubmit = useRef(false);
-    const [formErrors, setFormErrors] = useState({
-        password: '',
-    });
     const { forgotPasswordReset } = useFP();
 
     const { width, height } = useDimensions().window;
@@ -130,15 +127,6 @@ const ForgotPasswordResetScreen = ({ route, navigation }: { route: any; navigati
                             label={strings['auth.password_label']}
                             value={values.newPassword}
                             onChangeText={value => handleChange({ name: 'newPassword', value })}
-                            onBlur={() =>
-                                setFormErrors({
-                                    ...formErrors,
-                                    password: getPasswordError(values.newPassword)
-                                        ? strings['auth.password_' + getPasswordError(values.newPassword)]
-                                        : '',
-                                })
-                            }
-                            errorMessage={formErrors.password}
                         />
                     </View>
                     <PasswordStrengthMeter password={values.newPassword} />

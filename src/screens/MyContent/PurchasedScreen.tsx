@@ -8,7 +8,6 @@ import EmptyStateView from './EmptyStateView';
 const PurchasedScreen = (): JSX.Element => {
     const { strings } = useLocalization();
     const { loading, error, containers, reset, reload, loadMoreResources } = useFetchRedeemed();
-    
     return (
         <>
             {!loading && !error && containers.length === 0 ? (
@@ -26,6 +25,8 @@ const PurchasedScreen = (): JSX.Element => {
                     reset={reset}
                     reload={reload}
                     loadMoreResources={loadMoreResources}
+                    blockFocusDownListReachedEnd={true}
+                    initialHasTVPreferredFocusOnCarousel={true}
                 />
             )}
         </>

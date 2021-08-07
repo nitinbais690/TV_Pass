@@ -1,0 +1,15 @@
+diff --git a/node_modules/react-native-localization/ReactNativeLocalization.podspec b/node_modules/react-native-localization/ReactNativeLocalization.podspec
+index 340a634..c977b6e 100644
+--- a/node_modules/react-native-localization/ReactNativeLocalization.podspec
++++ b/node_modules/react-native-localization/ReactNativeLocalization.podspec
+@@ -10,8 +10,9 @@ Pod::Spec.new do |s|
+   s.license  = package['license']
+   s.author   = package['author']
+   s.source   = { :git => package['repository']['url'], :tag => "v#{s.version}" }
+-
++  s.platforms    =  { :ios => "9.0", :tvos => "9.0" }
+   s.ios.deployment_target = '8.0'
++  s.tvos.deployment_target = '9.0'
+   s.osx.deployment_target = '10.10'
+ 
+   s.preserve_paths = 'README.md', 'LICENSE', 'package.json', 'lib'

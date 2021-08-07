@@ -186,10 +186,6 @@ export interface ProgramData {
 
 export interface Data {
     ct: Date;
-    c?: Container[];
-    ty: string;
-    bgc?: string;
-    c_lo: string;
     ed_dt?: Date;
     id: string;
     ad?: string;

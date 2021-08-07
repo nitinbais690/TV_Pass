@@ -6,6 +6,8 @@ import MyContentScreen from '../MyContentScreen';
 import SeriesDownloadScreen from '../MyContent/SeriesDownloadScreen';
 import { headerStyle } from '../../styles/Common.style';
 import { ResourceVm } from 'qp-discovery-ui';
+import { Platform } from 'react-native';
+import MyContentTV from '../../TV/MyContentTV';
 
 const MyContentStack = createStackNavigator();
 const MyContentStackScreen = () => {
@@ -19,7 +21,7 @@ const MyContentStackScreen = () => {
             }}>
             <MyContentStack.Screen
                 name={NAVIGATION_TYPE.MY_CONTENT}
-                component={MyContentScreen}
+                component={Platform.isTV ? MyContentTV : MyContentScreen}
                 initialParams={{
                     routeToDownloads: routeToDownloads,
                 }}

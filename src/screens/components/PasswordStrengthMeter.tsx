@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useAppPreferencesState } from 'utils/AppPreferencesContext';
-import { Text, View } from 'react-native';
+import { Platform, Text, View } from 'react-native';
 import { defaultPasswordStrengthMetertyle } from 'styles/PasswordStrengthMeter.style';
 import zxcvbn from 'zxcvbn';
 import { useLocalization } from 'contexts/LocalizationContext';
@@ -126,8 +126,8 @@ const PasswordStrengthMeter = ({ password = '' }: { password: string }): JSX.Ele
                 <View style={[styles.bar, securePass !== '' && styles['bar' + securePass]]} />
             </View>
             <View style={styles.barTextContainer}>
-                <Text style={styles.barText}>{strings['password.weak']}</Text>
-                <Text style={styles.barText}>{strings['password.secure']}</Text>
+                <Text style={Platform.isTV ? styles.barTextTV : styles.barText}>{strings['password.weak']}</Text>
+                <Text style={Platform.isTV ? styles.barTextTV : styles.barText}>{strings['password.secure']}</Text>
             </View>
         </>
     );

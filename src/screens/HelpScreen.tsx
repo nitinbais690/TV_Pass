@@ -75,20 +75,22 @@ const HelpScreen = ({ navigation }: { navigation: any }): JSX.Element => {
             key: `${strings['title.faq']}`,
             screen: NAVIGATION_TYPE.FAQ,
         },
-        // {
-        //     type: 'ACTION_BUTTON',
-        //     key: `${strings['title.contentAvailability']}`,
-        //     screen: NAVIGATION_TYPE.CONTENT_AVAILABILITY,
-        // },
+        {
+            type: 'ACTION_BUTTON',
+            key: `${strings['title.contentAvailability']}`,
+            screen: NAVIGATION_TYPE.CONTENT_AVAILABILITY,
+        },
     ];
 
     const openBrowser = async (type: BROWSE_TYPE) => {
-        try {
-            navigation.navigate(NAVIGATION_TYPE.BROWSE_WEBVIEW, {
-                type: type,
-            });
-        } catch (error) {
-            console.log(`[InAppBrowser] Error loading url: ${type}`, error);
+        if (!Platform.isTV) {
+            try {
+                navigation.navigate(NAVIGATION_TYPE.BROWSE_WEBVIEW, {
+                    type: type,
+                });
+            } catch (error) {
+                console.log(`[InAppBrowser] Error loading url: ${type}`, error);
+            }
         }
     };
 
@@ -111,7 +113,7 @@ const HelpScreen = ({ navigation }: { navigation: any }): JSX.Element => {
                     !item.hide ? (
                         <ListItem
                             topDivider={true}
-                            bottomDivider={i !== 1}
+                            bottomDivider={i !== 0}
                             key={i}
                             underlayColor={appColors.primaryVariant1}
                             containerStyle={defaultStyles.rowWrapperStyle}
@@ -155,6 +157,7 @@ const HelpScreen = ({ navigation }: { navigation: any }): JSX.Element => {
                         </View>
                         <View style={formStyles.buttonWrapper}>
                             <Button
+                                type={'solid'}
                                 title={strings['helpScreenKey.contact']}
                                 onPress={() => handlePress(NAVIGATION_TYPE.CONTACT)}
                             />

@@ -47,6 +47,7 @@ const OnboardingRulesIntroScreen = (): JSX.Element => {
     };
 
     useEffect(() => {
+        Orientation.lockToPortrait();
         setIsLoading(false);
     }, []);
 
@@ -54,8 +55,6 @@ const OnboardingRulesIntroScreen = (): JSX.Element => {
         return () => {
             if (DeviceInfo.getDeviceType() === 'Tablet') {
                 Orientation.unlockAllOrientations();
-            } else {
-                Orientation.lockToPortrait();
             }
         };
     });
@@ -85,7 +84,6 @@ const OnboardingRulesIntroScreen = (): JSX.Element => {
                         redeemError: false,
                         redeem: async () => {},
                     }}
-                    cardType="EmptyCard"
                 />
                 {/*<View style={[cStyles.headerCreditBtnCont, cStyles.headerCreditBtnCont1]}>
                     <CreditsUIButton credits={20} loading={false} />
@@ -113,12 +111,12 @@ const OnboardingRulesIntroScreen = (): JSX.Element => {
                         <View style={cStyles.bottomContentInfo}>
                             <Text style={[cStyles.bottomContentInfoText]}>
                                 {strings['onboard.step5_content_info_1']}
-                                <Text style={[cStyles.bottomContentInfoText, cStyles.bottomContentInfoWCText]}>
-                                    {strings['onboard.step5_content_info_2']}
-                                    <Text style={[cStyles.bottomContentInfoText]}>
-                                        {strings['onboard.step5_content_info_3']}
-                                    </Text>
-                                </Text>
+                            </Text>
+                            <Text style={[cStyles.bottomContentInfoText, cStyles.bottomContentInfoWCText]}>
+                                {strings['onboard.step5_content_info_2']}
+                            </Text>
+                            <Text style={[cStyles.bottomContentInfoText]}>
+                                {strings['onboard.step5_content_info_3']}
                             </Text>
                         </View>
                         <View style={cStyles.bottomBtnSmt}>

@@ -1,4 +1,4 @@
-import { Dimensions, StyleSheet } from 'react-native';
+import { Dimensions, StyleSheet, PixelRatio } from 'react-native';
 import { selectDeviceType, percentage, scale, createStyles, AspectRatio } from 'qp-common-ui';
 import { AppPreferencesContextProps } from './src/utils/AppPreferencesContext';
 
@@ -32,9 +32,12 @@ const lightThemeColors = {
     brandTint: '#558FCC',
     brandTintLight: '#76a5d6',
     brandTintDark: '#3979bd',
+    brandTintDarked: '#686EFF',
     brandTintTranslucent: '#558FCC4D',
     overlayText: '#ddd',
     primary: '#ffffff',
+    primaryLight: 'rgba(255, 255, 255, 0.5)',
+    primaryMoreLight: 'rgba(255, 255, 255, 0.3)',
     secondary: '#111',
     tertiary: '#333333',
     caption: '#666',
@@ -48,12 +51,16 @@ const lightThemeColors = {
     error: '#CA0519',
     success: '#2ea44f',
     warning: '#E6CF63',
+    iconBackgroundTv: '#9BADBE80',
+    blueLight: 'rgba(155, 173, 190, 0.5)',
+    blueMid: 'rgba(46, 66, 89, 0.5)',
 };
 
 const darkThemeColors = {
     brandTint: '#686EFF',
     brandTintLight: '#76a5d6',
     brandTintDark: '#3979bd',
+    brandTintDarked: '#686EFF',
     brandTintTranslucent: '#558FCC4D',
     overlayText: '#ddd',
     background: '#000',
@@ -64,6 +71,8 @@ const darkThemeColors = {
     bottomNavGradientStart: '#25344A80',
     bottomNavGradientEnd: '#27384E',
     secondary: '#FFFFFF',
+    primaryLight: 'rgba(255, 255, 255, 0.5)',
+    primaryMoreLight: 'rgba(255, 255, 255, 0.3)',
     tertiary: '#9BADBE',
     caption: '#9BADBE80',
     captionLight: '#FFFFFF4D',
@@ -77,6 +86,9 @@ const darkThemeColors = {
     error: '#ba2d2d',
     success: '#2ea44f',
     warning: '#E6CF63',
+    iconBackgroundTv: '#9BADBE80',
+    blueLight: 'rgba(155, 173, 190, 0.5)',
+    blueMid: 'rgba(46, 66, 89, 0.5)',
 };
 
 export const appColors = (useDefaultStyle: boolean) => {
@@ -96,7 +108,12 @@ export const appPadding: { [key: string]: PaddingMetric } = {
     xxxl: absoluteValue => percentage(16, absoluteValue),
 };
 
+export const tvPixelSizeForLayout = (pixelSize: number) => {
+    return Math.round((pixelSize * ((appDimensions.fullHeight * PixelRatio.get()) / 1080)) / PixelRatio.get());
+};
+
 export const appFonts = {
+    xxxs: selectDeviceType({ Handset: scale(8, 0) }, scale(10, 0)),
     xxs: selectDeviceType({ Handset: scale(11, 0) }, scale(13, 0)),
     xs: selectDeviceType({ Handset: scale(14, 0) }, scale(18, 0)),
     sm: selectDeviceType({ Handset: scale(16, 0) }, scale(20, 0)),
@@ -105,12 +122,22 @@ export const appFonts = {
     xlg: selectDeviceType({ Handset: scale(22, 0) }, scale(26, 0)),
     xxlg: selectDeviceType({ Handset: scale(26, 0) }, scale(36, 0)),
     xxxlg: scale(34, 0),
+    xxxxlg: scale(40, 0),
     headline: scale(70, 0),
     primary: 'Inter-Medium',
     light: 'Inter-Medium',
     medium: 'Inter-Medium',
     bold: 'Inter-SemiBold',
     semibold: 'Inter-SemiBold',
+    boldtv: 'Inter-Bold',
+    regular_tv: 'SF-Pro-Display-Regular',
+    light_tv: 'SF-Pro-Display-Light',
+    medium_tv: 'SF-Pro-Display-Medium',
+    bold_tv: 'SF-Pro-Display-Bold',
+    semibold_tv: 'SF-Pro-Display-Semibold',
+    heavy_tv: 'SF-Pro-Display-Heavy',
+    black_tv: 'SF-Pro-Display-Black',
+    pro_text_tv: 'SF-Pro-Text-Regular',
 };
 
 export const appBaseStyles = (appPreferences: Partial<AppPreferencesContextProps>) => {

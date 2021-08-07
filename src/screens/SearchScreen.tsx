@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, ActivityIndicator, StyleSheet, Text, FlatList } from 'react-native';
+import { View, ActivityIndicator, StyleSheet, Text, FlatList, Platform, TabBarIOS } from 'react-native';
 import { useSafeArea } from 'react-native-safe-area-context';
 import { BorderlessButton } from 'react-native-gesture-handler';
 import { useDimensions } from '@react-native-community/hooks';
@@ -19,6 +19,13 @@ import { NAVIGATION_TYPE } from './Navigation/NavigationConstants';
 import { appFonts, appPadding } from '../../AppStyles';
 import CloseIcon from '../../assets/images/close.svg';
 import CreditsIcon from '../../assets/images/credits_small.svg';
+import { requireNativeComponent } from 'react-native';
+import ResourceCardViewSearchTV, {
+    ResourceCardViewBaseProps,
+} from '../components/qp-discovery-ui/src/views/ResourceCardViewSearchTV';
+import Menu from '../TV/components/Menu';
+
+const Search = requireNativeComponent('TVPassSearchComponent');
 
 const ResourceListView = ({
     resources,
@@ -26,15 +33,17 @@ const ResourceListView = ({
     onEndReached,
     onEndReachedThreshold,
     hasMore,
+    searchTerm,
 }: {
     resources: ResourceVm[];
     onPress: (_: ResourceVm, _position: number) => void;
     onEndReached?: () => void;
     onEndReachedThreshold?: number;
     hasMore?: boolean;
+    searchTerm?: string;
 }): JSX.Element => {
     const insets = useSafeArea();
-    const { appLanguage } = useLocalization();
+    const { appLanguage, strings } = useLocalization();
     const { width, height } = useDimensions().window;
     const prefs = useAppPreferencesState();
     const { appTheme } = prefs;
@@ -56,10 +65,23 @@ const ResourceListView = ({
                     borderBottomWidth: StyleSheet.hairlineWidth,
                     borderColor: appColors.border,
                 },
+                tvOSContainer: {
+                    flex: 1,
+                    flexDirection: 'row',
+                    paddingHorizontal: 20,
+                    paddingVertical: 25,
+                    margin: 0,
+                    borderColor: appColors.primary,
+                    borderRadius: 25,
+                    borderWidth: 0,
+                    width: '94%',
+                    alignSelf: 'center',
+                },
                 imageWrapper: {
-                    width: '40%',
+                    width: Platform.isTV ? '14%' : '40%',
                     aspectRatio: AspectRatio._16by9,
-                    borderRadius: 5,
+                    borderRadius: !Platform.isTV ? 5 : 15,
+                    overflow: 'hidden',
                 },
                 image: {
                     flex: 1,
@@ -70,20 +92,20 @@ const ResourceListView = ({
                     flex: 1,
                     flexDirection: 'column',
                     justifyContent: 'space-between',
-                    marginHorizontal: appPadding.sm(true),
+                    marginHorizontal: !Platform.isTV ? appPadding.sm(true) : appPadding.xs(true),
                 },
                 titleTypography: {
                     fontFamily: appFonts.semibold,
-                    fontSize: appFonts.xs,
+                    fontSize: Platform.isTV ? appFonts.md : appFonts.xs,
                     color: appColors.secondary,
                 },
                 title: {
                     marginBottom: 2,
                 },
                 captionTypography: {
-                    fontFamily: appFonts.primary,
-                    fontSize: appFonts.xxs,
-                    color: appColors.caption,
+                    fontFamily: appFonts.semibold,
+                    fontSize: Platform.isTV ? appFonts.md : appFonts.xs,
+                    color: Platform.isTV ? appColors.tertiary : appColors.caption,
                     textTransform: 'none',
                 },
                 pillOverlay: {
@@ -106,17 +128,48 @@ const ResourceListView = ({
                     fontWeight: '500',
                     marginLeft: 2,
                 },
+                emptySearch: {
+                    flex: 1,
+                    color: appColors.secondary,
+                    fontFamily: appFonts.semibold,
+                    height: '30%',
+                    fontSize: 35,
+                    alignSelf: 'center',
+                    justifyContent: 'center',
+                    marginTop: 100,
+                },
             }),
-        [appColors.border, appColors.caption, appColors.primaryVariant2, appColors.secondary, insets.bottom],
+        [
+            appColors.border,
+            appColors.caption,
+            appColors.primary,
+            appColors.primaryVariant2,
+            appColors.secondary,
+            appColors.tertiary,
+            insets.bottom,
+        ],
     );
 
     const LoadingComponent = React.useMemo(() => <ActivityIndicator color={appColors.brandTint} size="small" />, [
         appColors.brandTint,
     ]);
-    // const channelsImageType =
-    //     appConfig && appConfig.channelsImageType ? appConfig.channelsImageType : ImageType.LogoHeader;
-
     const resourcesKeyExtractor = React.useCallback((item: ResourceVm) => `r-${item.id}`, []);
+    const cardStyle = {
+        wrapperStyle: {
+            width: 80,
+            height: 50,
+            backgroundColor: 'red',
+        },
+    };
+    const cardProps: ResourceCardViewBaseProps<ResourceVm> = {
+        cardStyle: cardStyle,
+        onResourcePress: (res: ResourceVm, index: number) => {
+            onPress(res, index);
+        },
+    };
+    const defaultRenderResourceTV = ({ item, index }: { item: ResourceVm; index: number }): JSX.Element => {
+        return <ResourceCardViewSearchTV index={index} resource={item} {...cardProps} cardStyle={{}} />;
+    };
     const defaultRenderResource = React.useCallback(
         ({ item, index }: { item: ResourceVm; index: number }): JSX.Element => {
             const genres = (item.contentGenre && item.contentGenre[appLanguage]) || [];
@@ -158,7 +211,7 @@ const ResourceListView = ({
                                 <Text style={[styles.titleTypography, styles.title]}>{item.name}</Text>
                                 <Text style={[styles.captionTypography]}>{metaInfoString}</Text>
                             </View>
-                            <Text style={[styles.captionTypography]}>{item.network}</Text>
+                            <Text style={[styles.captionTypography]}>{item.providerName}</Text>
                         </View>
                     </View>
                 </BorderlessButton>
@@ -175,12 +228,22 @@ const ResourceListView = ({
             numColumns={1}
             showsVerticalScrollIndicator={false}
             data={resources}
-            renderItem={defaultRenderResource}
+            renderItem={Platform.isTV ? defaultRenderResourceTV : defaultRenderResource}
             contentContainerStyle={styles.listContainer}
             onEndReached={onEndReached}
             onEndReachedThreshold={onEndReachedThreshold}
+            ListEmptyComponent={() => {
+                if (Platform.isTV && resources.length == 0) {
+                    return (
+                        <Text style={styles.emptySearch}>
+                            {strings['tv.searchEmpty_msg']} "{searchTerm}".
+                        </Text>
+                    );
+                } else {
+                    return <></>;
+                }
+            }}
             ListFooterComponent={hasMore ? LoadingComponent : null}
-            disableVirtualization={true}
         />
     );
 };
@@ -194,7 +257,6 @@ const SearchScreen = ({ navigation }: { navigation: any }): JSX.Element => {
     const insets = useSafeArea();
     const [searchTerm, setSearchTerm] = useState('');
     const { recordEvent, recordErrorEvent } = useAnalytics();
-
     const prefs = useAppPreferencesState();
     const { strings } = useLocalization();
     const { appTheme, appConfig } = prefs;
@@ -210,12 +272,31 @@ const SearchScreen = ({ navigation }: { navigation: any }): JSX.Element => {
                     flex: 1,
                     flexDirection: 'column',
                 },
+                tvOSContainer: {
+                    flex: 1,
+                    maxHeight: 100,
+                },
+                tvOSSearchContainer: {
+                    backgroundColor: 'transparent',
+                    marginTop: 40,
+                },
+                tvOSSearchResultContainer: {
+                    flex: 1,
+                    flexDirection: 'column',
+                },
                 headerContainer: {
                     flexDirection: 'row',
                     paddingHorizontal: appPadding.sm(true),
                     paddingBottom: selectDeviceType({ Handset: 12 }, 20),
                     paddingTop: selectDeviceType({ Handset: appPadding.md(true) }, appPadding.xs(true)) + insets.top,
                     marginBottom: 10,
+                },
+                headerContainerTV: {
+                    flexDirection: 'row',
+                    paddingHorizontal: appPadding.xs(true),
+                    paddingBottom: selectDeviceType({ Handset: 12 }, 10),
+                    paddingTop: selectDeviceType({ Handset: appPadding.md(true) }, appPadding.xs(true)) + insets.top,
+                    marginBottom: 2,
                 },
                 doneButton: {
                     marginLeft: selectDeviceType({ Handset: 5 }, 20),
@@ -241,6 +322,10 @@ const SearchScreen = ({ navigation }: { navigation: any }): JSX.Element => {
                     color: appColors.tertiary,
                     fontFamily: appFonts.primary,
                     fontSize: appFonts.xs,
+                },
+                resultListContainer: {
+                    flex: 1,
+                    minHeight: 300,
                 },
             }),
         [appColors.primaryVariant2, appColors.tertiary, insets.top],
@@ -280,14 +365,7 @@ const SearchScreen = ({ navigation }: { navigation: any }): JSX.Element => {
             recordEvent(AppEvents.SEARCH, condenseSearchData(searchTerm, resources.length, position + 1));
             resource.storeFrontId = storefrontId;
             resource.tabId = tabId;
-            let screenName = NAVIGATION_TYPE.CONTENT_DETAILS;
-            if (resource.type === 'Collection') {
-                screenName =
-                    resource.collectionLayout === 'grid'
-                        ? NAVIGATION_TYPE.COLLECTIONS_GRID
-                        : NAVIGATION_TYPE.COLLECTIONS;
-            }
-            navigation.navigate(screenName, {
+            navigation.navigate(NAVIGATION_TYPE.CONTENT_DETAILS, {
                 resource: resource,
                 title: resource.name,
                 resourceId: resource.id,
@@ -302,7 +380,7 @@ const SearchScreen = ({ navigation }: { navigation: any }): JSX.Element => {
     useEffect(() => {
         recordEvent(AppEvents.SEARCH, condenseSearchData(searchTerm, resources.length));
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [resources.length, searchTerm]);
+    }, [resources.length, searchTerm, recommendedSearchWord]);
 
     const handleOnChangeText = (value: string) => {
         setSearchTerm(value);
@@ -316,6 +394,13 @@ const SearchScreen = ({ navigation }: { navigation: any }): JSX.Element => {
         }
     };
 
+    const handleOnChangeTextTVOS = (event: any) => {
+        const value = event.nativeEvent.text;
+        setSearchTerm(value);
+        setSearchMode(SearchMode.Default);
+        setRecommendedSearchWord(value);
+    };
+
     const handleOnItemSelect = (container: ContainerVm) => {
         setSearchMode(SearchMode.Recommended);
         setShowRecommendedOverlay(false);
@@ -325,22 +410,78 @@ const SearchScreen = ({ navigation }: { navigation: any }): JSX.Element => {
         }
     };
 
+    //Render for Search in tvOS
+    const renderSearchTv = () => {
+        return (
+            <View style={{ flex: 1, width: '90%', paddingLeft: 100, alignSelf: 'center', marginTop: -200 }}>
+                <TabBarIOS
+                    unselectedTintColor="transparent"
+                    tintColor="transparent"
+                    unselectedItemTintColor="transparent"
+                    barTintColor="transparent">
+                    <TabBarIOS.Item style={styles.tvOSSearchContainer} selected={true}>
+                        {/* Native Search View controller */}
+                        <Search style={styles.tvOSSearchResultContainer} onChangeText={handleOnChangeTextTVOS}>
+                            {/* recommended search for tv OS */}
+                            <View style={styles.tvOSContainer}>
+                                <RecommendedSearchView
+                                    searchWord={recommendedSearchWord}
+                                    onRecommendedItemSelect={handleOnItemSelect}
+                                />
+                            </View>
+                            {/* Loading State */}
+                            {loading && <AppLoadingIndicator />}
+                            {/* Results State for iOS */}
+                            {!loading && !error && recommendedSearchWord !== '' && (
+                                <View style={styles.resultListContainer}>
+                                    <ResourceListView
+                                        resources={resources.length > 0 ? resources : noSearchResources}
+                                        onPress={onHandlePress}
+                                        onEndReached={onEndReached}
+                                        onEndReachedThreshold={0.7}
+                                        searchTerm={searchTerm}
+                                        hasMore={hasMore}
+                                    />
+                                </View>
+                            )}
+                        </Search>
+                    </TabBarIOS.Item>
+                </TabBarIOS>
+            </View>
+        );
+    };
+
     return (
         <BackgroundGradient insetHeader={false} style={styles.container}>
-            <View style={styles.headerContainer}>
-                <SearchBox onChangeText={handleOnChangeText} searchWord={recommendedSearchWord} />
-                <BorderlessButton onPress={() => navigation.pop()} style={styles.doneButton}>
-                    <CloseIcon accessible accessibilityLabel={'Close'} />
-                </BorderlessButton>
+            {Platform.isTV && Platform.OS == 'ios' && <Menu />}
+
+            {/* Render searchBox for iOS */}
+            <View style={Platform.isTV && Platform.OS == 'ios' ? styles.headerContainerTV : styles.headerContainer}>
+                {!Platform.isTV && Platform.OS == 'ios' && (
+                    <SearchBox onChangeText={handleOnChangeText} searchWord={recommendedSearchWord} />
+                )}
+                {!Platform.isTV && Platform.OS == 'ios' && (
+                    <BorderlessButton onPress={() => navigation.pop()} style={styles.doneButton}>
+                        <CloseIcon />
+                    </BorderlessButton>
+                )}
             </View>
-            {showRecommendedOverlay && (
+
+            {/* Render for tvOS */}
+            {Platform.isTV && Platform.OS == 'ios' && renderSearchTv()}
+
+            {/* recommended search for iOS */}
+            {!Platform.isTV && showRecommendedOverlay && (
                 <View style={styles.container}>
-                    <RecommendedSearchView onRecommendedItemSelect={handleOnItemSelect} />
+                    <RecommendedSearchView
+                        searchWord={recommendedSearchWord}
+                        onRecommendedItemSelect={handleOnItemSelect}
+                    />
                 </View>
             )}
             <>
                 {/* Loading State */}
-                {loading && <AppLoadingIndicator />}
+                {loading && !Platform.isTV && <AppLoadingIndicator />}
                 {/* Error State */}
                 {!loading && searchTerm !== '' && error && <AppErrorComponent />}
                 {!loading && searchTerm !== '' && resources.length === 0 && noSearchResources.length > 0 && (
@@ -351,18 +492,19 @@ const SearchScreen = ({ navigation }: { navigation: any }): JSX.Element => {
                     </View>
                 )}
 
-                {/* Results State */}
-                {!loading && !error && recommendedSearchWord !== '' && (
+                {/* Results State for iOS */}
+                {!loading && !error && recommendedSearchWord !== '' && !Platform.isTV && (
                     <>
                         <ResourceListView
                             resources={resources.length > 0 ? resources : noSearchResources}
                             onPress={onHandlePress}
                             onEndReached={onEndReached}
-                            onEndReachedThreshold={0.4}
+                            onEndReachedThreshold={0.7}
                             hasMore={hasMore}
                         />
                     </>
                 )}
+                {Platform.isTV && <Menu />}
             </>
         </BackgroundGradient>
     );

@@ -18,6 +18,7 @@ export enum AspectRatio {
     _3by4 = 3 / 4,
     _3by1 = 3 / 1,
     _16by9 = 16 / 9,
+    _18by12 = 18 / 12,
 }
 
 export class AspectRatioUtil {
@@ -33,6 +34,8 @@ export class AspectRatioUtil {
                 return AspectRatio._3by1;
             case '16x9':
                 return AspectRatio._16by9;
+            case '18x12':
+                return AspectRatio._18by12;
             default:
                 return AspectRatio._1by1;
         }
@@ -50,6 +53,8 @@ export class AspectRatioUtil {
                 return '3x1';
             case AspectRatio._16by9:
                 return '16x9';
+            case AspectRatio._18by12:
+                return '18x12';
             default:
                 return 'Unknown';
         }

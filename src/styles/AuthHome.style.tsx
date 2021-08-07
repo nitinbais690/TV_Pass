@@ -1,21 +1,14 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
-import { selectDeviceType } from 'qp-common-ui';
-import { appDimensions, appFonts, appPadding } from '../../AppStyles';
+import { Platform, StyleSheet } from 'react-native';
+import { scale, selectDeviceType } from 'qp-common-ui';
+import { appDimensions, appFonts, appPadding, tvPixelSizeForLayout } from '../../AppStyles';
 import { BrandLogo } from '../screens/components/BrandLogo';
-import CreditsIcon from '../../assets/images/brand_symbol.svg';
 
 export const carouselSlidePadding = 0;
 
 export const authStackScreenOptions = () => ({
     headerTransparent: true,
-    headerTitle: () => (
-        <View style={{ flexDirection: 'row' }}>
-            <CreditsIcon width={20} height={selectDeviceType({ Handset: 18 }, 28)} />
-            <View style={{ marginRight: 7 }} />
-            <BrandLogo />
-        </View>
-    ),
+    headerTitle: () => <BrandLogo />,
     headerStyle: {
         shadowColor: 'transparent',
         shadowOffset: { height: 0, width: 0 },
@@ -37,7 +30,11 @@ export const authHomeStyle = ({ appColors, isPortrait }: { appColors: any; isPor
             justifyContent: 'center',
             alignItems: 'center',
         },
-        mainTextContainer: {},
+        mainTextContainer: { paddingVertical: 15, width: '100%' },
+        mainTextContainerTV: {
+            width: tvPixelSizeForLayout(1200),
+            flexDirection: 'row',
+        },
         titleText: {
             color: appColors.brandTint,
         },
@@ -54,7 +51,21 @@ export const authHomeStyle = ({ appColors, isPortrait }: { appColors: any; isPor
         },
         largeText: {
             color: appColors.secondary,
-            fontSize: appFonts.xxlg,
+            ...Platform.select({
+                ios: {
+                    fontSize: selectDeviceType(
+                        { Handset: scale(27, 0), Tablet: scale(40, 0) },
+                        tvPixelSizeForLayout(75),
+                    ),
+                },
+                android: {
+                    fontSize: selectDeviceType(
+                        { Handset: scale(30, 0), Tablet: scale(53, 0) },
+                        tvPixelSizeForLayout(75),
+                    ),
+                },
+            }),
+            fontWeight: '600',
             fontFamily: appFonts.light,
             textAlign: 'left',
         },
@@ -82,10 +93,11 @@ export const authHomeStyle = ({ appColors, isPortrait }: { appColors: any; isPor
         buttonWrapper: {
             alignSelf: selectDeviceType({ Tablet: 'center' }, 'stretch'),
             width: selectDeviceType({ Tablet: 300 }, undefined),
-            marginBottom: 25,
+            marginBottom: Platform.isTV ? tvPixelSizeForLayout(74) : 25,
+            paddingTop: Platform.isTV ? tvPixelSizeForLayout(74) : 50,
         },
         help: {
-            // marginHorizontal: appPadding.sm(true),
+            marginHorizontal: appPadding.sm(true),
         },
         carousal: {
             aspectRatio: 16 / 9,

@@ -35,7 +35,7 @@ const ResizableImage = (props: ResizableImageProps): JSX.Element | null => {
     const resizerPath = /*(config && config.imageResizerPath)*/ 'image' || undefined;
     let [uri, setUri] = useState(props.source ? (props.source as ImageURISource).uri : '');
     let onLayout = (_: LayoutChangeEvent): void => {};
-
+    let { onLoad, onLoadEnd } = props;
     if (props.keyId.length < 1 && props.aspectRatioKey) {
         return null;
     }
@@ -79,9 +79,22 @@ const ResizableImage = (props: ResizableImageProps): JSX.Element | null => {
         <FastImage
             testID={props.testID}
             style={props.style}
-            source={{ uri: uri, cache: FastImage && FastImage.cacheControl ? FastImage.cacheControl.web : undefined }}
+            onLoad={onLoad ? onLoad : undefined}
+            onLoadEnd={onLoadEnd ? onLoadEnd : undefined}
+            source={{
+                uri: uri,
+                cache: FastImage && FastImage.cacheControl ? FastImage.cacheControl.web : undefined,
+                priority: FastImage && FastImage.priority ? FastImage.priority.high : undefined,
+            }}
             onLayout={onLayout}
-            resizeMode={FastImage && FastImage.resizeMode ? FastImage.resizeMode.contain : undefined}
+            // resizeMode={FastImage && FastImage.resizeMode ? FastImage.resizeMode.contain : undefined}
+            resizeMode={
+                props.resizeMode
+                    ? props.resizeMode
+                    : FastImage && FastImage.resizeMode
+                    ? FastImage.resizeMode.contain
+                    : undefined
+            }
         />
     );
 };

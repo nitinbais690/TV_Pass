@@ -4,15 +4,15 @@ import DeviceInfo from 'react-native-device-info';
 import {
     ResourceVm,
     ResourceCardViewBaseProps,
-    EmptyResourceCardView,
     ResourceCardView,
     CardSize,
     CardStyle,
     CardLayout,
+    EmptyResourceCardView,
 } from 'qp-discovery-ui';
-import { selectDeviceType, AspectRatio, AspectRatioUtil } from 'qp-common-ui';
+import { selectDeviceType, AspectRatio, AspectRatioUtil, ImageType } from 'qp-common-ui';
 import { AppConfig, useAppPreferencesState } from 'utils/AppPreferencesContext';
-import { appFonts, appPadding } from '../../../AppStyles';
+import { appFonts, appPadding, tvPixelSizeForLayout } from '../../../AppStyles';
 import CardOverlay from './CardOverlay';
 import CardFooter from './CardFooter';
 import RoundedCardOverlay from './RoundedCardOverlay';
@@ -59,6 +59,7 @@ export const cardWidth = (
     layout?: CardLayout,
     size?: CardSize,
     containerSize?: { width: number; height: number },
+    containerName?: string,
 ) => {
     const { width, height } = containerSize ? containerSize : Dimensions.get('window');
     // Note: Indicates the aspect ratio is extra wide (e.g. 3x1)
@@ -68,6 +69,13 @@ export const cardWidth = (
     if (layout === 'banner') {
         const w = width - 2 * appPadding.sm(true);
         return isPortait || isWideAspect ? w : Math.floor((height / 1.5) * ar - padding);
+    }
+
+    if (Platform.isTV && layout === 'carousel' && containerName === 'Channels') {
+        // console.log('CONTAINER SIZE: ', width);
+        const w = width - 2 * appPadding.sm(true);
+        // console.log('CONTAINER W : ', w);
+        return isPortait || isWideAspect ? w : 175;
     }
 
     const standardWidth = (width - (catalogCardsPreview + 1) * padding) / catalogCardsPreview;
@@ -107,7 +115,16 @@ const StorefrontCardView = ({
     containerSize,
     cardsPreview,
     gridMode,
+    blockFocusDown,
+    blockFocusLeft,
+    blockFocusRight,
+    isDetailsTvLayout,
+    isCardCustomSpacing,
+    hasTVPreferredFocus,
+    blockFocusUp,
+    shiftScrollToFocusIndex,
     cardType = '',
+    route,
 }: {
     resource: ResourceVm;
     isPortrait: boolean;
@@ -116,7 +133,16 @@ const StorefrontCardView = ({
     containerSize?: { width: number; height: number };
     cardsPreview?: number;
     gridMode?: boolean;
+    blockFocusDown?: boolean;
+    blockFocusUp?: boolean;
+    blockFocusLeft?: boolean;
+    blockFocusRight?: boolean;
+    hasTVPreferredFocus?: boolean;
+    isCardCustomSpacing?: boolean | undefined;
+    isDetailsTvLayout?: boolean;
+    shiftScrollToFocusIndex?: () => void;
     cardType?: string;
+    route?: string;
 }): JSX.Element => {
     const prefs = useAppPreferencesState();
     const { appTheme, catalogCardsPreview, appConfig } = prefs;
@@ -146,6 +172,7 @@ const StorefrontCardView = ({
         resource.layout,
         resource.size,
         containerSize,
+        resource.containerName,
     );
     const borderRadius = cardBorderRadius(resource.layout, resource.style);
 
@@ -154,15 +181,35 @@ const StorefrontCardView = ({
             StyleSheet.create({
                 container: {
                     width: resourceCardWidth,
-                    marginRight: resource.layout === 'banner' ? padding / 4 : padding / 2,
-                    marginLeft: resource.layout === 'banner' ? padding / 4 : 0,
-                    marginTop: resource.layout === 'banner' ? 20 : gridMode ? 10 : 0,
-                    marginBottom: 0,
+                    marginRight: isCardCustomSpacing
+                        ? tvPixelSizeForLayout(10)
+                        : isDetailsTvLayout
+                        ? padding / 2
+                        : resource.layout === 'banner'
+                        ? Platform.isTV
+                            ? 30
+                            : padding / 4
+                        : Platform.isTV
+                        ? resource.layout === 'carousel' && resource.containerName === 'Channels'
+                            ? 10
+                            : 30
+                        : padding / 2,
+                    marginLeft: isCardCustomSpacing ? 0 : resource.layout === 'banner' ? padding / 4 : 0,
+                    marginTop: isCardCustomSpacing
+                        ? 0
+                        : isDetailsTvLayout
+                        ? 0
+                        : resource.layout === 'banner'
+                        ? selectDeviceType({ Tv: 25 }, 20)
+                        : gridMode
+                        ? selectDeviceType({ Tv: 15 }, 10)
+                        : selectDeviceType({ Tv: 25 }, 0),
+                    marginBottom: isCardCustomSpacing ? 0 : isDetailsTvLayout ? 0 : Platform.isTV ? padding : 0,
                     borderRadius: borderRadius,
-                    backgroundColor: appColors.primary,
+                    backgroundColor: 'transparent',
                     borderWidth: Platform.isTV ? 2 : 0,
                     borderColor: 'transparent',
-                    overflow: 'hidden',
+                    overflow: resource.layout === 'banner' || resource.style === 'rounded' ? 'hidden' : undefined,
                     shadowOffset: { width: 0, height: 2 },
                     shadowColor: '#000',
                     shadowOpacity: 0.15,
@@ -170,8 +217,19 @@ const StorefrontCardView = ({
                     elevation: 2,
                 },
                 wrapperStyle: {
-                    width: resourceCardWidth,
-                    aspectRatio: aspectRatio,
+                    width: '100%',
+                    height:
+                        Platform.isTV && resource.layout === 'carousel' && resource.containerName === 'Channels'
+                            ? 95
+                            : undefined,
+                    aspectRatio: selectDeviceType(
+                        {
+                            Tv: resource.containerName === 'Channels' ? AspectRatio._16by9 : aspectRatio,
+                            Handset: aspectRatio,
+                            Tablet: aspectRatio,
+                        },
+                        aspectRatio,
+                    ),
                     borderTopLeftRadius: borderRadius,
                     borderTopRightRadius: borderRadius,
                     borderRadius: !resource.showFooter ? borderRadius : undefined,
@@ -180,7 +238,8 @@ const StorefrontCardView = ({
                 imageStyle: {
                     borderTopLeftRadius: borderRadius,
                     borderTopRightRadius: borderRadius,
-                    borderRadius: undefined,
+                    borderBottomRightRadius: resource.containerName !== 'Channels' ? 0 : borderRadius,
+                    borderBottomLeftRadius: resource.containerName !== 'Channels' ? 0 : borderRadius,
                     flex: 1,
                 },
                 titleStyle: {
@@ -244,7 +303,10 @@ const StorefrontCardView = ({
         ) : (
             <CardFooter resource={resource} />
         );
-
+    let hideGradient: boolean = true;
+    if (route === 'My Content' && Platform.isTV) {
+        hideGradient = false;
+    }
     return (
         <>
             {cardType === 'EmptyCard' ? (
@@ -263,11 +325,26 @@ const StorefrontCardView = ({
                 <ResourceCardView
                     resource={resource}
                     isPortrait={isPortrait}
-                    hideGradient={true}
+                    hideGradient={hideGradient}
                     {...cardProps}
                     cardStyle={styles}
-                    cardAspectRatio={aspectRatio}
-                    cardImageType={resource.imageType}
+                    cardAspectRatio={selectDeviceType(
+                        {
+                            Tv: resource.containerName === 'Channels' ? AspectRatio._16by9 : aspectRatio,
+                            Handset: aspectRatio,
+                            Tablet: aspectRatio,
+                        },
+                        aspectRatio,
+                    )}
+                    cardImageType={
+                        Platform.isTV && resource.containerName === 'Channels' ? ImageType.Cover : resource.imageType
+                    }
+                    shiftScrollToFocusIndex={shiftScrollToFocusIndex}
+                    hasTVPreferredFocus={hasTVPreferredFocus}
+                    blockFocusUp={blockFocusUp}
+                    blockFocusDown={blockFocusDown}
+                    blockFocusLeft={blockFocusLeft}
+                    blockFocusRight={blockFocusRight}
                     overlayView={resource.style === 'rounded' ? rounderOverlayView : overlayView}
                     footerView={footerView}
                 />

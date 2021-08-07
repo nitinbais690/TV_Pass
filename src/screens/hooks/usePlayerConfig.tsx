@@ -19,7 +19,6 @@ export declare type PlayerProps = {
     playerConfig?: PlayerConfig;
     onError?: (error: PlatformError) => void;
     appConfig?: AppConfig;
-    playerState?: boolean;
 };
 
 interface PlayerConfigState {
@@ -53,7 +52,7 @@ export const usePlayerConfig = (props: PlayerProps): PlayerConfigState => {
                     break;
                 }
 
-                if (props && props.playerState) {
+                if (props) {
                     const platformAsset: PlatformAsset = resourceToPlatformAsset(props.resource, 'STREAMING');
                     let _tvodToken: string | undefined = props.tvodToken;
                     if (_tvodToken && _tvodToken.length > 0) {
@@ -90,7 +89,7 @@ export const usePlayerConfig = (props: PlayerProps): PlayerConfigState => {
 
         prepareContent();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [props.resource.id, props.playerState]);
+    }, [props.resource.id]);
 
     return {
         config: playerConfig,

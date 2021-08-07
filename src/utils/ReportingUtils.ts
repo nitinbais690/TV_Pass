@@ -1,7 +1,6 @@
 import { ResourceVm, ContainerVm } from 'qp-discovery-ui';
 import { PlatformError, PlayerConfig } from 'rn-qp-nxg-player';
 import { ProductsResponseMessage } from 'screens/hooks/useGetProducts';
-import { NAVIGATION_TYPE } from 'screens/Navigation/NavigationConstants';
 import { errorCode, EvergentEndpoints } from './EvergentAPIUtil';
 
 export enum RN_INTERACTION {
@@ -34,75 +33,6 @@ export enum ScreenTabs {
     SETTINGS = 'Settings',
 }
 
-export enum ActionEvents {
-    ACTION_APP_BACKGROUND = 'ACTION_APP_BACKGROUND',
-    ACTION_APP_START = 'ACTION_APP_START',
-    ACTION_SIGN_UP = 'ACTION_SIGN_UP',
-    ACTION_PREVIEW_SCREEN = 'ACTION_PREVIEW_SCREEN',
-    ACTION_LOGIN = 'ACTION_LOGIN',
-    ACTION_PREVIOUS_SCREEN = 'ACTION_PREVIOUS_SCREEN',
-    ACTION_CREATE_ACCOUNT = 'ACTION_CREATE_ACCOUNT',
-    ACTION_USER_SETUP_INITIATED = 'ACTION_USER_SETUP_INITIATED',
-    ACTION_USER_SETUP_COMPLETE = 'ACTION_USER_SETUP_COMPLETE',
-    ACTION_USER_SETUP_FAILED = 'ACTION_USER_SETUP_FAILED',
-}
-
-export enum PageEvents {
-    PAGE_APP_SPLASH = 'PAGE_APP_SPLASH',
-    PAGE_APP_LANDING = 'PAGE_APP_LANDING',
-    PAGE_SIGN_UP = 'PAGE_SIGN_UP',
-    PAGE_PREVIEW_SCREEN = 'PAGE_PREVIEW_SCREEN',
-    PAGE_PREVIEW_SCREEN_DETAIL = 'PAGE_PREVIEW_SCREEN_DETAIL',
-    PAGE_CREATE_ACCOUNT = 'PAGE_CREATE_ACCOUNT',
-}
-
-export enum PageId {
-    PAGE_APP_SPLASH = 'appSplash',
-    PAGE_APP_LANDING = 'appLanding',
-    PAGE_SIGN_UP = 'signUpIntro',
-    PAGE_PREVIEW_SCREEN = 'previewScreen',
-    PAGE_PREVIEW_SCREEN_DETAIL = 'previewScreenContentDetails',
-    PAGE_CREATE_ACCOUNT = 'createAccount',
-}
-
-export const getPageEventFromPageNavigation: (navEvent: string) => PageEvents = (navEvent: string): PageEvents => {
-    switch (navEvent) {
-        case NAVIGATION_TYPE.LOADING:
-            return PageEvents.PAGE_APP_SPLASH;
-        case NAVIGATION_TYPE.AUTH_HOME:
-            return PageEvents.PAGE_APP_LANDING;
-        case NAVIGATION_TYPE.PLAN_INFO:
-            return PageEvents.PAGE_SIGN_UP;
-        case 'BrowseStackScreen':
-            return PageEvents.PAGE_PREVIEW_SCREEN;
-        case NAVIGATION_TYPE.CONTENT_DETAILS:
-            return PageEvents.PAGE_PREVIEW_SCREEN_DETAIL;
-        case NAVIGATION_TYPE.AUTH_SIGN_UP:
-            return PageEvents.PAGE_CREATE_ACCOUNT;
-        default:
-            return PageEvents.PAGE_APP_SPLASH;
-    }
-};
-
-export const getPageIdsFromPageEvents: (pageEvents: PageEvents) => string = (pageEvents: string): string => {
-    switch (pageEvents) {
-        case PageEvents.PAGE_APP_SPLASH:
-            return PageId.PAGE_APP_SPLASH;
-        case PageEvents.PAGE_APP_LANDING:
-            return PageId.PAGE_APP_LANDING;
-        case PageEvents.PAGE_SIGN_UP:
-            return PageId.PAGE_SIGN_UP;
-        case PageEvents.PAGE_PREVIEW_SCREEN:
-            return PageId.PAGE_PREVIEW_SCREEN;
-        case PageEvents.PAGE_PREVIEW_SCREEN_DETAIL:
-            return PageId.PAGE_PREVIEW_SCREEN_DETAIL;
-        case PageEvents.PAGE_CREATE_ACCOUNT:
-            return PageId.PAGE_CREATE_ACCOUNT;
-        default:
-            return PageId.PAGE_APP_SPLASH;
-    }
-};
-
 export enum AppEvents {
     //Application Events
     APP_START = 'APP_START',
@@ -113,7 +43,6 @@ export enum AppEvents {
     LOGOUT = 'LOGOUT',
     TNC = 'TNC',
     SEARCH = 'SEARCH',
-    VIEW_ALL = 'VIEW_ALL',
     PURCHASE_SUBSCRIPTION = 'PURCHASE_SUBSCRIPTION',
     PURCHASE_TOPUP = 'PURCHASE_TOPUP',
     CREATE_PROFILE = 'CREATE_PROFILE',
@@ -132,6 +61,7 @@ export enum AppEvents {
     PP_UPDATE = 'PP_UPDATE',
     FAVORITE_CONTENT = 'FAVORITE_CONTENT',
     UPDATE_USER_PREFRENCES = 'UPDATE_USER_PREFRENCES',
+    VIEW_ALL = 'VIEW_ALL',
     //Playback
     PLAYBACK_START = 'PLAYBACK_START',
     PLAYBACK_PREPARED = 'PLAYBACK_PREPARED',
@@ -169,8 +99,6 @@ export enum AppEvents {
     DISCOVERY_FAILURE = 'DISCOVERY_SEARCH_ERROR',
     TVOD_ERROR = 'TVOD_ENTITLEMENT_ERROR',
     TOP_UP_FAILURE = 'PURCHASE_TOPUP_FAILURE',
-    SIGNUP_ERROR = 'SIGNUP_ERROR',
-    SIGNIN_ERROR = 'SIGNIN_ERROR',
 }
 
 export enum ErrorEvents {
@@ -302,9 +230,6 @@ export const getContentDetailsAttributes = (
         if (resource.origin) {
             detailsAttributes.pageId = resource.origin;
         }
-        if (resource.canDownload !== undefined) {
-            detailsAttributes.canDownload = resource.canDownload;
-        }
         detailsAttributes.contentType = 'VOD';
     }
 
@@ -326,9 +251,6 @@ export const condenseErrorData = (error: PlatformError, errorType?: AppEvents) =
     let errorAttributes: Attributes = {};
     if (errorType) {
         errorAttributes.errorType = errorType;
-    }
-    if (typeof error === 'string') {
-        errorAttributes.errorCode = error;
     }
     if (error) {
         if (error.errorCode) {
@@ -494,15 +416,6 @@ export const condenseErrorObject = (error: any, errorType?: AppEvents) => {
         }
         if (error.productId) {
             errorAttributes.productId = error.productId;
-        }
-        if (error.errorCode) {
-            errorAttributes.errorCode = error.errorCode;
-        }
-        if (error.errorMessage) {
-            errorAttributes.errorMessage = error.errorMessage;
-        }
-        if (error.internalError) {
-            errorAttributes.internalError = error.internalError;
         }
         if (error.domain) {
             errorAttributes.domain = error.domain;

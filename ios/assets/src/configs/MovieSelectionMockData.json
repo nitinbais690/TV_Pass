@@ -1,0 +1,56 @@
+{
+  "ac": [
+  ],
+  "cast": [
+    "Roddy McDowall"
+  ],
+  "cr": [
+    "Leon Shamroy"
+  ],
+  "cre": 5,
+  "ct": "2020-11-20T01:32:41Z",
+  "cty": "movie",
+  "director": [
+    "Franklin J. Schaffner"
+  ],
+  "dst": "published",
+  "ed_dt": "2099-01-01T00:00:01Z",
+  "ia": [
+    "0-16x9",
+    "1-16x9",
+    "0-3x1"
+  ],
+  "id": "95E6A743-7AEB-4E35-A157-5A0327170129",
+  "key": "95E6A743-7AEB-4E35-A157-5A0327170129-1611869232414",
+  "log": [
+    {
+      "lang": "en",
+      "n": [
+        "Adventure"
+      ]
+    }
+  ],
+  "lold": [
+    {
+      "lang": "en",
+      "n": "An astronaut crew crash lands on a planet in the distant future where intelligent talking apes are the dominant species, and humans are the oppressed and enslaved."
+    }
+  ],
+  "lon": [
+    {
+      "lang": "en",
+      "n": "Planet of the Apes"
+    }
+  ],
+  "lwe": "2099-01-01T00:00:01Z",
+  "lws": "2000-01-01T00:00:01Z",
+  "net": "indieflix",
+  "pn": "indieflix",
+  "r": 2014,
+  "rdt": "2014-07-23T01:00:00Z",
+  "rt": 6706,
+  "st": "published",
+  "st_dt": "2000-01-01T00:00:01Z",
+  "urn": "urn:resource:catalog:movie",
+  "ut": "2021-01-28T21:27:24Z"
+}

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { View, Text, StyleSheet, Animated } from 'react-native';
+import { View, Text, StyleSheet, Animated, Platform } from 'react-native';
 import { useSafeArea } from 'react-native-safe-area-context';
 import { useDimensions } from '@react-native-community/hooks';
 import { selectDeviceType } from 'qp-common-ui';
@@ -13,7 +13,7 @@ import BackgroundGradient from './components/BackgroundGradient';
 import { appFonts } from '../../AppStyles';
 import CreditsIcon from '../../assets/images/credits_large.svg';
 import Ticker from 'react-native-ticker';
-import { useIAPState } from 'utils/IAPContextProvider';
+import { NAVIGATION_TYPE } from './Navigation/NavigationConstants';
 
 const emailFromAccount = (accountProfile?: AccountProfile) => {
     if (accountProfile && accountProfile.contactMessage && accountProfile.contactMessage.length) {
@@ -142,12 +142,6 @@ const PurchaseConfirmationScreen = ({ navigation, route }: { navigation: any; ro
 
     const existingSubscriber = accountProfile && accountProfile.neverSubscribed === false;
 
-    const { resetTransaction } = useIAPState();
-    useEffect(() => {
-        resetTransaction();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
-
     return (
         <BackgroundGradient style={style.container}>
             <Text style={style.title}>{strings['header.subs_confirm']}</Text>
@@ -173,7 +167,11 @@ const PurchaseConfirmationScreen = ({ navigation, route }: { navigation: any; ro
                         if (existingSubscriber) {
                             triggerSubscribedFlow();
                         } else {
-                            navigation.navigate('UserProfile');
+                            if (Platform.isTV) {
+                                navigation.navigate(NAVIGATION_TYPE.SIGN_UP_PROFILE_TV);
+                            } else {
+                                navigation.navigate('UserProfile');
+                            }
                         }
                     }}
                 />

@@ -87,7 +87,6 @@ const CreditUsageEmptyState = (props: { info: string }): JSX.Element => {
                             <RNEButton
                                 title={strings['content_usage.go_to_browse']}
                                 titleStyle={style.infoBrowseText}
-                                buttonStyle={{ paddingLeft: 0 }}
                                 type="clear"
                                 onPress={() => navigation.navigate(NAVIGATION_TYPE.BROWSE)}
                             />

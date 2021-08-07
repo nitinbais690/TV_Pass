@@ -190,6 +190,7 @@ const IAPContext = React.createContext({
     purchaseSubscription: async (_: ProductsResponseMessage) => {},
     purchaseProduct: async (_: ProductsResponseMessage) => {},
     resetTransaction: async () => {},
+    openSubscriptionAndroid: async (_: string) => {},
 });
 
 type IAPContextProviderChildren = { children: React.ReactNode };
@@ -200,6 +201,7 @@ const IAPContextProvider = ({ children }: IAPContextProviderChildren) => {
     const { accessToken } = useAuth();
     const accessTokenRef = useRef(accessToken);
     const { appConfig } = useAppPreferencesState();
+    // const [addSubscriptionCalled, setAddSubscriptionCalled] = useState(false);
 
     let purchaseUpdateSubscriptionRef = useRef<EmitterSubscription | null>();
     let purchaseErrorSubscriptionRef = useRef<EmitterSubscription | null>();
@@ -234,7 +236,10 @@ const IAPContextProvider = ({ children }: IAPContextProviderChildren) => {
                     console.debug('[IAPContext] EV addSubscription is successful');
                     if (purchase.transactionId) {
                         console.debug('[IAPContext] finished transaction', purchase.transactionId);
-                        await RNIap.finishTransactionIOS(purchase.transactionId);
+                        await RNIap.finishTransaction(
+                            purchase,
+                            state.productType === IAPProductType.TopUp ? true : false,
+                        );
                     }
                 } else {
                     const evErrorCode = errorCode(EvergentEndpoints.AddSubscription, payload);
@@ -253,7 +258,10 @@ const IAPContextProvider = ({ children }: IAPContextProviderChildren) => {
                     ) {
                         if (purchase.transactionId) {
                             console.debug('[IAPContext] finished transaction', purchase.transactionId, evErrorCode);
-                            await RNIap.finishTransactionIOS(purchase.transactionId);
+                            await RNIap.finishTransaction(
+                                purchase,
+                                state.productType === IAPProductType.TopUp ? true : false,
+                            );
                         }
                     } else if (errorObject) {
                         // Network failure
@@ -267,7 +275,7 @@ const IAPContextProvider = ({ children }: IAPContextProviderChildren) => {
                 }
             }
         },
-        [appConfig, query],
+        [appConfig, query, state.productType],
     );
 
     const purchaseQueue = queue<Purchase>(
@@ -356,6 +364,7 @@ const IAPContextProvider = ({ children }: IAPContextProviderChildren) => {
                         errorObject: state.queueTaskErrors.pop(),
                     });
                 } else {
+                    console.log(IAPState.PURCHASE_SUCCESS);
                     dispatch({
                         type: IAPState.PURCHASE_SUCCESS,
                     });
@@ -401,6 +410,10 @@ const IAPContextProvider = ({ children }: IAPContextProviderChildren) => {
 
         const setupIAP = async () => {
             const canMakePayments = await RNIap.initConnection();
+            canMakePayments &&
+                RNIap.flushFailedPurchasesCachedAsPendingAndroid().catch(error => {
+                    console.warn('flushFailedPurchasesCachedAsPendingAndroid Error', error);
+                });
             console.debug('[IAPContextProvider] IAP connection established. canMakePayments:', canMakePayments);
             dispatch({
                 type: IAPState.INIT,
@@ -472,6 +485,14 @@ const IAPContextProvider = ({ children }: IAPContextProviderChildren) => {
             return;
         }
 
+        // if(Platform.isTV){
+        //     try {
+        //         await RNIap.getAvailablePurchases()
+        //     }catch(e){
+        //         console.debug('[IAPContext] getAvailable Purchase failed', e);
+        //     }
+        // }
+
         try {
             console.debug('[IAPContextProvider] purchaseSubscription initiated for skuId :', skuID);
             await RNIap.getSubscriptions([skuID]);
@@ -513,6 +534,10 @@ const IAPContextProvider = ({ children }: IAPContextProviderChildren) => {
         }
     };
 
+    const openSubscriptionAndroid = async (skus: string) => {
+        await RNIap.deepLinkToSubscriptionsAndroid(skus);
+    };
+
     const getProducts = async (skus: string[]) => {
         try {
             await RNIap.getProducts(skus);
@@ -536,6 +561,7 @@ const IAPContextProvider = ({ children }: IAPContextProviderChildren) => {
                     purchaseSubscription: purchaseSubscription,
                     purchaseProduct: purchaseProduct,
                     resetTransaction: resetTransaction,
+                    openSubscriptionAndroid: openSubscriptionAndroid,
                 }}>
                 {children}
             </IAPContext.Provider>

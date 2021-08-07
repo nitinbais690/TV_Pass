@@ -1,8 +1,8 @@
 import { GlobalWithFetchMock } from 'jest-fetch-mock';
-import mockAsyncStorage from '@react-native-community/async-storage/jest/async-storage-mock';
+import mockAsyncStorage from '@react-native-async-storage/async-storage/jest/async-storage-mock';
 import mockRNCNetInfo from '@react-native-community/netinfo/jest/netinfo-mock.js';
 
-const customGlobal: GlobalWithFetchMock = global as GlobalWithFetchMock;
+const customGlobal: GlobalWithFetchMock = (global as unknown) as GlobalWithFetchMock;
 customGlobal.fetch = require('jest-fetch-mock');
 customGlobal.fetchMock = customGlobal.fetch;
 

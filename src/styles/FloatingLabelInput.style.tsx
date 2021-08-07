@@ -1,12 +1,12 @@
-import { StyleSheet } from 'react-native';
-import { appFonts } from '../../AppStyles';
+import { StyleSheet, Platform } from 'react-native';
+import { appFonts, tvPixelSizeForLayout } from '../../AppStyles';
 
 export const FloatingLabelInputStyle = ({ appColors, appPadding, isFocused }: any) => {
     return StyleSheet.create({
         container: {
             borderWidth: 2,
             borderColor: isFocused ? appColors.brandTint : 'transparent',
-            height: 55,
+            height: Platform.isTV ? tvPixelSizeForLayout(100) : 55,
             alignItems: 'flex-end',
         },
         hintContainer: {
@@ -36,7 +36,9 @@ export const FloatingLabelInputStyle = ({ appColors, appPadding, isFocused }: an
         },
         inputText: {
             padding: 0,
+            paddingLeft: appPadding.sm(),
             alignItems: 'flex-end',
+            backgroundColor: 'transparent',
         },
     });
 };

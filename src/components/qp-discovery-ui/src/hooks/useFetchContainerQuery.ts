@@ -6,8 +6,6 @@ import { CatalogDataResponse } from '../models/Storefront.types';
 import { ContainerHookResponse } from './ContainerHookResponse';
 import { ContainerVm } from '../models/ViewModels';
 import { ScreenOrigin } from 'utils/ReportingUtils';
-import { useAppState } from 'utils/AppContextProvider';
-import { useAppPreferencesState } from 'utils/AppPreferencesContext';
 
 interface State {
     hasMore: boolean;
@@ -35,7 +33,7 @@ export const useFetchContainerQuery = (
 ): ContainerHookResponse => {
     const isMounted = useRef(true);
     const { query } = useContext(ClientContext);
-    const { appNavigationState } = useAppState();
+
     const initialState: State = {
         hasMore: false,
         error: false,
@@ -45,8 +43,7 @@ export const useFetchContainerQuery = (
         containers: undefined,
     };
     const [state, setState] = useState<State>(initialState);
-    const { appConfig } = useAppPreferencesState();
-    const storefrontContentLimit = (appConfig && appConfig.storefrontContentLimit) || 10;
+
     const handleQuery = async (pageNumber: number): Promise<void> => {
         if (!isMounted.current) {
             return;
@@ -64,17 +61,7 @@ export const useFetchContainerQuery = (
                 payload.data &&
                 payload.data
                     .map(container => {
-                        return containerAdapter(
-                            container,
-                            storefrontId,
-                            tabId,
-                            tabName,
-                            ScreenOrigin.BROWSE,
-                            undefined,
-                            undefined,
-                            appNavigationState,
-                            storefrontContentLimit,
-                        );
+                        return containerAdapter(container, storefrontId, tabId, tabName, ScreenOrigin.BROWSE);
                     })
                     // Note: Removing Personalized containers for now
                     .filter(c => c.resources && c.resources.length > 0)) ||

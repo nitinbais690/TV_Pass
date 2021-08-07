@@ -39,7 +39,7 @@ const OnboardingCreditsButtonScreen = (): JSX.Element => {
     const stylesStep2 = onboardingStep2Style({ appColors, appPadding, insets });
 
     useEffect(() => {
-        // Orientation.lockToPortrait();
+        Orientation.lockToPortrait();
         Animated.sequence([
             Animated.timing(enterCreditsAnimValue, {
                 toValue: 1,
@@ -76,8 +76,6 @@ const OnboardingCreditsButtonScreen = (): JSX.Element => {
         return () => {
             if (DeviceInfo.getDeviceType() === 'Tablet') {
                 Orientation.unlockAllOrientations();
-            } else {
-                Orientation.lockToPortrait();
             }
         };
     });
@@ -130,13 +128,7 @@ const OnboardingCreditsButtonScreen = (): JSX.Element => {
                         ],
                     },
                 ]}>
-                <StorefrontCatalog
-                    loading={false}
-                    error={false}
-                    containers={containers}
-                    pageOffset={0}
-                    cardType="EmptyCard"
-                />
+                <StorefrontCatalog loading={false} error={false} containers={containers} pageOffset={0} />
             </Animated.View>
         );
     };
@@ -183,7 +175,6 @@ const OnboardingCreditsButtonScreen = (): JSX.Element => {
                     onResourcePress={() => {
                         onboardNavigation('onboardingRedeemContent');
                     }}
-                    cardType="EmptyCard"
                 />
             </Animated.View>
             <HeaderTabBar routes={routesMock} renderScene={renderScene} />
@@ -240,8 +231,8 @@ const OnboardingCreditsButtonScreen = (): JSX.Element => {
                 <RadialGradient
                     style={[stylesStep2.radialGradient, { width: width, height: height / 2 }]}
                     colors={['rgba(104, 110, 255, 0.6)', 'rgba(104, 110, 255, 0.3)', 'rgba(12,16,33, 0)']}
-                    stops={[0, 0.3, 0.9]}
-                    center={[0, 40]}
+                    stops={[0, 0.3, 0.7]}
+                    center={[10, 40]}
                     radius={width / 1.2}
                 />
             </Animated.View>

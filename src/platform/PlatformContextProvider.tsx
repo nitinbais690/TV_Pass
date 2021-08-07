@@ -94,12 +94,21 @@ const PlatformContextProvider = ({ children }: PlatformProviderChildren) => {
         endpointURL: appConfig && appConfig.oAuthURL,
     };
 
+    const configureTv = appConfig && appConfig.configureTvClient;
+
     const contentAuthConfig: ContentAuthConfig = {
         clientRegistrationEndpointURL: appConfig && appConfig.clientRegURL,
         contentAuthEndpointURL: appConfig && appConfig.contentAuthURL,
         platformClient: {
             id: DeviceInfo.getUniqueId(),
-            type: Platform.OS === 'ios' ? 'iosmobile' : 'androidmobile',
+            type:
+                Platform.OS === 'ios'
+                    ? 'iosmobile'
+                    : Platform.isTV
+                    ? configureTv
+                        ? 'androidtv'
+                        : 'androidmobile'
+                    : 'androidmobile',
         },
     };
 
@@ -134,7 +143,9 @@ const PlatformContextProvider = ({ children }: PlatformProviderChildren) => {
                 if (!(await contentAuthorizer.isConfigured())) {
                     await contentAuthorizer.initWithConfig(contentAuthConfig);
                 }
-                await contentAuthorizer.ensureClientRegistration();
+                if (!Platform.isTV) {
+                    await contentAuthorizer.ensureClientRegistration();
+                }
 
                 await bookmarkService.initializeBookmarkService({
                     bookmarkServiceEndpoint: appConfig && appConfig.bookmarkURL,

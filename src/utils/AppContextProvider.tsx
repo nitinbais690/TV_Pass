@@ -1,10 +1,10 @@
 import React, { Context, useEffect, useContext, useState } from 'react';
 import { ClientContext } from 'react-fetching-library';
-import { downloadManager } from 'rn-qp-nxg-player';
 import { useAppPreferencesState, AppConfig } from './AppPreferencesContext';
 import { useAuth } from '../contexts/AuthContextProvider';
 import { useNetworkStatus } from '../contexts/NetworkContextProvider';
 import { isRegionRestricted } from './GeoChecker';
+import { Platform } from 'react-native';
 
 export type AppNavigationState =
     | 'INIT'
@@ -84,6 +84,7 @@ const AppContextProvider = ({ children }: { children: React.ReactNode }) => {
     const { userType, accessToken } = userState;
 
     const [state, dispatch] = React.useReducer((prevState, action) => {
+        console.log('ACTION TYPE', action.type);
         switch (action.type) {
             case 'INIT':
                 return {
@@ -157,13 +158,15 @@ const AppContextProvider = ({ children }: { children: React.ReactNode }) => {
         if (!appConfig) {
             return;
         }
-
         const hasDownloads = async () => {
-            try {
-                const downloads = await downloadManager.getAllDownloads();
-                return downloads.length > 0;
-            } catch (e) {
-                return false;
+            if (!Platform.isTV) {
+                try {
+                    const downloadManager = require('rn-qp-nxg-player');
+                    const downloads = await downloadManager.getAllDownloads();
+                    return downloads.length > 0;
+                } catch (e) {
+                    return false;
+                }
             }
         };
 
@@ -182,26 +185,27 @@ const AppContextProvider = ({ children }: { children: React.ReactNode }) => {
             ) {
                 return;
             }
+            if (!Platform.isTV) {
+                const hasOfflineDownloads = await hasDownloads();
+                const routeToOffline = isInternetReachable === false && !hasOfflineDownloads;
+                const routeToDownloads = isInternetReachable === false && hasOfflineDownloads;
 
-            const hasOfflineDownloads = await hasDownloads();
-            const routeToOffline = isInternetReachable === false && !hasOfflineDownloads;
-            const routeToDownloads = isInternetReachable === false && hasOfflineDownloads;
+                // user is offline and does not have any offline downloads,
+                // route user to offline screen
+                if (routeToOffline) {
+                    dispatch({ type: 'OFFLINE' });
+                    return;
+                }
 
-            // user is offline and does not have any offline downloads,
-            // route user to offline screen
-            if (routeToOffline) {
-                dispatch({ type: 'OFFLINE' });
-                return;
-            }
-
-            // user is offline with local downloads
-            // route user to browse experience
-            if (routeToDownloads) {
-                dispatch({
-                    type: 'SUBSCRIBED',
-                    payload: { accessToken: accessToken, routeToDownloads: true },
-                });
-                return;
+                // user is offline with local downloads
+                // route user to browse experience
+                if (routeToDownloads) {
+                    dispatch({
+                        type: 'SUBSCRIBED',
+                        payload: { accessToken: accessToken, routeToDownloads: true },
+                    });
+                    return;
+                }
             }
 
             // user is online, route based on user state

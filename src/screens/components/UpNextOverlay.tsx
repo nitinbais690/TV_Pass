@@ -34,8 +34,7 @@ export type UpNextOverlayActions = {
 const UpNextOverlay = React.forwardRef<UpNextOverlayActions, UpNextOverlayProps>(
     ({ resource, onUpNextSelected, onOverlayClose }, ref) => {
         const navigation = useNavigation();
-        const { credits, fetchCredits } = useCredits();
-        const currentCredits = useRef<number | null>(credits);
+        const { credits } = useCredits();
         const prefs = useAppPreferencesState();
         const insets = useSafeArea();
         const { Alert } = useAlert();
@@ -159,21 +158,9 @@ const UpNextOverlay = React.forwardRef<UpNextOverlayActions, UpNextOverlayProps>
             // eslint-disable-next-line react-hooks/exhaustive-deps
         }, [tvodToken, redeemError]);
 
-        useEffect(() => {
-            fetchCredits().then(() => {
-                currentCredits.current = credits;
-            });
-            // eslint-disable-next-line react-hooks/exhaustive-deps
-        }, [credits]);
-
         const onResourcePress = (res: ResourceVm) => {
             // if user has no remaining credits or not enough credits, open credits screen
-            if (
-                res.credits &&
-                currentCredits.current !== null &&
-                res.credits > currentCredits.current &&
-                res.expiresIn === undefined
-            ) {
+            if (res.credits && credits && res.credits > credits && res.expiresIn === undefined) {
                 navigation.navigate(NAVIGATION_TYPE.CREDITS);
                 return;
             }
@@ -231,7 +218,7 @@ const UpNextOverlay = React.forwardRef<UpNextOverlayActions, UpNextOverlayProps>
                 )}
                 <View style={styles.close}>
                     <BorderlessButton onPress={onClose}>
-                        <CloseIcon accessible accessibilityLabel={'Close'} />
+                        <CloseIcon />
                     </BorderlessButton>
                 </View>
             </Animated.View>

@@ -1,4 +1,4 @@
-import React, { useReducer, useRef, useState, useEffect, useImperativeHandle, Dispatch, SetStateAction } from 'react';
+import React, { useReducer, useRef, useState, useEffect, useImperativeHandle } from 'react';
 import { Animated, TouchableHighlight, View, Text, Platform } from 'react-native';
 import { useDimensions, useLayout } from '@react-native-community/hooks';
 import SystemSetting from 'react-native-system-setting';
@@ -22,9 +22,7 @@ import { useSafeArea } from 'react-native-safe-area-context';
 import TrackSelectionView from './TracksSelectionView';
 import { PlaybackStateValue, QpNxgAirplayView } from 'rn-qp-nxg-player';
 import { ResourceVm } from 'qp-discovery-ui';
-import { CastButton } from 'react-native-google-cast';
 import { TrackInfo } from 'screens/components/PlatformPlayer';
-import { PinchGestureHandler, PinchGestureHandlerStateChangeEvent } from 'react-native-gesture-handler';
 
 export type CastType = 'Chromecast' | 'Airplay';
 
@@ -52,7 +50,6 @@ export interface PlayControllerProps {
     onPlay?: () => void;
     onStop?: () => void;
     handleVolumeToggle?: (value: number) => void;
-    onMuteToggle?: (isMuted: boolean) => void;
     onRewindPress?: () => void;
     onForwardPress?: () => void;
     onAirPlayPress?: () => void;
@@ -64,17 +61,12 @@ export interface PlayControllerProps {
     activeAudioTrack?: string;
     onAudioOptionSelected?: (option: string, languageCode: string) => void;
     onTextOptionSelected?: (option: string, languageCode: string) => void;
-    heightState: [string, Dispatch<SetStateAction<string>>];
-    widthState: [string, Dispatch<SetStateAction<string>>];
-    _onGestureStateChange?: ((event: PinchGestureHandlerStateChangeEvent) => void) | undefined;
 }
 
 const playerProps = {
     controlTimeoutDelay: 3000,
     controlTimeout: 0,
 };
-
-let lastPress = 0;
 
 export const PlayerControlsView = React.forwardRef<PlayerControlsActions, PlayControllerProps>(
     (props, ref): JSX.Element => {
@@ -88,7 +80,6 @@ export const PlayerControlsView = React.forwardRef<PlayerControlsActions, PlayCo
         const [seekedTo, setSeekedTo] = useState<number>(0);
         const [seekVolumeTo, setSeekVolumeTo] = useState<number>(0);
         const [showVolumeIcon, setShowVolumeIcon] = useState(true);
-        const [muted, setMuted] = useState(false);
 
         const isPortrait = height > width;
         const centerControlStyles = playerCenterControlsStyles();
@@ -96,20 +87,13 @@ export const PlayerControlsView = React.forwardRef<PlayerControlsActions, PlayCo
         const bottomControlStyles = playerBottomControlsStyles(insets, isPortrait);
 
         const initialValue = props.showOnStart ? 1 : 0;
-        const onDoublePress = () => {
-            const time = new Date().getTime();
-            const delta = time - lastPress;
-            const DOUBLE_PRESS_DELAY = 250;
-            const screenSize = props.heightState[0] === '100%' ? '120%' : '100%';
-            if (delta < DOUBLE_PRESS_DELAY) {
-                props.heightState[1](screenSize);
-                props.widthState[1](screenSize);
-            }
-            lastPress = time;
-        };
 
         useEffect(() => {
             isMounted.current = true;
+
+            SystemSetting.getVolume().then(value => {
+                setSeekVolumeTo(value * 100);
+            });
 
             let volumeListener = SystemSetting.addVolumeListener(({ value }) => {
                 setSeekVolumeTo(value * 100);
@@ -253,7 +237,7 @@ export const PlayerControlsView = React.forwardRef<PlayerControlsActions, PlayCo
             }, value);
         };
 
-        const showControlAnimation = async () => {
+        const showControlAnimation = () => {
             Animated.parallel([
                 Animated.timing(animations.topControl.opacity, { toValue: 1, useNativeDriver: true }),
                 Animated.timing(animations.topControl.marginTop, { toValue: 1, useNativeDriver: true }),
@@ -270,7 +254,7 @@ export const PlayerControlsView = React.forwardRef<PlayerControlsActions, PlayCo
             }
         };
 
-        const handlePlayPause = async () => {
+        const handlePlayPause = () => {
             const newValue = !state.paused;
 
             setState({ name: 'pauseState', value: newValue });
@@ -284,7 +268,7 @@ export const PlayerControlsView = React.forwardRef<PlayerControlsActions, PlayCo
             }
         };
 
-        const handleRewind = async () => {
+        const handleRewind = () => {
             const value = Math.max(0, props.currentTime - 15000);
             setSeekedTo(value);
             if (props.onRewindPress) {
@@ -292,7 +276,7 @@ export const PlayerControlsView = React.forwardRef<PlayerControlsActions, PlayCo
             }
         };
 
-        const handleFastFwd = async () => {
+        const handleFastFwd = () => {
             const value = Math.min(props.playbackDuration, props.currentTime + 15000);
             setSeekedTo(value);
             if (props.onForwardPress) {
@@ -305,22 +289,17 @@ export const PlayerControlsView = React.forwardRef<PlayerControlsActions, PlayCo
         };
 
         const handleVolumeEvent = async () => {
-            if (props.castType === 'Airplay') {
-                setMuted(!muted);
-                props.onMuteToggle && props.onMuteToggle(!muted);
-            } else {
-                setShowVolumeIcon(false);
-            }
+            setShowVolumeIcon(false);
         };
 
-        const handleOnScreenTouch = async () => {
+        const handleOnScreenTouch = () => {
             if (props.isCasting && state.showControls) {
                 return;
             }
 
             const show: boolean = !state.showControls;
             if (show === true) {
-                await showControlAnimation();
+                showControlAnimation();
             } else {
                 hideControlAnimation(0);
             }
@@ -388,12 +367,7 @@ export const PlayerControlsView = React.forwardRef<PlayerControlsActions, PlayCo
         const renderBottomControls = () => {
             const seekBarControl = renderSeekBar();
             const value = seekVolumeTo;
-            let volumeIcon;
-            if (props.castType === 'Airplay') {
-                volumeIcon = muted ? <MuteIcon /> : <UnMuteIcon />;
-            } else {
-                volumeIcon = seekVolumeTo > 0 ? <UnMuteIcon /> : <MuteIcon />;
-            }
+            const volumeIcon = seekVolumeTo > 0 ? <UnMuteIcon /> : <MuteIcon />;
 
             const mainResource = props.resource;
             let name = mainResource && mainResource.name;
@@ -415,7 +389,7 @@ export const PlayerControlsView = React.forwardRef<PlayerControlsActions, PlayCo
                             {props.isCasting && <Text style={bottomControlStyles.titleText}>{props.castLabel}</Text>}
                             {props.resource && <Text style={bottomControlStyles.titleText}>{name}</Text>}
                             {props.resource && (
-                                <Text style={bottomControlStyles.captionText}>{props.resource.network}</Text>
+                                <Text style={bottomControlStyles.captionText}>{props.resource.providerName}</Text>
                             )}
                             {props.resource && (
                                 <Text style={[bottomControlStyles.captionText]}>{props.resource.releaseYear}</Text>
@@ -446,7 +420,7 @@ export const PlayerControlsView = React.forwardRef<PlayerControlsActions, PlayCo
                                     maximumTrackTintColor={'rgba(256, 256, 256, 0.2)'}
                                 />
                             )}
-                            {(showVolumeIcon || props.castType === 'Airplay') &&
+                            {showVolumeIcon &&
                                 renderControlIcon(
                                     'VolumeButton',
                                     volumeIcon,
@@ -482,6 +456,21 @@ export const PlayerControlsView = React.forwardRef<PlayerControlsActions, PlayCo
             );
         };
 
+        // const renderCastButton = () => {
+        //     if (props.showCastIcon && !Platform.isTV) {
+        //         const { CastButton } = require('react-native-google-cast');
+        //         return (
+        //             <CastButton
+        //                 style={[
+        //                     props.isCasting && props.castType === 'Chromecast'
+        //                         ? topControlStyles.activeCastIcon
+        //                         : topControlStyles.castIconContainer,
+        //                 ]}
+        //             />
+        //         );
+        //     }
+        // };
+
         const renderTopControls = () => {
             return (
                 <Animated.View
@@ -499,18 +488,10 @@ export const PlayerControlsView = React.forwardRef<PlayerControlsActions, PlayCo
                                 handleTracksSelectionEvent,
                                 topControlStyles.moreControlsIconContainer,
                             )}
-                            {Platform.OS === 'ios' && !props.isDownloadedContentPlayback && (
+                            {Platform.OS === 'ios' && !Platform.isTV && !props.isDownloadedContentPlayback && (
                                 <QpNxgAirplayView style={topControlStyles.castIconContainer} />
                             )}
-                            {props.showCastIcon && (
-                                <CastButton
-                                    style={[
-                                        props.isCasting && props.castType === 'Chromecast'
-                                            ? topControlStyles.activeCastIcon
-                                            : topControlStyles.castIconContainer,
-                                    ]}
-                                />
-                            )}
+                            {/* {renderCastButton()} */}
                         </View>
                         <View>
                             {renderControlIcon('CloseButton', <CloseIcon />, props.onBackPress, [
@@ -532,10 +513,13 @@ export const PlayerControlsView = React.forwardRef<PlayerControlsActions, PlayCo
                             marginRight: '10%',
                             ...centerControlStyles.icon,
                         })}
-                        {renderControlIcon('Play', <PlayStateIcon />, handlePlayPause, [
-                            centerControlStyles.icon,
-                            props.isLoading ? { opacity: 0 } : {},
-                        ])}
+                        {renderControlIcon('Play', <PlayStateIcon />, handlePlayPause, {
+                            width: 50,
+                            height: 50,
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            borderRadius: 30,
+                        })}
                         {renderControlIcon('ForwardButton', <ForwardIcon />, handleFastFwd, {
                             marginLeft: '10%',
                             ...centerControlStyles.icon,
@@ -551,28 +535,26 @@ export const PlayerControlsView = React.forwardRef<PlayerControlsActions, PlayCo
                 onPress={handleOnScreenTouch}
                 style={topControlStyles.container}>
                 <>
-                    <PinchGestureHandler onHandlerStateChange={props._onGestureStateChange}>
-                        <View onStartShouldSetResponder={() => onDoublePress()} style={topControlStyles.container}>
-                            {state.showControls && (
-                                <View style={topControlStyles.container}>
-                                    <View style={{ flex: 1 }}>{renderTopControls()}</View>
-                                    <View style={{ flex: 2 }}>{renderCenterControls()}</View>
-                                    <View style={{ flex: 1 }}>{renderBottomControls()}</View>
-                                </View>
-                            )}
-                            {showTrackSelection && (
-                                <TrackSelectionView
-                                    captionOptions={props.captionOptions!}
-                                    audioOptions={props.audioOptions!}
-                                    activeTextTrack={props.activeTextTrack}
-                                    activeAudioTrack={props.activeAudioTrack}
-                                    onCancel={() => setShowTrackSelection(false)}
-                                    onCaptionOptionSelected={props.onTextOptionSelected!}
-                                    onAudioOptionSelected={props.onAudioOptionSelected!}
-                                />
-                            )}
-                        </View>
-                    </PinchGestureHandler>
+                    <View style={topControlStyles.container}>
+                        {state.showControls && (
+                            <View style={topControlStyles.container}>
+                                <View style={{ flex: 1 }}>{renderTopControls()}</View>
+                                <View style={{ flex: 1 }}>{renderCenterControls()}</View>
+                                <View style={{ flex: 1 }}>{renderBottomControls()}</View>
+                            </View>
+                        )}
+                        {showTrackSelection && (
+                            <TrackSelectionView
+                                captionOptions={props.captionOptions!}
+                                audioOptions={props.audioOptions!}
+                                activeTextTrack={props.activeTextTrack}
+                                activeAudioTrack={props.activeAudioTrack}
+                                onCancel={() => setShowTrackSelection(false)}
+                                onCaptionOptionSelected={props.onTextOptionSelected!}
+                                onAudioOptionSelected={props.onAudioOptionSelected!}
+                            />
+                        )}
+                    </View>
                 </>
             </TouchableHighlight>
         );

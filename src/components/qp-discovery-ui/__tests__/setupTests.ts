@@ -12,10 +12,20 @@ RNNativeModules.RNGestureHandlerModule = RNNativeModules.RNGestureHandlerModule 
 RNNativeModules.PlatformConstants = RNNativeModules.PlatformConstants || {
     forceTouchAvailable: false,
 };
+RNNativeModules.ReactLocalization = {
+    language: 'en',
+};
 
 jest.mock('react-native-device-info', () => {
     return {
         getDeviceType: jest.fn(),
+    };
+});
+
+jest.mock('react-native-localize', () => {
+    return {
+        getLocales: jest.fn(),
+        // you can add other functions mock here that you are using
     };
 });
 //TODO:https://github.com/kmagiera/react-native-reanimated/pull/344

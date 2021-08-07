@@ -65,12 +65,11 @@ export enum AppConfigKeys {
     PREVIEW_IMAGE_URL_KEY = 'previewImageUrl',
     SUBSCRIPTION_CONFIRM_KEY = 'subscriptionConfirmationImageUrl',
     CONTINUE_SUBSCRIPTION_IMAGE_URL_KEY = 'continueSubscriptionImageUrl',
+    CONFIGURE_TV_CLIENT = 'configureTvClient',
 
     CREDITS_REFRESH_INTERVAL_KEY = 'creditsRefreshIntervalMs',
 
     ONBOARDING_RESOURCE_NEW_KEY = 'onboardingResourceNew',
-    PROMOTIONAL_CONTAINER = 'promotionalContainer',
-    PROMOTIONAL_CONTAINER_PLACEMENT = 'promotionalContainerPlacement',
 
     // CDS filter query template
     MORE_SERVICE_FILTER_TEMPLATE_KEY = 'moreFromServiceFilterTemplate',
@@ -126,15 +125,12 @@ export enum AppConfigKeys {
 
     UP_NEXT_PERCENTAGE_THRESHOLD = 'upNextPercentageThreshold',
     MAX_UP_NEXT_ITEMS = 'maxUpNextItems',
-    MAX_SOMETHING_NEW_ITEMS = 'maxSomethingNewItems',
-    MAX_UP_NEXT_WATCHED_LIMIT = 'maxUpNextWatchLimit',
     VIEW_ALL_CHANNELS_IMAGE_TYPE = 'channelsImageType',
     VIEW_ALL_CHANNELS_ASPECT_RATIO = 'channelsAspectRatio',
     // Access token expiry
     ACCESS_TOKEN_EXP_TIMEOUT = 'accessTokenExpTimeout',
 
     STOREFRONT_PAGINATION_PAGE_SIZE = 'storefrontPageSize',
-    STOREFRONT_CONTENT_LIMIT = 'storefrontContentLimit',
     SEARCH_PAGE_SIZE = 'searchPageSize',
     MIN_UPDATED_VERSION = 'minSupportedVersion',
 }

@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useRef, Dispatch, SetStateAction } from 'react';
 import { View, Dimensions, StyleSheet, Platform, Text } from 'react-native';
-import GoogleCast from 'react-native-google-cast';
-import DeviceInfo from 'react-native-device-info';
+//import DeviceInfo from 'react-native-device-info';
 import { NetInfoStateType } from '@react-native-community/netinfo';
 import PrefersHomeIndicatorAutoHidden from 'react-native-home-indicator';
 import { dimensions, AspectRatio, ImageType } from 'qp-common-ui';
@@ -21,17 +20,18 @@ import {
     usePlayerState,
     PlayerControlsView,
     CaptionsStyle,
-    PlayerControlsTV,
+    // PlayerControlsTV,
     PlayerCaptionsView,
     PlayerControlsActions,
 } from 'qp-playercontroller-ui';
+import PlayerControlsTV from 'qp-playercontroller-ui/src/views/PlayerControlsTV';
 import { ResourceVm, useConfig } from 'qp-discovery-ui';
 import { useCastContext } from 'utils/CastContextProvider';
 import { getStreamQuality } from 'utils/UserPreferenceUtils';
 import { useNetworkStatus } from 'contexts/NetworkContextProvider';
 import { useLocalization } from 'contexts/LocalizationContext';
 import { useEntitlements } from 'contexts/EntitlementsContextProvider';
-import { useAlert } from 'contexts/AlertContext';
+// import { useAlert } from 'contexts/AlertContext';
 import { useAppPreferencesState } from 'utils/AppPreferencesContext';
 import { imageResizerUri } from 'qp-discovery-ui/src/utils/ImageUtils';
 import { useHistoryCreate } from 'screens/hooks/useHistoryCreate';
@@ -42,9 +42,9 @@ import { PlayerProps } from 'screens/hooks/usePlayerConfig';
 import { appFonts } from '../../../AppStyles';
 import AppLoadingIndicator from './AppLoadingIndicator';
 import UpNextOverlay, { UpNextOverlayActions } from './UpNextOverlay';
-import { useDownloadsContext } from 'utils/DownloadsContextProvider';
 import { useSetDownloadBookmarks } from 'screens/hooks/useSetDownloadBookmarks';
-import { State } from 'react-native-gesture-handler';
+import { useDownloadsContext } from 'utils/DownloadsContextProvider';
+import UpNextTV from '../../TV/components/UpNextTV';
 
 export interface PlatformPlayerProps {
     /**
@@ -84,8 +84,6 @@ export interface PlatformPlayerProps {
     resource?: ResourceVm | null;
 
     tvodToken: string;
-
-    isAirplayRouteConnected: boolean;
 
     setPlayerProps: Dispatch<SetStateAction<PlayerProps>>;
 
@@ -131,7 +129,7 @@ const filterAndMapActiveVariantsToCode = (variants: Array<TrackVariantInfo>, typ
         }
     }
 };
-
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const castPlayerStateAdaptor = (castPlayerState: number): PlaybackStateValue => {
     // https://developers.google.com/cast/docs/reference/ios/g_c_k_media_status_8h#ae2742cc7441bbceea50f19ab3b6a68f9
     switch (castPlayerState) {
@@ -151,6 +149,7 @@ const castPlayerStateAdaptor = (castPlayerState: number): PlaybackStateValue => 
 
 const useCellularPlaybackWarning = (player: Player | null) => {
     const { type } = useNetworkStatus();
+
     const { streamOverCellular: canStreamOverCellularState } = useDownloadsContext();
 
     useEffect(() => {
@@ -164,14 +163,16 @@ const useCellularPlaybackWarning = (player: Player | null) => {
 //const disbaleControls: boolean = false;
 export const PlatformPlayer = (props: PlatformPlayerProps): JSX.Element => {
     const { playerConfig, resource } = props;
-    const { Alert } = useAlert();
+    // const { Alert } = useAlert();
     const tvodTokenRef = useRef(props.tvodToken);
     const upNextOverlayRef = useRef<UpNextOverlayActions>(null);
+    const upNextOverlayTVRef = useRef<UpNextOverlayActions>(null);
     const playerControlsRef = useRef<PlayerControlsActions>(null);
     const { appConfig } = useAppPreferencesState();
     let { xAuthToken } = useEntitlements();
     const [castContentProgress, setCastContentProgress] = useState(0);
     const [castContentDuration, setCastContentDuration] = useState(0);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [isCastConnecting, setIsCastConnecting] = useState<boolean>(false);
     const [showSettings, setShowSettings] = useState<boolean>(false);
     const [disableControls, setDisableControls] = useState<boolean>(false);
@@ -184,25 +185,22 @@ export const PlatformPlayer = (props: PlatformPlayerProps): JSX.Element => {
         playerConfig,
         onError: props.onError,
         playerPreference: playerPrefs,
-        wOffset: resource && resource.watchedOffset ? resource.watchedOffset : 0,
     });
     let captionsOptions: TrackInfo[] = filterAndMapVariantsToCode(state.tracks, 'TEXT');
     let audioOptions: TrackInfo[] = filterAndMapVariantsToCode(state.tracks, 'AUDIO');
     let activeTextTrack: string | undefined = filterAndMapActiveVariantsToCode(state.selectedTracks, 'TEXT');
     let activeAudioTrack: string | undefined = filterAndMapActiveVariantsToCode(state.selectedTracks, 'AUDIO');
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { isCastSessionActive, device, dispatch } = useCastContext();
     const { strings } = useLocalization();
     //const isTVScreen: boolean = Platform.isTV;
-    const isDownloadedContentPlayback = playerConfig && playerConfig.deliveryType === 'DOWNLOAD' ? true : false;
-    const onUpNextSelected = async (playerProps: PlayerProps) => {
+
+    const onUpNextSelected = (playerProps: PlayerProps) => {
         if (upNextOverlayRef.current) {
             upNextOverlayRef.current.hide();
         }
+
         props.setPlayerProps(playerProps);
-        //Whenever the upnext content is selected, we are resetting the cast player state, content progress and content duration to its initial state.
-        setCastPlayerState('IDLE');
-        setCastContentProgress(0);
-        setCastContentDuration(0);
         reset();
     };
 
@@ -236,16 +234,23 @@ export const PlatformPlayer = (props: PlatformPlayerProps): JSX.Element => {
     }, [appConfig]);
 
     useEffect(() => {
-        if (isCastSessionActive) {
+        if (isCastSessionActive && !Platform.isTV) {
             console.debug('[GoogleCast] [Connect & Play] handler');
-            //Load cast media only when the tvod token is updated
-            loadMedia();
+            /* Whenever the resource id is updated(new content selected from upnext overlay or from browse for cast connect and play)we are resetting
+             the cast player state, content progress and content duration to its initial state. Since, tvodToken is content specific, we use a ref
+             for comparing its value */
+            setCastPlayerState('IDLE');
+            setCastContentProgress(0);
+            setCastContentDuration(0);
+            if (tvodTokenRef.current !== props.tvodToken) {
+                loadMedia();
+            }
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [props.tvodToken]);
+    }, [props.resource && props.resource.id, props.tvodToken]);
 
     useEffect(() => {
-        if (state.playbackState === 'STARTED' && isCastSessionActive && player) {
+        if (state.playbackState === 'STARTED' && isCastSessionActive && player && !Platform.isTV) {
             console.debug('[GoogleCast] [Connect & Play] handler');
             player.pause();
         }
@@ -261,7 +266,6 @@ export const PlatformPlayer = (props: PlatformPlayerProps): JSX.Element => {
         playbackDuration,
         props.resource && props.resource.id,
     );
-
     useCellularPlaybackWarning(player);
     useHistoryCreate(currentPosition, playbackDuration, props.resource);
     usePauseCreditsTimer(state.playbackState);
@@ -276,22 +280,24 @@ export const PlatformPlayer = (props: PlatformPlayerProps): JSX.Element => {
         //showPlayerPrefSheet();
     };
 
-    async function handlePause(): Promise<void> {
+    function handlePause(): void {
         console.log('####### handlePause #######');
-        if (isCastSessionActive) {
+        if (isCastSessionActive && !Platform.isTV) {
+            const { GoogleCast } = require('react-native-google-cast');
             console.log('####### googlecast handlePause #######');
-            await GoogleCast.pause();
+            GoogleCast.pause();
         } else if (player) {
-            await player.pause();
+            player.pause();
         }
     }
 
-    async function handleStop(): Promise<void> {
+    function handleStop(): void {
         console.log('####### handleStop #######');
-        if (isCastSessionActive) {
-            await GoogleCast.stop();
+        if (isCastSessionActive && !Platform.isTV) {
+            const { GoogleCast } = require('react-native-google-cast');
+            GoogleCast.stop();
         } else if (player) {
-            await player.stop();
+            player.stop();
         }
     }
 
@@ -299,7 +305,8 @@ export const PlatformPlayer = (props: PlatformPlayerProps): JSX.Element => {
         console.log(`handleTextTrackSelection: ${name}`);
         const trackName: string | undefined = name === 'Off' ? undefined : name;
         const trackLanguageCode: string | undefined = name === 'Off' ? undefined : languageCode;
-        if (isCastSessionActive) {
+        if (isCastSessionActive && !Platform.isTV) {
+            const { GoogleCast } = require('react-native-google-cast');
             const enabled = name !== 'Off' ? true : false;
             await GoogleCast.toggleSubtitles(enabled, trackLanguageCode);
         } else if (player) {
@@ -312,10 +319,9 @@ export const PlatformPlayer = (props: PlatformPlayerProps): JSX.Element => {
         }
     }
 
-    function handleAudioTrackSelection(name: string, languageCode: string) {
-        console.log(`handleAudioTrackSelection: ${name}`);
-        const trackName: string | undefined = name === 'Off' ? undefined : name;
-        const trackLanguageCode: string | undefined = name === 'Off' ? undefined : languageCode;
+    function handleAudioTrackSelection(selection: any) {
+        const trackName: string | undefined = selection === 'Off' ? undefined : selection.name;
+        const trackLanguageCode: string | undefined = selection === 'Off' ? undefined : selection.languageCode;
         if (player) {
             player.setPreferredTrackVariant('AUDIO', {
                 languageCode: trackLanguageCode,
@@ -326,26 +332,29 @@ export const PlatformPlayer = (props: PlatformPlayerProps): JSX.Element => {
         }
     }
 
-    async function handlePlayback(): Promise<void> {
+    function handlePlayback(): void {
         console.log('####### handlePlayback #######');
-        if (isCastSessionActive) {
-            await GoogleCast.play();
+        if (isCastSessionActive && !Platform.isTV) {
+            const { GoogleCast } = require('react-native-google-cast');
+            GoogleCast.play();
         } else if (player) {
-            await player.play();
+            player.play();
         }
     }
 
-    async function handleRewindForward(value: number): void {
+    function handleRewindForward(value: number): void {
         console.log('Going to Seek up to  ' + value);
-        if (isCastSessionActive) {
+        if (isCastSessionActive && !Platform.isTV) {
+            const { GoogleCast } = require('react-native-google-cast');
             const currenTimeInSec = castContentProgress * 1000;
             const seekToInSeconds = value;
-            await GoogleCast.seek((currenTimeInSec + seekToInSeconds) / 1000);
+            GoogleCast.seek((currenTimeInSec + seekToInSeconds) / 1000);
         } else if (player) {
             if (Platform.isTV) {
-                await player.seek(state.currentPosition + value * 10000);
+                // player.seek(state.currentPosition + value * 10000);
+                player.seek(state.currentPosition + value);
             } else if (state.currentPosition + value < playbackDuration) {
-                await player.seek(state.currentPosition + value);
+                player.seek(state.currentPosition + value);
             }
         }
     }
@@ -358,29 +367,24 @@ export const PlatformPlayer = (props: PlatformPlayerProps): JSX.Element => {
         console.log('Initiated video lookback');
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     function handleVolumeToggle(value: number): void {
-        if (isCastSessionActive) {
+        if (isCastSessionActive && !Platform.isTV) {
+            const { GoogleCast } = require('react-native-google-cast');
             GoogleCast.setVolume(value);
         }
     }
 
-    function onMuteToggle(isMuted: boolean): void {
-        if (player) {
-            player.muteAudio(isMuted);
-        }
-    }
-
-    const onSlidingComplete = async (value: any): Promise<void> => {
-        if (isCastSessionActive) {
-            await GoogleCast.seek(value / 1000);
+    const onSlidingComplete = (value: any): void => {
+        if (isCastSessionActive && !Platform.isTV) {
+            const { GoogleCast } = require('react-native-google-cast');
+            GoogleCast.seek(value / 1000);
         } else if (player) {
-            await player.seek(value);
-            await player.play();
+            player.play();
         }
-        // if (player) {
-        //     console.log("Platform player seek")
-
-        // }
+        if (player) {
+            player.seek(value);
+        }
         //Platform.OS === 'android' ? handleSeek(value) : playbackView.seek(findNodeHandle(_playbackView), value);
     };
 
@@ -427,9 +431,9 @@ export const PlatformPlayer = (props: PlatformPlayerProps): JSX.Element => {
                 defaultPlaybackRate: 1.0,
                 mediaType: props.resource.type,
             };
-            if (player) {
-                player.setNowPlayingInfo(playingInfo);
-            }
+            // if (player) {
+            //     player.setNowPlayingInfo(playingInfo);
+            // }
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [state.isAirplayConnected, player]);
@@ -443,6 +447,7 @@ export const PlatformPlayer = (props: PlatformPlayerProps): JSX.Element => {
         posterImageStyle: { width: 200 },
     });
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const posterImageURI = imageResizerUri(
         resizerEndpoint || '',
         resizerPath,
@@ -458,7 +463,8 @@ export const PlatformPlayer = (props: PlatformPlayerProps): JSX.Element => {
                 'X-Tvod-Authorization': props.tvodToken,
             };
 
-            if (props.resource) {
+            if (props.resource && !Platform.isTV) {
+                const { GoogleCast } = require('react-native-google-cast');
                 const initialPlaybackTime =
                     props.resource && props.resource.watchedOffset ? props.resource.watchedOffset : 0;
                 const playPosition = state.currentPosition > 0 ? state.currentPosition : initialPlaybackTime;
@@ -489,25 +495,25 @@ export const PlatformPlayer = (props: PlatformPlayerProps): JSX.Element => {
         [xAuthToken, state.currentPosition, props.tvodToken],
     );
 
-    const showCastError = () => {
-        Alert.alert(
-            strings['playback.error.chromecast'],
-            undefined,
-            [
-                {
-                    text: strings['global.okay'],
-                    onPress: () => {
-                        if (player) {
-                            player.play();
-                        }
-                    },
-                },
-            ],
-            {
-                cancelable: false,
-            },
-        );
-    };
+    // const showCastError = () => {
+    //     Alert.alert(
+    //         strings['playback.error.chromecast'],
+    //         undefined,
+    //         [
+    //             {
+    //                 text: strings['global.okay'],
+    //                 onPress: () => {
+    //                     if (player) {
+    //                         player.play();
+    //                     }
+    //                 },
+    //             },
+    //         ],
+    //         {
+    //             cancelable: false,
+    //         },
+    //     );
+    // };
 
     const onOverlayClose = () => {
         if (playerControlsRef.current) {
@@ -516,178 +522,192 @@ export const PlatformPlayer = (props: PlatformPlayerProps): JSX.Element => {
     };
 
     useEffect(() => {
-        if (!upNextOverlayRef.current || !playerControlsRef.current) {
-            return;
-        }
-
-        if (showUpNextOverlay) {
-            upNextOverlayRef.current.show();
-            playerControlsRef.current.hide();
+        if (Platform.isTV) {
+            // if (!upNextOverlayTVRef.current || !playerControlsRef.current) {
+            //     return;
+            // }
+            if (showUpNextOverlay) {
+                upNextOverlayTVRef.current && upNextOverlayTVRef.current.show();
+                playerControlsRef.current && playerControlsRef.current.hide();
+            } else {
+                upNextOverlayTVRef.current && upNextOverlayTVRef.current.hide();
+                playerControlsRef.current && playerControlsRef.current.show();
+            }
         } else {
-            upNextOverlayRef.current.hide();
-            playerControlsRef.current.show();
+            if (!upNextOverlayRef.current || !playerControlsRef.current) {
+                return;
+            }
+            if (showUpNextOverlay) {
+                upNextOverlayRef.current.show();
+                playerControlsRef.current.hide();
+            } else {
+                upNextOverlayRef.current.hide();
+                playerControlsRef.current.show();
+            }
         }
     }, [showUpNextOverlay]);
 
-    useEffect(() => {
-        const onSessionEnded = async () => {
-            console.debug('[GoogleCast] Session ended', castContentProgress);
-            dispatch({
-                type: 'SESSION_ENDED',
-            });
+    // useEffect(() => {
+    //     if (!Platform.isTV) {
+    //         const { GoogleCast } = require('react-native-google-cast');
+    //         const onSessionEnded = () => {
+    //             console.debug('[GoogleCast] Session ended', castContentProgress);
+    //             dispatch({
+    //                 type: 'SESSION_ENDED',
+    //             });
 
-            if (player) {
-                await player.seek(castContentProgress * 1000);
-                await player.play();
-            }
-        };
+    //             if (player) {
+    //                 player.seek(castContentProgress * 1000);
+    //                 player.play();
+    //             }
+    //         };
 
-        GoogleCast.EventEmitter.addListener(GoogleCast.SESSION_ENDED, onSessionEnded);
+    //         GoogleCast.EventEmitter.addListener(GoogleCast.SESSION_ENDED, onSessionEnded);
 
-        return () => {
-            GoogleCast.EventEmitter.removeListener(GoogleCast.SESSION_ENDED, onSessionEnded);
-        };
+    //         return () => {
+    //             GoogleCast.EventEmitter.removeListener(GoogleCast.SESSION_ENDED, onSessionEnded);
+    //         };
+    //     }
 
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [player, castContentProgress]);
+    //     // eslint-disable-next-line react-hooks/exhaustive-deps
+    // }, [player, castContentProgress]);
 
-    useEffect(() => {
-        const channel_namespace = 'urn:x-cast:com.quickplay.platform.player.cast';
+    // useEffect(() => {
+    //     if (!Platform.isTV) {
+    //         const { GoogleCast } = require('react-native-google-cast');
+    //         const channel_namespace = 'urn:x-cast:com.quickplay.platform.player.cast';
 
-        GoogleCast.EventEmitter.addListener(GoogleCast.SESSION_STARTING, () => {
-            console.debug('[GoogleCast] Session Starting');
-            handlePause();
-            setIsCastConnecting(true);
-        });
+    //         GoogleCast.SESSION_STARTING,
+    //             () => {
+    //                 console.debug('[GoogleCast] Session Starting');
+    //                 handlePause();
+    //                 setIsCastConnecting(true);
+    //             };
 
-        GoogleCast.EventEmitter.addListener(GoogleCast.SESSION_STARTED, async () => {
-            console.debug('[GoogleCast] Session Started');
-            dispatch({
-                type: 'SESSION_STARTED',
-            });
-            await GoogleCast.initChannel(channel_namespace).catch(e => console.log('INIT CHANNEL ERROR OCCURRED', e));
-        });
+    //         GoogleCast.EventEmitter.addListener(GoogleCast.SESSION_STARTED, async () => {
+    //             console.debug('[GoogleCast] Session Started');
+    //             dispatch({
+    //                 type: 'SESSION_STARTED',
+    //             });
+    //             await GoogleCast.initChannel(channel_namespace).catch(e =>
+    //                 console.log('INIT CHANNEL ERROR OCCURRED', e),
+    //             );
+    //         });
 
-        GoogleCast.EventEmitter.addListener(GoogleCast.SESSION_START_FAILED, () => {
-            console.debug('[GoogleCast] session failed');
-        });
+    //         GoogleCast.EventEmitter.addListener(GoogleCast.SESSION_START_FAILED, () => {
+    //             console.debug('[GoogleCast] session failed');
+    //         });
 
-        GoogleCast.EventEmitter.addListener(GoogleCast.CHANNEL_CONNECTED, async ({ channel }) => {
-            console.debug('[GoogleCast] custom channel connected', channel);
-            if (!isCastConnecting) {
-                console.debug('[GoogleCast] we are resuming a session, do not loadMedia', channel);
-                return;
-            }
+    //         GoogleCast.EventEmitter.addListener(GoogleCast.CHANNEL_CONNECTED, async ({ channel }) => {
+    //             console.debug('[GoogleCast] custom channel connected', channel);
+    //             if (!isCastConnecting) {
+    //                 console.debug('[GoogleCast] we are resuming a session, do not loadMedia', channel);
+    //                 return;
+    //             }
 
-            setIsCastConnecting(false);
-            try {
-                const { id } = await GoogleCast.getCastDevice();
-                const castMessage = {
-                    messageName: 'userContext',
-                    messageType: 'info',
-                    messageOrigin: 'sender',
-                    message: {
-                        userAuthToken: xAuthToken,
-                        platformClient: {
-                            id: DeviceInfo.getUniqueId(),
-                            name: Platform.OS === 'ios' ? 'iosmobile' : 'androidmobile',
-                        },
-                        proxyPlatformClient: {
-                            name: 'chromecast',
-                            id: id,
-                        },
-                    },
-                };
-                sendMessage(channel_namespace, JSON.stringify(castMessage));
-                loadMedia();
-            } catch (e) {
-                console.error('[GoogleCast] Error sending message to receiver ', e);
+    //             setIsCastConnecting(false);
+    //             try {
+    //                 const { id } = await GoogleCast.getCastDevice();
+    //                 const castMessage = {
+    //                     messageName: 'userContext',
+    //                     messageType: 'info',
+    //                     messageOrigin: 'sender',
+    //                     message: {
+    //                         userAuthToken: xAuthToken,
+    //                         platformClient: {
+    //                             id: DeviceInfo.getUniqueId(),
+    //                             name: Platform.OS === 'ios' ? 'iosmobile' : 'androidmobile',
+    //                         },
+    //                         proxyPlatformClient: {
+    //                             name: 'chromecast',
+    //                             id: id,
+    //                         },
+    //                     },
+    //                 };
+    //                 sendMessage(channel_namespace, JSON.stringify(castMessage));
+    //                 loadMedia();
+    //             } catch (e) {
+    //                 console.error('[GoogleCast] Error sending message to receiver ', e);
 
-                showCastError();
-            }
-        });
+    //                 showCastError();
+    //             }
+    //         });
 
-        GoogleCast.EventEmitter.addListener(GoogleCast.CHANNEL_DISCONNECTED, ({ channel }) => {
-            console.debug('[GoogleCast] custom channel disconnected', channel);
-        });
+    //         GoogleCast.EventEmitter.addListener(GoogleCast.CHANNEL_DISCONNECTED, ({ channel }) => {
+    //             console.debug('[GoogleCast] custom channel disconnected', channel);
+    //         });
 
-        GoogleCast.EventEmitter.addListener(GoogleCast.CHANNEL_MESSAGE_RECEIVED, ({ channel, message }) => {
-            console.debug('[GoogleCast] custom channel message received', channel, message);
-            try {
-                const messageJSON = JSON.parse(message);
-                if (messageJSON.messageType !== 'success') {
-                    console.debug('[GoogleCast] message error ', messageJSON.messageType);
-                    showCastError();
-                }
-            } catch (e) {
-                console.error('[GoogleCast] Error parsing message from receiver', e);
-            }
-        });
+    //         GoogleCast.EventEmitter.addListener(GoogleCast.CHANNEL_MESSAGE_RECEIVED, ({ channel, message }) => {
+    //             console.debug('[GoogleCast] custom channel message received', channel, message);
+    //             try {
+    //                 const messageJSON = JSON.parse(message);
+    //                 // TODO: unable to parse the message from receiver, this might have to updated on the receiver
+    //                 // see here: https://issuetracker.google.com/issues/117136854#comment7
+    //                 if (messageJSON.includes('messageType":"error"')) {
+    //                     console.debug('[GoogleCast] message error ', messageJSON.messageType);
+    //                     showCastError();
+    //                 }
+    //             } catch (e) {
+    //                 console.error('[GoogleCast] Error parsing message from receiver', e);
+    //             }
+    //         });
 
-        GoogleCast.EventEmitter.addListener(GoogleCast.MEDIA_STATUS_UPDATED, ({ mediaStatus }) => {
-            console.debug('[GoogleCast] media status updated', mediaStatus);
-            if (mediaStatus.playerState) {
-                const playerState = castPlayerStateAdaptor(mediaStatus.playerState);
-                setCastPlayerState(playerState);
-            }
-        });
+    //         GoogleCast.EventEmitter.addListener(GoogleCast.MEDIA_STATUS_UPDATED, ({ mediaStatus }) => {
+    //             console.debug('[GoogleCast] media status updated', mediaStatus);
+    //             if (mediaStatus.playerState) {
+    //                 const playerState = castPlayerStateAdaptor(mediaStatus.playerState);
+    //                 setCastPlayerState(playerState);
+    //             }
+    //         });
 
-        GoogleCast.EventEmitter.addListener(GoogleCast.MEDIA_PLAYBACK_STARTED, ({ mediaStatus }) => {
-            console.debug('[GoogleCast] media playback started', mediaStatus);
-        });
+    //         GoogleCast.EventEmitter.addListener(GoogleCast.MEDIA_PLAYBACK_STARTED, ({ mediaStatus }) => {
+    //             console.debug('[GoogleCast] media playback started', mediaStatus);
+    //         });
 
-        GoogleCast.EventEmitter.addListener(GoogleCast.MEDIA_PLAYBACK_ENDED, ({ mediaStatus }) => {
-            console.debug('[GoogleCast] media playback ended', mediaStatus);
-        });
+    //         GoogleCast.EventEmitter.addListener(GoogleCast.MEDIA_PLAYBACK_ENDED, ({ mediaStatus }) => {
+    //             console.debug('[GoogleCast] media playback ended', mediaStatus);
+    //         });
 
-        GoogleCast.EventEmitter.addListener(GoogleCast.MEDIA_PROGRESS_UPDATED, ({ mediaProgress }) => {
-            console.debug('[GoogleCast] MEDIA_PROGRESS_UPDATED', mediaProgress);
-            setCastContentProgress(mediaProgress.progress);
-            setCastContentDuration(mediaProgress.duration);
-        });
+    //         GoogleCast.EventEmitter.addListener(GoogleCast.MEDIA_PROGRESS_UPDATED, ({ mediaProgress }) => {
+    //             console.debug('[GoogleCast] MEDIA_PROGRESS_UPDATED', mediaProgress);
+    //             setCastContentProgress(mediaProgress.progress);
+    //             setCastContentDuration(mediaProgress.duration);
+    //         });
 
-        const sendMessage = async (namespace: string, castMessage: string): Promise<void> => {
-            await GoogleCast.sendMessage(namespace, castMessage).catch(e => console.log('SEND MESSAGE FAILED', e));
-        };
+    //         const sendMessage = async (namespace: string, castMessage: string): Promise<void> => {
+    //             await GoogleCast.sendMessage(namespace, castMessage).catch(e => console.log('SEND MESSAGE FAILED', e));
+    //         };
 
-        return () => {
-            GoogleCast.EventEmitter.removeAllListeners(GoogleCast.SESSION_STARTING);
-            GoogleCast.EventEmitter.removeAllListeners(GoogleCast.SESSION_STARTED);
-            GoogleCast.EventEmitter.removeAllListeners(GoogleCast.SESSION_START_FAILED);
-            GoogleCast.EventEmitter.removeAllListeners(GoogleCast.CHANNEL_CONNECTED);
-            GoogleCast.EventEmitter.removeAllListeners(GoogleCast.CHANNEL_DISCONNECTED);
-            GoogleCast.EventEmitter.removeAllListeners(GoogleCast.CHANNEL_MESSAGE_RECEIVED);
-            GoogleCast.EventEmitter.removeAllListeners(GoogleCast.MEDIA_STATUS_UPDATED);
-            GoogleCast.EventEmitter.removeAllListeners(GoogleCast.MEDIA_PLAYBACK_STARTED);
-            GoogleCast.EventEmitter.removeAllListeners(GoogleCast.MEDIA_PLAYBACK_ENDED);
-            GoogleCast.EventEmitter.removeAllListeners(GoogleCast.MEDIA_PROGRESS_UPDATED);
-        };
+    //         return () => {
+    //             GoogleCast.EventEmitter.removeAllListeners(GoogleCast.SESSION_STARTING);
+    //             GoogleCast.EventEmitter.removeAllListeners(GoogleCast.SESSION_STARTED);
+    //             GoogleCast.EventEmitter.removeAllListeners(GoogleCast.SESSION_START_FAILED);
+    //             GoogleCast.EventEmitter.removeAllListeners(GoogleCast.CHANNEL_CONNECTED);
+    //             GoogleCast.EventEmitter.removeAllListeners(GoogleCast.CHANNEL_DISCONNECTED);
+    //             GoogleCast.EventEmitter.removeAllListeners(GoogleCast.CHANNEL_MESSAGE_RECEIVED);
+    //             GoogleCast.EventEmitter.removeAllListeners(GoogleCast.MEDIA_STATUS_UPDATED);
+    //             GoogleCast.EventEmitter.removeAllListeners(GoogleCast.MEDIA_PLAYBACK_STARTED);
+    //             GoogleCast.EventEmitter.removeAllListeners(GoogleCast.MEDIA_PLAYBACK_ENDED);
+    //             GoogleCast.EventEmitter.removeAllListeners(GoogleCast.MEDIA_PROGRESS_UPDATED);
+    //         };
+    //     }
 
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [state.playbackState, player, castPlayerState]);
+    //     // eslint-disable-next-line react-hooks/exhaustive-deps
+    // }, [state.playbackState, player, castPlayerState]);
 
     let castLabel = '';
-    if (isCastSessionActive && device && device.name) {
+    if (isCastSessionActive && device && device.name && !Platform.isTV) {
         castLabel = strings.formatString(strings['playback.cast_lbl'], device.name) as string;
-    } else if (state.isAirplayConnected || props.isAirplayRouteConnected) {
+    } else if (state.isAirplayConnected) {
         castLabel = strings['playback.airplay_lbl'];
     }
+    const isDownloadedContentPlayback = playerConfig.deliveryType === 'DOWNLOAD' ? true : false;
 
     useSetDownloadBookmarks(resource && resource.id, state.currentPosition);
-    const screenHeight = useState('100%');
-    const screenWidth = useState('100%');
-
-    const _onGestureStateChange = (event: { nativeEvent: { oldState: State } }) => {
-        if (event.nativeEvent.oldState === State.ACTIVE) {
-            const screenSize = screenHeight[0] === '100%' ? '120%' : '100%';
-            screenHeight[1](screenSize);
-            screenWidth[1](screenSize);
-        }
-    };
 
     return (
         <>
-            <PrefersHomeIndicatorAutoHidden />
+            {!Platform.isTV && Platform.OS == 'ios' && <PrefersHomeIndicatorAutoHidden />}
             <View style={playerViewStyles.rootContainer}>
                 <View
                     style={[
@@ -699,10 +719,10 @@ export const PlatformPlayer = (props: PlatformPlayerProps): JSX.Element => {
                         },
                     ]}>
                     <QpNxgPlaybackView
-                        style={[playerViewStyles.videoContainer, { width: screenWidth[0], height: screenHeight[0] }]}
+                        style={[playerViewStyles.videoContainer, { width: '100%', height: '100%' }]}
                         playerID={state.playerID}
                     />
-                    {(isCastSessionActive || state.isAirplayConnected || props.isAirplayRouteConnected) && (
+                    {(isCastSessionActive || state.isAirplayConnected) && (
                         <View
                             style={[
                                 playerViewStyles.videoContainer,
@@ -716,14 +736,10 @@ export const PlatformPlayer = (props: PlatformPlayerProps): JSX.Element => {
                             contentTitle={props.resource ? props.resource.name : ''}
                             currentTime={currentPosition}
                             castLabel={castLabel}
-                            isCasting={isCastSessionActive || state.isAirplayConnected || props.isAirplayRouteConnected}
+                            isCasting={isCastSessionActive || state.isAirplayConnected}
                             isDownloadedContentPlayback={isDownloadedContentPlayback}
                             castType={
-                                isCastSessionActive
-                                    ? 'Chromecast'
-                                    : state.isAirplayConnected || props.isAirplayRouteConnected
-                                    ? 'Airplay'
-                                    : undefined
+                                isCastSessionActive ? 'Chromecast' : state.isAirplayConnected ? 'Airplay' : undefined
                             }
                             playbackDuration={playbackDuration}
                             isLoading={isLoading}
@@ -745,10 +761,6 @@ export const PlatformPlayer = (props: PlatformPlayerProps): JSX.Element => {
                             onAudioOptionSelected={handleAudioTrackSelection}
                             onTextOptionSelected={handleTextTrackSelection}
                             handleVolumeToggle={handleVolumeToggle}
-                            onMuteToggle={onMuteToggle}
-                            heightState={screenHeight}
-                            widthState={screenWidth}
-                            _onGestureStateChange={_onGestureStateChange}
                         />
                     )}
 
@@ -761,8 +773,8 @@ export const PlatformPlayer = (props: PlatformPlayerProps): JSX.Element => {
                             //showOnlyCaptionsControl={props.showOnlyCaptionsControl}
                             showOnStart={false}
                             //onBack={() => props.onBackPress()}
-                            disableRewind={true}
-                            disableForward={true} //playerConfig.contentType !== 'VOD'}
+                            disableRewind={false}
+                            disableForward={false} //playerConfig.contentType !== 'VOD'}
                             disableRestart={true}
                             disableLookback={true}
                             disableFullscreen={Platform.isTV}
@@ -773,8 +785,8 @@ export const PlatformPlayer = (props: PlatformPlayerProps): JSX.Element => {
                             onExitFullscreen={props.onExitFullScreen}
                             onPause={() => handlePause()}
                             onPlay={() => handlePlayback()}
-                            onRewindPress={value => handleRewindForward(value)}
-                            onForwardPress={value => handleRewindForward(value)}
+                            onRewindPress={() => handleRewindForward(-15000)}
+                            onForwardPress={() => handleRewindForward(15000)}
                             onSettingsPress={() => handleSettingsPress()}
                             onRestartPress={() => handleRestart()}
                             onLookbackPress={() => handleLookback()}
@@ -789,7 +801,7 @@ export const PlatformPlayer = (props: PlatformPlayerProps): JSX.Element => {
                     {Platform.OS === 'ios' && isLoading && (
                         <AppLoadingIndicator
                             style={playerViewStyles.loaderContainer}
-                            isClearable={state.playbackState === 'IDLE' || !player ? true : false}
+                            isClearable={player ? false : true}
                         />
                     )}
                     {isCastConnecting && (
@@ -814,12 +826,19 @@ export const PlatformPlayer = (props: PlatformPlayerProps): JSX.Element => {
                     setshowDescription={props.setshowDescription}
                 />
             )}
-            {resource && (
+            {resource && !Platform.isTV ? (
                 <UpNextOverlay
                     resource={resource}
                     onUpNextSelected={onUpNextSelected}
                     onOverlayClose={onOverlayClose}
                     ref={upNextOverlayRef}
+                />
+            ) : (
+                <UpNextTV
+                    resource={resource}
+                    ref={upNextOverlayTVRef}
+                    onUpNextSelected={onUpNextSelected}
+                    onOverlayClose={onOverlayClose}
                 />
             )}
         </>

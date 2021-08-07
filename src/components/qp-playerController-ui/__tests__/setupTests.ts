@@ -18,11 +18,3 @@ jest.mock('react-native-google-cast', () => {
         CastButton: View,
     };
 });
-
-jest.mock('react-native-swrve-plugin', () => {
-    return {
-        swrveIdentify: jest.fn(),
-        swrveEvent: jest.fn(),
-        swrveUserUpdate: jest.fn(),
-    };
-});

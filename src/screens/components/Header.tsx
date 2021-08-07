@@ -1,10 +1,9 @@
 import React, { useEffect } from 'react';
-import { View, StyleSheet, Text, LayoutAnimation, Animated, ViewStyle } from 'react-native';
+import { View, StyleSheet, Text, LayoutAnimation, Animated, ViewStyle, Platform } from 'react-native';
 import { useSafeArea } from 'react-native-safe-area-context';
 import DeviceInfo from 'react-native-device-info';
 import { BorderlessButton } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
-import { CastButton } from 'react-native-google-cast';
 import { useAppState } from 'utils/AppContextProvider';
 import { useAppPreview } from 'contexts/AppPreviewContextProvider';
 // import { useHeader } from 'contexts/HeaderContextProvider';
@@ -14,7 +13,7 @@ import { CreditsButton } from '../components/CreditsButton';
 import HeaderGradient from 'screens/components/HeaderGradient';
 import CloseIcon from '../../../assets/images/close.svg';
 import { NAVIGATION_TYPE } from '../Navigation/NavigationConstants';
-import { appFonts } from '../../../AppStyles';
+import { appFonts, tvPixelSizeForLayout } from '../../../AppStyles';
 
 const Header = ({
     headerTransparent,
@@ -22,11 +21,13 @@ const Header = ({
     animatedStyle,
     isCollapsable,
     scrollY,
+    isHideCrossIcon,
 }: {
     headerTransparent?: boolean;
     headerTitle?: string | (() => React.ReactNode);
     animatedStyle?: Animated.AnimatedProps<ViewStyle>;
     isCollapsable?: boolean;
+    isHideCrossIcon?: boolean;
     scrollY?: Animated.AnimatedValue;
 }) => {
     const insets = useSafeArea();
@@ -51,12 +52,11 @@ const Header = ({
         headerLeftContainerStyle: {
             left: 0,
             alignItems: 'flex-start',
-            paddingVertical: 13,
+            paddingVertical: Platform.isTV ? tvPixelSizeForLayout(30) : 13,
             flex: 1.2,
             zIndex: 2,
         },
         headerTitleContainerStyle: {
-            // flexGrow: typeof headerTitle === 'string' ? 0 : 3,
             flexGrow: 3,
             flex: 1,
             alignItems: 'center',
@@ -80,6 +80,7 @@ const Header = ({
         castIcon: { width: 24, height: 24, tintColor: appColors.brandTint },
         doneButton: { marginHorizontal: 20, justifyContent: 'center', alignItems: 'center' },
     });
+
     useEffect(() => {
         return () => {
             LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
@@ -91,23 +92,30 @@ const Header = ({
             {
                 translateY: scrollY.interpolate({
                     inputRange: [0, 100],
-                    outputRange: [70, 0],
+                    outputRange: [Platform.isTV ? 80 : 70, 0],
                     extrapolate: 'clamp',
                 }),
             },
             {
                 scale: scrollY.interpolate({
                     inputRange: [0, 100],
-                    outputRange: [2, 0.8],
+                    outputRange: [2, Platform.isTV ? 1 : 0.8],
                     extrapolate: 'clamp',
                 }),
             },
         ],
     };
 
+    const renderCastButton = () => {
+        if (isCastSessionActive && !Platform.isTV) {
+            const { CastButton } = require('react-native-google-cast');
+            return <CastButton style={styles.castIcon} />;
+        }
+    };
+
     return (
         <View style={styles.container}>
-            <HeaderGradient style={{ ...StyleSheet.absoluteFillObject }} />
+            {!Platform.isTV && <HeaderGradient style={{ ...StyleSheet.absoluteFillObject }} />}
             <Animated.View style={[styles.headerLeftContainerStyle, animatedStyle]}>
                 <CreditsButton
                     onPress={() => {
@@ -131,27 +139,31 @@ const Header = ({
                         ))}
                 </View>
             ) : (
-                <>
-                    {headerTitle && (
-                        <Animated.View style={[styles.headerTitleContainerStyle, collapsingHeaderAnimationStyle]}>
-                            {headerTitle &&
-                                (typeof headerTitle === 'string' ? (
-                                    <Text numberOfLines={1} style={styles.titleStyle}>
-                                        {headerTitle}
-                                    </Text>
-                                ) : (
-                                    <View style={styles.headerTitleContainerStyle}>{headerTitle()}</View>
-                                ))}
-                        </Animated.View>
-                    )}
-                </>
+                <Animated.View style={[styles.headerTitleContainerStyle, collapsingHeaderAnimationStyle]}>
+                    {headerTitle &&
+                        (typeof headerTitle === 'string' ? (
+                            <Text numberOfLines={1} style={styles.titleStyle}>
+                                {headerTitle}
+                            </Text>
+                        ) : (
+                            <View style={styles.headerTitleContainerStyle}>{headerTitle()}</View>
+                        ))}
+                </Animated.View>
             )}
-            <View style={styles.headerRightContainerStyle}>
-                {isCastSessionActive && <CastButton style={styles.castIcon} />}
-                <BorderlessButton onPress={() => navigation.goBack()} style={styles.doneButton}>
-                    <CloseIcon accessible accessibilityLabel={'Close'} />
-                </BorderlessButton>
-            </View>
+            {!isHideCrossIcon ? (
+                <View style={styles.headerRightContainerStyle}>
+                    {renderCastButton()}
+                    <BorderlessButton
+                        onPress={() => {
+                            navigation.goBack();
+                        }}
+                        style={styles.doneButton}>
+                        <CloseIcon />
+                    </BorderlessButton>
+                </View>
+            ) : (
+                <View style={styles.headerRightContainerStyle} />
+            )}
         </View>
     );
 };

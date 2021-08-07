@@ -98,11 +98,11 @@ pipeline {
       }
 
       parallel {
-        // stage('Build Android') {
-        //   steps {
-        //       sh "BUILD_NAME=1.8 BUILD_NUMBER=${env.BUILD_NUMBER} ANDROID_KEYSTORE_FILE='dev_release.keystore' ANDROID_KEY_ALIAS='dev-alias' ANDROID_KEYSTORE_PASSWORD=RnA_*vE_B2b ANDROID_KEY_PASSWORD=RnA_*vE_B2b sh ./scripts/android/builder.sh"
-        //   }
-        // }
+        stage('Build Android') {
+          steps {
+              sh "ANDROID_KEYSTORE_FILE='dev_release.keystore' ANDROID_KEY_ALIAS='dev-alias' ANDROID_KEYSTORE_PASSWORD=RnA_*vE_B2b ANDROID_KEY_PASSWORD=RnA_*vE_B2b sh ./scripts/android/builder.sh"
+          }
+        }
 
         stage('Build & Archive iOS, tvOS') {
           steps {
@@ -142,33 +142,37 @@ pipeline {
 
       environment {
         APPCENTER_IOS_API_TOKEN = credentials('rn-tvpass-ios-appcenter-token')
-        // APPCENTER_ANDROID_API_TOKEN = credentials('react-native-android-appcenter-api-token')
+        APPCENTER_ANDROID_API_TOKEN = credentials('rn-tvpass-android-appcenter-token')
       }
 
       parallel {
-        // stage('Publish Android') {
-        //   steps {
+        stage('Publish Android') {
+          steps {
 
-        //     appCenter apiToken: APPCENTER_ANDROID_API_TOKEN, 
-        //     appName: 'nexgen-rn-android', 
-        //     buildVersion: '', 
-        //     distributionGroups: 'Collaborators', 
-        //     notifyTesters: false, 
-        //     ownerName: 'client-lib-sampleapp', 
-        //     pathToApp: 'android/app/build/outputs/apk/release/app-release.apk', 
-        //     pathToDebugSymbols: '', 
-        //     pathToReleaseNotes: '', 
-        //     releaseNotes: ''
-        //   }
-        // }
+            appCenter apiToken: APPCENTER_ANDROID_API_TOKEN, 
+            appName: 'Struum-Android', 
+            buildVersion: '', 
+            distributionGroups: 'Collaborators', 
+            notifyTesters: false, 
+            ownerName: 'TVPass', 
+            pathToApp: 'android/app/build/outputs/apk/release/app-release.apk', 
+            pathToDebugSymbols: '', 
+            pathToReleaseNotes: '', 
+            releaseNotes: ''
+          }
+        }
 
         stage('Publish iOS') {
           steps {
+            //Upload to testflight
+            // sh "cd  /Applications/Xcode\ 8.3.3/Xcode.app/Contents/Applications/Application\ Loader.app/Contents/Frameworks/ITunesSoftwareService.framework/Versions/A/Support/"
+            // sh "./altool --upload-app --file "$cur_dir/../../ios/build/Products/IPA/$IOS_SCHEME.ipa" --username "$APP_STORE_USERNAME" --password @keychain:"Application Loader: $APP_STORE_USERNAME""
 
+            //Upload to AppCenter
             appCenter apiToken: APPCENTER_IOS_API_TOKEN, 
             appName: 'TVPass', 
             buildVersion: '', 
-            distributionGroups: '', 
+            distributionGroups: 'Collaborators', 
             notifyTesters: false, 
             ownerName: 'TVPass', 
             pathToApp: 'ios/build/Products/IPA/TVPass.ipa', 

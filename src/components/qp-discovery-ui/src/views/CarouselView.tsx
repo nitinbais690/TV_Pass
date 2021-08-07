@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { FlatList, ViewToken, FlatListProps } from 'react-native';
+import { FlatList, ViewToken, FlatListProps, Platform } from 'react-native';
 
 export interface CarouselViewBaseProps {
     /**
@@ -67,7 +67,7 @@ export const CarouselView = <T extends {}>(props: CarouselViewProps<T>): JSX.Ele
     );
     const autoplayInterval = props.autoplayInterval || 5000;
     const actualResources = props.data || [];
-    const canLoopOrAutoplay = props.loop && actualResources.length >= 2;
+    const canLoopOrAutoplay = props.loop && actualResources.length >= 3;
     const resources = canLoopOrAutoplay
         ? [...actualResources, ...actualResources, ...actualResources]
         : actualResources;
@@ -144,17 +144,18 @@ export const CarouselView = <T extends {}>(props: CarouselViewProps<T>): JSX.Ele
 
     useEffect(() => {
         if (listRef && listRef.current && props.viewScrollOffset) {
-            // if (currentIndex.current + 1 < resources.length) {
-            //     currentIndex.current = currentIndex.current + 1;
-            // } else {
-            //     currentIndex.current = 0;
-            // }
-            currentIndex.current = 0;
-            listRef.current.scrollToIndex({
-                animated: true,
-                index: currentIndex.current,
-                viewOffset: props.viewScrollOffset,
-            });
+            if (currentIndex.current + 1 < resources.length) {
+                currentIndex.current = currentIndex.current + 1;
+            } else {
+                currentIndex.current = 0;
+            }
+            if (!Platform.isTV) {
+                listRef.current.scrollToIndex({
+                    animated: true,
+                    index: currentIndex.current,
+                    viewOffset: props.viewScrollOffset,
+                });
+            }
         }
     }, [props.isPortrait, props.viewScrollOffset, resources.length]);
 

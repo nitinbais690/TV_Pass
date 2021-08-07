@@ -1,10 +1,11 @@
 import React from 'react';
-import { ViewProps, View, StyleSheet, ViewStyle, StyleProp } from 'react-native';
+import { ViewProps, View, StyleSheet, ViewStyle, StyleProp, Platform } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { BottomTabBarHeightContext } from '@react-navigation/bottom-tabs';
 import { HeaderHeightContext } from '@react-navigation/stack';
 import { useHeaderTabBarHeight, useHeaderTabBarLessHeight } from 'screens/components/HeaderTabBar';
 import { useAppPreferencesState } from 'utils/AppPreferencesContext';
+import { tvPixelSizeForLayout } from '../../../AppStyles';
 
 export type HeaderType = 'Regular' | 'HeaderTab' | 'HeaderTabLess';
 
@@ -13,6 +14,9 @@ interface BackgroundGradientProps extends ViewProps {
     insetHeader?: boolean;
     headerType?: HeaderType;
     insetTabBar?: boolean;
+    horizontal?: boolean;
+    sideImageReveal?: boolean;
+    transparent?: boolean;
 }
 
 const BackgroundGradient = (props: React.PropsWithChildren<BackgroundGradientProps>): JSX.Element => {
@@ -27,6 +31,7 @@ const BackgroundGradient = (props: React.PropsWithChildren<BackgroundGradientPro
     const styles = StyleSheet.create({
         container: {
             flex: 1,
+            marginLeft: Platform.isTV && Platform.OS === 'android' ? tvPixelSizeForLayout(20) : undefined,
         },
         childContainer: {
             flex: 1,
@@ -42,8 +47,19 @@ const BackgroundGradient = (props: React.PropsWithChildren<BackgroundGradientPro
         },
     });
 
+    //start={{ x: 1, y: 0 }} end={{ x: 1, y: 1 }}
+    const colors = props.sideImageReveal
+        ? [appColors.primary, appColors.primary, 'rgba(12, 16, 33, 0.7)', 'rgba(12, 16, 33, 0)']
+        : [appColors.primary, appColors.primaryEnd];
+    const transparentColors = ['transparent', 'transparent'];
+
     return (
-        <LinearGradient colors={[appColors.primary, appColors.primaryEnd]} style={styles.container} {...props}>
+        <LinearGradient
+            start={{ x: props.horizontal ? 0 : 1, y: props.horizontal ? 0 : 0 }}
+            end={{ x: props.horizontal ? 1 : 1, y: props.horizontal ? 0 : 1 }}
+            colors={props.transparent ? transparentColors : colors}
+            style={styles.container}
+            {...props}>
             <View style={props.childContainerStyle ? props.childContainerStyle : styles.childContainer}>
                 {props.children}
             </View>

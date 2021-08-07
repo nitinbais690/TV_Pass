@@ -97,8 +97,7 @@ export const useRelatedResources = (
         };
 
         fetchData();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [pageNumber, pageSize, platformAuthorizer, query, recommendation]);
+    }, [apiQuery, pageNumber, pageSize, platformAuthorizer, query, recommendation]);
 
     return {
         ...state,

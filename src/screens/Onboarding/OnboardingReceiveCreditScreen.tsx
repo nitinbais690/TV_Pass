@@ -38,6 +38,7 @@ const OnboardingReceiveCreditScreen = (): JSX.Element => {
     const cStyles = onboardingStyle({ appColors, appPadding, insets, isPortrait });
 
     useEffect(() => {
+        Orientation.lockToPortrait();
         Animated.timing(fadeAnimRadialGradientValue, {
             toValue: 1,
             duration: 700,
@@ -72,8 +73,6 @@ const OnboardingReceiveCreditScreen = (): JSX.Element => {
         return () => {
             if (DeviceInfo.getDeviceType() === 'Tablet') {
                 Orientation.unlockAllOrientations();
-            } else {
-                Orientation.lockToPortrait();
             }
         };
     });

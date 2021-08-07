@@ -1,3 +1,4 @@
+jest.useFakeTimers();
 import React from 'react';
 import { render, fireEvent, getByLabelText } from '@testing-library/react-native';
 import { DropDownMenuView } from '../../../src/views/DropDownMenuView';

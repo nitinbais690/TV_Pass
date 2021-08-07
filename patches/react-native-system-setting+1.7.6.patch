@@ -1,0 +1,96 @@
+diff --git a/node_modules/react-native-system-setting/RCTSystemSetting.podspec b/node_modules/react-native-system-setting/RCTSystemSetting.podspec
+index 63c6286..fad2e0e 100644
+--- a/node_modules/react-native-system-setting/RCTSystemSetting.podspec
++++ b/node_modules/react-native-system-setting/RCTSystemSetting.podspec
+@@ -11,7 +11,7 @@ Pod::Spec.new do |s|
+   s.author          = { "Ninty" => "c19354837@hotmail.com" }
+   
+   s.ios.deployment_target = '7.0'
+-
++  s.tvos.deployment_target = '9.0'
+   s.source          = { :git => "https://github.com/c19354837/react-native-system-setting", :tag => "v#{s.version}" }
+   s.source_files    = 'ios/*.{h,m}'
+   s.preserve_paths  = "**/*.js"
+diff --git a/node_modules/react-native-system-setting/ios/RTCSystemSetting.m b/node_modules/react-native-system-setting/ios/RTCSystemSetting.m
+index e9fe63f..5e02787 100644
+--- a/node_modules/react-native-system-setting/ios/RTCSystemSetting.m
++++ b/node_modules/react-native-system-setting/ios/RTCSystemSetting.m
+@@ -9,7 +9,9 @@
+ #import "RTCSystemSetting.h"
+ #import <SystemConfiguration/CaptiveNetwork.h>
+ #import <CoreLocation/CoreLocation.h>
++#if TARGET_OS_IOS
+ #import <CoreTelephony/CTTelephonyNetworkInfo.h>
++#endif
+ #import <ifaddrs.h>
+ #import <net/if.h>
+ 
+@@ -34,7 +36,9 @@ @implementation RCTSystemSetting {
+ #endif
+     NSDictionary *setting;
+     MPVolumeView *volumeView;
++#if TARGET_OS_IOS
+     UISlider *volumeSlider;
++#endif
+ }
+ 
+ -(instancetype)init{
+@@ -48,15 +52,17 @@ -(instancetype)init{
+         cb = [[CBCentralManager alloc] initWithDelegate:nil queue:nil options:@{CBCentralManagerOptionShowPowerAlertKey: @NO}];
+ #endif
+     }
+-
++#if TARGET_OS_IOS
+     [self initVolumeView];
++#endif
++
+ #ifdef PRIVATE_API
+     [self initSetting];
+ #endif
+ 
+     return self;
+ }
+-
++#if TARGET_OS_IOS
+ -(void)initVolumeView{
+     skipSetVolumeCount = 0;
+     volumeView = [[MPVolumeView alloc] initWithFrame:CGRectMake(-[UIScreen mainScreen].bounds.size.width, 0, 0, 0)];
+@@ -68,6 +74,8 @@ -(void)initVolumeView{
+         }
+     }
+ }
++#endif
++
+ 
+ #ifdef PRIVATE_API
+ -(void)initSetting{
+@@ -86,6 +94,7 @@ +(BOOL)requiresMainQueueSetup{
+ 
+ RCT_EXPORT_MODULE();
+ 
++#if TARGET_OS_IOS
+ RCT_EXPORT_METHOD(setBrightness:(float)val resolve:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject){
+     dispatch_sync(dispatch_get_main_queue(), ^{
+         [[UIScreen mainScreen] setBrightness:val];
+@@ -111,6 +120,7 @@ +(BOOL)requiresMainQueueSetup{
+         resolve([NSNumber numberWithFloat:[volumeSlider value]]);
+     });
+ }
++#endif
+ 
+ RCT_EXPORT_METHOD(switchWifi){
+     [self openSetting:@"wifi"];
+@@ -146,11 +156,13 @@ +(BOOL)requiresMainQueueSetup{
+     [self openSetting:@"airplane"];
+ }
+ 
++#if TARGET_OS_IOS
+ RCT_EXPORT_METHOD(isAirplaneEnabled:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject){
+     NSString * radio = [[CTTelephonyNetworkInfo alloc] init].currentRadioAccessTechnology;
+     bool isEnabled = radio == nil;
+     resolve([NSNumber numberWithBool:isEnabled]);
+ }
++#endif
+ 
+ RCT_EXPORT_METHOD(activeListener:(NSString *)type resolve:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject){
+     if([type isEqualToString:@"bluetooth"]){
