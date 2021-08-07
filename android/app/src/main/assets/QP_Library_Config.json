@@ -1,0 +1,51 @@
+{
+    "vstb": {
+        "startupConfig": {
+            "ANDROID_SERVICE_CLASS_NAME": "com.reactlibrary.vstb.VstbSampleService",
+            "ANDROID_REQUIRE_SECURE_SURFACE": "false",
+            "USE_HTTPS": "true"
+        },
+        "runtimeConfig": {
+            "PLAYBACK_BLOCK_EXTERNAL": "false",
+            "ALLOW_3G_DOWNLOAD": "true",
+            "VSTB_RIGHTS_REQUEST_URL": "https://uwp-fic.quickplay.com/vstb/app"
+        },
+        "pluginConfiguration": {
+            "OPENVIDEO_SERVICE": {
+                "startupConfig": {
+                    "VSTB_SERVER_URL": "https://uwp-fic.quickplay.com/vstb/app",
+                    "REQUIRE_VERSION_CHECK": "false"
+                },
+                "runtimeConfig": {
+                    "VSTB_RIGHTS_REQUEST_URL": "https://uwp-fic.quickplay.com/vstb/app",
+                    "ROAMING_CHECK_ON_LOGIN": "false",
+                    "ROAMING_CHECK_ON_WIFI_STREAMING": "false",
+                    "ROAMING_CHECK_USE_SERVER_SIDE_CHECK": "false",
+                    "DOWNLOAD_RIGHTS_SYNC_INTERVAL_MS": "360000000",
+                    "PLAYBACK_RIGHTS_CACHING_TIMEOUT": "0",
+                    "//temp change : Need to be replaced with ContentDetailsRequest": "",
+                    "DOWNLOAD_DETAILS_MODE": "RightsRequest",
+                    "//temp change : Need to be removed once VSTB Server fix is done": "",
+                    "DOWNLOAD_USE_STREAMING_RIGHTS": "false",
+                    "PLAYBACK_DOWNLOAD_VERIFY_RIGHTS": "false",
+                    "DOWNLOAD_MEDIA_VERIFICATION_AUTO_REMOVE_EXPIRED_CONTENT_MODE": "false",
+                    "DOWNLOAD_MEDIA_VERIFICATION_AUTO_REMOVE_MISSING_CONTENT_MODE": "false"
+                },
+                "urlParams": {
+                    "appId": "5012",
+                    "appVersion": "1.0",
+                    "apiVersion": "6",
+                    "apiRevision": "0",
+                    "carrierId": "25",
+                    "clientBuild": "0010",
+                    "clientVersion": "2.0"
+                }
+            },
+            "EVENT_LOGGER": {
+                "startupConfig": {
+                    "EVENT_REPORTING_TEST_MODE": "false"
+                }
+            }
+        }
+    }
+}

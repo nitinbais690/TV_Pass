@@ -1,0 +1,1280 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PlayerControlsViewTV should render all player controls 1`] = `
+<View
+  collapsable={true}
+  pointerEvents="box-none"
+  style={
+    Object {
+      "flex": 1,
+    }
+  }
+>
+  <View
+    accessibilityLabel="PlayerControls"
+    accessible={true}
+    focusable={true}
+    hasTVPreferredFocus={false}
+    isTVSelectable={true}
+    style={
+      Array [
+        Object {
+          "alignSelf": "stretch",
+          "backgroundColor": "transparent",
+          "flex": 1,
+          "justifyContent": "space-between",
+        },
+        Object {
+          "width": "100%",
+        },
+      ]
+    }
+  >
+    <View
+      style={
+        Array [
+          Object {
+            "alignSelf": "stretch",
+            "backgroundColor": "transparent",
+            "flex": 1,
+            "justifyContent": "space-between",
+          },
+        ]
+      }
+    >
+      <View
+        style={
+          Object {
+            "alignItems": "stretch",
+            "flex": 1,
+            "justifyContent": "flex-start",
+            "marginTop": 0,
+            "opacity": 1,
+          }
+        }
+      >
+        <View
+          accessibilityIgnoresInvertColors={true}
+          style={
+            Array [
+              Object {
+                "alignItems": "center",
+                "flexDirection": "column",
+                "justifyContent": "space-between",
+              },
+            ]
+          }
+        >
+          <Image
+            source={
+              Object {
+                "testUri": "../../../src/components/qp-playerController-ui/src/assets/img/top-vignette.png",
+              }
+            }
+            style={
+              Array [
+                Object {
+                  "bottom": 0,
+                  "left": 0,
+                  "position": "absolute",
+                  "right": 0,
+                  "top": 0,
+                },
+                Object {
+                  "height": undefined,
+                  "width": undefined,
+                },
+                Array [
+                  Object {
+                    "resizeMode": "stretch",
+                  },
+                ],
+              ]
+            }
+          />
+          <View
+            style={
+              Object {
+                "alignItems": "center",
+                "alignSelf": "stretch",
+                "flexDirection": "row",
+                "justifyContent": "space-between",
+              }
+            }
+          >
+            <View
+              accessibilityLabel="Backbutton"
+              accessible={true}
+              focusable={true}
+              hasTVPreferredFocus={false}
+              isTVSelectable={true}
+              style={
+                Array [
+                  Object {
+                    "padding": 15,
+                  },
+                  Object {
+                    "flexDirection": "row",
+                  },
+                ]
+              }
+            >
+              <Image
+                source={
+                  Object {
+                    "testUri": "../../../src/components/qp-playerController-ui/src/assets/img/back.png",
+                  }
+                }
+                style={
+                  Object {
+                    "flexDirection": "row",
+                  }
+                }
+              />
+            </View>
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                  "flexDirection": "row",
+                  "justifyContent": "center",
+                }
+              }
+            >
+              <View
+                accessibilityLabel="FullScreen"
+                accessible={true}
+                focusable={true}
+                hasTVPreferredFocus={false}
+                isTVSelectable={true}
+                style={
+                  Array [
+                    Object {
+                      "padding": 15,
+                    },
+                    Object {
+                      "flexDirection": "row",
+                    },
+                  ]
+                }
+              >
+                <Image
+                  source={
+                    Object {
+                      "testUri": "../../../src/components/qp-playerController-ui/src/assets/img/expand.png",
+                    }
+                  }
+                />
+              </View>
+            </View>
+          </View>
+        </View>
+      </View>
+      <View
+        style={
+          Object {
+            "alignItems": "center",
+            "alignSelf": "stretch",
+            "flexDirection": "row",
+            "justifyContent": "center",
+          }
+        }
+      >
+        <View
+          style={
+            Object {
+              "alignItems": "center",
+              "flex": 2,
+              "justifyContent": "center",
+              "marginLeft": undefined,
+              "opacity": 1,
+            }
+          }
+        >
+          <View>
+            <View
+              accessibilityLabel="RewindButton"
+              accessible={true}
+              focusable={true}
+              hasTVPreferredFocus={false}
+              isTVSelectable={true}
+              style={
+                Array [
+                  Object {
+                    "padding": 15,
+                  },
+                  Object {
+                    "alignItems": "center",
+                    "borderColor": "rgba(255,255,255,0.7)",
+                    "borderRadius": 56.25,
+                    "borderWidth": 0.8,
+                    "flexDirection": "row",
+                    "height": 60,
+                    "justifyContent": "center",
+                    "marginLeft": 75,
+                    "marginRight": 75,
+                    "width": 60,
+                  },
+                ]
+              }
+            >
+              <Image
+                source={
+                  Object {
+                    "testUri": "../../../src/components/qp-playerController-ui/src/assets/ic_mat_rewind.png",
+                  }
+                }
+                style={
+                  Object {
+                    "height": 45,
+                    "resizeMode": "contain",
+                    "width": 45,
+                  }
+                }
+              />
+            </View>
+          </View>
+        </View>
+        <View
+          style={
+            Object {
+              "alignItems": "center",
+              "flex": 2,
+              "justifyContent": "center",
+              "opacity": 1,
+            }
+          }
+        >
+          <View>
+            <View
+              accessibilityLabel="Play"
+              accessible={true}
+              focusable={true}
+              hasTVPreferredFocus={false}
+              isTVSelectable={true}
+              style={
+                Array [
+                  Object {
+                    "alignItems": "center",
+                    "borderColor": "rgba(255,255,255,0.7)",
+                    "borderRadius": 56.25,
+                    "borderWidth": 0.8,
+                    "flexDirection": "row",
+                    "height": 60,
+                    "justifyContent": "center",
+                    "marginLeft": 75,
+                    "marginRight": 75,
+                    "width": 60,
+                  },
+                  Object {
+                    "backgroundColor": undefined,
+                  },
+                  Object {
+                    "padding": 15,
+                  },
+                ]
+              }
+            >
+              <Image
+                source={
+                  Object {
+                    "testUri": "../../../src/components/qp-playerController-ui/src/assets/ic_mat_pause.png",
+                  }
+                }
+                style={
+                  Object {
+                    "height": 45,
+                    "resizeMode": "contain",
+                    "width": 45,
+                  }
+                }
+              />
+            </View>
+          </View>
+        </View>
+        <View
+          style={
+            Object {
+              "alignItems": "center",
+              "flex": 2,
+              "justifyContent": "center",
+              "marginRight": undefined,
+              "opacity": 1,
+            }
+          }
+        >
+          <View>
+            <View
+              accessibilityLabel="ForwardButton"
+              accessible={true}
+              focusable={true}
+              hasTVPreferredFocus={false}
+              isTVSelectable={true}
+              style={
+                Array [
+                  Object {
+                    "padding": 15,
+                  },
+                  Object {
+                    "alignItems": "center",
+                    "borderColor": "rgba(255,255,255,0.7)",
+                    "borderRadius": 56.25,
+                    "borderWidth": 0.8,
+                    "flexDirection": "row",
+                    "height": 60,
+                    "justifyContent": "center",
+                    "marginLeft": 75,
+                    "marginRight": 75,
+                    "width": 60,
+                  },
+                ]
+              }
+            >
+              <Image
+                source={
+                  Object {
+                    "testUri": "../../../src/components/qp-playerController-ui/src/assets/ic_mat_foreward.png",
+                  }
+                }
+                style={
+                  Object {
+                    "height": 45,
+                    "resizeMode": "contain",
+                    "width": 45,
+                  }
+                }
+              />
+            </View>
+          </View>
+        </View>
+      </View>
+      <View
+        style={
+          Object {
+            "alignItems": "stretch",
+            "flex": 1,
+            "justifyContent": "flex-end",
+            "marginTop": 0,
+            "opacity": 1,
+          }
+        }
+      >
+        <View
+          accessibilityIgnoresInvertColors={true}
+          style={
+            Array [
+              Object {
+                "alignItems": "center",
+                "flexDirection": "column",
+                "justifyContent": "space-between",
+              },
+            ]
+          }
+        >
+          <Image
+            source={
+              Object {
+                "testUri": "../../../src/components/qp-playerController-ui/src/assets/img/bottom-vignette.png",
+              }
+            }
+            style={
+              Array [
+                Object {
+                  "bottom": 0,
+                  "left": 0,
+                  "position": "absolute",
+                  "right": 0,
+                  "top": 0,
+                },
+                Object {
+                  "height": undefined,
+                  "width": undefined,
+                },
+                Array [
+                  Object {
+                    "resizeMode": "stretch",
+                  },
+                ],
+              ]
+            }
+          />
+          <View
+            style={
+              Array [
+                Object {
+                  "padding": 15,
+                },
+                Object {
+                  "alignItems": "center",
+                  "flex": 0.6,
+                  "flexDirection": "column",
+                  "padding": 0,
+                },
+              ]
+            }
+          >
+            <Text
+              numberOfLines={1}
+              style={
+                Array [
+                  Object {
+                    "backgroundColor": "transparent",
+                    "color": "#FFF",
+                    "fontSize": 20,
+                    "textAlign": "center",
+                  },
+                ]
+              }
+            >
+              test
+            </Text>
+          </View>
+          <View
+            style={
+              Array [
+                Object {
+                  "alignItems": "center",
+                  "flexDirection": "row",
+                  "justifyContent": "center",
+                },
+              ]
+            }
+          >
+            <View
+              style={
+                Array [
+                  Object {
+                    "padding": 15,
+                  },
+                ]
+              }
+            >
+              <Text
+                style={
+                  Object {
+                    "backgroundColor": "transparent",
+                    "color": "#ffffff",
+                    "fontSize": 14.742857142857144,
+                    "textAlign": "right",
+                  }
+                }
+              >
+                57:36:00
+              </Text>
+            </View>
+            <RNCSlider
+              disabled={false}
+              enabled={true}
+              maximumValue={307360000}
+              minimumTrackTintColor="#686EFF"
+              minimumValue={0}
+              onRNCSliderSlidingComplete={null}
+              onRNCSliderSlidingStart={null}
+              step={1}
+              style={
+                Array [
+                  Object {
+                    "height": 40,
+                  },
+                  Object {
+                    "alignItems": "center",
+                    "flexDirection": "column",
+                    "width": "80%",
+                  },
+                ]
+              }
+              thumbTintColor="white"
+              value={207360000}
+            />
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                  "flexDirection": "row",
+                  "justifyContent": "center",
+                }
+              }
+            >
+              <View
+                style={
+                  Array [
+                    Object {
+                      "padding": 15,
+                    },
+                    Object {},
+                  ]
+                }
+              >
+                <Text
+                  style={
+                    Object {
+                      "backgroundColor": "transparent",
+                      "color": "#ffffff",
+                      "fontSize": 14.742857142857144,
+                      "textAlign": "right",
+                    }
+                  }
+                >
+                  85:22:40
+                </Text>
+              </View>
+            </View>
+          </View>
+          <View
+            style={
+              Array [
+                Object {
+                  "alignItems": "center",
+                  "flexDirection": "row",
+                  "height": 40,
+                  "justifyContent": "space-between",
+                  "marginBottom": 15,
+                },
+              ]
+            }
+          >
+            <View
+              accessible={true}
+              focusable={true}
+              hasTVPreferredFocus={false}
+              isTVSelectable={true}
+              style={
+                Array [
+                  Object {
+                    "borderRadius": 15,
+                    "marginLeft": 15,
+                    "marginRight": 15,
+                  },
+                ]
+              }
+            >
+              <View
+                style={
+                  Object {
+                    "alignItems": "center",
+                    "flex": 1,
+                    "flexDirection": "row",
+                    "justifyContent": "center",
+                    "margin": 15,
+                  }
+                }
+              >
+                <View>
+                  <View
+                    style={
+                      Object {
+                        "alignItems": "center",
+                        "backgroundColor": "transparent",
+                        "justifyContent": "center",
+                      }
+                    }
+                    theme={
+                      Object {
+                        "colors": Object {
+                          "disabled": "hsl(208, 8%, 90%)",
+                          "divider": "#bcbbc1",
+                          "error": "#ff190c",
+                          "grey0": "#393e42",
+                          "grey1": "#43484d",
+                          "grey2": "#5e6977",
+                          "grey3": "#86939e",
+                          "grey4": "#bdc6cf",
+                          "grey5": "#e1e8ee",
+                          "greyOutline": "#bbb",
+                          "platform": Object {
+                            "android": Object {
+                              "error": "#f44336",
+                              "primary": "#2196f3",
+                              "secondary": "#9C27B0",
+                              "success": "#4caf50",
+                              "warning": "#ffeb3b",
+                            },
+                            "ios": Object {
+                              "error": "#ff3b30",
+                              "primary": "#007aff",
+                              "secondary": "#5856d6",
+                              "success": "#4cd964",
+                              "warning": "#ffcc00",
+                            },
+                          },
+                          "primary": "#2089dc",
+                          "searchBg": "#303337",
+                          "secondary": "#8F0CE8",
+                          "success": "#52c41a",
+                          "warning": "#faad14",
+                        },
+                      }
+                    }
+                    underlayColor="white"
+                  >
+                    <Text
+                      allowFontScaling={false}
+                      style={
+                        Array [
+                          Object {
+                            "color": "white",
+                            "fontSize": 24,
+                          },
+                          Object {
+                            "backgroundColor": "transparent",
+                          },
+                          Object {
+                            "fontFamily": "Ionicons",
+                            "fontStyle": "normal",
+                            "fontWeight": "normal",
+                          },
+                          Object {},
+                        ]
+                      }
+                      testID="iconIcon"
+                    >
+                      ?
+                    </Text>
+                  </View>
+                </View>
+              </View>
+            </View>
+          </View>
+        </View>
+      </View>
+    </View>
+  </View>
+</View>
+`;
+
+exports[`PlayerControlsViewTV should render loading 1`] = `
+<View
+  collapsable={true}
+  pointerEvents="box-none"
+  style={
+    Object {
+      "flex": 1,
+    }
+  }
+>
+  <ActivityIndicator
+    animating={true}
+    color="white"
+    hidesWhenStopped={true}
+    size="large"
+    style={
+      Object {
+        "alignItems": "center",
+        "bottom": 0,
+        "justifyContent": "center",
+        "left": 0,
+        "position": "absolute",
+        "right": 0,
+        "top": 0,
+      }
+    }
+  />
+  <View
+    accessibilityLabel="PlayerControls"
+    accessible={true}
+    focusable={true}
+    hasTVPreferredFocus={false}
+    isTVSelectable={true}
+    style={
+      Array [
+        Object {
+          "alignSelf": "stretch",
+          "backgroundColor": "transparent",
+          "flex": 1,
+          "justifyContent": "space-between",
+        },
+        Object {
+          "width": "100%",
+        },
+      ]
+    }
+  >
+    <View
+      style={
+        Array [
+          Object {
+            "alignSelf": "stretch",
+            "backgroundColor": "transparent",
+            "flex": 1,
+            "justifyContent": "space-between",
+          },
+        ]
+      }
+    >
+      <View
+        style={
+          Object {
+            "alignItems": "stretch",
+            "flex": 1,
+            "justifyContent": "flex-start",
+            "marginTop": 0,
+            "opacity": 0,
+          }
+        }
+      >
+        <View
+          accessibilityIgnoresInvertColors={true}
+          style={
+            Array [
+              Object {
+                "alignItems": "center",
+                "flexDirection": "column",
+                "justifyContent": "space-between",
+              },
+            ]
+          }
+        >
+          <Image
+            source={
+              Object {
+                "testUri": "../../../src/components/qp-playerController-ui/src/assets/img/top-vignette.png",
+              }
+            }
+            style={
+              Array [
+                Object {
+                  "bottom": 0,
+                  "left": 0,
+                  "position": "absolute",
+                  "right": 0,
+                  "top": 0,
+                },
+                Object {
+                  "height": undefined,
+                  "width": undefined,
+                },
+                Array [
+                  Object {
+                    "resizeMode": "stretch",
+                  },
+                ],
+              ]
+            }
+          />
+          <View
+            style={
+              Object {
+                "alignItems": "center",
+                "alignSelf": "stretch",
+                "flexDirection": "row",
+                "justifyContent": "space-between",
+              }
+            }
+          >
+            <View
+              accessibilityLabel="Backbutton"
+              accessible={true}
+              focusable={true}
+              hasTVPreferredFocus={false}
+              isTVSelectable={true}
+              style={
+                Array [
+                  Object {
+                    "padding": 15,
+                  },
+                  Object {
+                    "flexDirection": "row",
+                  },
+                ]
+              }
+            >
+              <Image
+                source={
+                  Object {
+                    "testUri": "../../../src/components/qp-playerController-ui/src/assets/img/back.png",
+                  }
+                }
+                style={
+                  Object {
+                    "flexDirection": "row",
+                  }
+                }
+              />
+            </View>
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                  "flexDirection": "row",
+                  "justifyContent": "center",
+                }
+              }
+            >
+              <View
+                accessibilityLabel="FullScreen"
+                accessible={true}
+                focusable={true}
+                hasTVPreferredFocus={false}
+                isTVSelectable={true}
+                style={
+                  Array [
+                    Object {
+                      "padding": 15,
+                    },
+                    Object {
+                      "flexDirection": "row",
+                    },
+                  ]
+                }
+              >
+                <Image
+                  source={
+                    Object {
+                      "testUri": "../../../src/components/qp-playerController-ui/src/assets/img/expand.png",
+                    }
+                  }
+                />
+              </View>
+            </View>
+          </View>
+        </View>
+      </View>
+      <View
+        style={
+          Object {
+            "alignItems": "center",
+            "alignSelf": "stretch",
+            "flexDirection": "row",
+            "justifyContent": "center",
+          }
+        }
+      >
+        <View
+          style={
+            Object {
+              "alignItems": "center",
+              "flex": 2,
+              "justifyContent": "center",
+              "marginLeft": undefined,
+              "opacity": 0,
+            }
+          }
+        >
+          <View>
+            <View
+              accessibilityLabel="RewindButton"
+              accessible={true}
+              focusable={true}
+              hasTVPreferredFocus={false}
+              isTVSelectable={true}
+              style={
+                Array [
+                  Object {
+                    "padding": 15,
+                  },
+                  Object {
+                    "alignItems": "center",
+                    "borderColor": "rgba(255,255,255,0.7)",
+                    "borderRadius": 56.25,
+                    "borderWidth": 0.8,
+                    "flexDirection": "row",
+                    "height": 60,
+                    "justifyContent": "center",
+                    "marginLeft": 75,
+                    "marginRight": 75,
+                    "width": 60,
+                  },
+                ]
+              }
+            >
+              <Image
+                source={
+                  Object {
+                    "testUri": "../../../src/components/qp-playerController-ui/src/assets/ic_mat_rewind.png",
+                  }
+                }
+                style={
+                  Object {
+                    "height": 45,
+                    "resizeMode": "contain",
+                    "width": 45,
+                  }
+                }
+              />
+            </View>
+          </View>
+        </View>
+        <View
+          style={
+            Object {
+              "alignItems": "center",
+              "flex": 2,
+              "justifyContent": "center",
+              "opacity": 0,
+            }
+          }
+        >
+          <View>
+            <View
+              accessibilityLabel="Play"
+              accessible={true}
+              focusable={true}
+              hasTVPreferredFocus={false}
+              isTVSelectable={true}
+              style={
+                Array [
+                  Object {
+                    "alignItems": "center",
+                    "borderColor": "rgba(255,255,255,0.7)",
+                    "borderRadius": 56.25,
+                    "borderWidth": 0.8,
+                    "flexDirection": "row",
+                    "height": 60,
+                    "justifyContent": "center",
+                    "marginLeft": 75,
+                    "marginRight": 75,
+                    "width": 60,
+                  },
+                  Object {
+                    "backgroundColor": undefined,
+                  },
+                  Object {
+                    "padding": 15,
+                  },
+                ]
+              }
+            >
+              <Image
+                source={
+                  Object {
+                    "testUri": "../../../src/components/qp-playerController-ui/src/assets/ic_mat_pause.png",
+                  }
+                }
+                style={
+                  Object {
+                    "height": 45,
+                    "resizeMode": "contain",
+                    "width": 45,
+                  }
+                }
+              />
+            </View>
+          </View>
+        </View>
+        <View
+          style={
+            Object {
+              "alignItems": "center",
+              "flex": 2,
+              "justifyContent": "center",
+              "marginRight": undefined,
+              "opacity": 0,
+            }
+          }
+        >
+          <View>
+            <View
+              accessibilityLabel="ForwardButton"
+              accessible={true}
+              focusable={true}
+              hasTVPreferredFocus={false}
+              isTVSelectable={true}
+              style={
+                Array [
+                  Object {
+                    "padding": 15,
+                  },
+                  Object {
+                    "alignItems": "center",
+                    "borderColor": "rgba(255,255,255,0.7)",
+                    "borderRadius": 56.25,
+                    "borderWidth": 0.8,
+                    "flexDirection": "row",
+                    "height": 60,
+                    "justifyContent": "center",
+                    "marginLeft": 75,
+                    "marginRight": 75,
+                    "width": 60,
+                  },
+                ]
+              }
+            >
+              <Image
+                source={
+                  Object {
+                    "testUri": "../../../src/components/qp-playerController-ui/src/assets/ic_mat_foreward.png",
+                  }
+                }
+                style={
+                  Object {
+                    "height": 45,
+                    "resizeMode": "contain",
+                    "width": 45,
+                  }
+                }
+              />
+            </View>
+          </View>
+        </View>
+      </View>
+      <View
+        style={
+          Object {
+            "alignItems": "stretch",
+            "flex": 1,
+            "justifyContent": "flex-end",
+            "marginTop": 0,
+            "opacity": 0,
+          }
+        }
+      >
+        <View
+          accessibilityIgnoresInvertColors={true}
+          style={
+            Array [
+              Object {
+                "alignItems": "center",
+                "flexDirection": "column",
+                "justifyContent": "space-between",
+              },
+            ]
+          }
+        >
+          <Image
+            source={
+              Object {
+                "testUri": "../../../src/components/qp-playerController-ui/src/assets/img/bottom-vignette.png",
+              }
+            }
+            style={
+              Array [
+                Object {
+                  "bottom": 0,
+                  "left": 0,
+                  "position": "absolute",
+                  "right": 0,
+                  "top": 0,
+                },
+                Object {
+                  "height": undefined,
+                  "width": undefined,
+                },
+                Array [
+                  Object {
+                    "resizeMode": "stretch",
+                  },
+                ],
+              ]
+            }
+          />
+          <View
+            style={
+              Array [
+                Object {
+                  "padding": 15,
+                },
+              ]
+            }
+          />
+          <View
+            style={
+              Array [
+                Object {
+                  "alignItems": "center",
+                  "flexDirection": "row",
+                  "justifyContent": "center",
+                },
+              ]
+            }
+          >
+            <View
+              style={
+                Array [
+                  Object {
+                    "padding": 15,
+                  },
+                ]
+              }
+            >
+              <Text
+                style={
+                  Object {
+                    "backgroundColor": "transparent",
+                    "color": "#ffffff",
+                    "fontSize": 14.742857142857144,
+                    "textAlign": "right",
+                  }
+                }
+              >
+                NaN:0NaN
+              </Text>
+            </View>
+            <RNCSlider
+              disabled={false}
+              enabled={true}
+              maximumValue={1}
+              minimumTrackTintColor="#686EFF"
+              minimumValue={0}
+              onRNCSliderSlidingComplete={null}
+              onRNCSliderSlidingStart={null}
+              step={1}
+              style={
+                Array [
+                  Object {
+                    "height": 40,
+                  },
+                  Object {
+                    "alignItems": "center",
+                    "flexDirection": "column",
+                    "width": "80%",
+                  },
+                ]
+              }
+              thumbTintColor="white"
+              value={0}
+            />
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                  "flexDirection": "row",
+                  "justifyContent": "center",
+                }
+              }
+            >
+              <View
+                style={
+                  Array [
+                    Object {
+                      "padding": 15,
+                    },
+                    Object {},
+                  ]
+                }
+              >
+                <Text
+                  style={
+                    Object {
+                      "backgroundColor": "transparent",
+                      "color": "#ffffff",
+                      "fontSize": 14.742857142857144,
+                      "textAlign": "right",
+                    }
+                  }
+                >
+                  NaN:0NaN
+                </Text>
+              </View>
+            </View>
+          </View>
+          <View
+            style={
+              Array [
+                Object {
+                  "alignItems": "center",
+                  "flexDirection": "row",
+                  "height": 40,
+                  "justifyContent": "space-between",
+                  "marginBottom": 15,
+                },
+              ]
+            }
+          >
+            <View
+              accessible={true}
+              focusable={true}
+              hasTVPreferredFocus={false}
+              isTVSelectable={true}
+              style={
+                Array [
+                  Object {
+                    "borderRadius": 15,
+                    "marginLeft": 15,
+                    "marginRight": 15,
+                  },
+                ]
+              }
+            >
+              <View
+                style={
+                  Object {
+                    "alignItems": "center",
+                    "flex": 1,
+                    "flexDirection": "row",
+                    "justifyContent": "center",
+                    "margin": 15,
+                  }
+                }
+              >
+                <View>
+                  <View
+                    style={
+                      Object {
+                        "alignItems": "center",
+                        "backgroundColor": "transparent",
+                        "justifyContent": "center",
+                      }
+                    }
+                    theme={
+                      Object {
+                        "colors": Object {
+                          "disabled": "hsl(208, 8%, 90%)",
+                          "divider": "#bcbbc1",
+                          "error": "#ff190c",
+                          "grey0": "#393e42",
+                          "grey1": "#43484d",
+                          "grey2": "#5e6977",
+                          "grey3": "#86939e",
+                          "grey4": "#bdc6cf",
+                          "grey5": "#e1e8ee",
+                          "greyOutline": "#bbb",
+                          "platform": Object {
+                            "android": Object {
+                              "error": "#f44336",
+                              "primary": "#2196f3",
+                              "secondary": "#9C27B0",
+                              "success": "#4caf50",
+                              "warning": "#ffeb3b",
+                            },
+                            "ios": Object {
+                              "error": "#ff3b30",
+                              "primary": "#007aff",
+                              "secondary": "#5856d6",
+                              "success": "#4cd964",
+                              "warning": "#ffcc00",
+                            },
+                          },
+                          "primary": "#2089dc",
+                          "searchBg": "#303337",
+                          "secondary": "#8F0CE8",
+                          "success": "#52c41a",
+                          "warning": "#faad14",
+                        },
+                      }
+                    }
+                    underlayColor="white"
+                  >
+                    <Text
+                      allowFontScaling={false}
+                      style={
+                        Array [
+                          Object {
+                            "color": "white",
+                            "fontSize": 24,
+                          },
+                          Object {
+                            "backgroundColor": "transparent",
+                          },
+                          Object {
+                            "fontFamily": "Ionicons",
+                            "fontStyle": "normal",
+                            "fontWeight": "normal",
+                          },
+                          Object {},
+                        ]
+                      }
+                      testID="iconIcon"
+                    >
+                      ?
+                    </Text>
+                  </View>
+                </View>
+              </View>
+            </View>
+          </View>
+        </View>
+      </View>
+    </View>
+  </View>
+</View>
+`;

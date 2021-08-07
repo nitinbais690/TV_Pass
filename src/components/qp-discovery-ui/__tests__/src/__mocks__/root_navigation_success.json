@@ -1,0 +1,33 @@
+{
+    "header": {
+      "source": "MW-MERCHANDSERVICE-HTTP-06",
+      "code": "0",
+      "message": "Success",
+      "systemtime": 1585295540815,
+      "totalcount": 2,
+      "rows": 2,
+      "start": 1
+    },
+    "data": [
+      {
+        "id": "0CAF7A15-6A9F-433E-AFA3-02E1E0829736",
+        "lon": [
+          {
+            "lang": "en",
+            "n": "Home"
+          }
+        ],
+        "n": "Home"
+      },
+      {
+        "id": "EC6746D9-1737-4E9B-A5B1-3A0CF8EE72CC",
+        "lon": [
+          {
+            "lang": "en",
+            "n": "Movies"
+          }
+        ],
+        "n": "Movies"
+      }
+    ]
+  }

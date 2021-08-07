@@ -1,0 +1,67 @@
+{
+    "header": {
+        "source": "MW-DATASERVICE-HTTP-13",
+        "code": "0",
+        "message": "Success",
+        "systemtime": 1585144486183,
+        "start": 1,
+        "rows": 1,
+        "count": 1
+    },
+    "data": [
+        {
+            "a_id": 1626,
+            "cast": ["Danny Jacobs", "Andy Richter"],
+            "cc": "Y",
+            "ct": "2020-03-18T10:54:15Z",
+            "cty": "movie",
+            "director": ["rock"],
+            "dwu": "https://demo-sanorigin-vodstreams.quickplay.com/sd/uploadService3/1/movie1-pkg/movie1-abc8/output_dash.ism/index.mpd",
+            "ed_dt": "2021-01-02T15:04:05Z",
+            "ex_id": "All_Heil_King_Julien-metadata",
+            "g": ["comedy"],
+            "hfu": "https://demo-sanorigin-vodstreams.quickplay.com/sd/uploadService3/1/movie1-pkg/movie1-abc8/output_hls.ism/index.m3u8",
+            "ia": ["0-16x9", "0-1x1", "0-2x3", "1-16x9"],
+            "id": "04FC748F-DB1F-4B4B-AEB0-720978B974A6",
+            "keywords": ["Science"],
+            "lod": [
+                {
+                    "lang": "en",
+                    "n": "King Julien XII is a cowardly ring-tailed lemur who forces his kingdom into silence to avoid being attack by the foosa. However, Masikura foretells that King Julien XII will be eaten by the foosa and so he hands down his kingship to his nephew, King Julien XIII."
+                }
+            ],
+            "lon": [
+                {
+                    "lang": "en",
+                    "n": "All Heil King Julien"
+                }
+            ],
+            "pkg_id": "All_Heil_King_Julien-pkg",
+            "pn": "firstlight",
+            "r": 2019,
+            "rat": [
+                {
+                    "s": "IMDB",
+                    "v": "A"
+                }
+            ],
+            "rt": "00:35:00",
+            "st": "published",
+            "st_dt": "2020-01-02T15:04:05Z",
+            "urn": "urn:resource:catalog:movie",
+            "ut": "2020-03-18T10:54:15Z"
+        }
+    ],
+    "facets": [
+        {
+            "field": "cty",
+            "total": 1,
+            "terms": [
+                {
+                    "term": "movie",
+                    "count": 1
+                }
+            ]
+        }
+    ]
+}

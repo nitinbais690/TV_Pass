@@ -1,0 +1,416 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PlayerControlsView should render all player controls 1`] = `
+<View
+  collapsable={true}
+  pointerEvents="box-none"
+  style={
+    Object {
+      "flex": 1,
+    }
+  }
+>
+  <View
+    accessibilityLabel="PlayerControls"
+    accessible={true}
+    focusable={true}
+    hasTVPreferredFocus={false}
+    isTVSelectable={true}
+    style={
+      Object {
+        "flex": 1,
+        "width": "100%",
+      }
+    }
+  >
+    <View
+      collapsable={false}
+      style={
+        Object {
+          "flex": 1,
+          "width": "100%",
+        }
+      }
+    >
+      <View
+        style={
+          Object {
+            "flex": 1,
+            "width": "100%",
+          }
+        }
+      >
+        <View
+          style={
+            Object {
+              "flex": 1,
+            }
+          }
+        >
+          <View
+            style={
+              Object {
+                "backgroundColor": "rgba(0,0,0,0.7)",
+                "flex": 1,
+                "flexDirection": "row",
+                "opacity": 1,
+                "paddingHorizontal": 30,
+                "paddingTop": 10,
+              }
+            }
+          >
+            <View
+              style={
+                Object {
+                  "flex": 1,
+                  "flexDirection": "row",
+                  "justifyContent": "space-between",
+                }
+              }
+            >
+              <View
+                style={
+                  Object {
+                    "flexDirection": "row",
+                  }
+                }
+              >
+                <View
+                  accessibilityLabel="TracksButton"
+                  accessible={true}
+                  focusable={true}
+                  hasTVPreferredFocus={false}
+                  isTVSelectable={true}
+                  style={
+                    Array [
+                      Object {
+                        "alignItems": "center",
+                        "borderRadius": 20,
+                        "height": 40,
+                        "justifyContent": "center",
+                        "width": 40,
+                      },
+                    ]
+                  }
+                >
+                  <SvgMock />
+                </View>
+                <View
+                  style={
+                    Object {
+                      "flexGrow": 1,
+                      "height": 40,
+                      "marginLeft": 25,
+                      "tintColor": "#ffffff",
+                      "width": 40,
+                    }
+                  }
+                />
+              </View>
+              <View>
+                <View
+                  accessibilityLabel="CloseButton"
+                  accessible={true}
+                  focusable={true}
+                  hasTVPreferredFocus={false}
+                  isTVSelectable={true}
+                  style={
+                    Array [
+                      Array [
+                        Object {
+                          "alignItems": "center",
+                          "borderRadius": 20,
+                          "height": 40,
+                          "justifyContent": "center",
+                          "width": 40,
+                        },
+                      ],
+                    ]
+                  }
+                >
+                  <SvgMock />
+                </View>
+              </View>
+            </View>
+          </View>
+        </View>
+        <View
+          style={
+            Object {
+              "flex": 2,
+            }
+          }
+        >
+          <View
+            style={
+              Object {
+                "alignItems": "center",
+                "backgroundColor": "rgba(0,0,0,0.7)",
+                "flex": 2,
+                "justifyContent": "center",
+                "opacity": 1,
+              }
+            }
+          >
+            <View
+              style={
+                Object {
+                  "flexDirection": "row",
+                }
+              }
+            >
+              <View
+                accessibilityLabel="RewindButton"
+                accessible={true}
+                focusable={true}
+                hasTVPreferredFocus={false}
+                isTVSelectable={true}
+                style={
+                  Array [
+                    Object {
+                      "borderRadius": 50,
+                      "marginRight": "10%",
+                    },
+                  ]
+                }
+              >
+                <SvgMock />
+              </View>
+              <View
+                accessibilityLabel="Play"
+                accessible={true}
+                focusable={true}
+                hasTVPreferredFocus={false}
+                isTVSelectable={true}
+                style={
+                  Array [
+                    Array [
+                      Object {
+                        "borderRadius": 50,
+                      },
+                      Object {},
+                    ],
+                  ]
+                }
+              >
+                <SvgMock />
+              </View>
+              <View
+                accessibilityLabel="ForwardButton"
+                accessible={true}
+                focusable={true}
+                hasTVPreferredFocus={false}
+                isTVSelectable={true}
+                style={
+                  Array [
+                    Object {
+                      "borderRadius": 50,
+                      "marginLeft": "10%",
+                    },
+                  ]
+                }
+              >
+                <SvgMock />
+              </View>
+            </View>
+          </View>
+        </View>
+        <View
+          style={
+            Object {
+              "flex": 1,
+            }
+          }
+        >
+          <View
+            style={
+              Object {
+                "alignItems": "stretch",
+                "backgroundColor": "rgba(0,0,0,0.7)",
+                "flex": 1,
+                "justifyContent": "flex-end",
+                "opacity": 1,
+                "paddingBottom": 10,
+                "paddingHorizontal": 50,
+                "translateY": 0,
+              }
+            }
+            useNativeDriver={true}
+          >
+            <View
+              style={
+                Object {
+                  "alignItems": "flex-end",
+                  "flexDirection": "row",
+                  "justifyContent": "space-between",
+                  "paddingBottom": 15,
+                }
+              }
+            >
+              <View />
+              <View
+                style={
+                  Object {
+                    "alignContent": "center",
+                    "flexDirection": "row",
+                    "paddingBottom": 25,
+                  }
+                }
+              >
+                <View
+                  accessibilityLabel="VolumeButton"
+                  accessible={true}
+                  focusable={true}
+                  hasTVPreferredFocus={false}
+                  isTVSelectable={true}
+                  style={
+                    Array [
+                      Object {
+                        "alignItems": "center",
+                        "borderRadius": 20,
+                        "height": 40,
+                        "justifyContent": "center",
+                        "width": 40,
+                      },
+                    ]
+                  }
+                >
+                  <SvgMock />
+                </View>
+              </View>
+            </View>
+            <View
+              style={
+                Array [
+                  Object {
+                    "alignItems": "flex-start",
+                    "flexDirection": "row",
+                    "justifyContent": "flex-start",
+                  },
+                ]
+              }
+            >
+              <View
+                style={
+                  Object {
+                    "flex": 1,
+                    "height": 45,
+                    "paddingBottom": 30,
+                  }
+                }
+              >
+                <RNCSlider
+                  disabled={false}
+                  enabled={true}
+                  maximumTrackTintColor="rgba(256, 256, 256, 0.2)"
+                  maximumValue={307360000}
+                  minimumTrackTintColor="#686EFF"
+                  minimumValue={0}
+                  step={1}
+                  style={
+                    Array [
+                      Object {
+                        "height": 40,
+                      },
+                      Object {
+                        "alignItems": "center",
+                        "flex": 1,
+                        "flexDirection": "column",
+                        "height": 25,
+                      },
+                    ]
+                  }
+                  thumbTintColor="#686EFF"
+                  value={207360000}
+                />
+                <Text
+                  style={
+                    Array [
+                      Object {
+                        "bottom": 0,
+                        "color": "white",
+                        "fontFamily": "Inter-Regular",
+                        "fontSize": 14.742857142857144,
+                        "position": "absolute",
+                        "textAlign": "center",
+                      },
+                      Object {
+                        "left": -54.36621551275377,
+                        "width": 100,
+                      },
+                    ]
+                  }
+                >
+                  57:36:00
+                </Text>
+              </View>
+              <View
+                style={
+                  Array [
+                    Object {
+                      "alignItems": "flex-start",
+                      "flexDirection": "row",
+                      "marginLeft": 8,
+                      "paddingTop": 0,
+                    },
+                  ]
+                }
+              >
+                <Text
+                  style={
+                    Object {
+                      "backgroundColor": "transparent",
+                      "color": "#ffffff",
+                      "fontSize": 14.742857142857144,
+                      "paddingLeft": 7.5,
+                      "textAlign": "right",
+                    }
+                  }
+                >
+                  27:46:40
+                </Text>
+              </View>
+            </View>
+          </View>
+        </View>
+      </View>
+    </View>
+  </View>
+</View>
+`;
+
+exports[`PlayerControlsView should render loading 1`] = `
+<View
+  collapsable={true}
+  pointerEvents="box-none"
+  style={
+    Object {
+      "flex": 1,
+    }
+  }
+>
+  <View
+    accessibilityLabel="PlayerControls"
+    accessible={true}
+    focusable={true}
+    hasTVPreferredFocus={false}
+    isTVSelectable={true}
+    style={
+      Object {
+        "flex": 1,
+        "width": "100%",
+      }
+    }
+  >
+    <View
+      collapsable={false}
+      style={
+        Object {
+          "flex": 1,
+          "width": "100%",
+        }
+      }
+    />
+  </View>
+</View>
+`;

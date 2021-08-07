@@ -1,0 +1,27 @@
+{
+    "name": "qp-common-ui",
+    "version": "0.0.1",
+    "description": "A collection of Firstlight's common UI Components",
+    "main": "index.ts",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [
+        "qp-common-ui"
+    ],
+    "private": true,
+    "peerDependencies": {
+        "react-native": ">=0.61.3",
+        "react-native-device-info": ">=4.0.2-rc.1",
+        "eslint": "^5.16.0",
+        "eslint-config-prettier": "^4.3.0",
+        "eslint-plugin-prettier": "^3.1.0",
+        "prettier": "^1.17.1",
+        "@typescript-eslint/eslint-plugin": "^1.9.0",
+        "@typescript-eslint/parser": "^1.9.0"
+    },
+    "devDependencies": {
+        "typescript": "3.4.5",
+        "@types/react-native": "0.57.57"
+    }
+}

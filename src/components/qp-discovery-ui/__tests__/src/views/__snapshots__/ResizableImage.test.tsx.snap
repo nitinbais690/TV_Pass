@@ -1,0 +1,50 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ResizableImage avoid renders overridden style correctly 1`] = `
+<View
+  collapsable={true}
+  pointerEvents="box-none"
+  style={
+    Object {
+      "flex": 1,
+    }
+  }
+>
+  <Image
+    source={
+      Object {
+        "cache": undefined,
+        "uri": "",
+      }
+    }
+    style={
+      Object {
+        "backgroundColor": "red",
+      }
+    }
+    testID="image"
+  />
+</View>
+`;
+
+exports[`ResizableImage renders correctly when dimensions are passed in 1`] = `
+<View
+  collapsable={true}
+  pointerEvents="box-none"
+  style={
+    Object {
+      "flex": 1,
+    }
+  }
+>
+  <Image
+    source={
+      Object {
+        "cache": undefined,
+        "uri": "?width=600",
+      }
+    }
+    testID="image"
+  />
+</View>
+`;

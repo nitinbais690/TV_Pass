@@ -1,0 +1,27 @@
+{
+    "ca": [
+        { "n": "Tom Kenny", "o": "01" },
+        { "n": "Bill Fagerbakke", "o": "02" },
+        { "n": "Rodger Bumpass", "o": "03" },
+        { "n": "Clancy Brown", "o": "04" },
+        { "n": "Carolyn Lawrence", "o": "05" },
+        { "n": "Mr. Lawrence", "o": "06" }
+    ],
+    "cr": [],
+    "cty": "program",
+    "desl": "Show",
+    "ety": "Syndicated",
+    "g": ["Consumer"],
+    "id": "SH033328620000",
+    "im": { "c": "Banner-L1", "h": "360", "u": "firs.tmsimg.com/assets/p17463183_b_v5_aa.jpg", "w": "240" },
+    "ldes": "Thinking of Investing? Find out how investing in your car could save you thousands!",
+    "r": [
+        { "b": "IMDB", "c": "A" },
+        { "b": "Australian Classification Board", "c": "G" }
+    ],
+    "sdes": "Thinking of Investing? Find out how investing in your car could save you thousands!",
+    "serId": "17463183",
+    "sty": "Paid Programming",
+    "t": "Car Repair Secrets!",
+    "tl": "en"
+}

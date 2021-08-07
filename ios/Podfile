@@ -1,0 +1,180 @@
+require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
+
+project 'TVPass', 'Debug (Staging)' => :debug, 'Release (Staging)' => :release, 'Debug' => :debug, 'Release' => :release
+
+def shared_pods
+    pod 'FBLazyVector', :path => "../node_modules/react-native/Libraries/FBLazyVector"
+    pod 'FBReactNativeSpec', :path => "../node_modules/react-native/Libraries/FBReactNativeSpec"
+    pod 'RCTRequired', :path => "../node_modules/react-native/Libraries/RCTRequired"
+    pod 'RCTTypeSafety', :path => "../node_modules/react-native/Libraries/TypeSafety"
+    pod 'React', :path => '../node_modules/react-native/'
+    pod 'React-Core', :path => '../node_modules/react-native/'
+    pod 'React-CoreModules', :path => '../node_modules/react-native/React/CoreModules'
+    pod 'React-Core/DevSupport', :path => '../node_modules/react-native/'
+    pod 'React-RCTAnimation', :path => '../node_modules/react-native/Libraries/NativeAnimation'
+    pod 'React-RCTBlob', :path => '../node_modules/react-native/Libraries/Blob'
+    pod 'React-RCTImage', :path => '../node_modules/react-native/Libraries/Image'
+    pod 'React-RCTNetwork', :path => '../node_modules/react-native/Libraries/Network'
+    pod 'React-RCTSettings', :path => '../node_modules/react-native/Libraries/Settings'
+    pod 'React-RCTText', :path => '../node_modules/react-native/Libraries/Text'
+    pod 'React-RCTVibration', :path => '../node_modules/react-native/Libraries/Vibration'
+    pod 'React-Core/RCTWebSocket', :path => '../node_modules/react-native/'
+    pod 'React-RCTLinking', :path => '../node_modules/react-native/Libraries/LinkingIOS'
+
+    pod 'React-cxxreact', :path => '../node_modules/react-native/ReactCommon/cxxreact'
+    pod 'React-jsi', :path => '../node_modules/react-native/ReactCommon/jsi'
+    pod 'React-jsiexecutor', :path => '../node_modules/react-native/ReactCommon/jsiexecutor'
+    pod 'React-jsinspector', :path => '../node_modules/react-native/ReactCommon/jsinspector'
+    pod 'ReactCommon/callinvoker', :path => "../node_modules/react-native/ReactCommon"
+    pod 'ReactCommon/turbomodule/core', :path => "../node_modules/react-native/ReactCommon"
+    pod 'Yoga', :path => '../node_modules/react-native/ReactCommon/yoga', :modular_headers => true
+
+    pod 'DoubleConversion', :podspec => '../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec', :modular_headers => false
+    pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec', :modular_headers => false
+    pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec', :modular_headers => false
+  end
+
+def shared_dependencies
+    pod 'BVLinearGradient', :path => '../node_modules/react-native-linear-gradient'
+    pod 'RNDeviceInfo', :path => '../node_modules/react-native-device-info'
+    pod 'RNFastImage', :path => '../node_modules/react-native-fast-image'
+    pod 'RNGestureHandler', :path => '../node_modules/react-native-gesture-handler'
+    pod 'RNReanimated', :path => '../node_modules/react-native-reanimated'
+    pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
+    pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-async-storage/async-storage'
+    pod 'RNKeychain', :path => '../node_modules/react-native-keychain'
+    pod 'RNSVG', :path => '../node_modules/react-native-svg'
+    pod 'react-native-netinfo', :path => '../node_modules/@react-native-community/netinfo'
+    pod 'react-native-safe-area-context', :path => '../node_modules/react-native-safe-area-context'
+    pod 'RNIap', :path => '../node_modules/react-native-iap'
+    pod 'react-native-newrelic', :path => '../node_modules/rn-qp-nxg-newrelic'  
+    pod 'react-native-config', :path => '../node_modules/react-native-config'
+    pod 'react-native-blur', :path => '../node_modules/@react-native-community/blur'
+    pod 'RNCMaskedView', :path => '../node_modules/@react-native-community/masked-view'
+    pod 'NewRelicAgent'
+end
+
+def add_flipper_pods!(versions = {})
+  versions['Flipper'] ||= '~> 0.37.0'
+  versions['DoubleConversion'] ||= '1.1.7'
+  versions['Flipper-Folly'] ||= '~> 2.3.0'
+  versions['Flipper-Glog'] ||= '0.3.6'
+  versions['Flipper-PeerTalk'] ||= '~> 0.0.4'
+  versions['Flipper-RSocket'] ||= '~> 1.0'
+  pod 'FlipperKit', versions['Flipper'], :configuration => ['Debug', 'Debug (Staging)']
+  pod 'FlipperKit/FlipperKitLayoutPlugin', versions['Flipper'], :configuration => ['Debug', 'Debug (Staging)']
+  pod 'FlipperKit/SKIOSNetworkPlugin', versions['Flipper'], :configuration => ['Debug', 'Debug (Staging)']
+  pod 'FlipperKit/FlipperKitUserDefaultsPlugin', versions['Flipper'], :configuration => ['Debug', 'Debug (Staging)']
+  pod 'FlipperKit/FlipperKitReactPlugin', versions['Flipper'], :configuration => ['Debug', 'Debug (Staging)']
+  # List all transitive dependencies for FlipperKit pods
+  # to avoid them being linked in Release builds
+  pod 'Flipper', versions['Flipper'], :configuration => ['Debug', 'Debug (Staging)']
+  pod 'Flipper-DoubleConversion', versions['DoubleConversion'], :configuration => ['Debug', 'Debug (Staging)']
+  pod 'Flipper-Folly', versions['Flipper-Folly'], :configuration => ['Debug', 'Debug (Staging)']
+  pod 'Flipper-Glog', versions['Flipper-Glog'], :configuration => ['Debug', 'Debug (Staging)']
+  pod 'Flipper-PeerTalk', versions['Flipper-PeerTalk'], :configuration => ['Debug', 'Debug (Staging)']
+  pod 'Flipper-RSocket', versions['Flipper-RSocket'], :configuration => ['Debug', 'Debug (Staging)']
+  pod 'FlipperKit/Core', versions['Flipper'], :configuration => ['Debug', 'Debug (Staging)']
+  pod 'FlipperKit/CppBridge', versions['Flipper'], :configuration => ['Debug', 'Debug (Staging)']
+  pod 'FlipperKit/FBCxxFollyDynamicConvert', versions['Flipper'], :configuration => ['Debug', 'Debug (Staging)']
+  pod 'FlipperKit/FBDefines', versions['Flipper'], :configuration => ['Debug', 'Debug (Staging)']
+  pod 'FlipperKit/FKPortForwarding', versions['Flipper'], :configuration => ['Debug', 'Debug (Staging)']
+  pod 'FlipperKit/FlipperKitHighlightOverlay', versions['Flipper'], :configuration => ['Debug', 'Debug (Staging)']
+  pod 'FlipperKit/FlipperKitLayoutTextSearchable', versions['Flipper'], :configuration => ['Debug', 'Debug (Staging)']
+  pod 'FlipperKit/FlipperKitNetworkPlugin', versions['Flipper'], :configuration => ['Debug', 'Debug (Staging)']
+
+  pod 'flipper-plugin-react-native-performance', :path => "../node_modules/flipper-plugin-react-native-performance/ios", :configuration => ['Debug', 'Debug (Staging)']
+end
+
+# Post Install processing for Flipper
+def flipper_post_install(installer)
+  installer.pods_project.targets.each do |target|
+    if target.name == 'YogaKit'
+      target.build_configurations.each do |config|
+        config.build_settings['SWIFT_VERSION'] = '4.1'
+      end
+    end
+  end
+end
+
+# Clean up deployment targets on dependent pods to avoid un-supported warnings
+# see: https://www.jessesquires.com/blog/2020/07/20/xcode-12-drops-support-for-ios-8-fix-for-cocoapods/
+def cleanUpDeploymentTargets(installer)
+  installer.pods_project.targets.each do |target|
+    target.build_configurations.each do |config|
+      config.build_settings.delete 'IPHONEOS_DEPLOYMENT_TARGET'
+    end
+  end
+end
+
+target 'TVPass' do
+    platform :ios, '11.0'
+
+    # Pods for TVPass
+    shared_pods
+    shared_dependencies
+    #Including 'use_modular_headers!' for Youbora frameworks
+    use_modular_headers!
+    
+    pod 'RCTSystemSetting', :path => '../node_modules/react-native-system-setting'      
+    pod 'React-RCTActionSheet', :path => '../node_modules/react-native/Libraries/ActionSheetIOS'
+    pod 'react-native-slider', :path => '../node_modules/@react-native-community/slider'
+    pod 'react-native-splash-screen', :path => '../node_modules/react-native-splash-screen'
+    pod 'appcenter-core', :path => '../node_modules/appcenter/ios'
+    pod 'appcenter-analytics', :path => '../node_modules/appcenter-analytics/ios'
+    pod 'appcenter-crashes', :path => '../node_modules/appcenter-crashes/ios'
+    pod 'react-native-orientation-locker', :path => '../node_modules/react-native-orientation-locker'
+    pod 'rn-fetch-blob', :path => '../node_modules/rn-fetch-blob'
+    pod 'react-native-safe-area-context', :path => '../node_modules/react-native-safe-area-context'
+    pod 'rn-qp-nxg-player', :path => '../node_modules/rn-qp-nxg-player'
+    pod 'RNScreens', :path => '../node_modules/react-native-screens'
+    pod 'react-native-segmented-control', :path => '../node_modules/@react-native-community/segmented-control'
+    pod 'ReactNativeLocalization', :path => '../node_modules/react-native-localization'
+    pod 'RNLocalize', :path => '../node_modules/react-native-localize'
+    
+    pod 'RNDateTimePicker', :path => '../node_modules/@react-native-community/datetimepicker'
+    pod 'react-native-swrve-plugin', :path => '../node_modules/react-native-swrve-plugin'
+    pod 'react-native-google-cast/NoBluetooth', path: '../node_modules/react-native-google-cast/ios/'
+    pod 'react-native-home-indicator', path: '../node_modules/react-native-home-indicator'
+    pod 'RNInAppBrowser', :path => '../node_modules/react-native-inappbrowser-reborn'
+    pod 'lottie-react-native', :path => '../node_modules/lottie-react-native'
+    pod 'react-native-webview', :path => '../node_modules/react-native-webview'
+    pod 'SRSRadialGradient', :path => '../node_modules/react-native-radial-gradient/ios'
+    pod 'react-native-version-check', :path => '../node_modules/react-native-version-check'
+
+    pod 'react-native-month-year-picker', :path => '../node_modules/react-native-month-year-picker'
+    pod 'react-native-kochava-tracker', :path => '../node_modules/react-native-kochava-tracker'
+    pod 'RNSound', :path => '../node_modules/react-native-sound'
+    pod 'RNCPushNotificationIOS', :path => '../node_modules/@react-native-community/push-notification-ios'
+
+    target 'TVPassTests' do
+        inherit! :complete
+        # Pods for testing
+    end
+
+    # Skipping for now since the auto-detection ruby script breaks when a native module doesn't support tvOS
+    # use_native_modules!
+	add_flipper_pods!
+  	post_install do |installer|
+    flipper_post_install(installer)
+    cleanUpDeploymentTargets(installer)
+  end
+end
+
+target 'TVPass-tvOS' do
+    platform :tvos, '11.0'
+    # Pods for TVPass-tvOS
+    shared_pods
+    shared_dependencies
+    use_modular_headers!
+    
+    pod 'rn-qp-nxg-player', :path => '../node_modules/rn-qp-nxg-player'
+    target 'TVPass-tvOSTests' do
+    inherit! :complete
+    # Pods for testing
+    end
+
+# Skipping for now since the auto-detection ruby script breaks when a native module doesn't support tvOS
+# use_native_modules!
+
+end

@@ -1,0 +1,47 @@
+{
+    "name": "qp-playercontroller-ui",
+    "version": "0.0.1",
+    "description": "A collection of AT&T Player Controller UI Components",
+    "main": "index.ts",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [
+        "qp-playercontroller-ui"
+    ],
+    "private": true,
+    "peerDependencies": {
+        "rn-qp-nxg-player": "1.0.0",
+        "react-native": ">=0.61.3",
+        "react-fetching-library": ">=1.5.1",
+        "react-native-elements": "^1.1.0",
+        "react-native-gesture-handler": "^1.2.1",
+        "react-native-vector-icons": "^6.4.2",
+        "react-native-linear-gradient": "^2.5.4",
+        "react-native-actionsheet": "2.4.2",
+        "@types/jest": "24.0.12",
+        "@types/react": "^16.8.6",
+        "eslint": "^5.16.0",
+        "eslint-config-prettier": "^4.3.0",
+        "eslint-plugin-prettier": "^3.1.0",
+        "prettier": "^1.17.1",
+        "@typescript-eslint/eslint-plugin": "^1.9.0",
+        "@typescript-eslint/parser": "^1.9.0",
+        "qp-common-ui": "0.0.1"
+    },
+    "devDependencies": {
+        "typescript": "3.4.5",
+        "@babel/core": "7.4.4",
+        "@babel/runtime": "7.4.4",
+        "@types/react-native": "0.57.57",
+        "@types/react-native-elements": "^0.18.0",
+        "@types/react-test-renderer": "16.8.1",
+        "babel-jest": "24.8.0",
+        "jest": "24.8.0",
+        "metro-react-native-babel-preset": "0.54.1",
+        "react-test-renderer": "16.8.3",
+        "@testing-library/react": "^8.0.1",
+        "ts-jest": "23.10.5",
+        "@testing-library/react-hooks": "^1.0.4"
+    }
+}

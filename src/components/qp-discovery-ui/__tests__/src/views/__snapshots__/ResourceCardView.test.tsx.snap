@@ -1,0 +1,1166 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ResourceCardView avoid re-renders correctly 1`] = `
+<View
+  collapsable={true}
+  pointerEvents="box-none"
+  style={
+    Object {
+      "flex": 1,
+    }
+  }
+>
+  <View
+    accessibilityLabel="Card View"
+    accessible={true}
+    focusable={true}
+    hasTVPreferredFocus={false}
+    isTVSelectable={true}
+    style={
+      Array [
+        Object {
+          "marginBottom": 15,
+          "marginLeft": 15,
+          "marginTop": 15,
+        },
+        undefined,
+        undefined,
+        Object {},
+      ]
+    }
+    testID="cardView"
+  >
+    <View
+      style={
+        Array [
+          Object {
+            "aspectRatio": 1.7777777777777777,
+            "backgroundColor": "#ffffff",
+            "borderRadius": 0,
+            "elevation": 2,
+            "shadowColor": "#333333",
+            "shadowOffset": Object {
+              "height": 1,
+              "width": 0,
+            },
+            "shadowOpacity": 1,
+            "shadowRadius": 2,
+            "width": 375,
+          },
+          undefined,
+        ]
+      }
+    >
+      <View
+        style={
+          Array [
+            Object {
+              "overflow": "hidden",
+            },
+            Array [
+              Object {
+                "alignSelf": "stretch",
+                "borderRadius": 0,
+                "flex": 1,
+              },
+              undefined,
+            ],
+          ]
+        }
+      >
+        <FastImageView
+          resizeMode="contain"
+          source={
+            Object {
+              "cache": "web",
+              "uri": "undefined?width=750",
+            }
+          }
+          style={
+            Object {
+              "bottom": 0,
+              "left": 0,
+              "position": "absolute",
+              "right": 0,
+              "top": 0,
+            }
+          }
+        />
+      </View>
+      <BVLinearGradient
+        colors={
+          Array [
+            0,
+            1712328720,
+            3423604752,
+          ]
+        }
+        endPoint={
+          Object {
+            "x": 0,
+            "y": 1,
+          }
+        }
+        locations={
+          Array [
+            0,
+            0.5,
+            1,
+          ]
+        }
+        startPoint={
+          Object {
+            "x": 0,
+            "y": 0.5,
+          }
+        }
+        style={
+          Array [
+            Object {
+              "backgroundColor": "transparent",
+              "bottom": 0,
+              "left": 0,
+              "position": "absolute",
+              "right": 0,
+              "top": 0,
+            },
+            undefined,
+          ]
+        }
+      />
+    </View>
+  </View>
+</View>
+`;
+
+exports[`ResourceCardView avoid re-renders correctly 2`] = `
+<View
+  collapsable={true}
+  pointerEvents="box-none"
+  style={
+    Object {
+      "flex": 1,
+    }
+  }
+>
+  <View
+    accessibilityLabel="Card View"
+    accessible={true}
+    focusable={true}
+    hasTVPreferredFocus={false}
+    isTVSelectable={true}
+    style={
+      Array [
+        Object {
+          "marginBottom": 15,
+          "marginLeft": 15,
+          "marginTop": 15,
+        },
+        undefined,
+        undefined,
+        Object {},
+      ]
+    }
+    testID="cardView"
+  >
+    <View
+      style={
+        Array [
+          Object {
+            "aspectRatio": 1.7777777777777777,
+            "backgroundColor": "#ffffff",
+            "borderRadius": 0,
+            "elevation": 2,
+            "shadowColor": "#333333",
+            "shadowOffset": Object {
+              "height": 1,
+              "width": 0,
+            },
+            "shadowOpacity": 1,
+            "shadowRadius": 2,
+            "width": 375,
+          },
+          undefined,
+        ]
+      }
+    >
+      <View
+        style={
+          Array [
+            Object {
+              "overflow": "hidden",
+            },
+            Array [
+              Object {
+                "alignSelf": "stretch",
+                "borderRadius": 0,
+                "flex": 1,
+              },
+              undefined,
+            ],
+          ]
+        }
+      >
+        <FastImageView
+          resizeMode="contain"
+          source={
+            Object {
+              "cache": "web",
+              "uri": "undefined?width=750",
+            }
+          }
+          style={
+            Object {
+              "bottom": 0,
+              "left": 0,
+              "position": "absolute",
+              "right": 0,
+              "top": 0,
+            }
+          }
+        />
+      </View>
+      <BVLinearGradient
+        colors={
+          Array [
+            0,
+            1712328720,
+            3423604752,
+          ]
+        }
+        endPoint={
+          Object {
+            "x": 0,
+            "y": 1,
+          }
+        }
+        locations={
+          Array [
+            0,
+            0.5,
+            1,
+          ]
+        }
+        startPoint={
+          Object {
+            "x": 0,
+            "y": 0.5,
+          }
+        }
+        style={
+          Array [
+            Object {
+              "backgroundColor": "transparent",
+              "bottom": 0,
+              "left": 0,
+              "position": "absolute",
+              "right": 0,
+              "top": 0,
+            },
+            undefined,
+          ]
+        }
+      />
+    </View>
+  </View>
+</View>
+`;
+
+exports[`ResourceCardView renders correctly when custom wrapper style doesn't define aspect ratio 1`] = `
+<View
+  collapsable={true}
+  pointerEvents="box-none"
+  style={
+    Object {
+      "flex": 1,
+    }
+  }
+>
+  <View
+    accessibilityLabel="Card View"
+    accessible={true}
+    focusable={true}
+    hasTVPreferredFocus={false}
+    isTVSelectable={true}
+    style={
+      Array [
+        Object {
+          "marginBottom": 15,
+          "marginLeft": 15,
+          "marginTop": 15,
+        },
+        undefined,
+        undefined,
+        Object {},
+      ]
+    }
+    testID="cardView"
+  >
+    <View
+      style={
+        Array [
+          Object {
+            "aspectRatio": 1.7777777777777777,
+            "backgroundColor": "#ffffff",
+            "borderRadius": 0,
+            "elevation": 2,
+            "shadowColor": "#333333",
+            "shadowOffset": Object {
+              "height": 1,
+              "width": 0,
+            },
+            "shadowOpacity": 1,
+            "shadowRadius": 2,
+            "width": 375,
+          },
+          Object {
+            "backgroundColor": "red",
+            "height": 100,
+            "width": 100,
+          },
+        ]
+      }
+    >
+      <View
+        style={
+          Array [
+            Object {
+              "overflow": "hidden",
+            },
+            Array [
+              Object {
+                "alignSelf": "stretch",
+                "borderRadius": 0,
+                "flex": 1,
+              },
+              undefined,
+            ],
+          ]
+        }
+      >
+        <FastImageView
+          resizeMode="contain"
+          source={
+            Object {
+              "cache": "web",
+              "uri": "undefined?width=200",
+            }
+          }
+          style={
+            Object {
+              "bottom": 0,
+              "left": 0,
+              "position": "absolute",
+              "right": 0,
+              "top": 0,
+            }
+          }
+        />
+      </View>
+      <BVLinearGradient
+        colors={
+          Array [
+            0,
+            1712328720,
+            3423604752,
+          ]
+        }
+        endPoint={
+          Object {
+            "x": 0,
+            "y": 1,
+          }
+        }
+        locations={
+          Array [
+            0,
+            0.5,
+            1,
+          ]
+        }
+        startPoint={
+          Object {
+            "x": 0,
+            "y": 0.5,
+          }
+        }
+        style={
+          Array [
+            Object {
+              "backgroundColor": "transparent",
+              "bottom": 0,
+              "left": 0,
+              "position": "absolute",
+              "right": 0,
+              "top": 0,
+            },
+            undefined,
+          ]
+        }
+      />
+    </View>
+  </View>
+</View>
+`;
+
+exports[`ResourceCardView renders correctly with default styles 1`] = `
+<View
+  collapsable={true}
+  pointerEvents="box-none"
+  style={
+    Object {
+      "flex": 1,
+    }
+  }
+>
+  <View
+    accessibilityLabel="Card View"
+    accessible={true}
+    focusable={true}
+    hasTVPreferredFocus={false}
+    isTVSelectable={true}
+    style={
+      Array [
+        Object {
+          "marginBottom": 15,
+          "marginLeft": 15,
+          "marginTop": 15,
+        },
+        undefined,
+        undefined,
+        Object {},
+      ]
+    }
+    testID="cardView"
+  >
+    <View
+      style={
+        Array [
+          Object {
+            "aspectRatio": 1.7777777777777777,
+            "backgroundColor": "#ffffff",
+            "borderRadius": 0,
+            "elevation": 2,
+            "shadowColor": "#333333",
+            "shadowOffset": Object {
+              "height": 1,
+              "width": 0,
+            },
+            "shadowOpacity": 1,
+            "shadowRadius": 2,
+            "width": 375,
+          },
+          undefined,
+        ]
+      }
+    >
+      <View
+        style={
+          Array [
+            Object {
+              "overflow": "hidden",
+            },
+            Array [
+              Object {
+                "alignSelf": "stretch",
+                "borderRadius": 0,
+                "flex": 1,
+              },
+              undefined,
+            ],
+          ]
+        }
+      >
+        <FastImageView
+          resizeMode="contain"
+          source={
+            Object {
+              "cache": "web",
+              "uri": "undefined?width=750",
+            }
+          }
+          style={
+            Object {
+              "bottom": 0,
+              "left": 0,
+              "position": "absolute",
+              "right": 0,
+              "top": 0,
+            }
+          }
+        />
+      </View>
+      <BVLinearGradient
+        colors={
+          Array [
+            0,
+            1712328720,
+            3423604752,
+          ]
+        }
+        endPoint={
+          Object {
+            "x": 0,
+            "y": 1,
+          }
+        }
+        locations={
+          Array [
+            0,
+            0.5,
+            1,
+          ]
+        }
+        startPoint={
+          Object {
+            "x": 0,
+            "y": 0.5,
+          }
+        }
+        style={
+          Array [
+            Object {
+              "backgroundColor": "transparent",
+              "bottom": 0,
+              "left": 0,
+              "position": "absolute",
+              "right": 0,
+              "top": 0,
+            },
+            undefined,
+          ]
+        }
+      />
+    </View>
+  </View>
+</View>
+`;
+
+exports[`ResourceCardView renders with the correct aspect ratio image renders correctly 1/1 aspect ratio 1`] = `
+<View
+  collapsable={true}
+  pointerEvents="box-none"
+  style={
+    Object {
+      "flex": 1,
+    }
+  }
+>
+  <View
+    accessibilityLabel="Card View"
+    accessible={true}
+    focusable={true}
+    hasTVPreferredFocus={false}
+    isTVSelectable={true}
+    style={
+      Array [
+        Object {
+          "marginBottom": 15,
+          "marginLeft": 15,
+          "marginTop": 15,
+        },
+        undefined,
+        undefined,
+        Object {},
+      ]
+    }
+    testID="cardView"
+  >
+    <View
+      style={
+        Array [
+          Object {
+            "aspectRatio": 1.7777777777777777,
+            "backgroundColor": "#ffffff",
+            "borderRadius": 0,
+            "elevation": 2,
+            "shadowColor": "#333333",
+            "shadowOffset": Object {
+              "height": 1,
+              "width": 0,
+            },
+            "shadowOpacity": 1,
+            "shadowRadius": 2,
+            "width": 375,
+          },
+          undefined,
+        ]
+      }
+    >
+      <View
+        style={
+          Array [
+            Object {
+              "overflow": "hidden",
+            },
+            Array [
+              Object {
+                "alignSelf": "stretch",
+                "borderRadius": 0,
+                "flex": 1,
+              },
+              undefined,
+            ],
+          ]
+        }
+      >
+        <FastImageView
+          resizeMode="contain"
+          source={
+            Object {
+              "cache": "web",
+              "uri": "undefined?width=750",
+            }
+          }
+          style={
+            Object {
+              "bottom": 0,
+              "left": 0,
+              "position": "absolute",
+              "right": 0,
+              "top": 0,
+            }
+          }
+        />
+      </View>
+      <BVLinearGradient
+        colors={
+          Array [
+            0,
+            1712328720,
+            3423604752,
+          ]
+        }
+        endPoint={
+          Object {
+            "x": 0,
+            "y": 1,
+          }
+        }
+        locations={
+          Array [
+            0,
+            0.5,
+            1,
+          ]
+        }
+        startPoint={
+          Object {
+            "x": 0,
+            "y": 0.5,
+          }
+        }
+        style={
+          Array [
+            Object {
+              "backgroundColor": "transparent",
+              "bottom": 0,
+              "left": 0,
+              "position": "absolute",
+              "right": 0,
+              "top": 0,
+            },
+            undefined,
+          ]
+        }
+      />
+    </View>
+  </View>
+</View>
+`;
+
+exports[`ResourceCardView renders with the correct aspect ratio image renders correctly 2/3 aspect ratio 1`] = `
+<View
+  collapsable={true}
+  pointerEvents="box-none"
+  style={
+    Object {
+      "flex": 1,
+    }
+  }
+>
+  <View
+    accessibilityLabel="Card View"
+    accessible={true}
+    focusable={true}
+    hasTVPreferredFocus={false}
+    isTVSelectable={true}
+    style={
+      Array [
+        Object {
+          "marginBottom": 15,
+          "marginLeft": 15,
+          "marginTop": 15,
+        },
+        undefined,
+        undefined,
+        Object {},
+      ]
+    }
+    testID="cardView"
+  >
+    <View
+      style={
+        Array [
+          Object {
+            "aspectRatio": 1.7777777777777777,
+            "backgroundColor": "#ffffff",
+            "borderRadius": 0,
+            "elevation": 2,
+            "shadowColor": "#333333",
+            "shadowOffset": Object {
+              "height": 1,
+              "width": 0,
+            },
+            "shadowOpacity": 1,
+            "shadowRadius": 2,
+            "width": 375,
+          },
+          undefined,
+        ]
+      }
+    >
+      <View
+        style={
+          Array [
+            Object {
+              "overflow": "hidden",
+            },
+            Array [
+              Object {
+                "alignSelf": "stretch",
+                "borderRadius": 0,
+                "flex": 1,
+              },
+              undefined,
+            ],
+          ]
+        }
+      >
+        <FastImageView
+          resizeMode="contain"
+          source={
+            Object {
+              "cache": "web",
+              "uri": "undefined?width=750",
+            }
+          }
+          style={
+            Object {
+              "bottom": 0,
+              "left": 0,
+              "position": "absolute",
+              "right": 0,
+              "top": 0,
+            }
+          }
+        />
+      </View>
+      <BVLinearGradient
+        colors={
+          Array [
+            0,
+            1712328720,
+            3423604752,
+          ]
+        }
+        endPoint={
+          Object {
+            "x": 0,
+            "y": 1,
+          }
+        }
+        locations={
+          Array [
+            0,
+            0.5,
+            1,
+          ]
+        }
+        startPoint={
+          Object {
+            "x": 0,
+            "y": 0.5,
+          }
+        }
+        style={
+          Array [
+            Object {
+              "backgroundColor": "transparent",
+              "bottom": 0,
+              "left": 0,
+              "position": "absolute",
+              "right": 0,
+              "top": 0,
+            },
+            undefined,
+          ]
+        }
+      />
+    </View>
+  </View>
+</View>
+`;
+
+exports[`ResourceCardView renders with the correct aspect ratio image renders correctly 16/9 aspect ratio 1`] = `
+<View
+  collapsable={true}
+  pointerEvents="box-none"
+  style={
+    Object {
+      "flex": 1,
+    }
+  }
+>
+  <View
+    accessibilityLabel="Card View"
+    accessible={true}
+    focusable={true}
+    hasTVPreferredFocus={false}
+    isTVSelectable={true}
+    style={
+      Array [
+        Object {
+          "marginBottom": 15,
+          "marginLeft": 15,
+          "marginTop": 15,
+        },
+        undefined,
+        undefined,
+        Object {},
+      ]
+    }
+    testID="cardView"
+  >
+    <View
+      style={
+        Array [
+          Object {
+            "aspectRatio": 1.7777777777777777,
+            "backgroundColor": "#ffffff",
+            "borderRadius": 0,
+            "elevation": 2,
+            "shadowColor": "#333333",
+            "shadowOffset": Object {
+              "height": 1,
+              "width": 0,
+            },
+            "shadowOpacity": 1,
+            "shadowRadius": 2,
+            "width": 375,
+          },
+          undefined,
+        ]
+      }
+    >
+      <View
+        style={
+          Array [
+            Object {
+              "overflow": "hidden",
+            },
+            Array [
+              Object {
+                "alignSelf": "stretch",
+                "borderRadius": 0,
+                "flex": 1,
+              },
+              undefined,
+            ],
+          ]
+        }
+      >
+        <FastImageView
+          resizeMode="contain"
+          source={
+            Object {
+              "cache": "web",
+              "uri": "undefined?width=750",
+            }
+          }
+          style={
+            Object {
+              "bottom": 0,
+              "left": 0,
+              "position": "absolute",
+              "right": 0,
+              "top": 0,
+            }
+          }
+        />
+      </View>
+      <BVLinearGradient
+        colors={
+          Array [
+            0,
+            1712328720,
+            3423604752,
+          ]
+        }
+        endPoint={
+          Object {
+            "x": 0,
+            "y": 1,
+          }
+        }
+        locations={
+          Array [
+            0,
+            0.5,
+            1,
+          ]
+        }
+        startPoint={
+          Object {
+            "x": 0,
+            "y": 0.5,
+          }
+        }
+        style={
+          Array [
+            Object {
+              "backgroundColor": "transparent",
+              "bottom": 0,
+              "left": 0,
+              "position": "absolute",
+              "right": 0,
+              "top": 0,
+            },
+            undefined,
+          ]
+        }
+      />
+    </View>
+  </View>
+</View>
+`;
+
+exports[`ResourceCardView renders with the correct aspect ratio image renders empty image when no valid image is passed 1`] = `
+<View
+  collapsable={true}
+  pointerEvents="box-none"
+  style={
+    Object {
+      "flex": 1,
+    }
+  }
+>
+  <View
+    accessibilityLabel="Card View"
+    accessible={true}
+    focusable={true}
+    hasTVPreferredFocus={false}
+    isTVSelectable={true}
+    style={
+      Array [
+        Object {
+          "marginBottom": 15,
+          "marginLeft": 15,
+          "marginTop": 15,
+        },
+        undefined,
+        undefined,
+        Object {},
+      ]
+    }
+    testID="cardView"
+  >
+    <View
+      style={
+        Array [
+          Object {
+            "aspectRatio": 1.7777777777777777,
+            "backgroundColor": "#ffffff",
+            "borderRadius": 0,
+            "elevation": 2,
+            "shadowColor": "#333333",
+            "shadowOffset": Object {
+              "height": 1,
+              "width": 0,
+            },
+            "shadowOpacity": 1,
+            "shadowRadius": 2,
+            "width": 375,
+          },
+          undefined,
+        ]
+      }
+    >
+      <BVLinearGradient
+        colors={
+          Array [
+            0,
+            1712328720,
+            3423604752,
+          ]
+        }
+        endPoint={
+          Object {
+            "x": 0,
+            "y": 1,
+          }
+        }
+        locations={
+          Array [
+            0,
+            0.5,
+            1,
+          ]
+        }
+        startPoint={
+          Object {
+            "x": 0,
+            "y": 0.5,
+          }
+        }
+        style={
+          Array [
+            Object {
+              "backgroundColor": "transparent",
+              "bottom": 0,
+              "left": 0,
+              "position": "absolute",
+              "right": 0,
+              "top": 0,
+            },
+            undefined,
+          ]
+        }
+      />
+    </View>
+  </View>
+</View>
+`;
+
+exports[`ResourceCardView renders with the correct aspect ratio image renders fallback image for an invalid aspect ratio 1`] = `
+<View
+  collapsable={true}
+  pointerEvents="box-none"
+  style={
+    Object {
+      "flex": 1,
+    }
+  }
+>
+  <View
+    accessibilityLabel="Card View"
+    accessible={true}
+    focusable={true}
+    hasTVPreferredFocus={false}
+    isTVSelectable={true}
+    style={
+      Array [
+        Object {
+          "marginBottom": 15,
+          "marginLeft": 15,
+          "marginTop": 15,
+        },
+        undefined,
+        undefined,
+        Object {},
+      ]
+    }
+    testID="cardView"
+  >
+    <View
+      style={
+        Array [
+          Object {
+            "aspectRatio": 1.7777777777777777,
+            "backgroundColor": "#ffffff",
+            "borderRadius": 0,
+            "elevation": 2,
+            "shadowColor": "#333333",
+            "shadowOffset": Object {
+              "height": 1,
+              "width": 0,
+            },
+            "shadowOpacity": 1,
+            "shadowRadius": 2,
+            "width": 375,
+          },
+          undefined,
+        ]
+      }
+    >
+      <View
+        style={
+          Array [
+            Object {
+              "overflow": "hidden",
+            },
+            Array [
+              Object {
+                "alignSelf": "stretch",
+                "borderRadius": 0,
+                "flex": 1,
+              },
+              undefined,
+            ],
+          ]
+        }
+      >
+        <FastImageView
+          resizeMode="contain"
+          source={
+            Object {
+              "cache": "web",
+              "uri": "undefined?width=750",
+            }
+          }
+          style={
+            Object {
+              "bottom": 0,
+              "left": 0,
+              "position": "absolute",
+              "right": 0,
+              "top": 0,
+            }
+          }
+        />
+      </View>
+      <BVLinearGradient
+        colors={
+          Array [
+            0,
+            1712328720,
+            3423604752,
+          ]
+        }
+        endPoint={
+          Object {
+            "x": 0,
+            "y": 1,
+          }
+        }
+        locations={
+          Array [
+            0,
+            0.5,
+            1,
+          ]
+        }
+        startPoint={
+          Object {
+            "x": 0,
+            "y": 0.5,
+          }
+        }
+        style={
+          Array [
+            Object {
+              "backgroundColor": "transparent",
+              "bottom": 0,
+              "left": 0,
+              "position": "absolute",
+              "right": 0,
+              "top": 0,
+            },
+            undefined,
+          ]
+        }
+      />
+    </View>
+  </View>
+</View>
+`;

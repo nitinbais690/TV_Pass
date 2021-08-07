@@ -1,0 +1,4 @@
+{
+    "recommendations": ["esbenp.prettier-vscode", "sonarsource.sonarlint-vscode", "orta.vscode-jest"],
+    "unwantedRecommendations": []
+}

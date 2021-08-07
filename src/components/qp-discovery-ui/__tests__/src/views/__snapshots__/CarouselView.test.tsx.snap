@@ -1,0 +1,2513 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CarouselView.test renders correctly with default styles 1`] = `
+<View
+  collapsable={true}
+  pointerEvents="box-none"
+  style={
+    Object {
+      "flex": 1,
+    }
+  }
+>
+  <RCTScrollView
+    autoplay={true}
+    autoplayInterval={2000}
+    bounces={false}
+    data={
+      Array [
+        Object {
+          "id": "id_0",
+          "images": Array [
+            "http://example.com/images/test_0-1x1.png",
+            "http://example.com/images/test_0-2x3.png",
+            "http://example.com/images/test_0-16x9.png",
+          ],
+          "name": "Test card",
+          "type": "movie",
+        },
+        Object {
+          "id": "id_1",
+          "images": Array [
+            "http://example.com/images/test_0-1x1.png",
+            "http://example.com/images/test_0-2x3.png",
+            "http://example.com/images/test_0-16x9.png",
+          ],
+          "name": "Test card",
+          "type": "movie",
+        },
+        Object {
+          "id": "id_2",
+          "images": Array [
+            "http://example.com/images/test_0-1x1.png",
+            "http://example.com/images/test_0-2x3.png",
+            "http://example.com/images/test_0-16x9.png",
+          ],
+          "name": "Test card",
+          "type": "movie",
+        },
+      ]
+    }
+    decelerationRate="fast"
+    disableVirtualization={false}
+    horizontal={true}
+    initialNumToRender={10}
+    initialScrollIndex={0}
+    maxToRenderPerBatch={10}
+    onEndReachedThreshold={2}
+    pagingEnabled={false}
+    removeClippedSubviews={false}
+    scrollEventThrottle={50}
+    showsHorizontalScrollIndicator={false}
+    snapToAlignment="center"
+    snapToStart={false}
+    stickyHeaderIndices={Array []}
+    updateCellsBatchingPeriod={50}
+    viewabilityConfig={
+      Object {
+        "itemVisiblePercentThreshold": 100,
+      }
+    }
+    viewabilityConfigCallbackPairs={
+      Array [
+        Object {
+          "onViewableItemsChanged": [Function],
+          "viewabilityConfig": Object {
+            "itemVisiblePercentThreshold": 100,
+          },
+        },
+      ]
+    }
+    windowSize={21}
+  >
+    <View>
+      <View
+        style={
+          Array [
+            Object {
+              "flexDirection": "row",
+            },
+            null,
+          ]
+        }
+      />
+      <View
+        style={
+          Array [
+            Object {
+              "flexDirection": "row",
+            },
+            null,
+          ]
+        }
+      />
+      <View
+        style={
+          Array [
+            Object {
+              "flexDirection": "row",
+            },
+            null,
+          ]
+        }
+      />
+    </View>
+  </RCTScrollView>
+</View>
+`;
+
+exports[`ResourceCarouselView avoid re-renders correctly 1`] = `
+<View
+  collapsable={true}
+  pointerEvents="box-none"
+  style={
+    Object {
+      "flex": 1,
+    }
+  }
+>
+  <RCTScrollView
+    bounces={false}
+    data={
+      Array [
+        Object {
+          "id": "id_0",
+          "images": Array [
+            "http://example.com/images/test_0-1x1.png",
+            "http://example.com/images/test_0-2x3.png",
+            "http://example.com/images/test_0-16x9.png",
+          ],
+          "name": "Test card",
+          "type": "movie",
+        },
+        Object {
+          "id": "id_1",
+          "images": Array [
+            "http://example.com/images/test_0-1x1.png",
+            "http://example.com/images/test_0-2x3.png",
+            "http://example.com/images/test_0-16x9.png",
+          ],
+          "name": "Test card",
+          "type": "movie",
+        },
+        Object {
+          "id": "id_2",
+          "images": Array [
+            "http://example.com/images/test_0-1x1.png",
+            "http://example.com/images/test_0-2x3.png",
+            "http://example.com/images/test_0-16x9.png",
+          ],
+          "name": "Test card",
+          "type": "movie",
+        },
+      ]
+    }
+    decelerationRate="fast"
+    disableVirtualization={false}
+    horizontal={true}
+    initialNumToRender={10}
+    initialScrollIndex={0}
+    maxToRenderPerBatch={10}
+    onEndReachedThreshold={2}
+    pagingEnabled={false}
+    removeClippedSubviews={false}
+    scrollEventThrottle={50}
+    showsHorizontalScrollIndicator={false}
+    snapToAlignment="center"
+    snapToStart={false}
+    stickyHeaderIndices={Array []}
+    updateCellsBatchingPeriod={50}
+    viewabilityConfig={
+      Object {
+        "itemVisiblePercentThreshold": 100,
+      }
+    }
+    viewabilityConfigCallbackPairs={
+      Array [
+        Object {
+          "onViewableItemsChanged": [Function],
+          "viewabilityConfig": Object {
+            "itemVisiblePercentThreshold": 100,
+          },
+        },
+      ]
+    }
+    windowSize={21}
+  >
+    <View>
+      <View
+        style={
+          Array [
+            Object {
+              "flexDirection": "row",
+            },
+            null,
+          ]
+        }
+      >
+        <View
+          accessibilityLabel="Card View"
+          accessible={true}
+          focusable={true}
+          hasTVPreferredFocus={false}
+          isTVSelectable={true}
+          style={
+            Array [
+              Object {
+                "marginBottom": 15,
+                "marginLeft": 15,
+                "marginTop": 15,
+              },
+              Object {
+                "marginBottom": 15,
+                "marginLeft": 15,
+                "marginTop": 15,
+              },
+              undefined,
+              Object {},
+            ]
+          }
+          testID="carouselCardView"
+        >
+          <View
+            style={
+              Array [
+                Object {
+                  "aspectRatio": 1.7777777777777777,
+                  "backgroundColor": "#ffffff",
+                  "borderRadius": 0,
+                  "elevation": 2,
+                  "shadowColor": "#333333",
+                  "shadowOffset": Object {
+                    "height": 1,
+                    "width": 0,
+                  },
+                  "shadowOpacity": 1,
+                  "shadowRadius": 2,
+                  "width": 375,
+                },
+                Object {
+                  "aspectRatio": 1.7777777777777777,
+                  "backgroundColor": "#ffffff",
+                  "borderRadius": 0,
+                  "elevation": 2,
+                  "marginBottom": 15,
+                  "marginLeft": 15,
+                  "marginRight": 15,
+                  "marginTop": 15,
+                  "shadowColor": "#111",
+                  "shadowOffset": Object {
+                    "height": 2,
+                    "width": 0,
+                  },
+                  "shadowOpacity": 0.6,
+                  "shadowRadius": 3,
+                  "width": 391.875,
+                },
+              ]
+            }
+          >
+            <View
+              style={
+                Array [
+                  Object {
+                    "overflow": "hidden",
+                  },
+                  Array [
+                    Object {
+                      "alignSelf": "stretch",
+                      "borderRadius": 0,
+                      "flex": 1,
+                    },
+                    Object {
+                      "alignSelf": "stretch",
+                      "borderRadius": 0,
+                      "flex": 1,
+                    },
+                  ],
+                ]
+              }
+            >
+              <FastImageView
+                resizeMode="contain"
+                source={
+                  Object {
+                    "cache": "web",
+                    "uri": "undefined?width=784",
+                  }
+                }
+                style={
+                  Object {
+                    "bottom": 0,
+                    "left": 0,
+                    "position": "absolute",
+                    "right": 0,
+                    "top": 0,
+                  }
+                }
+              />
+            </View>
+            <BVLinearGradient
+              colors={
+                Array [
+                  0,
+                  1712328720,
+                  3423604752,
+                ]
+              }
+              endPoint={
+                Object {
+                  "x": 0,
+                  "y": 1,
+                }
+              }
+              locations={
+                Array [
+                  0,
+                  0.5,
+                  1,
+                ]
+              }
+              startPoint={
+                Object {
+                  "x": 0,
+                  "y": 0.5,
+                }
+              }
+              style={
+                Array [
+                  Object {
+                    "backgroundColor": "transparent",
+                    "bottom": 0,
+                    "left": 0,
+                    "position": "absolute",
+                    "right": 0,
+                    "top": 0,
+                  },
+                  Object {
+                    "backgroundColor": "transparent",
+                    "bottom": 0,
+                    "left": 0,
+                    "position": "absolute",
+                    "right": 0,
+                    "top": 0,
+                  },
+                ]
+              }
+            />
+          </View>
+        </View>
+      </View>
+      <View
+        style={
+          Array [
+            Object {
+              "flexDirection": "row",
+            },
+            null,
+          ]
+        }
+      >
+        <View
+          accessibilityLabel="Card View"
+          accessible={true}
+          focusable={true}
+          hasTVPreferredFocus={false}
+          isTVSelectable={true}
+          style={
+            Array [
+              Object {
+                "marginBottom": 15,
+                "marginLeft": 15,
+                "marginTop": 15,
+              },
+              Object {
+                "marginBottom": 15,
+                "marginLeft": 15,
+                "marginTop": 15,
+              },
+              undefined,
+              Object {},
+            ]
+          }
+          testID="carouselCardView"
+        >
+          <View
+            style={
+              Array [
+                Object {
+                  "aspectRatio": 1.7777777777777777,
+                  "backgroundColor": "#ffffff",
+                  "borderRadius": 0,
+                  "elevation": 2,
+                  "shadowColor": "#333333",
+                  "shadowOffset": Object {
+                    "height": 1,
+                    "width": 0,
+                  },
+                  "shadowOpacity": 1,
+                  "shadowRadius": 2,
+                  "width": 375,
+                },
+                Object {
+                  "aspectRatio": 1.7777777777777777,
+                  "backgroundColor": "#ffffff",
+                  "borderRadius": 0,
+                  "elevation": 2,
+                  "marginBottom": 15,
+                  "marginLeft": 15,
+                  "marginRight": 15,
+                  "marginTop": 15,
+                  "shadowColor": "#111",
+                  "shadowOffset": Object {
+                    "height": 2,
+                    "width": 0,
+                  },
+                  "shadowOpacity": 0.6,
+                  "shadowRadius": 3,
+                  "width": 391.875,
+                },
+              ]
+            }
+          >
+            <View
+              style={
+                Array [
+                  Object {
+                    "overflow": "hidden",
+                  },
+                  Array [
+                    Object {
+                      "alignSelf": "stretch",
+                      "borderRadius": 0,
+                      "flex": 1,
+                    },
+                    Object {
+                      "alignSelf": "stretch",
+                      "borderRadius": 0,
+                      "flex": 1,
+                    },
+                  ],
+                ]
+              }
+            >
+              <FastImageView
+                resizeMode="contain"
+                source={
+                  Object {
+                    "cache": "web",
+                    "uri": "undefined?width=784",
+                  }
+                }
+                style={
+                  Object {
+                    "bottom": 0,
+                    "left": 0,
+                    "position": "absolute",
+                    "right": 0,
+                    "top": 0,
+                  }
+                }
+              />
+            </View>
+            <BVLinearGradient
+              colors={
+                Array [
+                  0,
+                  1712328720,
+                  3423604752,
+                ]
+              }
+              endPoint={
+                Object {
+                  "x": 0,
+                  "y": 1,
+                }
+              }
+              locations={
+                Array [
+                  0,
+                  0.5,
+                  1,
+                ]
+              }
+              startPoint={
+                Object {
+                  "x": 0,
+                  "y": 0.5,
+                }
+              }
+              style={
+                Array [
+                  Object {
+                    "backgroundColor": "transparent",
+                    "bottom": 0,
+                    "left": 0,
+                    "position": "absolute",
+                    "right": 0,
+                    "top": 0,
+                  },
+                  Object {
+                    "backgroundColor": "transparent",
+                    "bottom": 0,
+                    "left": 0,
+                    "position": "absolute",
+                    "right": 0,
+                    "top": 0,
+                  },
+                ]
+              }
+            />
+          </View>
+        </View>
+      </View>
+      <View
+        style={
+          Array [
+            Object {
+              "flexDirection": "row",
+            },
+            null,
+          ]
+        }
+      >
+        <View
+          accessibilityLabel="Card View"
+          accessible={true}
+          focusable={true}
+          hasTVPreferredFocus={false}
+          isTVSelectable={true}
+          style={
+            Array [
+              Object {
+                "marginBottom": 15,
+                "marginLeft": 15,
+                "marginTop": 15,
+              },
+              Object {
+                "marginBottom": 15,
+                "marginLeft": 15,
+                "marginTop": 15,
+              },
+              undefined,
+              Object {},
+            ]
+          }
+          testID="carouselCardView"
+        >
+          <View
+            style={
+              Array [
+                Object {
+                  "aspectRatio": 1.7777777777777777,
+                  "backgroundColor": "#ffffff",
+                  "borderRadius": 0,
+                  "elevation": 2,
+                  "shadowColor": "#333333",
+                  "shadowOffset": Object {
+                    "height": 1,
+                    "width": 0,
+                  },
+                  "shadowOpacity": 1,
+                  "shadowRadius": 2,
+                  "width": 375,
+                },
+                Object {
+                  "aspectRatio": 1.7777777777777777,
+                  "backgroundColor": "#ffffff",
+                  "borderRadius": 0,
+                  "elevation": 2,
+                  "marginBottom": 15,
+                  "marginLeft": 15,
+                  "marginRight": 15,
+                  "marginTop": 15,
+                  "shadowColor": "#111",
+                  "shadowOffset": Object {
+                    "height": 2,
+                    "width": 0,
+                  },
+                  "shadowOpacity": 0.6,
+                  "shadowRadius": 3,
+                  "width": 391.875,
+                },
+              ]
+            }
+          >
+            <View
+              style={
+                Array [
+                  Object {
+                    "overflow": "hidden",
+                  },
+                  Array [
+                    Object {
+                      "alignSelf": "stretch",
+                      "borderRadius": 0,
+                      "flex": 1,
+                    },
+                    Object {
+                      "alignSelf": "stretch",
+                      "borderRadius": 0,
+                      "flex": 1,
+                    },
+                  ],
+                ]
+              }
+            >
+              <FastImageView
+                resizeMode="contain"
+                source={
+                  Object {
+                    "cache": "web",
+                    "uri": "undefined?width=784",
+                  }
+                }
+                style={
+                  Object {
+                    "bottom": 0,
+                    "left": 0,
+                    "position": "absolute",
+                    "right": 0,
+                    "top": 0,
+                  }
+                }
+              />
+            </View>
+            <BVLinearGradient
+              colors={
+                Array [
+                  0,
+                  1712328720,
+                  3423604752,
+                ]
+              }
+              endPoint={
+                Object {
+                  "x": 0,
+                  "y": 1,
+                }
+              }
+              locations={
+                Array [
+                  0,
+                  0.5,
+                  1,
+                ]
+              }
+              startPoint={
+                Object {
+                  "x": 0,
+                  "y": 0.5,
+                }
+              }
+              style={
+                Array [
+                  Object {
+                    "backgroundColor": "transparent",
+                    "bottom": 0,
+                    "left": 0,
+                    "position": "absolute",
+                    "right": 0,
+                    "top": 0,
+                  },
+                  Object {
+                    "backgroundColor": "transparent",
+                    "bottom": 0,
+                    "left": 0,
+                    "position": "absolute",
+                    "right": 0,
+                    "top": 0,
+                  },
+                ]
+              }
+            />
+          </View>
+        </View>
+      </View>
+    </View>
+  </RCTScrollView>
+  <View
+    style={
+      Array [
+        Object {
+          "alignItems": "center",
+          "flex": 1,
+          "flexDirection": "row",
+          "justifyContent": "center",
+        },
+      ]
+    }
+    testID="pageIndicator"
+  >
+    <View
+      style={
+        Object {
+          "backgroundColor": "#333333",
+          "borderRadius": 7.285714285714286,
+          "height": 2.914285714285714,
+          "marginHorizontal": 7.285714285714286,
+          "width": 23.314285714285713,
+        }
+      }
+    />
+    <View
+      style={
+        Object {
+          "backgroundColor": "#BDBDBD",
+          "borderRadius": 7.285714285714286,
+          "height": 2.914285714285714,
+          "marginHorizontal": 7.285714285714286,
+          "width": 23.314285714285713,
+        }
+      }
+    />
+    <View
+      style={
+        Object {
+          "backgroundColor": "#BDBDBD",
+          "borderRadius": 7.285714285714286,
+          "height": 2.914285714285714,
+          "marginHorizontal": 7.285714285714286,
+          "width": 23.314285714285713,
+        }
+      }
+    />
+  </View>
+</View>
+`;
+
+exports[`ResourceCarouselView avoid re-renders correctly 2`] = `
+<View
+  collapsable={true}
+  pointerEvents="box-none"
+  style={
+    Object {
+      "flex": 1,
+    }
+  }
+>
+  <RCTScrollView
+    bounces={false}
+    data={
+      Array [
+        Object {
+          "id": "id_0",
+          "images": Array [
+            "http://example.com/images/test_0-1x1.png",
+            "http://example.com/images/test_0-2x3.png",
+            "http://example.com/images/test_0-16x9.png",
+          ],
+          "name": "Test card",
+          "type": "movie",
+        },
+        Object {
+          "id": "id_1",
+          "images": Array [
+            "http://example.com/images/test_0-1x1.png",
+            "http://example.com/images/test_0-2x3.png",
+            "http://example.com/images/test_0-16x9.png",
+          ],
+          "name": "Test card",
+          "type": "movie",
+        },
+        Object {
+          "id": "id_2",
+          "images": Array [
+            "http://example.com/images/test_0-1x1.png",
+            "http://example.com/images/test_0-2x3.png",
+            "http://example.com/images/test_0-16x9.png",
+          ],
+          "name": "Test card",
+          "type": "movie",
+        },
+      ]
+    }
+    decelerationRate="fast"
+    disableVirtualization={false}
+    horizontal={true}
+    initialNumToRender={10}
+    initialScrollIndex={0}
+    maxToRenderPerBatch={10}
+    onEndReachedThreshold={2}
+    pagingEnabled={false}
+    removeClippedSubviews={false}
+    scrollEventThrottle={50}
+    showsHorizontalScrollIndicator={false}
+    snapToAlignment="center"
+    snapToStart={false}
+    stickyHeaderIndices={Array []}
+    updateCellsBatchingPeriod={50}
+    viewabilityConfig={
+      Object {
+        "itemVisiblePercentThreshold": 100,
+      }
+    }
+    viewabilityConfigCallbackPairs={
+      Array [
+        Object {
+          "onViewableItemsChanged": [Function],
+          "viewabilityConfig": Object {
+            "itemVisiblePercentThreshold": 100,
+          },
+        },
+      ]
+    }
+    windowSize={21}
+  >
+    <View>
+      <View
+        style={
+          Array [
+            Object {
+              "flexDirection": "row",
+            },
+            null,
+          ]
+        }
+      >
+        <View
+          accessibilityLabel="Card View"
+          accessible={true}
+          focusable={true}
+          hasTVPreferredFocus={false}
+          isTVSelectable={true}
+          style={
+            Array [
+              Object {
+                "marginBottom": 15,
+                "marginLeft": 15,
+                "marginTop": 15,
+              },
+              Object {
+                "marginBottom": 15,
+                "marginLeft": 15,
+                "marginTop": 15,
+              },
+              undefined,
+              Object {},
+            ]
+          }
+          testID="carouselCardView"
+        >
+          <View
+            style={
+              Array [
+                Object {
+                  "aspectRatio": 1.7777777777777777,
+                  "backgroundColor": "#ffffff",
+                  "borderRadius": 0,
+                  "elevation": 2,
+                  "shadowColor": "#333333",
+                  "shadowOffset": Object {
+                    "height": 1,
+                    "width": 0,
+                  },
+                  "shadowOpacity": 1,
+                  "shadowRadius": 2,
+                  "width": 375,
+                },
+                Object {
+                  "aspectRatio": 1.7777777777777777,
+                  "backgroundColor": "#ffffff",
+                  "borderRadius": 0,
+                  "elevation": 2,
+                  "marginBottom": 15,
+                  "marginLeft": 15,
+                  "marginRight": 15,
+                  "marginTop": 15,
+                  "shadowColor": "#111",
+                  "shadowOffset": Object {
+                    "height": 2,
+                    "width": 0,
+                  },
+                  "shadowOpacity": 0.6,
+                  "shadowRadius": 3,
+                  "width": 391.875,
+                },
+              ]
+            }
+          >
+            <View
+              style={
+                Array [
+                  Object {
+                    "overflow": "hidden",
+                  },
+                  Array [
+                    Object {
+                      "alignSelf": "stretch",
+                      "borderRadius": 0,
+                      "flex": 1,
+                    },
+                    Object {
+                      "alignSelf": "stretch",
+                      "borderRadius": 0,
+                      "flex": 1,
+                    },
+                  ],
+                ]
+              }
+            >
+              <FastImageView
+                resizeMode="contain"
+                source={
+                  Object {
+                    "cache": "web",
+                    "uri": "undefined?width=784",
+                  }
+                }
+                style={
+                  Object {
+                    "bottom": 0,
+                    "left": 0,
+                    "position": "absolute",
+                    "right": 0,
+                    "top": 0,
+                  }
+                }
+              />
+            </View>
+            <BVLinearGradient
+              colors={
+                Array [
+                  0,
+                  1712328720,
+                  3423604752,
+                ]
+              }
+              endPoint={
+                Object {
+                  "x": 0,
+                  "y": 1,
+                }
+              }
+              locations={
+                Array [
+                  0,
+                  0.5,
+                  1,
+                ]
+              }
+              startPoint={
+                Object {
+                  "x": 0,
+                  "y": 0.5,
+                }
+              }
+              style={
+                Array [
+                  Object {
+                    "backgroundColor": "transparent",
+                    "bottom": 0,
+                    "left": 0,
+                    "position": "absolute",
+                    "right": 0,
+                    "top": 0,
+                  },
+                  Object {
+                    "backgroundColor": "transparent",
+                    "bottom": 0,
+                    "left": 0,
+                    "position": "absolute",
+                    "right": 0,
+                    "top": 0,
+                  },
+                ]
+              }
+            />
+          </View>
+        </View>
+      </View>
+      <View
+        style={
+          Array [
+            Object {
+              "flexDirection": "row",
+            },
+            null,
+          ]
+        }
+      >
+        <View
+          accessibilityLabel="Card View"
+          accessible={true}
+          focusable={true}
+          hasTVPreferredFocus={false}
+          isTVSelectable={true}
+          style={
+            Array [
+              Object {
+                "marginBottom": 15,
+                "marginLeft": 15,
+                "marginTop": 15,
+              },
+              Object {
+                "marginBottom": 15,
+                "marginLeft": 15,
+                "marginTop": 15,
+              },
+              undefined,
+              Object {},
+            ]
+          }
+          testID="carouselCardView"
+        >
+          <View
+            style={
+              Array [
+                Object {
+                  "aspectRatio": 1.7777777777777777,
+                  "backgroundColor": "#ffffff",
+                  "borderRadius": 0,
+                  "elevation": 2,
+                  "shadowColor": "#333333",
+                  "shadowOffset": Object {
+                    "height": 1,
+                    "width": 0,
+                  },
+                  "shadowOpacity": 1,
+                  "shadowRadius": 2,
+                  "width": 375,
+                },
+                Object {
+                  "aspectRatio": 1.7777777777777777,
+                  "backgroundColor": "#ffffff",
+                  "borderRadius": 0,
+                  "elevation": 2,
+                  "marginBottom": 15,
+                  "marginLeft": 15,
+                  "marginRight": 15,
+                  "marginTop": 15,
+                  "shadowColor": "#111",
+                  "shadowOffset": Object {
+                    "height": 2,
+                    "width": 0,
+                  },
+                  "shadowOpacity": 0.6,
+                  "shadowRadius": 3,
+                  "width": 391.875,
+                },
+              ]
+            }
+          >
+            <View
+              style={
+                Array [
+                  Object {
+                    "overflow": "hidden",
+                  },
+                  Array [
+                    Object {
+                      "alignSelf": "stretch",
+                      "borderRadius": 0,
+                      "flex": 1,
+                    },
+                    Object {
+                      "alignSelf": "stretch",
+                      "borderRadius": 0,
+                      "flex": 1,
+                    },
+                  ],
+                ]
+              }
+            >
+              <FastImageView
+                resizeMode="contain"
+                source={
+                  Object {
+                    "cache": "web",
+                    "uri": "undefined?width=784",
+                  }
+                }
+                style={
+                  Object {
+                    "bottom": 0,
+                    "left": 0,
+                    "position": "absolute",
+                    "right": 0,
+                    "top": 0,
+                  }
+                }
+              />
+            </View>
+            <BVLinearGradient
+              colors={
+                Array [
+                  0,
+                  1712328720,
+                  3423604752,
+                ]
+              }
+              endPoint={
+                Object {
+                  "x": 0,
+                  "y": 1,
+                }
+              }
+              locations={
+                Array [
+                  0,
+                  0.5,
+                  1,
+                ]
+              }
+              startPoint={
+                Object {
+                  "x": 0,
+                  "y": 0.5,
+                }
+              }
+              style={
+                Array [
+                  Object {
+                    "backgroundColor": "transparent",
+                    "bottom": 0,
+                    "left": 0,
+                    "position": "absolute",
+                    "right": 0,
+                    "top": 0,
+                  },
+                  Object {
+                    "backgroundColor": "transparent",
+                    "bottom": 0,
+                    "left": 0,
+                    "position": "absolute",
+                    "right": 0,
+                    "top": 0,
+                  },
+                ]
+              }
+            />
+          </View>
+        </View>
+      </View>
+      <View
+        style={
+          Array [
+            Object {
+              "flexDirection": "row",
+            },
+            null,
+          ]
+        }
+      >
+        <View
+          accessibilityLabel="Card View"
+          accessible={true}
+          focusable={true}
+          hasTVPreferredFocus={false}
+          isTVSelectable={true}
+          style={
+            Array [
+              Object {
+                "marginBottom": 15,
+                "marginLeft": 15,
+                "marginTop": 15,
+              },
+              Object {
+                "marginBottom": 15,
+                "marginLeft": 15,
+                "marginTop": 15,
+              },
+              undefined,
+              Object {},
+            ]
+          }
+          testID="carouselCardView"
+        >
+          <View
+            style={
+              Array [
+                Object {
+                  "aspectRatio": 1.7777777777777777,
+                  "backgroundColor": "#ffffff",
+                  "borderRadius": 0,
+                  "elevation": 2,
+                  "shadowColor": "#333333",
+                  "shadowOffset": Object {
+                    "height": 1,
+                    "width": 0,
+                  },
+                  "shadowOpacity": 1,
+                  "shadowRadius": 2,
+                  "width": 375,
+                },
+                Object {
+                  "aspectRatio": 1.7777777777777777,
+                  "backgroundColor": "#ffffff",
+                  "borderRadius": 0,
+                  "elevation": 2,
+                  "marginBottom": 15,
+                  "marginLeft": 15,
+                  "marginRight": 15,
+                  "marginTop": 15,
+                  "shadowColor": "#111",
+                  "shadowOffset": Object {
+                    "height": 2,
+                    "width": 0,
+                  },
+                  "shadowOpacity": 0.6,
+                  "shadowRadius": 3,
+                  "width": 391.875,
+                },
+              ]
+            }
+          >
+            <View
+              style={
+                Array [
+                  Object {
+                    "overflow": "hidden",
+                  },
+                  Array [
+                    Object {
+                      "alignSelf": "stretch",
+                      "borderRadius": 0,
+                      "flex": 1,
+                    },
+                    Object {
+                      "alignSelf": "stretch",
+                      "borderRadius": 0,
+                      "flex": 1,
+                    },
+                  ],
+                ]
+              }
+            >
+              <FastImageView
+                resizeMode="contain"
+                source={
+                  Object {
+                    "cache": "web",
+                    "uri": "undefined?width=784",
+                  }
+                }
+                style={
+                  Object {
+                    "bottom": 0,
+                    "left": 0,
+                    "position": "absolute",
+                    "right": 0,
+                    "top": 0,
+                  }
+                }
+              />
+            </View>
+            <BVLinearGradient
+              colors={
+                Array [
+                  0,
+                  1712328720,
+                  3423604752,
+                ]
+              }
+              endPoint={
+                Object {
+                  "x": 0,
+                  "y": 1,
+                }
+              }
+              locations={
+                Array [
+                  0,
+                  0.5,
+                  1,
+                ]
+              }
+              startPoint={
+                Object {
+                  "x": 0,
+                  "y": 0.5,
+                }
+              }
+              style={
+                Array [
+                  Object {
+                    "backgroundColor": "transparent",
+                    "bottom": 0,
+                    "left": 0,
+                    "position": "absolute",
+                    "right": 0,
+                    "top": 0,
+                  },
+                  Object {
+                    "backgroundColor": "transparent",
+                    "bottom": 0,
+                    "left": 0,
+                    "position": "absolute",
+                    "right": 0,
+                    "top": 0,
+                  },
+                ]
+              }
+            />
+          </View>
+        </View>
+      </View>
+    </View>
+  </RCTScrollView>
+  <View
+    style={
+      Array [
+        Object {
+          "alignItems": "center",
+          "flex": 1,
+          "flexDirection": "row",
+          "justifyContent": "center",
+        },
+      ]
+    }
+    testID="pageIndicator"
+  >
+    <View
+      style={
+        Object {
+          "backgroundColor": "#333333",
+          "borderRadius": 7.285714285714286,
+          "height": 2.914285714285714,
+          "marginHorizontal": 7.285714285714286,
+          "width": 23.314285714285713,
+        }
+      }
+    />
+    <View
+      style={
+        Object {
+          "backgroundColor": "#BDBDBD",
+          "borderRadius": 7.285714285714286,
+          "height": 2.914285714285714,
+          "marginHorizontal": 7.285714285714286,
+          "width": 23.314285714285713,
+        }
+      }
+    />
+    <View
+      style={
+        Object {
+          "backgroundColor": "#BDBDBD",
+          "borderRadius": 7.285714285714286,
+          "height": 2.914285714285714,
+          "marginHorizontal": 7.285714285714286,
+          "width": 23.314285714285713,
+        }
+      }
+    />
+  </View>
+</View>
+`;
+
+exports[`ResourceCarouselView renders correctly when custom wrapper style doesn't define aspect ratio 1`] = `
+<View
+  collapsable={true}
+  pointerEvents="box-none"
+  style={
+    Object {
+      "flex": 1,
+    }
+  }
+>
+  <RCTScrollView
+    bounces={false}
+    data={
+      Array [
+        Object {
+          "id": "id_0",
+          "images": Array [
+            "http://example.com/images/test_0-1x1.png",
+            "http://example.com/images/test_0-2x3.png",
+            "http://example.com/images/test_0-16x9.png",
+          ],
+          "name": "Test card",
+          "type": "movie",
+        },
+        Object {
+          "id": "id_1",
+          "images": Array [
+            "http://example.com/images/test_0-1x1.png",
+            "http://example.com/images/test_0-2x3.png",
+            "http://example.com/images/test_0-16x9.png",
+          ],
+          "name": "Test card",
+          "type": "movie",
+        },
+        Object {
+          "id": "id_2",
+          "images": Array [
+            "http://example.com/images/test_0-1x1.png",
+            "http://example.com/images/test_0-2x3.png",
+            "http://example.com/images/test_0-16x9.png",
+          ],
+          "name": "Test card",
+          "type": "movie",
+        },
+      ]
+    }
+    decelerationRate="fast"
+    disableVirtualization={false}
+    horizontal={true}
+    initialNumToRender={10}
+    initialScrollIndex={0}
+    maxToRenderPerBatch={10}
+    onEndReachedThreshold={2}
+    pagingEnabled={false}
+    removeClippedSubviews={false}
+    scrollEventThrottle={50}
+    showsHorizontalScrollIndicator={false}
+    snapToAlignment="center"
+    snapToStart={false}
+    stickyHeaderIndices={Array []}
+    updateCellsBatchingPeriod={50}
+    viewabilityConfig={
+      Object {
+        "itemVisiblePercentThreshold": 100,
+      }
+    }
+    viewabilityConfigCallbackPairs={
+      Array [
+        Object {
+          "onViewableItemsChanged": [Function],
+          "viewabilityConfig": Object {
+            "itemVisiblePercentThreshold": 100,
+          },
+        },
+      ]
+    }
+    windowSize={21}
+  >
+    <View>
+      <View
+        style={
+          Array [
+            Object {
+              "flexDirection": "row",
+            },
+            null,
+          ]
+        }
+      >
+        <View
+          accessibilityLabel="Card View"
+          accessible={true}
+          focusable={true}
+          hasTVPreferredFocus={false}
+          isTVSelectable={true}
+          style={
+            Array [
+              Object {
+                "marginBottom": 15,
+                "marginLeft": 15,
+                "marginTop": 15,
+              },
+              undefined,
+              undefined,
+              Object {},
+            ]
+          }
+          testID="carouselCardView"
+        >
+          <View
+            style={
+              Array [
+                Object {
+                  "aspectRatio": 1.7777777777777777,
+                  "backgroundColor": "#ffffff",
+                  "borderRadius": 0,
+                  "elevation": 2,
+                  "shadowColor": "#333333",
+                  "shadowOffset": Object {
+                    "height": 1,
+                    "width": 0,
+                  },
+                  "shadowOpacity": 1,
+                  "shadowRadius": 2,
+                  "width": 375,
+                },
+                Object {
+                  "backgroundColor": "red",
+                  "height": 100,
+                  "width": 100,
+                },
+              ]
+            }
+          >
+            <View
+              style={
+                Array [
+                  Object {
+                    "overflow": "hidden",
+                  },
+                  Array [
+                    Object {
+                      "alignSelf": "stretch",
+                      "borderRadius": 0,
+                      "flex": 1,
+                    },
+                    undefined,
+                  ],
+                ]
+              }
+            >
+              <FastImageView
+                resizeMode="contain"
+                source={
+                  Object {
+                    "cache": "web",
+                    "uri": "undefined?width=200",
+                  }
+                }
+                style={
+                  Object {
+                    "bottom": 0,
+                    "left": 0,
+                    "position": "absolute",
+                    "right": 0,
+                    "top": 0,
+                  }
+                }
+              />
+            </View>
+            <BVLinearGradient
+              colors={
+                Array [
+                  0,
+                  1712328720,
+                  3423604752,
+                ]
+              }
+              endPoint={
+                Object {
+                  "x": 0,
+                  "y": 1,
+                }
+              }
+              locations={
+                Array [
+                  0,
+                  0.5,
+                  1,
+                ]
+              }
+              startPoint={
+                Object {
+                  "x": 0,
+                  "y": 0.5,
+                }
+              }
+              style={
+                Array [
+                  Object {
+                    "backgroundColor": "transparent",
+                    "bottom": 0,
+                    "left": 0,
+                    "position": "absolute",
+                    "right": 0,
+                    "top": 0,
+                  },
+                  undefined,
+                ]
+              }
+            />
+          </View>
+        </View>
+      </View>
+      <View
+        style={
+          Array [
+            Object {
+              "flexDirection": "row",
+            },
+            null,
+          ]
+        }
+      >
+        <View
+          accessibilityLabel="Card View"
+          accessible={true}
+          focusable={true}
+          hasTVPreferredFocus={false}
+          isTVSelectable={true}
+          style={
+            Array [
+              Object {
+                "marginBottom": 15,
+                "marginLeft": 15,
+                "marginTop": 15,
+              },
+              undefined,
+              undefined,
+              Object {},
+            ]
+          }
+          testID="carouselCardView"
+        >
+          <View
+            style={
+              Array [
+                Object {
+                  "aspectRatio": 1.7777777777777777,
+                  "backgroundColor": "#ffffff",
+                  "borderRadius": 0,
+                  "elevation": 2,
+                  "shadowColor": "#333333",
+                  "shadowOffset": Object {
+                    "height": 1,
+                    "width": 0,
+                  },
+                  "shadowOpacity": 1,
+                  "shadowRadius": 2,
+                  "width": 375,
+                },
+                Object {
+                  "backgroundColor": "red",
+                  "height": 100,
+                  "width": 100,
+                },
+              ]
+            }
+          >
+            <View
+              style={
+                Array [
+                  Object {
+                    "overflow": "hidden",
+                  },
+                  Array [
+                    Object {
+                      "alignSelf": "stretch",
+                      "borderRadius": 0,
+                      "flex": 1,
+                    },
+                    undefined,
+                  ],
+                ]
+              }
+            >
+              <FastImageView
+                resizeMode="contain"
+                source={
+                  Object {
+                    "cache": "web",
+                    "uri": "undefined?width=200",
+                  }
+                }
+                style={
+                  Object {
+                    "bottom": 0,
+                    "left": 0,
+                    "position": "absolute",
+                    "right": 0,
+                    "top": 0,
+                  }
+                }
+              />
+            </View>
+            <BVLinearGradient
+              colors={
+                Array [
+                  0,
+                  1712328720,
+                  3423604752,
+                ]
+              }
+              endPoint={
+                Object {
+                  "x": 0,
+                  "y": 1,
+                }
+              }
+              locations={
+                Array [
+                  0,
+                  0.5,
+                  1,
+                ]
+              }
+              startPoint={
+                Object {
+                  "x": 0,
+                  "y": 0.5,
+                }
+              }
+              style={
+                Array [
+                  Object {
+                    "backgroundColor": "transparent",
+                    "bottom": 0,
+                    "left": 0,
+                    "position": "absolute",
+                    "right": 0,
+                    "top": 0,
+                  },
+                  undefined,
+                ]
+              }
+            />
+          </View>
+        </View>
+      </View>
+      <View
+        style={
+          Array [
+            Object {
+              "flexDirection": "row",
+            },
+            null,
+          ]
+        }
+      >
+        <View
+          accessibilityLabel="Card View"
+          accessible={true}
+          focusable={true}
+          hasTVPreferredFocus={false}
+          isTVSelectable={true}
+          style={
+            Array [
+              Object {
+                "marginBottom": 15,
+                "marginLeft": 15,
+                "marginTop": 15,
+              },
+              undefined,
+              undefined,
+              Object {},
+            ]
+          }
+          testID="carouselCardView"
+        >
+          <View
+            style={
+              Array [
+                Object {
+                  "aspectRatio": 1.7777777777777777,
+                  "backgroundColor": "#ffffff",
+                  "borderRadius": 0,
+                  "elevation": 2,
+                  "shadowColor": "#333333",
+                  "shadowOffset": Object {
+                    "height": 1,
+                    "width": 0,
+                  },
+                  "shadowOpacity": 1,
+                  "shadowRadius": 2,
+                  "width": 375,
+                },
+                Object {
+                  "backgroundColor": "red",
+                  "height": 100,
+                  "width": 100,
+                },
+              ]
+            }
+          >
+            <View
+              style={
+                Array [
+                  Object {
+                    "overflow": "hidden",
+                  },
+                  Array [
+                    Object {
+                      "alignSelf": "stretch",
+                      "borderRadius": 0,
+                      "flex": 1,
+                    },
+                    undefined,
+                  ],
+                ]
+              }
+            >
+              <FastImageView
+                resizeMode="contain"
+                source={
+                  Object {
+                    "cache": "web",
+                    "uri": "undefined?width=200",
+                  }
+                }
+                style={
+                  Object {
+                    "bottom": 0,
+                    "left": 0,
+                    "position": "absolute",
+                    "right": 0,
+                    "top": 0,
+                  }
+                }
+              />
+            </View>
+            <BVLinearGradient
+              colors={
+                Array [
+                  0,
+                  1712328720,
+                  3423604752,
+                ]
+              }
+              endPoint={
+                Object {
+                  "x": 0,
+                  "y": 1,
+                }
+              }
+              locations={
+                Array [
+                  0,
+                  0.5,
+                  1,
+                ]
+              }
+              startPoint={
+                Object {
+                  "x": 0,
+                  "y": 0.5,
+                }
+              }
+              style={
+                Array [
+                  Object {
+                    "backgroundColor": "transparent",
+                    "bottom": 0,
+                    "left": 0,
+                    "position": "absolute",
+                    "right": 0,
+                    "top": 0,
+                  },
+                  undefined,
+                ]
+              }
+            />
+          </View>
+        </View>
+      </View>
+    </View>
+  </RCTScrollView>
+  <View
+    style={
+      Array [
+        Object {
+          "alignItems": "center",
+          "flex": 1,
+          "flexDirection": "row",
+          "justifyContent": "center",
+        },
+      ]
+    }
+    testID="pageIndicator"
+  >
+    <View
+      style={
+        Object {
+          "backgroundColor": "#333333",
+          "borderRadius": 7.285714285714286,
+          "height": 2.914285714285714,
+          "marginHorizontal": 7.285714285714286,
+          "width": 23.314285714285713,
+        }
+      }
+    />
+    <View
+      style={
+        Object {
+          "backgroundColor": "#BDBDBD",
+          "borderRadius": 7.285714285714286,
+          "height": 2.914285714285714,
+          "marginHorizontal": 7.285714285714286,
+          "width": 23.314285714285713,
+        }
+      }
+    />
+    <View
+      style={
+        Object {
+          "backgroundColor": "#BDBDBD",
+          "borderRadius": 7.285714285714286,
+          "height": 2.914285714285714,
+          "marginHorizontal": 7.285714285714286,
+          "width": 23.314285714285713,
+        }
+      }
+    />
+  </View>
+</View>
+`;
+
+exports[`ResourceCarouselView renders correctly with default styles 1`] = `
+<View
+  collapsable={true}
+  pointerEvents="box-none"
+  style={
+    Object {
+      "flex": 1,
+    }
+  }
+>
+  <RCTScrollView
+    bounces={false}
+    data={
+      Array [
+        Object {
+          "id": "id_0",
+          "images": Array [
+            "http://example.com/images/test_0-1x1.png",
+            "http://example.com/images/test_0-2x3.png",
+            "http://example.com/images/test_0-16x9.png",
+          ],
+          "name": "Test card",
+          "type": "movie",
+        },
+        Object {
+          "id": "id_1",
+          "images": Array [
+            "http://example.com/images/test_0-1x1.png",
+            "http://example.com/images/test_0-2x3.png",
+            "http://example.com/images/test_0-16x9.png",
+          ],
+          "name": "Test card",
+          "type": "movie",
+        },
+        Object {
+          "id": "id_2",
+          "images": Array [
+            "http://example.com/images/test_0-1x1.png",
+            "http://example.com/images/test_0-2x3.png",
+            "http://example.com/images/test_0-16x9.png",
+          ],
+          "name": "Test card",
+          "type": "movie",
+        },
+      ]
+    }
+    decelerationRate="fast"
+    disableVirtualization={false}
+    horizontal={true}
+    initialNumToRender={10}
+    initialScrollIndex={0}
+    maxToRenderPerBatch={10}
+    onEndReachedThreshold={2}
+    pagingEnabled={false}
+    removeClippedSubviews={false}
+    scrollEventThrottle={50}
+    showsHorizontalScrollIndicator={false}
+    snapToAlignment="center"
+    snapToStart={false}
+    stickyHeaderIndices={Array []}
+    updateCellsBatchingPeriod={50}
+    viewabilityConfig={
+      Object {
+        "itemVisiblePercentThreshold": 100,
+      }
+    }
+    viewabilityConfigCallbackPairs={
+      Array [
+        Object {
+          "onViewableItemsChanged": [Function],
+          "viewabilityConfig": Object {
+            "itemVisiblePercentThreshold": 100,
+          },
+        },
+      ]
+    }
+    windowSize={21}
+  >
+    <View>
+      <View
+        style={
+          Array [
+            Object {
+              "flexDirection": "row",
+            },
+            null,
+          ]
+        }
+      >
+        <View
+          accessibilityLabel="Card View"
+          accessible={true}
+          focusable={true}
+          hasTVPreferredFocus={false}
+          isTVSelectable={true}
+          style={
+            Array [
+              Object {
+                "marginBottom": 15,
+                "marginLeft": 15,
+                "marginTop": 15,
+              },
+              Object {
+                "marginBottom": 15,
+                "marginLeft": 15,
+                "marginTop": 15,
+              },
+              undefined,
+              Object {},
+            ]
+          }
+          testID="carouselCardView"
+        >
+          <View
+            style={
+              Array [
+                Object {
+                  "aspectRatio": 1.7777777777777777,
+                  "backgroundColor": "#ffffff",
+                  "borderRadius": 0,
+                  "elevation": 2,
+                  "shadowColor": "#333333",
+                  "shadowOffset": Object {
+                    "height": 1,
+                    "width": 0,
+                  },
+                  "shadowOpacity": 1,
+                  "shadowRadius": 2,
+                  "width": 375,
+                },
+                Object {
+                  "aspectRatio": 1.7777777777777777,
+                  "backgroundColor": "#ffffff",
+                  "borderRadius": 0,
+                  "elevation": 2,
+                  "marginBottom": 15,
+                  "marginLeft": 15,
+                  "marginRight": 15,
+                  "marginTop": 15,
+                  "shadowColor": "#111",
+                  "shadowOffset": Object {
+                    "height": 2,
+                    "width": 0,
+                  },
+                  "shadowOpacity": 0.6,
+                  "shadowRadius": 3,
+                  "width": 391.875,
+                },
+              ]
+            }
+          >
+            <View
+              style={
+                Array [
+                  Object {
+                    "overflow": "hidden",
+                  },
+                  Array [
+                    Object {
+                      "alignSelf": "stretch",
+                      "borderRadius": 0,
+                      "flex": 1,
+                    },
+                    Object {
+                      "alignSelf": "stretch",
+                      "borderRadius": 0,
+                      "flex": 1,
+                    },
+                  ],
+                ]
+              }
+            >
+              <FastImageView
+                resizeMode="contain"
+                source={
+                  Object {
+                    "cache": "web",
+                    "uri": "undefined?width=784",
+                  }
+                }
+                style={
+                  Object {
+                    "bottom": 0,
+                    "left": 0,
+                    "position": "absolute",
+                    "right": 0,
+                    "top": 0,
+                  }
+                }
+              />
+            </View>
+            <BVLinearGradient
+              colors={
+                Array [
+                  0,
+                  1712328720,
+                  3423604752,
+                ]
+              }
+              endPoint={
+                Object {
+                  "x": 0,
+                  "y": 1,
+                }
+              }
+              locations={
+                Array [
+                  0,
+                  0.5,
+                  1,
+                ]
+              }
+              startPoint={
+                Object {
+                  "x": 0,
+                  "y": 0.5,
+                }
+              }
+              style={
+                Array [
+                  Object {
+                    "backgroundColor": "transparent",
+                    "bottom": 0,
+                    "left": 0,
+                    "position": "absolute",
+                    "right": 0,
+                    "top": 0,
+                  },
+                  Object {
+                    "backgroundColor": "transparent",
+                    "bottom": 0,
+                    "left": 0,
+                    "position": "absolute",
+                    "right": 0,
+                    "top": 0,
+                  },
+                ]
+              }
+            />
+          </View>
+        </View>
+      </View>
+      <View
+        style={
+          Array [
+            Object {
+              "flexDirection": "row",
+            },
+            null,
+          ]
+        }
+      >
+        <View
+          accessibilityLabel="Card View"
+          accessible={true}
+          focusable={true}
+          hasTVPreferredFocus={false}
+          isTVSelectable={true}
+          style={
+            Array [
+              Object {
+                "marginBottom": 15,
+                "marginLeft": 15,
+                "marginTop": 15,
+              },
+              Object {
+                "marginBottom": 15,
+                "marginLeft": 15,
+                "marginTop": 15,
+              },
+              undefined,
+              Object {},
+            ]
+          }
+          testID="carouselCardView"
+        >
+          <View
+            style={
+              Array [
+                Object {
+                  "aspectRatio": 1.7777777777777777,
+                  "backgroundColor": "#ffffff",
+                  "borderRadius": 0,
+                  "elevation": 2,
+                  "shadowColor": "#333333",
+                  "shadowOffset": Object {
+                    "height": 1,
+                    "width": 0,
+                  },
+                  "shadowOpacity": 1,
+                  "shadowRadius": 2,
+                  "width": 375,
+                },
+                Object {
+                  "aspectRatio": 1.7777777777777777,
+                  "backgroundColor": "#ffffff",
+                  "borderRadius": 0,
+                  "elevation": 2,
+                  "marginBottom": 15,
+                  "marginLeft": 15,
+                  "marginRight": 15,
+                  "marginTop": 15,
+                  "shadowColor": "#111",
+                  "shadowOffset": Object {
+                    "height": 2,
+                    "width": 0,
+                  },
+                  "shadowOpacity": 0.6,
+                  "shadowRadius": 3,
+                  "width": 391.875,
+                },
+              ]
+            }
+          >
+            <View
+              style={
+                Array [
+                  Object {
+                    "overflow": "hidden",
+                  },
+                  Array [
+                    Object {
+                      "alignSelf": "stretch",
+                      "borderRadius": 0,
+                      "flex": 1,
+                    },
+                    Object {
+                      "alignSelf": "stretch",
+                      "borderRadius": 0,
+                      "flex": 1,
+                    },
+                  ],
+                ]
+              }
+            >
+              <FastImageView
+                resizeMode="contain"
+                source={
+                  Object {
+                    "cache": "web",
+                    "uri": "undefined?width=784",
+                  }
+                }
+                style={
+                  Object {
+                    "bottom": 0,
+                    "left": 0,
+                    "position": "absolute",
+                    "right": 0,
+                    "top": 0,
+                  }
+                }
+              />
+            </View>
+            <BVLinearGradient
+              colors={
+                Array [
+                  0,
+                  1712328720,
+                  3423604752,
+                ]
+              }
+              endPoint={
+                Object {
+                  "x": 0,
+                  "y": 1,
+                }
+              }
+              locations={
+                Array [
+                  0,
+                  0.5,
+                  1,
+                ]
+              }
+              startPoint={
+                Object {
+                  "x": 0,
+                  "y": 0.5,
+                }
+              }
+              style={
+                Array [
+                  Object {
+                    "backgroundColor": "transparent",
+                    "bottom": 0,
+                    "left": 0,
+                    "position": "absolute",
+                    "right": 0,
+                    "top": 0,
+                  },
+                  Object {
+                    "backgroundColor": "transparent",
+                    "bottom": 0,
+                    "left": 0,
+                    "position": "absolute",
+                    "right": 0,
+                    "top": 0,
+                  },
+                ]
+              }
+            />
+          </View>
+        </View>
+      </View>
+      <View
+        style={
+          Array [
+            Object {
+              "flexDirection": "row",
+            },
+            null,
+          ]
+        }
+      >
+        <View
+          accessibilityLabel="Card View"
+          accessible={true}
+          focusable={true}
+          hasTVPreferredFocus={false}
+          isTVSelectable={true}
+          style={
+            Array [
+              Object {
+                "marginBottom": 15,
+                "marginLeft": 15,
+                "marginTop": 15,
+              },
+              Object {
+                "marginBottom": 15,
+                "marginLeft": 15,
+                "marginTop": 15,
+              },
+              undefined,
+              Object {},
+            ]
+          }
+          testID="carouselCardView"
+        >
+          <View
+            style={
+              Array [
+                Object {
+                  "aspectRatio": 1.7777777777777777,
+                  "backgroundColor": "#ffffff",
+                  "borderRadius": 0,
+                  "elevation": 2,
+                  "shadowColor": "#333333",
+                  "shadowOffset": Object {
+                    "height": 1,
+                    "width": 0,
+                  },
+                  "shadowOpacity": 1,
+                  "shadowRadius": 2,
+                  "width": 375,
+                },
+                Object {
+                  "aspectRatio": 1.7777777777777777,
+                  "backgroundColor": "#ffffff",
+                  "borderRadius": 0,
+                  "elevation": 2,
+                  "marginBottom": 15,
+                  "marginLeft": 15,
+                  "marginRight": 15,
+                  "marginTop": 15,
+                  "shadowColor": "#111",
+                  "shadowOffset": Object {
+                    "height": 2,
+                    "width": 0,
+                  },
+                  "shadowOpacity": 0.6,
+                  "shadowRadius": 3,
+                  "width": 391.875,
+                },
+              ]
+            }
+          >
+            <View
+              style={
+                Array [
+                  Object {
+                    "overflow": "hidden",
+                  },
+                  Array [
+                    Object {
+                      "alignSelf": "stretch",
+                      "borderRadius": 0,
+                      "flex": 1,
+                    },
+                    Object {
+                      "alignSelf": "stretch",
+                      "borderRadius": 0,
+                      "flex": 1,
+                    },
+                  ],
+                ]
+              }
+            >
+              <FastImageView
+                resizeMode="contain"
+                source={
+                  Object {
+                    "cache": "web",
+                    "uri": "undefined?width=784",
+                  }
+                }
+                style={
+                  Object {
+                    "bottom": 0,
+                    "left": 0,
+                    "position": "absolute",
+                    "right": 0,
+                    "top": 0,
+                  }
+                }
+              />
+            </View>
+            <BVLinearGradient
+              colors={
+                Array [
+                  0,
+                  1712328720,
+                  3423604752,
+                ]
+              }
+              endPoint={
+                Object {
+                  "x": 0,
+                  "y": 1,
+                }
+              }
+              locations={
+                Array [
+                  0,
+                  0.5,
+                  1,
+                ]
+              }
+              startPoint={
+                Object {
+                  "x": 0,
+                  "y": 0.5,
+                }
+              }
+              style={
+                Array [
+                  Object {
+                    "backgroundColor": "transparent",
+                    "bottom": 0,
+                    "left": 0,
+                    "position": "absolute",
+                    "right": 0,
+                    "top": 0,
+                  },
+                  Object {
+                    "backgroundColor": "transparent",
+                    "bottom": 0,
+                    "left": 0,
+                    "position": "absolute",
+                    "right": 0,
+                    "top": 0,
+                  },
+                ]
+              }
+            />
+          </View>
+        </View>
+      </View>
+    </View>
+  </RCTScrollView>
+  <View
+    style={
+      Array [
+        Object {
+          "alignItems": "center",
+          "flex": 1,
+          "flexDirection": "row",
+          "justifyContent": "center",
+        },
+      ]
+    }
+    testID="pageIndicator"
+  >
+    <View
+      style={
+        Object {
+          "backgroundColor": "#333333",
+          "borderRadius": 7.285714285714286,
+          "height": 2.914285714285714,
+          "marginHorizontal": 7.285714285714286,
+          "width": 23.314285714285713,
+        }
+      }
+    />
+    <View
+      style={
+        Object {
+          "backgroundColor": "#BDBDBD",
+          "borderRadius": 7.285714285714286,
+          "height": 2.914285714285714,
+          "marginHorizontal": 7.285714285714286,
+          "width": 23.314285714285713,
+        }
+      }
+    />
+    <View
+      style={
+        Object {
+          "backgroundColor": "#BDBDBD",
+          "borderRadius": 7.285714285714286,
+          "height": 2.914285714285714,
+          "marginHorizontal": 7.285714285714286,
+          "width": 23.314285714285713,
+        }
+      }
+    />
+  </View>
+</View>
+`;

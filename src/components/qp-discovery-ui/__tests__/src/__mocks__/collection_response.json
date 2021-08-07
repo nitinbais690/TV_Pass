@@ -1,0 +1,118 @@
+{
+    "header": {
+        "source": "009-02",
+        "code": 0,
+        "message": "Success",
+        "system_time": 1591605950167,
+        "tracking_id": "92904a20-f08d-414f-8b2f-9fd68e91cefd",
+        "start": 1,
+        "rows": 1,
+        "count": 1
+    },
+    "data": [
+        {
+            "cd": [
+                {
+                    "a_id": 412,
+                    "cast": ["Billy Bob Thornton", "Dwight Yoakam", "J.T. Walsh"],
+                    "cc": "N",
+                    "ct": "2020-04-14T08:02:58Z",
+                    "cty": "movie",
+                    "director": ["Billy Bob Thornton"],
+                    "dwu": "https://demo-sanorigin-vodstreams.quickplay.com/sd/uploadService3/1/movie1-pkg/movie1-abc8/output_dash.ism/index.mpd",
+                    "ed_dt": "2020-05-28T12:56:42.171Z",
+                    "ep": [{ "id": "MV009578440000", "n": "gracenote" }],
+                    "ex_id": "sling_blade-metadata",
+                    "g": ["action"],
+                    "hfu": "https://demo-sanorigin-vodstreams.quickplay.com/sd/uploadService3/1/movie1-pkg/movie1-abc8/output_hls.ism/index.m3u8",
+                    "ia": ["0-16x9", "0-1x1", "0-2x3", "1-16x9"],
+                    "id": "07A47A7D-CABB-4300-A234-302C89C4D6F6",
+                    "key": "07A47A7D-CABB-4300-A234-302C89C4D6F6-1590575019861",
+                    "keywords": ["Science"],
+                    "lod": [
+                        {
+                            "lang": "en",
+                            "n": "Karl Childers, a simple man hospitalized since his childhood murder of his mother and her lover, is released to start a new life in a small town."
+                        }
+                    ],
+                    "lon": [{ "lang": "en", "n": "Sling Blade" }],
+                    "pkg_id": "sling_blade-pkg",
+                    "pn": "firstlight",
+                    "r": 2019,
+                    "rat": [{ "s": "IMDB", "v": "A" }],
+                    "rt": "00:35:00",
+                    "sa": [
+                        { "a_id": "-100", "ex_id": "12-meta", "file_uri": "audio.mp4", "ftype": "audio" },
+                        { "a_id": "2", "ex_id": "12-meta", "file_uri": "video.mp4", "ftype": "video" }
+                    ],
+                    "st": "published",
+                    "st_dt": "2020-05-28T12:56:42.171Z",
+                    "urn": "urn:resource:catalog:movie",
+                    "ut": "2020-05-28T12:56:53Z"
+                },
+                {
+                    "a_id": 1867,
+                    "cast": ["Gary Oldman", " Jeroen Krabbé", " Isabella Rossellini "],
+                    "cc": "N",
+                    "ct": "2020-04-14T08:02:55Z",
+                    "cty": "movie",
+                    "director": ["Bernard Rose"],
+                    "dwu": "https://demo-sanorigin-vodstreams.quickplay.com/sd/uploadService3/1/movie1-pkg/movie1-abc8/output_dash.ism/index.mpd",
+                    "ed_dt": "2021-01-02T15:04:05Z",
+                    "ex_id": "immortal_beloved-metadata",
+                    "g": ["action"],
+                    "hfu": "https://demo-sanorigin-vodstreams.quickplay.com/sd/uploadService3/1/movie1-pkg/movie1-abc8/output_hls.ism/index.m3u8",
+                    "ia": ["0-16x9", "0-1x1", "0-2x3", "1-16x9"],
+                    "id": "3842E3C0-EE23-408A-B864-8B33A0465A4D",
+                    "key": "3842E3C0-EE23-408A-B864-8B33A0465A4D-1586851375837",
+                    "keywords": ["Science"],
+                    "lod": [
+                        {
+                            "lang": "en",
+                            "n": "The life and death of the legendary Ludwig van Beethoven. Besides all the work he is known for, the composer once wrote a famous love letter to a nameless beloved, and the movie tries to find out who this beloved was--not easy, as Beethoven has had many women in his life."
+                        }
+                    ],
+                    "lon": [{ "lang": "en", "n": "Immortal Beloved" }],
+                    "pkg_id": "immortal_beloved-pkg",
+                    "pn": "firstlight",
+                    "r": 2019,
+                    "rat": [{ "s": "IMDB", "v": "A" }],
+                    "rt": "00:35:00",
+                    "sa": [
+                        { "a_id": "-100", "ex_id": "12-meta", "file_uri": "audio.mp4", "ftype": "audio" },
+                        { "a_id": "2", "ex_id": "12-meta", "file_uri": "video.mp4", "ftype": "video" }
+                    ],
+                    "st": "published",
+                    "st_dt": "2020-01-03T15:04:05Z",
+                    "urn": "urn:resource:catalog:movie",
+                    "ut": "2020-05-22T05:41:44Z"
+                }
+            ],
+            "ed_dt": "2020-12-31T06:07:00.000Z",
+            "i": [
+                {
+                    "count": 14,
+                    "cu": "https://metadata-service.apisbox.devops.quickplay.com/content?mode=detail\u0026st=published\u0026ids=D751201F-D3A1-42F1-9BA2-AD302113A89D,C253CC4F-B820-4326-802C-5654DD7B75D2,59CF1403-65B4-4E7D-8C08-D4E92161491A,FACA076A-0A9B-44F9-A210-D61F1054C3B5,DAB02BAB-E708-4084-9B3D-D4576EC748D0,643ED0EE-B1E9-4C53-ACF1-19AEA4B27922,4549EBAC-9316-41DF-9E07-F25AED4BE305,07A47A7D-CABB-4300-A234-302C89C4D6F6,8720FD55-7E36-4B13-89AD-F03988D3C641,D52BFF8B-B387-4470-9D72-C36C1A61D0F8,DEDB5826-D7FA-422E-BC40-B29FAE8196A5,809D231C-474A-4C4A-B862-B3975A4F32A7,E80AC04D-78F5-4109-B59B-1A736E39CB6A,3842E3C0-EE23-408A-B864-8B33A0465A4D",
+                    "id": "36A1570E-1967-4C83-8FE2-CA48705AA0D1",
+                    "q": "\"man\"",
+                    "type": "textsearch",
+                    "urn": "urn:container:items"
+                }
+            ],
+            "iar": "0-2x3",
+            "id": "0E7DF04A-D7D0-461E-B405-335093FA0A8E",
+            "lang": "en",
+            "lo": "carousel",
+            "lon": [
+                { "lang": "en", "n": "Super Hero" },
+                { "lang": "fr", "n": "" },
+                { "lang": "spa", "n": "" }
+            ],
+            "n": "Super Hero",
+            "s": "regular",
+            "st_dt": "2020-05-20T06:07:22.830Z",
+            "stl": "regular",
+            "urn": "urn:container"
+        }
+    ]
+}

@@ -1,0 +1,65 @@
+{
+    "header": {
+      "source": "MW-DATASERVICE-HTTP-06",
+      "code": "0",
+      "message": "Success",
+      "systemtime": 1585301847281
+    },
+    "data": {
+      "a_id": 1844,
+      "cast": [
+        "Chris Hemsworth",
+        "Tom Hiddleston",
+        "Cate Blanchett"
+      ],
+      "cc": "Y",
+      "ct": "2020-03-24T12:27:28Z",
+      "cty": "movie",
+      "director": [
+        "Taika Waititi"
+      ],
+      "dwu": "https://demo-sanorigin-vodstreams.quickplay.com/sd/uploadService3/1/movie1-pkg/movie1-abc8/output_dash.ism/index.mpd",
+      "ed_dt": "2021-01-02T15:04:05Z",
+      "ex_id": "thor:_ragnarok-metadata",
+      "g": [
+        "action"
+      ],
+      "hfu": "https://demo-sanorigin-vodstreams.quickplay.com/sd/uploadService3/1/movie1-pkg/movie1-abc8/output_hls.ism/index.m3u8",
+      "ia": [
+        "0-16x9",
+        "0-1x1",
+        "0-2x3",
+        "1-16x9"
+      ],
+      "id": "9352E2E9-D046-4541-B798-79BCE8648A8F",
+      "keywords": [
+        "Science"
+      ],
+      "lod": [
+        {
+          "lang": "en",
+          "n": "Imprisoned on the planet Sakaar, Thor must race against time to return to Asgard and stop Ragnarök, the destruction of his world, at the hands of the powerful and ruthless villain Hela."
+        }
+      ],
+      "lon": [
+        {
+          "lang": "en",
+          "n": "Thor: Ragnarok"
+        }
+      ],
+      "pkg_id": "thor:_ragnarok-pkg",
+      "pn": "firstlight",
+      "r": 2019,
+      "rat": [
+        {
+          "s": "IMDB",
+          "v": "A"
+        }
+      ],
+      "rt": "00:35:00",
+      "st": "published",
+      "st_dt": "2020-01-03T15:04:05Z",
+      "urn": "urn:resource:catalog:movie",
+      "ut": "2020-03-24T12:27:28Z"
+    }
+  }
